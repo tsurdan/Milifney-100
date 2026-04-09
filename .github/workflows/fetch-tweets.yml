@@ -1,0 +1,36 @@
+name: Fetch Tweets
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # Every 6 hours
+  workflow_dispatch:          # Manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Fetch new tweets
+        run: python scripts/fetch_tweets.py
+
+      - name: Commit & push new posts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "Add new posts from Twitter"
+          git push

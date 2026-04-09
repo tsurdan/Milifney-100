@@ -1,0 +1,24 @@
+title: חדשות מלפני מאה
+tagline: "ההיסטוריה חוזרת ∞"
+description: כל מה שקרה היום בדיוק לפני מאה שנה
+url: ""
+baseurl: ""
+lang: he
+direction: rtl
+timezone: Asia/Jerusalem
+
+permalink: /:year/:month/:day/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+
+exclude:
+  - scripts/
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE

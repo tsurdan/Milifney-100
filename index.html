@@ -1,0 +1,33 @@
+---
+layout: default
+---
+<div class="articles">
+  {% assign sorted_posts = site.posts | sort: "date" | reverse %}
+  {% for post in sorted_posts %}
+  <article class="article-card">
+    {% if post.image %}
+    <a href="{{ post.url | relative_url }}" class="card-image-link">
+      <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+    </a>
+    {% endif %}
+    <div class="card-content">
+      <time class="card-date" datetime="{{ post.date | date_to_xmlschema }}">
+        {{ post.date | date: "%d.%m.%Y" }}
+      </time>
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      {% assign stripped = post.content | strip_html | strip_newlines | truncate: 140 %}
+      {% if stripped.size > 0 %}
+      <p class="card-excerpt">{{ stripped }}</p>
+      {% endif %}
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+{% if site.posts.size == 0 %}
+<div class="empty-state">
+  <p>📰</p>
+  <p>עדיין אין כתבות.</p>
+  <p>הכתבות ייטענו אוטומטית מחשבון הטוויטר <a href="https://x.com/Milifney100">@Milifney100</a>.</p>
+</div>
+{% endif %}
