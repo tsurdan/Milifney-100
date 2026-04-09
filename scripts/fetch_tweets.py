@@ -73,9 +73,9 @@ def download_image(url, tweet_id):
 
 
 def collect_images(tweet):
-    """Get all photo URLs from a tweet."""
+    """Get all (url, alt_text) pairs from a tweet."""
     media = tweet.get("media") or {}
-    return [p["url"] for p in media.get("photos", []) if p.get("url")]
+    return [(p["url"], p.get("altText", "")) for p in media.get("photos", []) if p.get("url")]
 
 
 def clean_text(text):
@@ -271,11 +271,15 @@ def create_post(item):
 
     # Download first image
     image_path = ""
+    image_alt = ""
     if item["images"]:
-        image_path = download_image(item["images"][0], tweet_id)
+        img_url, img_alt = item["images"][0]
+        image_path = download_image(img_url, tweet_id)
+        image_alt = img_alt
 
     # Build front matter
     safe_title = title.replace('"', '\\"')
+    safe_alt = image_alt.replace('"', '\\"')
     fm = [
         "---",
         "layout: post",
@@ -285,6 +289,8 @@ def create_post(item):
     ]
     if image_path:
         fm.append(f"image: {image_path}")
+        if image_alt:
+            fm.append(f'image_alt: "{safe_alt}"')
     fm.append("---")
     fm.append("")
 
@@ -292,9 +298,9 @@ def create_post(item):
     parts = []
     if body:
         parts.append(body)
-    for img_url in item["images"][1:]:
-        local = download_image(img_url, f"{tweet_id}_{item['images'].index(img_url)}")
-        parts.append(f"\n![]({local})")
+    for i, (img_url, alt) in enumerate(item["images"][1:]):
+        local = download_image(img_url, f"{tweet_id}_{i + 1}")
+        parts.append(f"\n![{alt}]({local})")
     parts.append("")
 
     filepath.write_text("\n".join(fm) + "\n".join(parts), encoding="utf-8")

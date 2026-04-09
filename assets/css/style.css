@@ -319,6 +319,7 @@ time {
 
 .post-image { margin-bottom: 1.5rem; }
 .post-image img { width: 100%; border: 1px solid var(--border); border-radius: 2px; }
+.post-image figcaption { font-size: 0.85rem; color: var(--text-light); margin-top: 0.4rem; text-align: center; }
 
 .post-content { font-size: 1.15rem; line-height: 2; }
 .post-content p { margin-bottom: 1.25rem; }
