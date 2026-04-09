@@ -74,7 +74,7 @@ def download_image(url, tweet_id):
 
 def collect_images(tweet):
     """Get all photo URLs from a tweet."""
-    media = tweet.get("media", {})
+    media = tweet.get("media") or {}
     return [p["url"] for p in media.get("photos", []) if p.get("url")]
 
 
@@ -83,79 +83,162 @@ def clean_text(text):
     return re.sub(r"\s*https://t\.co/\S+", "", text).strip()
 
 
+def get_reply_info(tweet):
+    """Extract reply screen_name and parent status ID from a tweet.
+
+    Handles both formats:
+      v2 profile endpoint: replying_to = {"screen_name": "...", "status": "..."}
+      single-tweet endpoint: replying_to = "screen_name", replying_to_status = "id"
+    """
+    rt = tweet.get("replying_to")
+    if rt is None:
+        return None, None
+    if isinstance(rt, dict):
+        return rt.get("screen_name"), rt.get("status")
+    return str(rt), tweet.get("replying_to_status")
+
+
 def is_self_reply(tweet):
     """Check if a tweet is a reply to the same account (thread continuation)."""
-    replying_to = tweet.get("replying_to")
-    if not replying_to:
+    screen_name, _ = get_reply_info(tweet)
+    if not screen_name:
         return False
-    return replying_to.get("screen_name", "").lower() == USERNAME.lower()
+    return screen_name.lower() == USERNAME.lower()
 
 
 def is_reply_to_other(tweet):
     """Check if a tweet is a reply to a different user."""
-    replying_to = tweet.get("replying_to")
-    if not replying_to:
+    screen_name, _ = get_reply_info(tweet)
+    if not screen_name:
         return False
-    return replying_to.get("screen_name", "").lower() != USERNAME.lower()
+    return screen_name.lower() != USERNAME.lower()
+
+
+def fetch_single_tweet(tweet_id):
+    """Fetch a single tweet by ID from the FxTwitter API."""
+    url = f"https://api.fxtwitter.com/{USERNAME}/status/{tweet_id}"
+    try:
+        resp = requests.get(url, timeout=30)
+        if resp.status_code == 200:
+            data = resp.json()
+            return data.get("tweet")
+    except Exception:
+        pass
+    return None
 
 
 def merge_threads(tweets):
     """Group self-reply threads into single posts.
 
-    Returns a list of 'merged' tweet dicts. Each thread head absorbs the text
-    and images of its self-reply children, oldest to newest.
+    Walks each self-reply chain upward to find the thread root, fetching any
+    missing intermediate tweets from the API.  Then groups all chain members
+    under their root and merges text + images oldest-to-newest.
     """
     by_id = {t["id"]: t for t in tweets}
-    children = set()  # IDs that are thread continuations
+    root_cache = {}          # tweet_id -> root_id
+    fetch_failures = set()   # IDs we already failed to fetch
 
-    # Find which tweets are thread replies and map them to parents
+    def resolve_root(tweet_id):
+        """Walk up the reply chain to the thread root, fetching gaps."""
+        if tweet_id in root_cache:
+            return root_cache[tweet_id]
+
+        path = []            # IDs visited on the way up
+        current_id = tweet_id
+
+        while True:
+            if current_id in root_cache:
+                root = root_cache[current_id]
+                break
+
+            current = by_id.get(current_id)
+            if current is None:
+                # Missing from batch — try to fetch
+                if current_id in fetch_failures:
+                    root = current_id
+                    break
+                fetched = fetch_single_tweet(current_id)
+                if fetched:
+                    print(f"    Fetched missing thread tweet {current_id}")
+                    by_id[current_id] = fetched
+                    current = fetched
+                    time.sleep(1)
+                else:
+                    fetch_failures.add(current_id)
+                    root = current_id
+                    break
+
+            if not is_self_reply(current):
+                root = current_id
+                break
+
+            _, parent_id = get_reply_info(current)
+            if not parent_id or parent_id in path:
+                root = current_id
+                break
+
+            path.append(current_id)
+            current_id = parent_id
+
+        for tid in path:
+            root_cache[tid] = root
+        root_cache[tweet_id] = root
+        return root
+
+    # --- assign every usable tweet to a thread root ---
+    groups = {}   # root_id -> set of tweet IDs
     for t in tweets:
-        if is_self_reply(t):
-            parent_id = t["replying_to"].get("status")
-            if parent_id and parent_id in by_id:
-                children.add(t["id"])
-
-    # Build threads: for each head tweet, walk the chain forward
-    # First build a forward map: parent_id -> list of child tweets
-    child_map = {}
-    for t in tweets:
-        if t["id"] in children:
-            parent_id = t["replying_to"]["status"]
-            child_map.setdefault(parent_id, []).append(t)
-
-    # Sort children by timestamp
-    for kids in child_map.values():
-        kids.sort(key=lambda t: t.get("created_timestamp", 0))
-
-    merged = []
-    for t in tweets:
-        if t["id"] in children:
-            continue  # skip, will be merged into parent
         if t.get("reposted_by"):
             continue
         if is_reply_to_other(t):
             continue
+        root_id = resolve_root(t["id"])
+        groups.setdefault(root_id, set()).add(t["id"])
 
-        # Collect text and images from the thread chain
-        chain_texts = [clean_text(t.get("text", ""))]
-        chain_images = collect_images(t)
+    # --- add fetched intermediaries into their groups ---
+    # Build forward links so we can walk *down* from the root
+    child_map = {}
+    for tid, t in by_id.items():
+        _, parent_id = get_reply_info(t)
+        if parent_id and is_self_reply(t):
+            child_map.setdefault(parent_id, []).append(tid)
 
-        # Walk forward through the thread
-        current_id = t["id"]
-        while current_id in child_map:
-            for child in child_map[current_id]:
-                child_text = clean_text(child.get("text", ""))
-                if child_text:
-                    chain_texts.append(child_text)
-                chain_images.extend(collect_images(child))
-                current_id = child["id"]
-            if current_id == t["id"]:
-                break  # no more children
+    # For each group walk forward from the root to pick up fetched tweets
+    expanded_groups = {}
+    for root_id, members in groups.items():
+        all_ids = set(members)
+        queue = [root_id]
+        visited = set()
+        while queue:
+            cid = queue.pop(0)
+            if cid in visited:
+                continue
+            visited.add(cid)
+            if cid in by_id:
+                all_ids.add(cid)
+            for child_id in child_map.get(cid, []):
+                queue.append(child_id)
+        expanded_groups[root_id] = all_ids
 
+    # --- merge each thread into one item ---
+    merged = []
+    for root_id, member_ids in expanded_groups.items():
+        thread_tweets = [by_id[mid] for mid in member_ids if mid in by_id]
+        thread_tweets.sort(key=lambda t: t.get("created_timestamp", 0))
+
+        chain_texts = []
+        chain_images = []
+        for t in thread_tweets:
+            text = clean_text(t.get("text", ""))
+            if text:
+                chain_texts.append(text)
+            chain_images.extend(collect_images(t))
+
+        head = thread_tweets[0]
         merged.append({
-            "id": t["id"],
-            "created_timestamp": t.get("created_timestamp", 0),
-            "tweet_id": t["id"],
+            "id": head["id"],
+            "created_timestamp": head.get("created_timestamp", 0),
+            "tweet_id": head["id"],
             "merged_text": "\n\n".join(chain_texts),
             "images": chain_images,
         })
