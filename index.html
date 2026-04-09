@@ -1,30 +1,84 @@
 ---
 layout: default
 ---
-<div class="articles">
-  {% assign sorted_posts = site.posts | sort: "date" | reverse %}
-  {% for post in sorted_posts %}
-  <article class="article-card">
-    {% if post.image %}
-    <a href="{{ post.url | relative_url }}" class="card-image-link">
-      <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-    </a>
+{% assign sorted_posts = site.posts | sort: "date" | reverse %}
+
+{% if sorted_posts.size > 0 %}
+
+<!-- Hero: latest post, big and bold -->
+{% assign hero = sorted_posts[0] %}
+<section class="hero">
+  <a href="{{ hero.url | relative_url }}" class="hero-link">
+    {% if hero.image %}
+    <div class="hero-image">
+      <img src="{{ hero.image | relative_url }}" alt="{{ hero.title }}" loading="eager">
+    </div>
     {% endif %}
-    <div class="card-content">
-      <time class="card-date" datetime="{{ post.date | date_to_xmlschema }}">
-        {{ post.date | date: "%d.%m.%Y" }}
-      </time>
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-      {% assign stripped = post.content | strip_html | strip_newlines | truncate: 140 %}
-      {% if stripped.size > 0 %}
-      <p class="card-excerpt">{{ stripped }}</p>
+    <div class="hero-content">
+      <time class="hero-date" datetime="{{ hero.date | date_to_xmlschema }}">{{ hero.date | date: "%d.%m.%Y" }}</time>
+      <h2 class="hero-title">{{ hero.title }}</h2>
+      {% assign hero_excerpt = hero.content | strip_html | strip_newlines | truncate: 220 %}
+      {% if hero_excerpt.size > 0 %}
+      <p class="hero-excerpt">{{ hero_excerpt }}</p>
       {% endif %}
     </div>
+  </a>
+</section>
+
+<!-- Secondary row: next 2 posts, medium size -->
+{% assign secondary = sorted_posts | slice: 1, 2 %}
+{% if secondary.size > 0 %}
+<section class="secondary-row">
+  {% for post in secondary %}
+  <article class="card-medium">
+    <a href="{{ post.url | relative_url }}" class="card-link">
+      {% if post.image %}
+      <div class="card-medium-image">
+        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+      </div>
+      {% endif %}
+      <div class="card-medium-content">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d.%m.%Y" }}</time>
+        <h3>{{ post.title }}</h3>
+        {% assign excerpt = post.content | strip_html | strip_newlines | truncate: 120 %}
+        {% if excerpt.size > 0 %}
+        <p>{{ excerpt }}</p>
+        {% endif %}
+      </div>
+    </a>
   </article>
   {% endfor %}
-</div>
+</section>
+{% endif %}
 
-{% if site.posts.size == 0 %}
+<!-- Divider -->
+{% if sorted_posts.size > 3 %}
+<hr class="section-divider">
+{% endif %}
+
+<!-- Rest: compact cards in a 3-col grid -->
+{% assign rest = sorted_posts | slice: 3, 200 %}
+{% if rest.size > 0 %}
+<section class="compact-grid">
+  {% for post in rest %}
+  <article class="card-compact">
+    <a href="{{ post.url | relative_url }}" class="card-link">
+      {% if post.image %}
+      <div class="card-compact-image">
+        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+      </div>
+      {% endif %}
+      <div class="card-compact-content">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d.%m.%Y" }}</time>
+        <h3>{{ post.title }}</h3>
+      </div>
+    </a>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% else %}
 <div class="empty-state">
   <p>📰</p>
   <p>עדיין אין כתבות.</p>

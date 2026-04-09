@@ -8,20 +8,22 @@
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
   <meta property="og:description" content="{{ site.description }}">
   <meta property="og:type" content="{% if page.title %}article{% else %}website{% endif %}">
-  {% if page.image %}<meta property="og:image" content="{{ page.image | relative_url }}">{% endif %}
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+  {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">{% endif %}
+  <link rel="icon" type="image/jpeg" href="{{ '/assets/images/branding/favicon.jpg' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/images/branding/avatar.jpg' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header" style="background-image: url('{{ '/assets/images/branding/banner.jpg' | relative_url }}')">
+    <div class="header-overlay"></div>
     <div class="header-inner">
       <a href="{{ '/' | relative_url }}" class="header-link">
+        <img src="{{ '/assets/images/branding/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="site-logo">
         <h1 class="site-title">{{ site.title }}</h1>
       </a>
-      <div class="header-rule"></div>
       <p class="site-tagline">{{ site.tagline }}</p>
       <p class="site-desc">{{ site.description }}</p>
     </div>

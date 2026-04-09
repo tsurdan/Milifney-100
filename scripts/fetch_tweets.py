@@ -2,6 +2,7 @@
 """Fetch tweets from @Milifney100 via FxTwitter API (free, no key required)."""
 
 import re
+import time
 import requests
 from datetime import datetime, timezone
 from pathlib import Path
@@ -14,19 +15,46 @@ POSTS_DIR = REPO_ROOT / "_posts"
 IMAGES_DIR = REPO_ROOT / "assets" / "images" / "tweets"
 STATE_FILE = REPO_ROOT / "scripts" / ".last_fetch_timestamp"
 
+# Pagination settings — be polite to FxTwitter
+PAGE_DELAY = 4       # seconds between API requests
+MAX_PAGES = 120      # safety cap (~10 tweets/page → ~1200 max)
+
 
 def fetch_timeline(since_timestamp=None):
-    """Fetch recent tweets from the FxTwitter v2 API."""
+    """Fetch tweets with pagination. Waits between pages to be gentle."""
     url = f"{API_BASE}/{USERNAME}/statuses"
-    params = {}
-    if since_timestamp:
-        params["since"] = since_timestamp
-    resp = requests.get(url, params=params, timeout=30)
-    if resp.status_code == 204:
-        return []
-    resp.raise_for_status()
-    data = resp.json()
-    return data.get("results", [])
+    all_tweets = []
+    cursor = None
+
+    for page in range(MAX_PAGES):
+        params = {}
+        if since_timestamp:
+            params["since"] = since_timestamp
+        if cursor:
+            params["cursor"] = cursor
+
+        resp = requests.get(url, params=params, timeout=30)
+        if resp.status_code == 204:
+            break
+        resp.raise_for_status()
+        data = resp.json()
+
+        results = data.get("results", [])
+        if not results:
+            break
+
+        all_tweets.extend(results)
+        print(f"  Page {page + 1}: +{len(results)} tweets (total: {len(all_tweets)})")
+
+        next_cursor = data.get("cursor", {}).get("bottom")
+        if not next_cursor:
+            break
+        cursor = next_cursor
+
+        # Wait between pages — don't hammer the API
+        time.sleep(PAGE_DELAY)
+
+    return all_tweets
 
 
 def download_image(url, tweet_id):
@@ -44,32 +72,104 @@ def download_image(url, tweet_id):
     return f"/assets/images/tweets/{filename}"
 
 
+def collect_images(tweet):
+    """Get all photo URLs from a tweet."""
+    media = tweet.get("media", {})
+    return [p["url"] for p in media.get("photos", []) if p.get("url")]
+
+
 def clean_text(text):
     """Remove t.co URLs that Twitter appends for media."""
     return re.sub(r"\s*https://t\.co/\S+", "", text).strip()
 
 
-def is_reply(tweet):
-    """Check if a tweet is a reply to another user (not a self-thread)."""
+def is_self_reply(tweet):
+    """Check if a tweet is a reply to the same account (thread continuation)."""
+    replying_to = tweet.get("replying_to")
+    if not replying_to:
+        return False
+    return replying_to.get("screen_name", "").lower() == USERNAME.lower()
+
+
+def is_reply_to_other(tweet):
+    """Check if a tweet is a reply to a different user."""
     replying_to = tweet.get("replying_to")
     if not replying_to:
         return False
     return replying_to.get("screen_name", "").lower() != USERNAME.lower()
 
 
-def create_post(tweet):
-    """Create a Jekyll markdown post from a tweet. Returns True if new."""
-    # Skip replies to other users and retweets
-    if is_reply(tweet):
-        return False
-    if tweet.get("reposted_by"):
-        return False
+def merge_threads(tweets):
+    """Group self-reply threads into single posts.
 
-    text = clean_text(tweet.get("text", ""))
+    Returns a list of 'merged' tweet dicts. Each thread head absorbs the text
+    and images of its self-reply children, oldest to newest.
+    """
+    by_id = {t["id"]: t for t in tweets}
+    children = set()  # IDs that are thread continuations
+
+    # Find which tweets are thread replies and map them to parents
+    for t in tweets:
+        if is_self_reply(t):
+            parent_id = t["replying_to"].get("status")
+            if parent_id and parent_id in by_id:
+                children.add(t["id"])
+
+    # Build threads: for each head tweet, walk the chain forward
+    # First build a forward map: parent_id -> list of child tweets
+    child_map = {}
+    for t in tweets:
+        if t["id"] in children:
+            parent_id = t["replying_to"]["status"]
+            child_map.setdefault(parent_id, []).append(t)
+
+    # Sort children by timestamp
+    for kids in child_map.values():
+        kids.sort(key=lambda t: t.get("created_timestamp", 0))
+
+    merged = []
+    for t in tweets:
+        if t["id"] in children:
+            continue  # skip, will be merged into parent
+        if t.get("reposted_by"):
+            continue
+        if is_reply_to_other(t):
+            continue
+
+        # Collect text and images from the thread chain
+        chain_texts = [clean_text(t.get("text", ""))]
+        chain_images = collect_images(t)
+
+        # Walk forward through the thread
+        current_id = t["id"]
+        while current_id in child_map:
+            for child in child_map[current_id]:
+                child_text = clean_text(child.get("text", ""))
+                if child_text:
+                    chain_texts.append(child_text)
+                chain_images.extend(collect_images(child))
+                current_id = child["id"]
+            if current_id == t["id"]:
+                break  # no more children
+
+        merged.append({
+            "id": t["id"],
+            "created_timestamp": t.get("created_timestamp", 0),
+            "tweet_id": t["id"],
+            "merged_text": "\n\n".join(chain_texts),
+            "images": chain_images,
+        })
+
+    return merged
+
+
+def create_post(item):
+    """Create a Jekyll markdown post from a merged tweet. Returns True if new."""
+    text = item["merged_text"]
     if not text:
         return False
 
-    created_ts = tweet.get("created_timestamp", 0)
+    created_ts = item["created_timestamp"]
     created = datetime.fromtimestamp(created_ts, tz=timezone.utc)
 
     # First line = title, rest = body
@@ -80,20 +180,16 @@ def create_post(tweet):
     # Avoid duplicate posts
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     date_str = created.strftime("%Y-%m-%d")
-    tweet_id = tweet["id"]
+    tweet_id = item["tweet_id"]
     filename = f"{date_str}-{tweet_id}.md"
     filepath = POSTS_DIR / filename
     if filepath.exists():
         return False
 
-    # Download first photo if available
+    # Download first image
     image_path = ""
-    media = tweet.get("media", {})
-    photos = media.get("photos", [])
-    if photos:
-        img_url = photos[0].get("url", "")
-        if img_url:
-            image_path = download_image(img_url, tweet_id)
+    if item["images"]:
+        image_path = download_image(item["images"][0], tweet_id)
 
     # Build front matter
     safe_title = title.replace('"', '\\"')
@@ -109,11 +205,14 @@ def create_post(tweet):
     fm.append("---")
     fm.append("")
 
-    # Build body
+    # Build body — include additional images as markdown
     parts = []
     if body:
         parts.append(body)
-    parts.append("")  # trailing newline
+    for img_url in item["images"][1:]:
+        local = download_image(img_url, f"{tweet_id}_{item['images'].index(img_url)}")
+        parts.append(f"\n![]({local})")
+    parts.append("")
 
     filepath.write_text("\n".join(fm) + "\n".join(parts), encoding="utf-8")
     print(f"  Created: {filename}")
@@ -133,9 +232,10 @@ def main():
         print("No new tweets found.")
         return
 
-    # Process tweets oldest-first
-    tweets.sort(key=lambda t: t.get("created_timestamp", 0))
-    count = sum(1 for t in tweets if create_post(t))
+    # Merge threads and process oldest-first
+    items = merge_threads(tweets)
+    items.sort(key=lambda t: t.get("created_timestamp", 0))
+    count = sum(1 for t in items if create_post(t))
 
     # Save the latest timestamp for next run
     if tweets:
