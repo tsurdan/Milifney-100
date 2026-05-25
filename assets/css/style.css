@@ -509,6 +509,15 @@ time {
   color: var(--meta);
   white-space: nowrap;
 }
+.panel-date-display {
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 5rem;
+  direction: ltr;
+  text-align: center;
+}
 .panel-date-input {
   padding: 0.55rem 0.8rem;
   border: 1px solid var(--border);

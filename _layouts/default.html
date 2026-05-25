@@ -56,6 +56,7 @@
     <div class="navbar-panel" id="panel-date" hidden>
       <div class="panel-date-inner">
         <label class="panel-date-label">בחר תאריך:</label>
+        <span class="panel-date-display" id="date-display"></span>
         <input type="date" id="filter-date" class="panel-date-input">
         <button type="button" class="panel-date-go" id="date-go-btn">הצג ידיעות</button>
         <button type="button" class="panel-close" data-panel="panel-date">✕</button>
@@ -88,6 +89,14 @@
       var panelDate = document.getElementById('panel-date');
       var dp = document.getElementById('filter-date');
       var goBtn = document.getElementById('date-go-btn');
+      var dateDisplay = document.getElementById('date-display');
+
+      function formatDateDisplay(val) {
+        if (!val) { dateDisplay.textContent = ''; return; }
+        var p = val.split('-');
+        dateDisplay.textContent = p[2] + '.' + p[1] + '.' + p[0];
+      }
+      dp.addEventListener('change', function() { formatDateDisplay(this.value); });
 
       function togglePanel(panel) {
         var isOpen = !panel.hidden;
@@ -106,7 +115,11 @@
         // Default to today -100 years only if empty
         if (!dp.value) {
           var now = new Date();
-          dp.value = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate()).toISOString().split('T')[0];
+          var y = now.getFullYear() - 100;
+          var m = String(now.getMonth() + 1).padStart(2, '0');
+          var d = String(now.getDate()).padStart(2, '0');
+          dp.value = y + '-' + m + '-' + d;
+          formatDateDisplay(dp.value);
         }
         togglePanel(panelDate);
       });
