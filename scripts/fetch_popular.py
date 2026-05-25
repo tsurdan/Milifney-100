@@ -104,6 +104,10 @@ def main():
                             elif line.startswith("date:"):
                                 date_str = line[5:].strip().strip('"').strip("'")
                                 item["date"] = date_str[:10]
+                                # Fix path to use correct date from front matter
+                                d = date_str[:10].split("-")
+                                if len(d) == 3:
+                                    item["path"] = f"/Milifney-100/{d[0]}/{d[1]}/{d[2]}/{post_id}/"
 
     DATA_DIR.mkdir(exist_ok=True)
     OUTPUT.write_text(json.dumps(top, ensure_ascii=False, indent=2), encoding="utf-8")

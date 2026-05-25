@@ -115,29 +115,22 @@
       var items = document.querySelectorAll('.post-item[data-idx]');
       if (!items.length) return;
 
-      // Hide items beyond first batch and count visible ones
-      var shown = 0;
-      items.forEach(function(el) {
-        if (parseInt(el.dataset.idx) >= BATCH) {
-          el.classList.add('hidden-post');
-        } else {
-          shown++;
-        }
-      });
+      // Hide all items beyond first BATCH (by NodeList index)
+      for (var i = BATCH; i < items.length; i++) {
+        items[i].classList.add('hidden-post');
+      }
 
+      var shown = Math.min(BATCH, items.length);
       var loader = document.getElementById('scroll-loader');
       if (!loader) return;
 
-      var allDone = shown >= items.length;
-      if (allDone && loader) loader.style.display = 'none';
+      if (shown >= items.length) { loader.style.display = 'none'; return; }
 
       var observer = new IntersectionObserver(function(entries) {
         if (!entries[0].isIntersecting) return;
-        // Reveal next batch
         var end = Math.min(shown + BATCH, items.length);
         for (var i = shown; i < end; i++) {
-          var el = items[i];
-          if (el) el.classList.remove('hidden-post');
+          items[i].classList.remove('hidden-post');
         }
         shown = end;
         if (shown >= items.length) {

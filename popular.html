@@ -11,7 +11,7 @@ title: הנקראים ביותר
     {% for item in site.data.popular %}
     <article class="popular-item">
       <span class="popular-rank">{{ forloop.index }}</span>
-      <a href="{{ item.path | relative_url }}" class="popular-link">
+      <a href="{{ item.path }}" class="popular-link">
         {% if item.image %}
         <img src="{{ item.image | relative_url }}" alt="" class="popular-img" loading="lazy">
         {% endif %}
