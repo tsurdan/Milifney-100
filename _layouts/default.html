@@ -117,53 +117,22 @@
       });
     })();
 
-    // Infinite scroll — reveal hidden posts in batches on scroll
+    // Infinite scroll
     (function() {
       var BATCH = 20;
       var items = document.querySelectorAll('.post-item[data-idx]');
       if (!items.length) return;
+      for (var i = BATCH; i < items.length; i++) items[i].style.display = 'none';
+      var shown = BATCH;
 
-      // Hide all items beyond first BATCH
-      for (var i = BATCH; i < items.length; i++) {
-        items[i].classList.add('hidden-post');
-      }
-
-      var shown = Math.min(BATCH, items.length);
-      var loader = document.getElementById('scroll-loader');
-      if (!loader) return;
-
-      if (shown >= items.length) { loader.style.display = 'none'; return; }
-
-      var ticking = false;
-
-      function revealMore() {
+      window.addEventListener('scroll', function() {
         if (shown >= items.length) return;
-        var loaderRect = loader.getBoundingClientRect();
-        if (loaderRect.top > window.innerHeight + 600) return;
-
-        var end = Math.min(shown + BATCH, items.length);
-        for (var i = shown; i < end; i++) {
-          items[i].classList.remove('hidden-post');
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800) {
+          var end = Math.min(shown + BATCH, items.length);
+          for (var i = shown; i < end; i++) items[i].style.display = '';
+          shown = end;
         }
-        shown = end;
-
-        if (shown >= items.length) {
-          loader.style.display = 'none';
-          window.removeEventListener('scroll', onScroll);
-        }
-      }
-
-      function onScroll() {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(function() {
-            revealMore();
-            ticking = false;
-          });
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
+      });
     })();
   </script>
 </body>
