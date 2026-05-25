@@ -3,7 +3,7 @@
 import json
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
@@ -38,17 +38,19 @@ def main():
         return
 
     # Fetch stats for the last 30 days
-    end = datetime.utcnow()
+    end = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
     start = end - timedelta(days=30)
 
     try:
         data = api_get("stats/hits", {
-            "start": start.strftime("%Y-%m-%d"),
-            "end": end.strftime("%Y-%m-%d"),
+            "start": start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "end": end.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "limit": "50",
         })
     except HTTPError as e:
+        body = e.read().decode() if hasattr(e, 'read') else ''
         print(f"GoatCounter API error: {e.code} {e.reason}")
+        print(f"Response: {body}")
         DATA_DIR.mkdir(exist_ok=True)
         OUTPUT.write_text("[]", encoding="utf-8")
         return
