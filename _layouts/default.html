@@ -36,6 +36,7 @@
         </button>
         <button class="navbar-btn" id="btn-date" aria-label="בחר תאריך">
           <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="date" id="filter-date" class="hidden-date-input">
         </button>
       </div>
     </div>
@@ -48,15 +49,7 @@
       </form>
     </div>
     <!-- Date picker overlay -->
-    <div class="navbar-panel" id="panel-date" hidden>
-      <div class="panel-date-inner">
-        <label class="panel-date-label">בחר תאריך:</label>
-        <span class="panel-date-display" id="date-display"></span>
-        <input type="date" id="filter-date" class="panel-date-input">
-        <button type="button" class="panel-date-go" id="date-go-btn">הצג ידיעות</button>
-        <button type="button" class="panel-close" data-panel="panel-date">✕</button>
-      </div>
-    </div>
+    <div class="navbar-panel" id="panel-date" hidden></div>
   </nav>
 
   <main>
@@ -83,15 +76,6 @@
       var panelSearch = document.getElementById('panel-search');
       var panelDate = document.getElementById('panel-date');
       var dp = document.getElementById('filter-date');
-      var goBtn = document.getElementById('date-go-btn');
-      var dateDisplay = document.getElementById('date-display');
-
-      function formatDateDisplay(val) {
-        if (!val) { dateDisplay.textContent = ''; return; }
-        var p = val.split('-');
-        dateDisplay.textContent = p[2] + '.' + p[1] + '.' + p[0];
-      }
-      dp.addEventListener('change', function() { formatDateDisplay(this.value); });
 
       function togglePanel(panel) {
         var isOpen = !panel.hidden;
@@ -106,17 +90,15 @@
       }
 
       btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
-      btnDate.addEventListener('click', function() {
-        // Default to today -100 years only if empty
-        if (!dp.value) {
-          var now = new Date();
-          var y = now.getFullYear() - 100;
-          var m = String(now.getMonth() + 1).padStart(2, '0');
-          var d = String(now.getDate()).padStart(2, '0');
-          dp.value = y + '-' + m + '-' + d;
-          formatDateDisplay(dp.value);
+      btnDate.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dp.showPicker();
+      });
+
+      dp.addEventListener('change', function() {
+        if (this.value) {
+          window.location.href = '{{ "/search" | relative_url }}?date=' + this.value;
         }
-        togglePanel(panelDate);
       });
 
       // Close buttons
@@ -124,21 +106,6 @@
         btn.addEventListener('click', function() {
           document.getElementById(this.dataset.panel).hidden = true;
         });
-      });
-
-      // Date go button
-      goBtn.addEventListener('click', function() {
-        if (dp.value) {
-          window.location.href = '{{ "/search" | relative_url }}?date=' + dp.value;
-        }
-      });
-
-      // Also navigate on Enter in date input
-      dp.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          goBtn.click();
-        }
       });
     })();
 
