@@ -255,6 +255,9 @@ def create_post(item):
     created_ts = item["created_timestamp"]
     created = datetime.fromtimestamp(created_ts, tz=timezone.utc)
 
+    # The account posts news from exactly 100 years ago
+    historical_date = created.replace(year=created.year - 100)
+
     # First line = title, rest = body
     lines = text.split("\n", 1)
     title = lines[0].strip()
@@ -284,7 +287,7 @@ def create_post(item):
         "---",
         "layout: post",
         f'title: "{safe_title}"',
-        f"date: {created.isoformat()}",
+        f"date: {historical_date.isoformat()}",
         f'tweet_id: "{tweet_id}"',
     ]
     if image_path:
