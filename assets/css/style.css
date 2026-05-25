@@ -276,7 +276,7 @@ time {
   gap: 2.5rem;
   align-items: start;
 }
-.post-layout .post { max-width: none; padding: 2rem 0 3rem; }
+.post-layout.has-sidebar .post { max-width: none; padding: 2rem 0 3rem; }
 
 /* Sidebar */
 .post-sidebar {
