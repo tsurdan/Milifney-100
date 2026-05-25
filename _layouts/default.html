@@ -3,18 +3,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="p82N12v4OhVJAsr9ipd5XlgHRMeDOlUqUxZtAhgd0BI" />
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
+  {% assign seo_desc = page.content | default: "" | strip_html | strip_newlines | truncate: 160 %}
+  {% if seo_desc == "" %}{% assign seo_desc = site.description %}{% endif %}
+  <meta name="description" content="{{ seo_desc }}">
+  <meta name="keywords" content="חדשות מלפני מאה שנה, היסטוריה, ארכיון עיתונות, {{ page.title | default: '' }}">
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="{{ site.description }}">
-  <meta property="og:type" content="{% if page.title %}article{% else %}website{% endif %}">
+  <meta property="og:description" content="{{ seo_desc }}">
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:locale" content="he_IL">
   {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">{% endif %}
+  <meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
+  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta name="twitter:description" content="{{ seo_desc }}">
   <link rel="icon" type="image/png" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
   <link rel="apple-touch-icon" href="{{ '/assets/images/branding/avatar.jpg' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% unless page.layout == 'post' %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ site.title }}",
+    "description": "{{ site.description }}",
+    "url": "{{ site.url }}{{ site.baseurl }}/",
+    "inLanguage": "he",
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.title }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ '/assets/images/branding/avatar.jpg' | absolute_url }}"
+      }
+    }
+  }
+  </script>
+  {% endunless %}
 </head>
 <body>
   <nav class="navbar" style="background-image: url('{{ '/assets/images/branding/banner.jpg' | relative_url }}')">

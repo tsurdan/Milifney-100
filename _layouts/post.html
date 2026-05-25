@@ -1,6 +1,30 @@
 ---
 layout: default
 ---
+{% assign post_description = page.content | strip_html | strip_newlines | truncate: 200 %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "{{ page.title | escape }}",
+  "description": "{{ post_description | escape }}",
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "inLanguage": "he",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.title }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ '/assets/images/branding/avatar.jpg' | absolute_url }}"
+    }
+  }
+}
+</script>
 {% comment %} Find posts from same day one year earlier (101 years ago) {% endcomment %}
 {% assign current_day = page.date | date: "%m-%d" %}
 {% assign current_year = page.date | date: "%Y" | plus: 0 %}
