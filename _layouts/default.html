@@ -18,7 +18,8 @@
   <meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
   <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
   <meta name="twitter:description" content="{{ seo_desc | escape }}">
-  <link rel="icon" type="image/png" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
+  <link rel="shortcut icon" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
   <link rel="apple-touch-icon" href="{{ '/assets/images/branding/avatar.jpg' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
