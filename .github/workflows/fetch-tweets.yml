@@ -28,6 +28,11 @@ jobs:
       - name: Fetch new tweets
         run: python scripts/fetch_tweets.py
 
+      - name: Fetch popular posts from GoatCounter
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: python scripts/fetch_popular.py
+
       - name: Commit & push new posts
         run: |
           git config user.name  "github-actions[bot]"

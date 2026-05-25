@@ -1,0 +1,36 @@
+---
+layout: default
+title: הנקראים ביותר
+---
+<div class="popular-page">
+  <h2 class="popular-page-title">⚡ הנקראים ביותר</h2>
+  <p class="popular-page-desc">הידיעות הנצפות ביותר ב-30 הימים האחרונים</p>
+
+  {% if site.data.popular.size > 0 %}
+  <div class="popular-list">
+    {% for item in site.data.popular %}
+    <article class="popular-item">
+      <span class="popular-rank">{{ forloop.index }}</span>
+      <a href="{{ item.path | relative_url }}" class="popular-link">
+        {% if item.image %}
+        <img src="{{ item.image | relative_url }}" alt="" class="popular-img" loading="lazy">
+        {% endif %}
+        <div class="popular-body">
+          <h3>{{ item.title }}</h3>
+          {% if item.date %}
+          <time>{{ item.date | date: "%d.%m.%Y" }}</time>
+          {% endif %}
+          <!-- <span class="popular-views">{{ item.count }} צפיות</span> -->
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>📊</p>
+    <p>עדיין אין מספיק נתונים להצגה</p>
+    <p>הנתונים מתעדכנים אוטומטית כל שעתיים</p>
+  </div>
+  {% endif %}
+</div>
