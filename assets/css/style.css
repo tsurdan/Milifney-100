@@ -428,12 +428,11 @@ time {
 }
 .hidden-date-input {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   opacity: 0;
-  cursor: pointer;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 /* Panels */

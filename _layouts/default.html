@@ -67,8 +67,8 @@
         </button>
         <button class="navbar-btn" id="btn-date" aria-label="בחר תאריך">
           <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input type="date" id="filter-date" class="hidden-date-input">
         </button>
+        <input type="date" id="filter-date" class="hidden-date-input">
       </div>
     </div>
     <!-- Search overlay -->
@@ -130,13 +130,15 @@
 
       btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
       btnDate.addEventListener('click', function(e) {
+        e.preventDefault();
         e.stopPropagation();
+        dp.style.position = 'fixed';
+        dp.style.opacity = '0';
+        dp.style.pointerEvents = 'auto';
+        dp.focus();
         if (typeof dp.showPicker === 'function') {
           try { dp.showPicker(); } catch(err) { dp.click(); }
         } else {
-          dp.style.opacity = '1';
-          dp.style.pointerEvents = 'auto';
-          dp.focus();
           dp.click();
         }
       });
