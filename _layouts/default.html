@@ -89,6 +89,14 @@
         }
       }
 
+      // Initialize date picker to -100 years from today
+      var now = new Date();
+      var y = now.getFullYear() - 100;
+      var m = String(now.getMonth() + 1).padStart(2, '0');
+      var d = String(now.getDate()).padStart(2, '0');
+      dp.value = y + '-' + m + '-' + d;
+      dp.max = y + '-12-31';
+
       btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
       btnDate.addEventListener('click', function(e) {
         e.stopPropagation();
