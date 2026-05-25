@@ -135,17 +135,15 @@ layout: default
 {% endif %}
 
 <!-- ============ REPEATING PATTERN for remaining posts ============ -->
-<!-- Cycles: dark banner → 3-col → full-width → 2-col → repeat -->
 {% assign remaining = posts | slice: idx, 1000 %}
 {% assign cycle = 0 %}
-{% assign ri = 0 %}
 
 {% for p in remaining %}
   {% assign phase = cycle | modulo: 8 %}
+  {% assign abs_idx = idx | plus: cycle %}
 
   {% if phase == 0 %}
-  <!-- dark banner -->
-  <section class="banner-dark">
+  <section class="banner-dark post-item" data-idx="{{ abs_idx }}">
     <a href="{{ p.url | relative_url }}" class="banner-dark-link">
       {% if p.image %}<img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="banner-dark-bg" loading="lazy">{% endif %}
       <div class="banner-dark-overlay"></div>
@@ -157,7 +155,7 @@ layout: default
   </section>
 
   {% elsif phase == 1 %}
-  <section class="row-3col">
+  <section class="row-3col post-item" data-idx="{{ abs_idx }}">
   <article class="card-sm"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}<div class="card-sm-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3></div></a></article>
 
   {% elsif phase == 2 or phase == 3 %}
@@ -165,7 +163,7 @@ layout: default
   {% if phase == 3 %}</section>{% endif %}
 
   {% elsif phase == 4 %}
-  <section class="feature-full">
+  <section class="feature-full post-item" data-idx="{{ abs_idx }}">
     <a href="{{ p.url | relative_url }}" class="feature-full-link">
       {% if p.image %}<div class="feature-full-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
       <div class="feature-full-body">
@@ -178,7 +176,7 @@ layout: default
   </section>
 
   {% elsif phase == 5 %}
-  <section class="row-2col">
+  <section class="row-2col post-item" data-idx="{{ abs_idx }}">
   <article class="card-md"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}<div class="card-md-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3>{% assign ex = p.content | strip_html | strip_newlines | truncate: 120 %}{% if ex.size > 0 %}<p>{{ ex }}</p>{% endif %}</div></a></article>
 
   {% elsif phase == 6 %}
@@ -186,11 +184,15 @@ layout: default
   </section>
 
   {% elsif phase == 7 %}
-  <hr class="section-divider">
+  <hr class="section-divider post-item" data-idx="{{ abs_idx }}">
   {% endif %}
 
   {% assign cycle = cycle | plus: 1 %}
 {% endfor %}
+
+<div class="scroll-loader" id="scroll-loader">
+  <span class="loader-spinner"></span>
+</div>
 
 {% else %}
 <div class="empty-state">

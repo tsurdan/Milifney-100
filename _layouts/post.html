@@ -3,14 +3,12 @@ layout: default
 ---
 <article class="post">
   <header class="post-header">
+    <div class="post-category">ידיעות היום</div>
     <h1>{{ page.title }}</h1>
     <div class="post-meta">
       <time datetime="{{ page.date | date_to_xmlschema }}">
         {{ page.date | date: "%d.%m.%Y" }}
       </time>
-      {% if page.tweet_id %}
-      · <a href="https://x.com/Milifney100/status/{{ page.tweet_id }}" target="_blank" rel="noopener">צפה בציוץ המקורי</a>
-      {% endif %}
     </div>
   </header>
 
@@ -26,8 +24,34 @@ layout: default
   <div class="post-content">
     {{ content }}
   </div>
-
-  <nav class="post-nav">
-    <a href="{{ '/' | relative_url }}">← חזרה לעמוד הראשי</a>
-  </nav>
 </article>
+
+<!-- ============ RELATED NEARBY NEWS ============ -->
+{% assign current_id = page.id %}
+{% assign related = "" | split: "" %}
+{% assign found_current = false %}
+{% for post in site.posts %}
+  {% if post.id == current_id %}
+    {% assign found_current = true %}
+  {% elsif found_current and related.size < 6 %}
+    {% assign related = related | push: post %}
+  {% endif %}
+{% endfor %}
+
+{% if related.size > 0 %}
+<section class="same-day-section">
+  <div class="same-day-grid">
+    {% for p in related %}
+    <article class="same-day-card">
+      <a href="{{ p.url | relative_url }}" class="card-link">
+        {% if p.image %}<div class="same-day-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+        <div class="same-day-body">
+          <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
+          <h3>{{ p.title }}</h3>
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

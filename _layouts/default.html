@@ -29,6 +29,19 @@
     </div>
   </header>
 
+  <nav class="toolbar">
+    <div class="toolbar-inner">
+      <form class="search-form" action="{{ '/search' | relative_url }}" method="get">
+        <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-input" autocomplete="off">
+        <button type="submit" class="search-btn" aria-label="חפש">🔍</button>
+      </form>
+      <div class="date-filter">
+        <label for="filter-month">סינון לפי חודש:</label>
+        <input type="month" id="filter-month" class="filter-month-input">
+      </div>
+    </div>
+  </nav>
+
   <main>
     {{ content }}
   </main>
@@ -45,5 +58,50 @@
   </footer>
   <script data-goatcounter="https://milifney100.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+  <script>
+    document.getElementById('filter-month').addEventListener('change', function() {
+      if (this.value) {
+        window.location.href = '{{ "/search" | relative_url }}?date=' + this.value;
+      }
+    });
+
+    // Infinite scroll — reveal hidden posts in batches
+    (function() {
+      var BATCH = 20;
+      var items = document.querySelectorAll('.post-item[data-idx]');
+      if (!items.length) return;
+
+      // Hide items beyond first batch
+      items.forEach(function(el) {
+        if (parseInt(el.dataset.idx) >= BATCH) {
+          el.classList.add('hidden-post');
+        }
+      });
+
+      var shown = BATCH;
+      var loader = document.getElementById('scroll-loader');
+      if (!loader) return;
+
+      var allDone = shown >= items.length;
+      if (allDone && loader) loader.style.display = 'none';
+
+      var observer = new IntersectionObserver(function(entries) {
+        if (!entries[0].isIntersecting) return;
+        // Reveal next batch
+        var end = Math.min(shown + BATCH, items.length);
+        for (var i = shown; i < end; i++) {
+          var el = items[i];
+          if (el) el.classList.remove('hidden-post');
+        }
+        shown = end;
+        if (shown >= items.length) {
+          loader.style.display = 'none';
+          observer.disconnect();
+        }
+      }, { rootMargin: '400px' });
+
+      observer.observe(loader);
+    })();
+  </script>
 </body>
 </html>

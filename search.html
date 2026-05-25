@@ -1,0 +1,65 @@
+---
+layout: default
+title: חיפוש
+---
+<div class="search-page">
+  <h2 class="search-page-title">תוצאות חיפוש</h2>
+  <p class="search-query-display"></p>
+  <div class="search-results"></div>
+  <p class="search-no-results" style="display:none;">לא נמצאו תוצאות.</p>
+</div>
+
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const query = (params.get('q') || '').trim();
+  const dateFilter = params.get('date') || '';
+
+  const queryDisplay = document.querySelector('.search-query-display');
+  const resultsContainer = document.querySelector('.search-results');
+  const noResults = document.querySelector('.search-no-results');
+  const searchInput = document.querySelector('.search-input');
+
+  if (searchInput && query) searchInput.value = query;
+  if (query) queryDisplay.textContent = 'חיפוש: "' + query + '"';
+
+  fetch('{{ "/search.json" | relative_url }}')
+    .then(r => r.json())
+    .then(posts => {
+      let results = posts;
+
+      if (query) {
+        const terms = query.toLowerCase().split(/\s+/);
+        results = results.filter(post => {
+          const text = (post.title + ' ' + post.content).toLowerCase();
+          return terms.every(t => text.includes(t));
+        });
+      }
+
+      if (dateFilter) {
+        results = results.filter(post => post.date_iso.startsWith(dateFilter));
+      }
+
+      if (results.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+
+      results.forEach(post => {
+        const article = document.createElement('article');
+        article.className = 'search-result-item';
+        article.innerHTML = `
+          <a href="${post.url}" class="search-result-link">
+            ${post.image ? '<img src="' + post.image + '" alt="" class="search-result-img" loading="lazy">' : ''}
+            <div class="search-result-body">
+              <time>${post.date}</time>
+              <h3>${post.title}</h3>
+              <p>${post.content.substring(0, 150)}...</p>
+            </div>
+          </a>
+        `;
+        resultsContainer.appendChild(article);
+      });
+    });
+})();
+</script>
