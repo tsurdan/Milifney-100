@@ -17,23 +17,15 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-  <header class="site-header" style="background-image: url('{{ '/assets/images/branding/banner.jpg' | relative_url }}')">
-    <div class="header-overlay"></div>
-    <div class="header-inner">
-      <a href="{{ '/' | relative_url }}" class="header-link">
-        <img src="{{ '/assets/images/branding/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="site-logo">
-        <h1 class="site-title">{{ site.title }}</h1>
-      </a>
-      <p class="site-tagline">{{ site.tagline }}</p>
-      <p class="site-desc">{{ site.description }}</p>
-    </div>
-  </header>
-
-  <nav class="navbar">
+  <nav class="navbar" style="background-image: url('{{ '/assets/images/branding/banner.jpg' | relative_url }}')">
+    <div class="navbar-overlay"></div>
     <div class="navbar-inner">
       <a href="{{ '/' | relative_url }}" class="navbar-brand">
         <img src="{{ '/assets/images/branding/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="navbar-logo">
-        <span class="navbar-title">{{ site.title }}</span>
+        <div class="navbar-brand-text">
+          <span class="navbar-title">{{ site.title }}</span>
+          <span class="navbar-tagline">{{ site.tagline }}</span>
+        </div>
       </a>
       <div class="navbar-actions">
         <a class="navbar-btn" href="{{ '/popular' | relative_url }}" aria-label="הנקראים ביותר" title="הנקראים ביותר">
