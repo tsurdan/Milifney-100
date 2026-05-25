@@ -391,62 +391,74 @@ time {
 /* ============ TOOLBAR — search + date filter ============ */
 
 .toolbar {
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-  padding: 0.6rem 1.25rem;
+  background: var(--dark-bg);
+  border-bottom: none;
+  padding: 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 .toolbar-inner {
   max-width: var(--max-w);
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0;
+  padding: 0;
 }
 .search-form {
-  display: flex;
   flex: 1;
-  min-width: 200px;
-  max-width: 400px;
+}
+.search-field {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  right: 0.9rem;
+  color: #999;
+  pointer-events: none;
 }
 .search-input {
-  flex: 1;
-  padding: 0.45rem 0.8rem;
-  border: 1px solid var(--border);
-  border-radius: 3px 0 0 3px;
-  font-family: 'Heebo', sans-serif;
-  font-size: 0.85rem;
-  direction: rtl;
-  background: var(--bg);
-}
-.search-input:focus { outline: none; border-color: var(--accent); }
-.search-btn {
-  padding: 0.45rem 0.7rem;
-  border: 1px solid var(--border);
-  border-right: none;
-  border-radius: 0 3px 3px 0;
-  background: var(--accent);
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: none;
+  background: rgba(255,255,255,0.08);
   color: #fff;
-  cursor: pointer;
-  font-size: 0.85rem;
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.9rem;
+  direction: rtl;
+  transition: background 0.2s;
+}
+.search-input::placeholder { color: #888; }
+.search-input:focus {
+  outline: none;
+  background: rgba(255,255,255,0.14);
 }
 .date-filter {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-family: 'Heebo', sans-serif;
-  font-size: 0.8rem;
-  color: var(--meta);
+  gap: 0.5rem;
+  padding: 0 1rem;
+  border-right: 1px solid rgba(255,255,255,0.12);
 }
-.filter-month-input {
-  padding: 0.35rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  font-size: 0.8rem;
-  background: var(--bg);
+.date-icon { color: #999; flex-shrink: 0; }
+.filter-date-input {
+  padding: 0.6rem 0.8rem;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  direction: ltr;
+}
+.filter-date-input:focus { outline: none; }
+.filter-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
 }
 
 /* ============ SEARCH RESULTS PAGE ============ */
@@ -456,18 +468,26 @@ time {
 .search-query-display { font-family: 'Heebo', sans-serif; color: var(--meta); margin-bottom: 1.5rem; font-size: 0.9rem; }
 .search-no-results { text-align: center; color: var(--meta); font-size: 1.1rem; padding: 3rem 0; }
 
-.search-result-item { margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+.search-result-item { margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.2rem; }
 .search-result-link {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 1rem;
+  grid-template-columns: 140px 1fr;
+  gap: 1.2rem;
   text-decoration: none;
   color: inherit;
+  align-items: start;
 }
-.search-result-img { width: 120px; height: 80px; object-fit: cover; border-radius: 2px; }
+.search-result-img { width: 140px; height: 90px; object-fit: cover; border-radius: 3px; }
 .search-result-body time { font-family: 'Heebo', sans-serif; font-size: 0.75rem; color: var(--meta); }
-.search-result-body h3 { font-size: 1.1rem; margin: 0.2rem 0; }
-.search-result-body p { font-size: 0.85rem; color: var(--meta); line-height: 1.5; }
+.search-result-body h3 { font-size: 1.1rem; margin: 0.25rem 0 0.3rem; line-height: 1.4; }
+.search-result-body p { font-size: 0.85rem; color: var(--meta); line-height: 1.6; }
+.search-result-body mark {
+  background: rgba(139,26,26,0.15);
+  color: var(--accent);
+  font-weight: 700;
+  padding: 0 2px;
+  border-radius: 2px;
+}
 
 /* ============ POST — category label ============ */
 
@@ -599,8 +619,9 @@ time {
     margin-top: 1rem;
   }
 
-  .toolbar-inner { flex-direction: column; align-items: stretch; }
-  .search-form { max-width: 100%; }
+  .toolbar-inner { flex-direction: column; }
+  .search-form { width: 100%; }
+  .date-filter { width: 100%; border-right: none; border-top: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 1rem; }
   .same-day-grid { grid-template-columns: 1fr; }
   .search-result-link { grid-template-columns: 80px 1fr; }
   .search-result-img { width: 80px; height: 60px; }

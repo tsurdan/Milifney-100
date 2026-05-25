@@ -32,12 +32,14 @@
   <nav class="toolbar">
     <div class="toolbar-inner">
       <form class="search-form" action="{{ '/search' | relative_url }}" method="get">
-        <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-input" autocomplete="off">
-        <button type="submit" class="search-btn" aria-label="חפש">🔍</button>
+        <div class="search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-input" autocomplete="off">
+        </div>
       </form>
       <div class="date-filter">
-        <label for="filter-month">סינון לפי חודש:</label>
-        <input type="month" id="filter-month" class="filter-month-input">
+        <svg class="date-icon" viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="date" id="filter-date" class="filter-date-input" title="בחר תאריך">
       </div>
     </div>
   </nav>
@@ -59,11 +61,22 @@
   <script data-goatcounter="https://milifney100.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
   <script>
-    document.getElementById('filter-month').addEventListener('change', function() {
-      if (this.value) {
-        window.location.href = '{{ "/search" | relative_url }}?date=' + this.value;
-      }
-    });
+    // Date picker — initialize to today minus 100 years
+    (function() {
+      var dp = document.getElementById('filter-date');
+      if (!dp) return;
+      var now = new Date();
+      var defaultDate = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+      dp.value = defaultDate.toISOString().split('T')[0];
+      // Set range: 1925-01-01 to 1926-12-31 (dynamic based on current year)
+      dp.min = (now.getFullYear() - 101) + '-01-01';
+      dp.max = (now.getFullYear() - 100) + '-12-31';
+      dp.addEventListener('change', function() {
+        if (this.value) {
+          window.location.href = '{{ "/search" | relative_url }}?date=' + this.value;
+        }
+      });
+    })();
 
     // Infinite scroll — reveal hidden posts in batches
     (function() {

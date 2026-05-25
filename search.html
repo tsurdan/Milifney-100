@@ -19,25 +19,55 @@ title: חיפוש
   const resultsContainer = document.querySelector('.search-results');
   const noResults = document.querySelector('.search-no-results');
   const searchInput = document.querySelector('.search-input');
+  const datePicker = document.getElementById('filter-date');
 
   if (searchInput && query) searchInput.value = query;
-  if (query) queryDisplay.textContent = 'חיפוש: "' + query + '"';
+  if (datePicker && dateFilter) datePicker.value = dateFilter;
+
+  if (query) {
+    queryDisplay.textContent = 'חיפוש: "' + query + '"';
+  } else if (dateFilter) {
+    var parts = dateFilter.split('-');
+    var display = parts[2] + '.' + parts[1] + '.' + parts[0];
+    queryDisplay.textContent = 'ידיעות מתאריך ' + display;
+  }
+
+  function highlightText(text, terms) {
+    if (!terms.length) return escapeHtml(text);
+    var escaped = escapeHtml(text);
+    terms.forEach(function(term) {
+      var re = new RegExp('(' + escapeRegex(term) + ')', 'gi');
+      escaped = escaped.replace(re, '<mark>$1</mark>');
+    });
+    return escaped;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 
   fetch('{{ "/search.json" | relative_url }}')
-    .then(r => r.json())
-    .then(posts => {
-      let results = posts;
+    .then(function(r) { return r.json(); })
+    .then(function(posts) {
+      var results = posts;
+      var terms = [];
 
       if (query) {
-        const terms = query.toLowerCase().split(/\s+/);
-        results = results.filter(post => {
-          const text = (post.title + ' ' + post.content).toLowerCase();
-          return terms.every(t => text.includes(t));
+        terms = query.toLowerCase().split(/\s+/);
+        results = results.filter(function(post) {
+          var text = (post.title + ' ' + post.content).toLowerCase();
+          return terms.every(function(t) { return text.includes(t); });
         });
       }
 
       if (dateFilter) {
-        results = results.filter(post => post.date_iso.startsWith(dateFilter));
+        results = results.filter(function(post) {
+          return post.date_iso === dateFilter || post.date_iso.startsWith(dateFilter);
+        });
       }
 
       if (results.length === 0) {
@@ -45,19 +75,22 @@ title: חיפוש
         return;
       }
 
-      results.forEach(post => {
-        const article = document.createElement('article');
+      results.forEach(function(post) {
+        var article = document.createElement('article');
         article.className = 'search-result-item';
-        article.innerHTML = `
-          <a href="${post.url}" class="search-result-link">
-            ${post.image ? '<img src="' + post.image + '" alt="" class="search-result-img" loading="lazy">' : ''}
-            <div class="search-result-body">
-              <time>${post.date}</time>
-              <h3>${post.title}</h3>
-              <p>${post.content.substring(0, 150)}...</p>
-            </div>
-          </a>
-        `;
+        var titleHtml = highlightText(post.title, terms);
+        var snippet = post.content.substring(0, 180);
+        var snippetHtml = highlightText(snippet, terms);
+
+        article.innerHTML =
+          '<a href="' + post.url + '" class="search-result-link">' +
+            (post.image ? '<img src="' + post.image + '" alt="" class="search-result-img" loading="lazy">' : '') +
+            '<div class="search-result-body">' +
+              '<time>' + post.date + '</time>' +
+              '<h3>' + titleHtml + '</h3>' +
+              '<p>' + snippetHtml + '...</p>' +
+            '</div>' +
+          '</a>';
         resultsContainer.appendChild(article);
       });
     });
