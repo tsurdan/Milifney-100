@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-site-verification" content="p82N12v4OhVJAsr9ipd5XlgHRMeDOlUqUxZtAhgd0BI" />
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  {% assign seo_desc = page.content | default: "" | strip_html | strip_newlines | truncate: 160 %}
-  {% if seo_desc == "" %}{% assign seo_desc = site.description %}{% endif %}
-  <meta name="description" content="{{ seo_desc }}">
-  <meta name="keywords" content="חדשות מלפני מאה שנה, היסטוריה, ארכיון עיתונות, {{ page.title | default: '' }}">
-  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="{{ seo_desc }}">
+  {% if page.layout == 'post' %}{% assign seo_desc = page.content | strip_html | strip_newlines | truncate: 160 %}{% else %}{% assign seo_desc = site.description %}{% endif %}
+  <meta name="description" content="{{ seo_desc | escape }}">
+  <meta name="keywords" content="חדשות מלפני מאה שנה, היסטוריה, ארכיון עיתונות, {{ page.title | default: '' | escape }}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:description" content="{{ seo_desc | escape }}">
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <meta property="og:site_name" content="{{ site.title }}">
@@ -18,7 +17,7 @@
   {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">{% endif %}
   <meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
   <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta name="twitter:description" content="{{ seo_desc }}">
+  <meta name="twitter:description" content="{{ seo_desc | escape }}">
   <link rel="icon" type="image/png" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
   <link rel="apple-touch-icon" href="{{ '/assets/images/branding/avatar.jpg' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,7 +130,14 @@
       btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
       btnDate.addEventListener('click', function(e) {
         e.stopPropagation();
-        dp.showPicker();
+        if (typeof dp.showPicker === 'function') {
+          try { dp.showPicker(); } catch(err) { dp.click(); }
+        } else {
+          dp.style.opacity = '1';
+          dp.style.pointerEvents = 'auto';
+          dp.focus();
+          dp.click();
+        }
       });
 
       dp.addEventListener('change', function() {
