@@ -428,6 +428,8 @@ time {
 
 /* Panels */
 .navbar-panel {
+  position: relative;
+  z-index: 2;
   background: var(--card-bg);
   border-bottom: 1px solid var(--border);
   padding: 0.8rem 1.25rem;
