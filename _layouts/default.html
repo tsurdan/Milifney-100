@@ -29,17 +29,36 @@
     </div>
   </header>
 
-  <nav class="toolbar">
-    <div class="toolbar-inner">
-      <form class="search-form" action="{{ '/search' | relative_url }}" method="get">
-        <div class="search-field">
-          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-input" autocomplete="off">
-        </div>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="{{ '/' | relative_url }}" class="navbar-brand">
+        <img src="{{ '/assets/images/branding/avatar.jpg' | relative_url }}" alt="{{ site.title }}" class="navbar-logo">
+        <span class="navbar-title">{{ site.title }}</span>
+      </a>
+      <div class="navbar-actions">
+        <button class="navbar-btn" id="btn-search" aria-label="חיפוש">
+          <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="navbar-btn" id="btn-date" aria-label="בחר תאריך">
+          <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Search overlay -->
+    <div class="navbar-panel" id="panel-search" hidden>
+      <form class="panel-search-form" action="{{ '/search' | relative_url }}" method="get">
+        <input type="search" name="q" placeholder="חיפוש בידיעות..." class="panel-search-input" autocomplete="off">
+        <button type="submit" class="panel-search-submit">חפש</button>
+        <button type="button" class="panel-close" data-panel="panel-search">✕</button>
       </form>
-      <div class="date-filter">
-        <svg class="date-icon" viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input type="date" id="filter-date" class="filter-date-input" title="בחר תאריך">
+    </div>
+    <!-- Date picker overlay -->
+    <div class="navbar-panel" id="panel-date" hidden>
+      <div class="panel-date-inner">
+        <label class="panel-date-label">בחר תאריך:</label>
+        <input type="date" id="filter-date" class="panel-date-input">
+        <button type="button" class="panel-date-go" id="date-go-btn">הצג ידיעות</button>
+        <button type="button" class="panel-close" data-panel="panel-date">✕</button>
       </div>
     </div>
   </nav>
@@ -61,19 +80,56 @@
   <script data-goatcounter="https://milifney100.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
   <script>
-    // Date picker — initialize to today minus 100 years
+    // Navbar panels (search + date picker)
     (function() {
+      var btnSearch = document.getElementById('btn-search');
+      var btnDate = document.getElementById('btn-date');
+      var panelSearch = document.getElementById('panel-search');
+      var panelDate = document.getElementById('panel-date');
       var dp = document.getElementById('filter-date');
-      if (!dp) return;
-      var now = new Date();
-      var defaultDate = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
-      dp.value = defaultDate.toISOString().split('T')[0];
-      // Set range: 1925-01-01 to 1926-12-31 (dynamic based on current year)
-      dp.min = (now.getFullYear() - 101) + '-01-01';
-      dp.max = (now.getFullYear() - 100) + '-12-31';
-      dp.addEventListener('change', function() {
-        if (this.value) {
-          window.location.href = '{{ "/search" | relative_url }}?date=' + this.value;
+      var goBtn = document.getElementById('date-go-btn');
+
+      function togglePanel(panel) {
+        var isOpen = !panel.hidden;
+        // close all
+        panelSearch.hidden = true;
+        panelDate.hidden = true;
+        if (!isOpen) {
+          panel.hidden = false;
+          var input = panel.querySelector('input');
+          if (input) input.focus();
+        }
+      }
+
+      btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
+      btnDate.addEventListener('click', function() {
+        // Default to today -100 years only if empty
+        if (!dp.value) {
+          var now = new Date();
+          dp.value = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate()).toISOString().split('T')[0];
+        }
+        togglePanel(panelDate);
+      });
+
+      // Close buttons
+      document.querySelectorAll('.panel-close').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.getElementById(this.dataset.panel).hidden = true;
+        });
+      });
+
+      // Date go button
+      goBtn.addEventListener('click', function() {
+        if (dp.value) {
+          window.location.href = '{{ "/search" | relative_url }}?date=' + dp.value;
+        }
+      });
+
+      // Also navigate on Enter in date input
+      dp.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          goBtn.click();
         }
       });
     })();
