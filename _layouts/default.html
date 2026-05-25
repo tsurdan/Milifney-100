@@ -134,15 +134,13 @@
 
       if (shown >= items.length) { loader.style.display = 'none'; return; }
 
-      var loading = false;
+      var ticking = false;
 
       function revealMore() {
-        if (loading || shown >= items.length) return;
+        if (shown >= items.length) return;
         var loaderRect = loader.getBoundingClientRect();
-        // If the loader is within 600px of the viewport bottom, load more
         if (loaderRect.top > window.innerHeight + 600) return;
 
-        loading = true;
         var end = Math.min(shown + BATCH, items.length);
         for (var i = shown; i < end; i++) {
           items[i].classList.remove('hidden-post');
@@ -153,16 +151,19 @@
           loader.style.display = 'none';
           window.removeEventListener('scroll', onScroll);
         }
-        loading = false;
       }
 
       function onScroll() {
-        requestAnimationFrame(revealMore);
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(function() {
+            revealMore();
+            ticking = false;
+          });
+        }
       }
 
       window.addEventListener('scroll', onScroll, { passive: true });
-      // Initial check in case loader is already in view
-      revealMore();
     })();
   </script>
 </body>
