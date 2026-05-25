@@ -148,14 +148,16 @@
       var items = document.querySelectorAll('.post-item[data-idx]');
       if (!items.length) return;
 
-      // Hide items beyond first batch
+      // Hide items beyond first batch and count visible ones
+      var shown = 0;
       items.forEach(function(el) {
         if (parseInt(el.dataset.idx) >= BATCH) {
           el.classList.add('hidden-post');
+        } else {
+          shown++;
         }
       });
 
-      var shown = BATCH;
       var loader = document.getElementById('scroll-loader');
       if (!loader) return;
 
