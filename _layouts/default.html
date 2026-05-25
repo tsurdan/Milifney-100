@@ -109,13 +109,13 @@
       });
     })();
 
-    // Infinite scroll — reveal hidden posts in batches
+    // Infinite scroll — reveal hidden posts in batches on scroll
     (function() {
       var BATCH = 20;
       var items = document.querySelectorAll('.post-item[data-idx]');
       if (!items.length) return;
 
-      // Hide all items beyond first BATCH (by NodeList index)
+      // Hide all items beyond first BATCH
       for (var i = BATCH; i < items.length; i++) {
         items[i].classList.add('hidden-post');
       }
@@ -126,23 +126,35 @@
 
       if (shown >= items.length) { loader.style.display = 'none'; return; }
 
-      var observer = new IntersectionObserver(function(entries) {
-        if (!entries[0].isIntersecting) return;
+      var loading = false;
+
+      function revealMore() {
+        if (loading || shown >= items.length) return;
+        var loaderRect = loader.getBoundingClientRect();
+        // If the loader is within 600px of the viewport bottom, load more
+        if (loaderRect.top > window.innerHeight + 600) return;
+
+        loading = true;
         var end = Math.min(shown + BATCH, items.length);
         for (var i = shown; i < end; i++) {
           items[i].classList.remove('hidden-post');
         }
         shown = end;
+
         if (shown >= items.length) {
           loader.style.display = 'none';
-          observer.disconnect();
-        } else {
-          observer.unobserve(loader);
-          observer.observe(loader);
+          window.removeEventListener('scroll', onScroll);
         }
-      }, { rootMargin: '400px' });
+        loading = false;
+      }
 
-      observer.observe(loader);
+      function onScroll() {
+        requestAnimationFrame(revealMore);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      // Initial check in case loader is already in view
+      revealMore();
     })();
   </script>
 </body>
