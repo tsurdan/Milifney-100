@@ -136,6 +136,9 @@
         if (shown >= items.length) {
           loader.style.display = 'none';
           observer.disconnect();
+        } else {
+          observer.unobserve(loader);
+          observer.observe(loader);
         }
       }, { rootMargin: '400px' });
 
