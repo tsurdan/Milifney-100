@@ -4,21 +4,20 @@ layout: null
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>{{ site.url }}{{ site.baseurl }}/</loc>
+    <loc>{{ '/' | absolute_url }}</loc>
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>{{ site.url }}{{ site.baseurl }}/popular</loc>
+    <loc>{{ '/popular' | absolute_url }}</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>{{ site.url }}{{ site.baseurl }}/search</loc>
+    <loc>{{ '/search' | absolute_url }}</loc>
     <priority>0.5</priority>
   </url>
-  {% for post in site.posts %}
-  <url>
-    <loc>{{ site.url }}{{ post.url }}</loc>
+  {% for post in site.posts %}<url>
+    <loc>{{ post.url | absolute_url }}</loc>
     <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
     <priority>0.8</priority>
   </url>
