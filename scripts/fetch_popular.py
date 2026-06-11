@@ -59,15 +59,15 @@ def main():
     posts = []
     for hit in data.get("hits", []):
         path = hit.get("path", "")
-        # Post paths match /<baseurl>/YYYY/MM/DD/<id>/
-        if "/Milifney-100/" in path and path.count("/") >= 5:
+        # Post paths match /YYYY/MM/DD/<id>/ (with or without old /Milifney-100/ prefix)
+        clean_path = path.replace("/Milifney-100", "")
+        # Must have at least /YYYY/MM/DD/ID pattern
+        if clean_path.count("/") >= 4 and clean_path not in ("/", ""):
             # Skip search, popular, and homepage
-            if "/search" in path or "/popular" in path:
-                continue
-            if path.rstrip("/") == "/Milifney-100":
+            if "/search" in clean_path or "/popular" in clean_path:
                 continue
             posts.append({
-                "path": path,
+                "path": clean_path,
                 "title": hit.get("title", "").replace(" | חדשות מלפני מאה", "").strip(),
                 "count": hit.get("count", 0),
             })
@@ -107,7 +107,7 @@ def main():
                                 # Fix path to use correct date from front matter
                                 d = date_str[:10].split("-")
                                 if len(d) == 3:
-                                    item["path"] = f"/Milifney-100/{d[0]}/{d[1]}/{d[2]}/{post_id}/"
+                                    item["path"] = f"/{d[0]}/{d[1]}/{d[2]}/{post_id}/"
 
     DATA_DIR.mkdir(exist_ok=True)
     OUTPUT.write_text(json.dumps(top, ensure_ascii=False, indent=2), encoding="utf-8")
