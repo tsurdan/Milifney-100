@@ -18,7 +18,7 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Frank Ruhl Libre', 'David', 'Times New Roman', serif;
+  font-family: 'Open Sans', sans-serif;
   direction: rtl;
   text-align: right;
   background: var(--bg);
@@ -37,7 +37,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .card-link { text-decoration: none; color: inherit; display: block; }
 .label {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -51,7 +51,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 time {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.75rem;
   color: var(--meta);
   font-weight: 400;
@@ -287,7 +287,7 @@ time {
   padding-right: 1rem;
 }
 .sidebar-title {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--accent);
@@ -319,7 +319,7 @@ time {
   margin-bottom: 0.2rem;
 }
 .sidebar-item time {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.7rem;
   color: var(--meta);
 }
@@ -332,7 +332,7 @@ time {
 .post-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--accent); }
 .post-header h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.4; margin-bottom: 0.5rem; }
 
-.post-meta { font-family: 'Heebo', sans-serif; color: var(--meta); font-size: 0.9rem; }
+.post-meta { font-family: 'Open Sans', sans-serif; color: var(--meta); font-size: 0.9rem; }
 .post-meta a { color: var(--accent); text-decoration: none; }
 .post-meta a:hover { text-decoration: underline; }
 
@@ -391,13 +391,13 @@ time {
   flex-direction: column;
 }
 .navbar-title {
-  font-family: 'Frank Ruhl Libre', serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.2;
 }
 .navbar-tagline {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 300;
   color: rgba(255,255,255,0.6);
@@ -460,7 +460,7 @@ time {
   padding: 0.6rem 1rem;
   border: 1px solid var(--border);
   border-radius: 4px;
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.95rem;
   direction: rtl;
   background: var(--bg);
@@ -472,7 +472,7 @@ time {
   color: #fff;
   border: none;
   border-radius: 4px;
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
@@ -496,13 +496,13 @@ time {
   gap: 0.8rem;
 }
 .panel-date-label {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.85rem;
   color: var(--meta);
   white-space: nowrap;
 }
 .panel-date-display {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text);
@@ -514,7 +514,7 @@ time {
   padding: 0.55rem 0.8rem;
   border: 1px solid var(--border);
   border-radius: 4px;
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.9rem;
   background: var(--bg);
   direction: ltr;
@@ -526,7 +526,7 @@ time {
   color: #fff;
   border: none;
   border-radius: 4px;
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
@@ -538,7 +538,7 @@ time {
 
 .search-page { max-width: var(--max-w); margin: 0 auto; padding: 2rem 1.25rem; }
 .search-page-title { font-size: 1.6rem; margin-bottom: 0.5rem; }
-.search-query-display { font-family: 'Heebo', sans-serif; color: var(--meta); margin-bottom: 1.5rem; font-size: 0.9rem; }
+.search-query-display { font-family: 'Open Sans', sans-serif; color: var(--meta); margin-bottom: 1.5rem; font-size: 0.9rem; }
 .search-no-results { text-align: center; color: var(--meta); font-size: 1.1rem; padding: 3rem 0; }
 
 .search-result-item { margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.2rem; }
@@ -551,7 +551,7 @@ time {
   align-items: start;
 }
 .search-result-img { width: 140px; height: 90px; object-fit: cover; border-radius: 3px; }
-.search-result-body time { font-family: 'Heebo', sans-serif; font-size: 0.75rem; color: var(--meta); }
+.search-result-body time { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; color: var(--meta); }
 .search-result-body h3 { font-size: 1.1rem; margin: 0.25rem 0 0.3rem; line-height: 1.4; }
 .search-result-body p { font-size: 0.85rem; color: var(--meta); line-height: 1.6; }
 .search-result-body mark {
@@ -565,7 +565,7 @@ time {
 /* ============ POST — category label ============ */
 
 .post-category {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -578,7 +578,7 @@ time {
 
 .popular-page { max-width: var(--max-w); margin: 0 auto; padding: 2rem 1.25rem; }
 .popular-page-title { font-size: 1.6rem; margin-bottom: 0.3rem; }
-.popular-page-desc { font-family: 'Heebo', sans-serif; color: var(--meta); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.popular-page-desc { font-family: 'Open Sans', sans-serif; color: var(--meta); font-size: 0.9rem; margin-bottom: 1.5rem; }
 
 .popular-list { display: flex; flex-direction: column; gap: 1rem; }
 
@@ -590,7 +590,7 @@ time {
   border-bottom: 1px solid var(--border);
 }
 .popular-rank {
-  font-family: 'Frank Ruhl Libre', serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.6rem;
   font-weight: 900;
   color: var(--accent);
@@ -622,12 +622,12 @@ time {
   margin-bottom: 0.2rem;
 }
 .popular-body time {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.75rem;
   color: var(--meta);
 }
 .popular-views {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.75rem;
   color: var(--accent);
   font-weight: 500;
@@ -663,7 +663,7 @@ time {
 .same-day-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .same-day-img img { width: 100%; height: 100px; object-fit: cover; }
 .same-day-body { padding: 0.7rem; }
-.same-day-body time { font-family: 'Heebo', sans-serif; font-size: 0.7rem; color: var(--meta); }
+.same-day-body time { font-family: 'Open Sans', sans-serif; font-size: 0.7rem; color: var(--meta); }
 .same-day-body h3 { font-size: 0.9rem; line-height: 1.4; margin-top: 0.2rem; }
 
 /* ============ INFINITE SCROLL ============ */
@@ -691,7 +691,7 @@ time {
   text-align: center; padding: 2rem 1rem; margin-top: 2rem;
   border-top: 2px solid var(--border); background: var(--card-bg);
 }
-.footer-inner { font-family: 'Heebo', sans-serif; font-size: 0.85rem; color: var(--meta); }
+.footer-inner { font-family: 'Open Sans', sans-serif; font-size: 0.85rem; color: var(--meta); }
 .footer-inner a { color: var(--accent); text-decoration: none; }
 .footer-inner a:hover { text-decoration: underline; }
 .footer-tagline { margin-top: 0.25rem; font-size: 0.8rem; }
