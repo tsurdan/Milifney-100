@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tsurdan.github.io/Milifney-100/sitemap.xml
+Sitemap: https://milifney100.com/sitemap.xml

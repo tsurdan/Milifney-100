@@ -9,7 +9,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 STATE_FILE = REPO_ROOT / "scripts" / ".last_telegram_post"
-SITE_URL = "https://tsurdan.github.io/Milifney-100"
+SITE_URL = "https://milifney100.com"
 
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
