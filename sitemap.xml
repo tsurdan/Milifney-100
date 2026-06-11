@@ -18,7 +18,6 @@ layout: null
   </url>
   {% for post in site.posts %}<url>
     <loc>{{ post.url | absolute_url }}</loc>
-    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
     <priority>0.8</priority>
   </url>
   {% endfor %}
