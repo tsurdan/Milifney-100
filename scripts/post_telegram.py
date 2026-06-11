@@ -100,17 +100,21 @@ def send_telegram_message(text, image_url=None):
 
     api_url = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
+    # Try to send with local image file
+    local_image = None
     if image_url and image_url.startswith("/"):
-        image_url = SITE_URL + image_url
+        local_path = REPO_ROOT / image_url.lstrip("/")
+        if local_path.exists():
+            local_image = local_path
 
-    if image_url:
-        # Send photo with caption
-        resp = requests.post(f"{api_url}/sendPhoto", data={
-            "chat_id": CHAT_ID,
-            "photo": image_url,
-            "caption": text,
-            "parse_mode": "HTML",
-        }, timeout=30)
+    if local_image:
+        # Upload image file directly
+        with open(local_image, "rb") as f:
+            resp = requests.post(f"{api_url}/sendPhoto", data={
+                "chat_id": CHAT_ID,
+                "caption": text,
+                "parse_mode": "HTML",
+            }, files={"photo": f}, timeout=30)
     else:
         # Send text only
         resp = requests.post(f"{api_url}/sendMessage", data={
