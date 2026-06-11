@@ -136,7 +136,7 @@ def format_message(post_data, url):
     title = post_data["title"]
     body = post_data["body"]
 
-    msg = f"<b>{title}</b>\n\n{body}"
+    msg = f"<b>{title}</b>\n\n{body}\n\n<a href=\"{url}\">קראו עוד באתר</a>"
 
     return msg
 
