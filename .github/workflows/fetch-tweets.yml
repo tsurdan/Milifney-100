@@ -2,7 +2,7 @@ name: Fetch Tweets
 
 on:
   schedule:
-    - cron: '0 */2 * * *'   # Every 2 hours
+    - cron: '0 */1 * * *'   # Every 1 hour
   workflow_dispatch:          # Manual trigger from GitHub UI
 
 permissions:
@@ -40,3 +40,12 @@ jobs:
           git add -A
           git diff --staged --quiet || git commit -m "Add new posts from Twitter"
           git push
+
+      - name: Post new articles to Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python scripts/post_telegram.py
+          git add scripts/.last_telegram_post
+          git diff --staged --quiet || git commit -m "Update Telegram state" && git push
