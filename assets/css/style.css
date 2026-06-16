@@ -369,8 +369,8 @@ time {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0.7rem 1.25rem;
+  gap: 0.75rem;
 }
 .navbar-brand {
   display: flex;
@@ -378,6 +378,17 @@ time {
   gap: 0.75rem;
   text-decoration: none;
   color: #fff;
+}
+.navbar-site-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.navbar-social-links {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-inline-start: auto;
 }
 .navbar-logo {
   width: 38px;
@@ -403,11 +414,6 @@ time {
   color: rgba(255,255,255,0.6);
   line-height: 1.2;
 }
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
 .navbar-btn {
   position: relative;
   background: none;
@@ -425,12 +431,6 @@ time {
 .navbar-btn:hover {
   background: rgba(255,255,255,0.12);
   color: #fff;
-}
-.navbar-separator {
-  width: 1px;
-  height: 20px;
-  background: rgba(255,255,255,0.25);
-  margin: 0 0.3rem;
 }
 .navbar-social {
   opacity: 0.65;
