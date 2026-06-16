@@ -426,6 +426,18 @@ time {
   background: rgba(255,255,255,0.12);
   color: #fff;
 }
+.navbar-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.25);
+  margin: 0 0.3rem;
+}
+.navbar-social {
+  opacity: 0.65;
+}
+.navbar-social:hover {
+  opacity: 1;
+}
 .hidden-date-input {
   position: absolute;
   opacity: 0;
