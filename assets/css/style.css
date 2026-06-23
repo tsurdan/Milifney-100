@@ -709,16 +709,28 @@ time {
 .footer-tagline { margin-top: 0.25rem; font-size: 0.8rem; }
 
 /* ---- Newsletter subscribe widget ---- */
-.footer-newsletter { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-.footer-newsletter-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); }
-.footer-newsletter-desc { font-size: 0.8rem; color: var(--meta); margin-bottom: 0.8rem; }
-.footer-newsletter-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
-.footer-newsletter-form input[type="email"] {
-  flex: 1; padding: 0.55rem 0.8rem; border: 1px solid var(--border); border-radius: 4px;
+.nl-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999;
+  display: flex; align-items: center; justify-content: center; padding: 1rem;
+}
+.nl-modal-overlay[hidden] { display: none; }
+.nl-modal {
+  background: var(--card-bg); border-radius: 10px; padding: 2rem; max-width: 400px; width: 100%;
+  position: relative; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.nl-modal-close {
+  position: absolute; top: 0.8rem; left: 0.8rem; background: none; border: none;
+  font-size: 1.2rem; cursor: pointer; color: var(--meta); line-height: 1;
+}
+.nl-modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+.nl-modal-desc { font-size: 0.85rem; color: var(--meta); margin-bottom: 1rem; }
+.nl-modal-form { display: flex; gap: 0.5rem; }
+.nl-modal-form input[type="email"] {
+  flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border); border-radius: 4px;
   font-size: 0.9rem; font-family: inherit; direction: ltr; text-align: left;
 }
 .nl-submit-btn {
-  background: var(--accent); color: #fff; border: none; padding: 0.55rem 1.2rem;
+  background: var(--accent); color: #fff; border: none; padding: 0.6rem 1.2rem;
   border-radius: 4px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit;
   white-space: nowrap;
 }

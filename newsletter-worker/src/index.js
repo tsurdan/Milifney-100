@@ -11,8 +11,11 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const origin = request.headers.get('Origin') || '';
+    const allowedOrigins = [env.CORS_ORIGIN, 'http://localhost:4000', 'http://127.0.0.1:4000'];
+    const corsOrigin = allowedOrigins.includes(origin) ? origin : env.CORS_ORIGIN;
     const corsHeaders = {
-      'Access-Control-Allow-Origin': env.CORS_ORIGIN,
+      'Access-Control-Allow-Origin': corsOrigin,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     };
