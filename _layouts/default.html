@@ -97,6 +97,16 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
+      <!-- Newsletter Subscribe -->
+      <div class="footer-newsletter">
+        <h3 class="footer-newsletter-title">📬 הירשמו לניוזלטר השבועי</h3>
+        <p class="footer-newsletter-desc">קבלו סיכום שבועי של החדשות ההיסטוריות ישירות למייל</p>
+        <form class="footer-newsletter-form" id="newsletter-form">
+          <input type="email" id="newsletter-email" placeholder="הזינו כתובת מייל..." required>
+          <button type="submit" class="nl-submit-btn">הרשמה</button>
+        </form>
+        <div id="newsletter-form-msg"></div>
+      </div>
       <p class="footer-credit">
         התוכן באתר מבוסס על עיתוני התקופה מ-
         <a href="https://www.nli.org.il/he/newspapers" target="_blank" rel="noopener">ארכיון העיתונות</a>
@@ -160,6 +170,38 @@
         btn.addEventListener('click', function() {
           document.getElementById(this.dataset.panel).hidden = true;
         });
+      });
+    })();
+
+    // Newsletter subscribe form
+    (function() {
+      var WORKER_URL = 'https://milifney100-newsletter.YOUR_SUBDOMAIN.workers.dev'; // CHANGE after deploy
+      var form = document.getElementById('newsletter-form');
+      var emailInput = document.getElementById('newsletter-email');
+      var msgEl = document.getElementById('newsletter-form-msg');
+      if (!form) return;
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        var email = emailInput.value.trim();
+        if (!email) return;
+        msgEl.innerHTML = '<span style="color:var(--meta);font-size:0.85rem;">שולח...</span>';
+        try {
+          var resp = await fetch(WORKER_URL + '/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+          });
+          var data = await resp.json();
+          if (data.success) {
+            msgEl.innerHTML = '<span style="color:#155724;font-size:0.85rem;">✓ ' + data.message + '</span>';
+            emailInput.value = '';
+          } else {
+            msgEl.innerHTML = '<span style="color:#721c24;font-size:0.85rem;">' + (data.error || 'שגיאה') + '</span>';
+          }
+        } catch (err) {
+          msgEl.innerHTML = '<span style="color:#721c24;font-size:0.85rem;">שגיאת רשת</span>';
+        }
       });
     })();
 

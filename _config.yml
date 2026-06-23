@@ -18,6 +18,7 @@ defaults:
 
 exclude:
   - scripts/
+  - newsletter-worker/
   - Gemfile
   - Gemfile.lock
   - README.md

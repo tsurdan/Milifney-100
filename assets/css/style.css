@@ -708,6 +708,23 @@ time {
 .footer-inner a:hover { text-decoration: underline; }
 .footer-tagline { margin-top: 0.25rem; font-size: 0.8rem; }
 
+/* ---- Newsletter subscribe widget ---- */
+.footer-newsletter { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.footer-newsletter-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); }
+.footer-newsletter-desc { font-size: 0.8rem; color: var(--meta); margin-bottom: 0.8rem; }
+.footer-newsletter-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
+.footer-newsletter-form input[type="email"] {
+  flex: 1; padding: 0.55rem 0.8rem; border: 1px solid var(--border); border-radius: 4px;
+  font-size: 0.9rem; font-family: inherit; direction: ltr; text-align: left;
+}
+.nl-submit-btn {
+  background: var(--accent); color: #fff; border: none; padding: 0.55rem 1.2rem;
+  border-radius: 4px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  white-space: nowrap;
+}
+.nl-submit-btn:hover { opacity: 0.9; }
+#newsletter-form-msg { margin-top: 0.5rem; min-height: 1.2rem; }
+
 /* ============ RESPONSIVE ============ */
 
 @media (max-width: 900px) {

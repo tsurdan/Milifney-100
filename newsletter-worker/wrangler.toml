@@ -1,0 +1,11 @@
+name = "milifney100-newsletter"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+CORS_ORIGIN = "https://milifney100.com"
+BREVO_LIST_ID = "3"
+
+# Secrets (set via `wrangler secret put`):
+# BREVO_API_KEY
+# ADMIN_PASSWORD
