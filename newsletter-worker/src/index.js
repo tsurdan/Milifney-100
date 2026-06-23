@@ -116,7 +116,7 @@ async function handleSendNewsletter(body, env, corsHeaders) {
   const campaignResp = await brevoRequest(env, 'POST', '/emailCampaigns', {
     name: `Newsletter - ${new Date().toISOString().slice(0, 10)}`,
     subject: subject,
-    sender: { name: 'חדשות מלפני מאה', email: 'newsletter@milifney100.com' },
+    sender: { name: 'חדשות מלפני מאה', email: 'milifney100@gmail.com' },
     type: 'classic',
     htmlContent: htmlContent,
     recipients: { listIds: [parseInt(env.BREVO_LIST_ID)] },

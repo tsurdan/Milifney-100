@@ -15,6 +15,12 @@ title: חיפוש
   const query = (params.get('q') || '').trim();
   const dateFilter = params.get('date') || '';
 
+  // Secret admin access
+  if (query.toLowerCase() === 'admin') {
+    window.location.href = '{{ "/newsletter-admin/" | relative_url }}';
+    return;
+  }
+
   const queryDisplay = document.querySelector('.search-query-display');
   const resultsContainer = document.querySelector('.search-results');
   const noResults = document.querySelector('.search-no-results');
