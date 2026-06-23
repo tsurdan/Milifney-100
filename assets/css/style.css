@@ -727,7 +727,7 @@ time {
 .nl-modal-form { display: flex; gap: 0.5rem; }
 .nl-modal-form input[type="email"] {
   flex: 1; padding: 0.6rem 0.8rem; border: 1px solid var(--border); border-radius: 4px;
-  font-size: 0.9rem; font-family: inherit; direction: ltr; text-align: left;
+  font-size: 0.9rem; font-family: inherit; direction: rtl; text-align: right;
 }
 .nl-submit-btn {
   background: var(--accent); color: #fff; border: none; padding: 0.6rem 1.2rem;

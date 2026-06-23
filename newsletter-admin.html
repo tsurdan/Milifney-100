@@ -139,11 +139,29 @@ permalink: /newsletter-admin/
 
   // ── Render articles list ──
   function renderArticles() {
-    // Show last 7 days only
+    // Filter articles from the last 7 days (by month/day, ignoring year)
     var now = new Date();
-    var weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+    var currentYear = now.getFullYear();
+    var filtered = allArticles.filter(function(a) {
+      // date is "DD.MM.YYYY"
+      var parts = a.date.split('.');
+      if (parts.length < 3) return false;
+      var day = parseInt(parts[0]);
+      var month = parseInt(parts[1]) - 1; // 0-indexed
+      // Build a date in the current year with that month/day
+      var articleDate = new Date(currentYear, month, day);
+      var diffDays = (now - articleDate) / (1000 * 60 * 60 * 24);
+      return diffDays >= 0 && diffDays <= 7;
+    });
+
     var html = '';
-    allArticles.forEach(function(a, i) {
+    if (filtered.length === 0) {
+      html = '<p style="color:var(--meta);font-size:0.9rem;">לא נמצאו כתבות מ-7 הימים האחרונים</p>';
+      articlesList.innerHTML = html;
+      return;
+    }
+    filtered.forEach(function(a) {
+      var i = allArticles.indexOf(a);
       html += '<label class="nl-article-item" data-idx="' + i + '">' +
         '<input type="checkbox" data-idx="' + i + '">' +
         '<div class="nl-article-info">' +
