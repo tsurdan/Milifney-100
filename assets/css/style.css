@@ -798,7 +798,7 @@ time {
     margin-top: 1rem;
   }
 
-  .navbar-title { font-size: 1rem; }
+  .navbar-title { font-size: 1rem; display: none; }
   .navbar-tagline { display: none; }
   .same-day-grid { grid-template-columns: 1fr; }
   .search-result-link { grid-template-columns: 80px 1fr; }
