@@ -25,11 +25,12 @@ layout: default
   }
 }
 </script>
-{% comment %} Find posts from same day one year earlier (101 years ago) {% endcomment %}
+{% comment %} Find posts from same day one year earlier (101 years ago) - DISABLED {% endcomment %}
+{% assign sidebar_posts = "" | split: "" %}
+{% comment %}
 {% assign current_day = page.date | date: "%m-%d" %}
 {% assign current_year = page.date | date: "%Y" | plus: 0 %}
 {% assign prev_year = current_year | minus: 1 %}
-{% assign sidebar_posts = "" | split: "" %}
 {% for post in site.posts %}
   {% if post.id != page.id %}
     {% assign post_day = post.date | date: "%m-%d" %}
@@ -40,6 +41,7 @@ layout: default
   {% endif %}
   {% if sidebar_posts.size >= 5 %}{% break %}{% endif %}
 {% endfor %}
+{% endcomment %}
 
 <div class="post-layout {% if sidebar_posts.size > 0 %}has-sidebar{% endif %}">
   <article class="post">
