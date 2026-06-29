@@ -1,0 +1,150 @@
+---
+layout: default
+title: לתמיכה במיזם
+---
+
+<style>
+.support-page {
+  max-width: 960px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+.support-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.support-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.support-hero p {
+  font-size: 1.1rem;
+  color: var(--meta);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.support-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.support-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.support-card-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg);
+}
+.support-card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+.support-card p {
+  font-size: 0.95rem;
+  color: var(--meta);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.support-card-link {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+}
+.support-card-link:hover {
+  opacity: 0.7;
+}
+.support-contact-section {
+  text-align: center;
+  padding: 2.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.support-contact-section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+.support-contact-section p {
+  font-size: 0.95rem;
+  color: var(--meta);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+.support-email-link {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  direction: ltr;
+  display: inline-block;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 2px;
+}
+.support-email-link:hover { opacity: 0.7; }
+
+@media (max-width: 640px) {
+  .support-grid { grid-template-columns: 1fr; }
+  .support-hero h1 { font-size: 1.6rem; }
+}
+</style>
+
+<div class="support-page">
+  <div class="support-hero">
+    <h1>לתמיכה במיזם</h1>
+    <p>מצא חן בעיניכם המיזם ההיסטורי? נשמח לתמיכתכם כדי שנוכל להמשיך לפעול, להתפתח ולהנגיש את ההיסטוריה לכולם</p>
+  </div>
+
+  <div class="support-grid">
+    <div class="support-card">
+      <div class="support-card-icon">
+        <svg viewBox="0 0 24 24" width="28" height="28"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.77.77 0 0 1 .757-.654h6.803c2.277 0 3.86.722 4.703 2.147.396.666.61 1.395.636 2.167.027.775-.07 1.677-.295 2.694l-.003.015v.015c-.583 2.923-2.612 4.476-5.865 4.476h-1.3a.77.77 0 0 0-.758.654l-.814 5.09a.641.641 0 0 1-.632.74z" fill="none" stroke="#0070ba" stroke-width="1.5"/></svg>
+      </div>
+      <h2>תמיכה דרך PayPal</h2>
+      <p>תמיכה חד-פעמית בכל סכום שתבחרו, בצורה מאובטחת דרך PayPal</p>
+      <a href="https://paypal.me/tsurdan" target="_blank" rel="noopener" class="support-card-link">paypal.me/tsurdan ←</a>
+    </div>
+
+    <div class="support-card">
+      <div class="support-card-icon">
+        <svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="#ff5e5b" stroke-width="1.5"/></svg>
+      </div>
+      <h2>תמיכה דרך Ko-fi</h2>
+      <p>קנו לנו כוס קפה — תמיכה חד-פעמית או חודשית דרך Ko-fi</p>
+      <a href="https://ko-fi.com/tsurdan" target="_blank" rel="noopener" class="support-card-link">ko-fi.com/tsurdan ←</a>
+    </div>
+  </div>
+
+  <div class="support-contact-section">
+    <h2>שיתוף פעולה ורעיונות</h2>
+    <p>יש לכם רעיון לשיתוף פעולה איתנו? רוצים להציע רעיונות או לעזור בהתנדבות? מוזמנים ליצור קשר</p>
+    <a href="mailto:milifney100@gmail.com" class="support-email-link">milifney100@gmail.com</a>
+  </div>
+</div>

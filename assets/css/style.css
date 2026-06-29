@@ -737,29 +737,13 @@ time {
 .nl-submit-btn:hover { opacity: 0.9; }
 #newsletter-form-msg { margin-top: 0.5rem; min-height: 1.2rem; }
 
-/* ---- Support modal ---- */
-.navbar-support-text {
-  font-size: 0.8rem; font-weight: 600; text-decoration: underline;
-  color: #fff; cursor: pointer; white-space: nowrap;
+/* ---- Support link in navbar ---- */
+.navbar-support-link {
+  color: #fff; font-size: 0.85rem; font-weight: 600;
+  text-decoration: underline; white-space: nowrap;
+  margin-inline-start: 0.5rem;
 }
-.navbar-support-text:hover { opacity: 0.8; }
-.support-modal-content { text-align: center; max-width: 420px; }
-.support-text { font-size: 0.9rem; color: var(--text); margin-bottom: 1rem; line-height: 1.6; }
-.support-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
-.support-link-btn {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.6rem 1.4rem; border-radius: 6px; font-size: 0.9rem; font-weight: 600;
-  text-decoration: none; color: #fff; transition: opacity 0.2s;
-}
-.support-link-btn:hover { opacity: 0.85; }
-.support-link-btn.paypal { background: #0070ba; }
-.support-link-btn.kofi { background: #ff5e5b; }
-.support-divider { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
-.support-contact-link {
-  display: inline-block; color: var(--accent); font-weight: 600; font-size: 0.9rem;
-  text-decoration: none; direction: ltr;
-}
-.support-contact-link:hover { text-decoration: underline; }
+.navbar-support-link:hover { opacity: 0.75; }
 
 /* ============ RESPONSIVE ============ */
 
