@@ -440,8 +440,12 @@ time {
 .navbar-social:hover {
   opacity: 1;
 }
+.navbar-date-wrapper { position: relative; }
 .hidden-date-input {
   position: absolute;
+  top: 100%;
+  inset-inline-start: 50%;
+  transform: translateX(50%);
   opacity: 0;
   width: 1px;
   height: 1px;
