@@ -62,6 +62,7 @@
         <a class="navbar-btn" href="{{ '/popular' | relative_url }}" aria-label="הנקראים ביותר" title="הנקראים ביותר">
           <svg viewBox="0 0 24 24" width="18" height="18"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
+        <button class="navbar-btn navbar-support-text" id="btn-support">לתמיכה במיזם</button>
         <button class="navbar-btn" id="btn-search" aria-label="חיפוש">
           <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
@@ -109,6 +110,28 @@
         <button type="submit" class="nl-submit-btn">הרשמה</button>
       </form>
       <div id="newsletter-form-msg"></div>
+    </div>
+  </div>
+
+  <!-- Support Modal -->
+  <div class="nl-modal-overlay" id="support-modal" hidden>
+    <div class="nl-modal support-modal-content">
+      <button class="nl-modal-close" id="support-modal-close">✕</button>
+      <h3 class="nl-modal-title">לתמיכה במיזם</h3>
+      <p class="support-text">מצא חן בעיניכם המיזם ההיסטורי? נשמח לתמיכתכם כדי שנוכל להמשיך לפעול ולהתפתח</p>
+      <div class="support-links">
+        <a href="https://paypal.me/tsurdan" target="_blank" rel="noopener" class="support-link-btn paypal">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.77.77 0 0 1 .757-.654h6.803c2.277 0 3.86.722 4.703 2.147.396.666.61 1.395.636 2.167.027.775-.07 1.677-.295 2.694l-.003.015v.015c-.583 2.923-2.612 4.476-5.865 4.476h-1.3a.77.77 0 0 0-.758.654l-.814 5.09a.641.641 0 0 1-.632.74z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          PayPal
+        </a>
+        <a href="https://ko-fi.com/tsurdan" target="_blank" rel="noopener" class="support-link-btn kofi">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          Ko-fi
+        </a>
+      </div>
+      <hr class="support-divider">
+      <p class="support-text">יש לכם רעיון לשיתוף פעולה? רוצים להציע רעיונות? מוזמנים ליצור קשר</p>
+      <a href="mailto:milifney100@gmail.com" class="support-contact-link">milifney100@gmail.com</a>
     </div>
   </div>
 
@@ -217,6 +240,17 @@
           msgEl.innerHTML = '<span style="color:#721c24;font-size:0.85rem;">שגיאת רשת</span>';
         }
       });
+    })();
+
+    // Support modal
+    (function() {
+      var modal = document.getElementById('support-modal');
+      var btnOpen = document.getElementById('btn-support');
+      var btnClose = document.getElementById('support-modal-close');
+      if (!modal || !btnOpen) return;
+      btnOpen.addEventListener('click', function() { modal.hidden = false; });
+      btnClose.addEventListener('click', function() { modal.hidden = true; });
+      modal.addEventListener('click', function(e) { if (e.target === modal) modal.hidden = true; });
     })();
 
     // Infinite scroll
