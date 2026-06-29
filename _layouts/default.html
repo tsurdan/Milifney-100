@@ -197,11 +197,12 @@
       var btnSearchMobile = document.getElementById('btn-search-mobile');
       var btnDateMobile = document.getElementById('btn-date-mobile');
       if (mobileMenuBtn && mobileDropdown) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
           mobileDropdown.hidden = !mobileDropdown.hidden;
         });
         document.addEventListener('click', function(e) {
-          if (!mobileMenuBtn.contains(e.target) && !mobileDropdown.contains(e.target)) {
+          if (!mobileDropdown.contains(e.target)) {
             mobileDropdown.hidden = true;
           }
         });
