@@ -34,7 +34,7 @@ def fetch_timeline(since_timestamp=None):
             params["cursor"] = cursor
 
         resp = requests.get(url, params=params, timeout=30)
-        if resp.status_code == 204:
+        if resp.status_code in (204, 404):
             break
         resp.raise_for_status()
         data = resp.json()
