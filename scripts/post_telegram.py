@@ -60,9 +60,6 @@ def parse_post(filepath):
     # Get body text (first meaningful paragraph)
     body_lines = lines[body_start:]
     body_text = " ".join(l.strip() for l in body_lines if l.strip() and not l.startswith("!["))
-    # Truncate
-    if len(body_text) > 300:
-        body_text = body_text[:297] + "..."
 
     return {
         "title": meta.get("title", ""),
@@ -108,13 +105,26 @@ def send_telegram_message(text, image_url=None):
             local_image = local_path
 
     if local_image:
-        # Upload image file directly
-        with open(local_image, "rb") as f:
-            resp = requests.post(f"{api_url}/sendPhoto", data={
+        if len(text) <= 1024:
+            # Send photo with caption
+            with open(local_image, "rb") as f:
+                resp = requests.post(f"{api_url}/sendPhoto", data={
+                    "chat_id": CHAT_ID,
+                    "caption": text,
+                    "parse_mode": "HTML",
+                }, files={"photo": f}, timeout=30)
+        else:
+            # Caption too long — send photo then text separately
+            with open(local_image, "rb") as f:
+                requests.post(f"{api_url}/sendPhoto", data={
+                    "chat_id": CHAT_ID,
+                }, files={"photo": f}, timeout=30)
+            resp = requests.post(f"{api_url}/sendMessage", data={
                 "chat_id": CHAT_ID,
-                "caption": text,
+                "text": text,
                 "parse_mode": "HTML",
-            }, files={"photo": f}, timeout=30)
+                "disable_web_page_preview": True,
+            }, timeout=30)
     else:
         # Send text only
         resp = requests.post(f"{api_url}/sendMessage", data={
