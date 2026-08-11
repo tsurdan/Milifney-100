@@ -321,6 +321,22 @@ time {
 }
 .sidebar-item:hover .sidebar-item-title { color: var(--accent); }
 
+/* Sidebar mobile section — hidden on desktop */
+.sidebar-mobile-section { display: none; }
+.sidebar-mobile-title {
+  font-size: 0.85rem; font-weight: 700; color: var(--accent);
+  margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--accent);
+}
+.sidebar-mobile-list { display: flex; flex-direction: column; }
+.sidebar-mobile-item {
+  display: block; text-decoration: none; color: inherit;
+  padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+}
+.sidebar-mobile-item:last-child { border-bottom: none; }
+.sidebar-mobile-item span { display: block; font-size: 0.85rem; font-weight: 600; line-height: 1.4; }
+.sidebar-mobile-item time { font-size: 0.7rem; color: var(--meta); }
+.sidebar-mobile-item:hover span { color: var(--accent); }
+
 /* ============ SINGLE POST ============ */
 
 .post { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
@@ -808,6 +824,12 @@ time {
   }
   .post-sidebar {
     display: none;
+  }
+  .sidebar-mobile-section {
+    display: block;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem;
   }
 
   .navbar-title { font-size: 1rem; display: none; }

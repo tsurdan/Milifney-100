@@ -109,3 +109,17 @@ layout: default
   </div>
 </section>
 {% endif %}
+
+{% if sidebar_posts.size > 0 %}
+<section class="sidebar-mobile-section">
+  <h3 class="sidebar-mobile-title">היום לפני 101 שנים</h3>
+  <div class="sidebar-mobile-list">
+    {% for p in sidebar_posts %}
+    <a href="{{ p.url | relative_url }}" class="sidebar-mobile-item">
+      <span>{{ p.title }}</span>
+      <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
