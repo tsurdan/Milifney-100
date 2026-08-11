@@ -283,7 +283,7 @@ time {
 }
 .post-layout.has-sidebar .post { max-width: none; padding: 2rem 0 3rem; }
 
-/* 101 years ago sidebar */
+/* 101 years ago — side column on desktop */
 .history-sidebar {
   padding-top: 2rem;
   border-right: 2px solid var(--accent);
@@ -788,11 +788,14 @@ time {
   .post-header h1 { font-size: 1.6rem; }
   .post { padding: 1.5rem 1rem 2rem; }
 
-  .history-sidebar-list { grid-template-columns: 1fr; }
-  .post-layout.has-sidebar { grid-template-columns: 1fr; }
+  .history-section-grid { grid-template-columns: 1fr; }
+  .post-layout.has-sidebar {
+    grid-template-columns: 1fr;
+  }
   .history-sidebar {
-    position: static; border-right: none; padding-right: 0;
-    border-top: 2px solid var(--accent); padding-top: 1rem; margin-top: 0.5rem;
+    border-right: none; padding-right: 0; padding-top: 1rem;
+    border-top: 2px solid var(--accent); margin-top: 0;
+    order: 2;
   }
 
   .navbar-title { font-size: 1rem; display: none; }
