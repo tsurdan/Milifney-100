@@ -5,6 +5,13 @@ title: חיפוש
 <div class="search-page">
   <h2 class="search-page-title">תוצאות חיפוש</h2>
   <p class="search-query-display"></p>
+  <div class="search-source-filters">
+    <span class="search-filter-label">מקור:</span>
+    <button class="search-filter-btn active" data-source="">הכל</button>
+    <button class="search-filter-btn" data-source="דבר">דבר</button>
+    <button class="search-filter-btn" data-source="דאר היום">דאר היום</button>
+    <button class="search-filter-btn" data-source="הארץ">הארץ</button>
+  </div>
   <div class="search-results"></div>
   <p class="search-no-results" style="display:none;">לא נמצאו תוצאות.</p>
 </div>
@@ -14,6 +21,7 @@ title: חיפוש
   const params = new URLSearchParams(window.location.search);
   const query = (params.get('q') || '').trim();
   const dateFilter = params.get('date') || '';
+  const sourceFilter = params.get('source') || '';
 
   // Secret admin access
   if (query.toLowerCase() === 'admin') {
@@ -26,9 +34,31 @@ title: חיפוש
   const noResults = document.querySelector('.search-no-results');
   const searchInput = document.querySelector('.search-input');
   const datePicker = document.getElementById('filter-date');
+  const filterBtns = document.querySelectorAll('.search-filter-btn');
 
   if (searchInput && query) searchInput.value = query;
   if (datePicker && dateFilter) datePicker.value = dateFilter;
+
+  // Activate the matching source filter button
+  if (sourceFilter) {
+    filterBtns.forEach(function(btn) {
+      btn.classList.toggle('active', btn.dataset.source === sourceFilter);
+    });
+  }
+
+  // Source filter button clicks
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var newParams = new URLSearchParams(window.location.search);
+      var src = btn.dataset.source;
+      if (src) {
+        newParams.set('source', src);
+      } else {
+        newParams.delete('source');
+      }
+      window.location.search = newParams.toString();
+    });
+  });
 
   if (query) {
     queryDisplay.textContent = 'חיפוש: "' + query + '"';
@@ -73,6 +103,12 @@ title: חיפוש
       if (dateFilter) {
         results = results.filter(function(post) {
           return post.date_iso === dateFilter || post.date_iso.startsWith(dateFilter);
+        });
+      }
+
+      if (sourceFilter) {
+        results = results.filter(function(post) {
+          return post.image_alt && post.image_alt.includes(sourceFilter);
         });
       }
 
