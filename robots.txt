@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://milifney100.com/sitemap.xml
+Sitemap: https://milifney100.com/news-sitemap.xml

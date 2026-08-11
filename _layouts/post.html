@@ -9,19 +9,31 @@ layout: default
   "headline": "{{ page.title | escape }}",
   "description": "{{ post_description | escape }}",
   "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.date | date_to_xmlschema }}",
   "inLanguage": "he",
+  "articleSection": "היסטוריה",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ page.url | absolute_url }}"
   },
   {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+  "author": {
+    "@type": "Organization",
+    "name": "{{ site.title }}",
+    "url": "{{ site.url }}{{ site.baseurl }}/"
+  },
   "publisher": {
     "@type": "Organization",
     "name": "{{ site.title }}",
+    "url": "{{ site.url }}{{ site.baseurl }}/",
     "logo": {
       "@type": "ImageObject",
       "url": "{{ '/assets/images/branding/avatar.jpg' | absolute_url }}"
-    }
+    },
+    "sameAs": [
+      "https://x.com/Milifney100",
+      "https://t.me/milifney100"
+    ]
   }
 }
 </script>
