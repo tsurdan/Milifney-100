@@ -271,20 +271,24 @@ time {
   padding: 0 1.25rem;
 }
 .post-layout.has-sidebar {
-  display: grid;
-  grid-template-columns: 1fr 200px;
-  gap: 1.5rem;
-  align-items: start;
+  position: relative;
 }
-.post-layout.has-sidebar .post { max-width: none; padding: 2rem 0 3rem; }
+.post-layout.has-sidebar .post { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
 
-/* Sidebar */
+/* Sidebar - fixed bottom-left */
 .post-sidebar {
-  position: sticky;
-  top: 70px;
-  padding-top: 1.5rem;
-  border-right: 2px solid var(--accent);
-  padding-right: 0.8rem;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  width: 200px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
 }
 .sidebar-title {
   font-family: 'Open Sans', sans-serif;
@@ -803,12 +807,7 @@ time {
     grid-template-columns: 1fr;
   }
   .post-sidebar {
-    position: static;
-    border-right: none;
-    border-top: 2px solid var(--accent);
-    padding-right: 0;
-    padding-top: 1.5rem;
-    margin-top: 1rem;
+    display: none;
   }
 
   .navbar-title { font-size: 1rem; display: none; }
