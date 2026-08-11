@@ -279,7 +279,7 @@ time {
   display: grid;
   grid-template-columns: 1fr 190px;
   gap: 1.5rem;
-  align-items: start;
+  align-items: center;
 }
 .post-layout.has-sidebar .post { max-width: none; padding: 2rem 0 3rem; }
 
