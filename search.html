@@ -3,14 +3,18 @@ layout: default
 title: חיפוש
 ---
 <div class="search-page">
-  <h2 class="search-page-title">תוצאות חיפוש</h2>
+  <form class="search-page-form" action="{{ '/search' | relative_url }}" method="get">
+    <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-page-input" autocomplete="off">
+    <button type="submit" class="search-page-submit">חפש</button>
+  </form>
   <p class="search-query-display"></p>
   <div class="search-source-filters">
     <span class="search-filter-label">מקור:</span>
-    <button class="search-filter-btn active" data-source="">הכל</button>
-    <button class="search-filter-btn" data-source="דבר">דבר</button>
-    <button class="search-filter-btn" data-source="דאר היום">דאר היום</button>
-    <button class="search-filter-btn" data-source="הארץ">הארץ</button>
+    <button class="search-filter-btn active" data-source="">הכל <span class="filter-count"></span></button>
+    <button class="search-filter-btn" data-source="דבר">דבר <span class="filter-count"></span></button>
+    <button class="search-filter-btn" data-source="דאר היום">דאר היום <span class="filter-count"></span></button>
+    <button class="search-filter-btn" data-source="הארץ">הארץ <span class="filter-count"></span></button>
+    <button class="search-filter-btn" data-source="כתובים">כתובים <span class="filter-count"></span></button>
   </div>
   <div class="search-results"></div>
   <p class="search-no-results" style="display:none;">לא נמצאו תוצאות.</p>
@@ -32,11 +36,11 @@ title: חיפוש
   const queryDisplay = document.querySelector('.search-query-display');
   const resultsContainer = document.querySelector('.search-results');
   const noResults = document.querySelector('.search-no-results');
-  const searchInput = document.querySelector('.search-input');
+  const pageSearchInput = document.querySelector('.search-page-input');
   const datePicker = document.getElementById('filter-date');
   const filterBtns = document.querySelectorAll('.search-filter-btn');
 
-  if (searchInput && query) searchInput.value = query;
+  if (pageSearchInput && query) pageSearchInput.value = query;
   if (datePicker && dateFilter) datePicker.value = dateFilter;
 
   // Activate the matching source filter button
@@ -86,25 +90,49 @@ title: חיפוש
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
+  // Source names for counting
+  var sourceNames = ['דבר', 'דאר היום', 'הארץ', 'כתובים'];
+
   fetch('{{ "/search.json" | relative_url }}')
     .then(function(r) { return r.json(); })
     .then(function(posts) {
-      var results = posts;
+      // First filter by query and date (base results for counting)
+      var baseResults = posts;
       var terms = [];
 
       if (query) {
         terms = query.toLowerCase().split(/\s+/);
-        results = results.filter(function(post) {
+        baseResults = baseResults.filter(function(post) {
           var text = (post.title + ' ' + post.content).toLowerCase();
           return terms.every(function(t) { return text.includes(t); });
         });
       }
 
       if (dateFilter) {
-        results = results.filter(function(post) {
+        baseResults = baseResults.filter(function(post) {
           return post.date_iso === dateFilter || post.date_iso.startsWith(dateFilter);
         });
       }
+
+      // Count results per source
+      var totalCount = baseResults.length;
+      var sourceCounts = {};
+      sourceNames.forEach(function(src) {
+        sourceCounts[src] = baseResults.filter(function(post) {
+          return post.image_alt && post.image_alt.includes(src);
+        }).length;
+      });
+
+      // Update filter button counts
+      filterBtns.forEach(function(btn) {
+        var countEl = btn.querySelector('.filter-count');
+        if (!countEl) return;
+        var src = btn.dataset.source;
+        var count = src ? (sourceCounts[src] || 0) : totalCount;
+        countEl.textContent = '(' + count + ')';
+      });
+
+      var results = baseResults;
 
       if (sourceFilter) {
         results = results.filter(function(post) {
