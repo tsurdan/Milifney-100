@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-site-verification" content="p82N12v4OhVJAsr9ipd5XlgHRMeDOlUqUxZtAhgd0BI" />
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  {% if page.layout == 'post' %}{% assign seo_desc = page.content | strip_html | strip_newlines | truncate: 160 %}{% else %}{% assign seo_desc = site.description %}{% endif %}
+  {% if page.layout == 'post' %}{% assign seo_desc = page.content | strip_html | strip_newlines | truncate: 160 %}{% assign real_date_str = page.path | split: "/" | last | truncate: 10, "" %}{% assign real_date_iso = real_date_str | append: "T12:00:00+03:00" %}{% else %}{% assign seo_desc = site.description %}{% endif %}
   <meta name="description" content="{{ seo_desc | escape }}">
   <meta name="keywords" content="חדשות מלפני מאה שנה, היסטוריה, ארכיון עיתונות, {{ page.title | default: '' | escape }}">
   <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title }}{% endif %}">
@@ -15,8 +15,8 @@
   <meta property="og:site_name" content="{{ site.title }}">
   <meta property="og:locale" content="he_IL">
   {% if page.layout == 'post' %}
-  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
-  <meta property="article:modified_time" content="{{ page.date | date_to_xmlschema }}">
+  <meta property="article:published_time" content="{{ real_date_iso }}">
+  <meta property="article:modified_time" content="{{ real_date_iso }}">
   <meta property="article:section" content="היסטוריה">
   {% endif %}
   {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">
@@ -28,9 +28,15 @@
   {% if page.image %}<meta name="twitter:image" content="{{ page.image | absolute_url }}">
   {% else %}<meta name="twitter:image" content="{{ '/assets/images/branding/banner.jpg' | absolute_url }}">
   {% endif %}
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
-  <link rel="shortcut icon" href="{{ '/assets/images/branding/favicon.png' | relative_url }}">
-  <link rel="apple-touch-icon" href="{{ '/assets/images/branding/avatar.jpg' | relative_url }}">
+  <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/branding/favicon-16.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/branding/favicon-32.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="48x48" href="{{ '/assets/images/branding/favicon-48.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ '/assets/images/branding/favicon-96.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ '/assets/images/branding/favicon-192.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ '/assets/images/branding/favicon-512.png' | relative_url }}">
+  <link rel="shortcut icon" href="{{ '/favicon.ico' | relative_url }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/branding/favicon-180.png' | relative_url }}">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | absolute_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,10 +55,23 @@
     "publisher": {
       "@type": "Organization",
       "name": "{{ site.title }}",
+      "url": "{{ site.url }}{{ site.baseurl }}/",
       "logo": {
         "@type": "ImageObject",
         "url": "{{ '/assets/images/branding/avatar.jpg' | absolute_url }}"
-      }
+      },
+      "sameAs": [
+        "https://x.com/Milifney100",
+        "https://t.me/milifney100"
+      ]
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "{{ '/search' | absolute_url }}?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
     }
   }
   </script>

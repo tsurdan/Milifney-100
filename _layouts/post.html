@@ -2,14 +2,16 @@
 layout: default
 ---
 {% assign post_description = page.content | strip_html | strip_newlines | truncate: 200 %}
+{% assign real_date_str = page.path | split: "/" | last | truncate: 10, "" %}
+{% assign real_date_iso = real_date_str | append: "T12:00:00+03:00" %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "NewsArticle",
   "headline": "{{ page.title | escape }}",
   "description": "{{ post_description | escape }}",
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.date | date_to_xmlschema }}",
+  "datePublished": "{{ real_date_iso }}",
+  "dateModified": "{{ real_date_iso }}",
   "inLanguage": "he",
   "articleSection": "היסטוריה",
   "mainEntityOfPage": {
