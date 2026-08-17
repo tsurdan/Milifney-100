@@ -16,8 +16,9 @@ layout: null
     <loc>{{ '/search' | absolute_url }}</loc>
     <priority>0.5</priority>
   </url>
-  {% for post in site.posts %}<url>
+  {% for post in site.posts %}{% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}<url>
     <loc>{{ post.url | absolute_url }}</loc>
+    <lastmod>{{ real_date_str }}T12:00:00+03:00</lastmod>
     <priority>0.8</priority>
   </url>
   {% endfor %}
