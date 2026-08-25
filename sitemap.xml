@@ -13,6 +13,14 @@ layout: null
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>{{ '/about' | absolute_url }}</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>{{ '/support' | absolute_url }}</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>{{ '/search' | absolute_url }}</loc>
     <priority>0.5</priority>
   </url>
