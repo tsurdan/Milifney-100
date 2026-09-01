@@ -124,7 +124,7 @@
         </button>
       </div>
       <a href="{{ '/support' | relative_url }}" class="navbar-support-link">לתמיכה במיזם</a>
-      <a class="navbar-btn" href="{{ '/about' | relative_url }}" aria-label="אודות המיזם" title="אודות המיזם">
+      <a class="navbar-btn navbar-about-link" href="{{ '/about' | relative_url }}" aria-label="אודות המיזם" title="אודות המיזם">
         <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></svg>
       </a>
     </div>
@@ -238,6 +238,9 @@
           if (!mobileDropdown.contains(e.target)) {
             mobileDropdown.hidden = true;
           }
+        });
+        mobileDropdown.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() { mobileDropdown.hidden = true; });
         });
         if (btnSearchMobile) {
           btnSearchMobile.addEventListener('click', function() {

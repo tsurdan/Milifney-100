@@ -379,6 +379,7 @@ time {
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.3);
   object-fit: cover;
+  flex-shrink: 0;
 }
 .navbar-brand-text {
   display: flex;
@@ -410,6 +411,7 @@ time {
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  flex-shrink: 0;
 }
 .navbar-btn:hover {
   background: rgba(255,255,255,0.12);
@@ -813,8 +815,13 @@ time {
   .navbar-tagline { display: none; }
   .navbar-logo { width: 32px; height: 32px; flex-shrink: 0; }
   .navbar-site-actions { display: none; }
-  .navbar-mobile-menu { display: block; }
-  .navbar-support-link { font-size: 0.75rem; }
+  .navbar-about-link { display: none; }
+  .navbar-mobile-menu { display: block; flex-shrink: 0; }
+  .navbar-inner { gap: 0.35rem; padding: 0.6rem 0.75rem; }
+  .navbar-btn { padding: 0.35rem; }
+  .navbar-social-links { gap: 0; margin-inline-start: auto; }
+  .navbar-social svg { width: 17px; height: 17px; }
+  .navbar-support-link { font-size: 0.68rem; margin-inline-start: 0.25rem; flex-shrink: 0; }
   .same-day-grid { grid-template-columns: 1fr; }
   .search-result-link { grid-template-columns: 80px 1fr; }
   .search-result-img { width: 80px; height: 60px; }
