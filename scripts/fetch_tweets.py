@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fetch tweets from @Milifney100 via FxTwitter API (free, no key required)."""
 
+import os
 import re
 import time
 import requests
@@ -9,6 +10,8 @@ from io import BytesIO
 from pathlib import Path
 
 from PIL import Image
+
+from gemini_tagging import tag_pending_posts
 
 USERNAME = "Milifney100"
 API_BASE = "https://api.fxtwitter.com/2/profile"
@@ -375,22 +378,24 @@ def main():
     print(f"Fetching tweets for @{USERNAME} via FxTwitter API...")
     tweets = fetch_timeline(since_ts)
 
+    count = 0
     if not tweets:
         print("No new tweets found.")
-        return
+    else:
+        # Merge threads and process oldest-first
+        items = merge_threads(tweets)
+        items.sort(key=lambda t: t.get("created_timestamp", 0))
+        count = sum(1 for t in items if create_post(t))
 
-    # Merge threads and process oldest-first
-    items = merge_threads(tweets)
-    items.sort(key=lambda t: t.get("created_timestamp", 0))
-    count = sum(1 for t in items if create_post(t))
-
-    # Save the latest timestamp for next run
-    if tweets:
+        # Save the latest timestamp for next run
         latest_ts = max(t.get("created_timestamp", 0) for t in tweets)
         STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         STATE_FILE.write_text(str(latest_ts), encoding="utf-8")
 
     print(f"Done. Created {count} new post(s).")
+
+    # Best-effort — also retries any post left untagged by a previous failed run
+    tag_pending_posts(os.environ.get("GEMINI_API_KEY", ""))
 
 
 if __name__ == "__main__":

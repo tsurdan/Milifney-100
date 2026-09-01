@@ -26,6 +26,8 @@ jobs:
         run: pip install -r scripts/requirements.txt
 
       - name: Fetch new tweets
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/fetch_tweets.py
 
       - name: Fetch popular posts from GoatCounter

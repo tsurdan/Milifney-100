@@ -8,7 +8,8 @@ Auto-synced from [@Milifney100](https://x.com/Milifney100) on X/Twitter.
 1. **GitHub Actions** runs a cron job every 6 hours
 2. A Python script fetches new tweets from `@Milifney100` via the [FxTwitter API](https://github.com/FxEmbed/FxEmbed) (free, no API key needed)
 3. Each tweet becomes a Jekyll post (markdown + downloaded image)
-4. The commit triggers **GitHub Pages** to rebuild the static site
+4. If a `GEMINI_API_KEY` repo secret is set, new posts are auto-tagged (1-3 tags from the fixed vocabulary in `_data/tags.yml`) via the Gemini API — optional, the fetch still works without it
+5. The commit triggers **GitHub Pages** to rebuild the static site
 
 Everything is 100% free: FxTwitter API (no key) + GitHub Actions (free for public repos) + GitHub Pages (free).
 
@@ -30,7 +31,17 @@ Everything is 100% free: FxTwitter API (no key) + GitHub Actions (free for publi
 3. The script fetches recent tweets, creates markdown posts, and pushes them
 4. GitHub Pages will rebuild the site automatically
 
-After that, the cron runs every 6 hours to pick up new tweets. No API key or secrets required.
+After that, the cron runs every 6 hours to pick up new tweets. No API key or secrets required (unless you also want auto-tagging — see below).
+
+### 3. (Optional) Enable Tag Auto-Tagging
+
+New posts can be auto-tagged (1-3 tags from the fixed vocabulary in `_data/tags.yml`) using the free-tier Gemini API:
+
+1. Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Add it to **Settings → Secrets and variables → Actions** as `GEMINI_API_KEY`
+3. Existing posts can be backfilled locally with `python scripts/tag_posts.py` (see the script's docstring)
+
+Without this secret, `fetch_tweets.py` still runs normally — it just skips tagging.
 
 ## Project Structure
 
@@ -44,7 +55,9 @@ After that, the cron runs every 6 hours to pick up new tweets. No API key or sec
 │   ├── css/style.css            # Newspaper-style theme
 │   └── images/tweets/           # Downloaded tweet images
 ├── scripts/
-│   ├── fetch_tweets.py          # Tweet fetcher script
+│   ├── fetch_tweets.py          # Tweet fetcher script (also tags new posts, if configured)
+│   ├── gemini_tagging.py        # Shared Gemini auto-tagging logic
+│   ├── tag_posts.py             # One-time local backfill CLI for tagging existing posts
 │   └── requirements.txt         # Python deps
 ├── .github/workflows/
 │   └── fetch-tweets.yml         # Cron + manual trigger workflow
