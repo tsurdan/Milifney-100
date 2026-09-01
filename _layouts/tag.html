@@ -6,7 +6,7 @@ layout: default
 
 <div class="tag-archive">
   <header class="tag-archive-header">
-    <span class="label">תגית</span>
+    <span class="label">נושא</span>
     <h1>{{ tag_info.name }}</h1>
     {% if tag_info.description %}<p class="tag-archive-desc">{{ tag_info.description }}</p>{% endif %}
     <p class="tag-archive-count">{{ tagged_posts.size }} ידיעות</p>
@@ -27,7 +27,7 @@ layout: default
     {% endfor %}
   </section>
   {% else %}
-  <p class="tag-archive-empty">עדיין אין ידיעות עם תגית זו.</p>
+  <p class="tag-archive-empty">עדיין אין ידיעות עם נושא זה.</p>
   {% endif %}
 
   <a href="{{ '/tags/' | relative_url }}" class="tag-archive-back">← כל התגיות</a>
