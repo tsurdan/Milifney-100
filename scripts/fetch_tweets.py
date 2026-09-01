@@ -5,7 +5,10 @@ import re
 import time
 import requests
 from datetime import datetime, timezone
+from io import BytesIO
 from pathlib import Path
+
+from PIL import Image
 
 USERNAME = "Milifney100"
 API_BASE = "https://api.fxtwitter.com/2/profile"
@@ -18,6 +21,10 @@ STATE_FILE = REPO_ROOT / "scripts" / ".last_fetch_timestamp"
 # Pagination settings — be polite to FxTwitter
 PAGE_DELAY = 4       # seconds between API requests
 MAX_PAGES = 120      # safety cap (~10 tweets/page → ~1200 max)
+
+# Image optimization — downloaded images are often much larger than displayed
+MAX_IMAGE_WIDTH = 1280
+JPEG_QUALITY = 82
 
 
 def fetch_timeline(since_timestamp=None):
@@ -57,8 +64,34 @@ def fetch_timeline(since_timestamp=None):
     return all_tweets
 
 
+def optimize_image(data, ext):
+    """Resize/compress image bytes to a sane web size. Leaves gifs/animations untouched."""
+    if ext not in ("jpg", "jpeg", "png"):
+        return data
+    try:
+        im = Image.open(BytesIO(data))
+        im.load()
+    except Exception:
+        return data
+    if getattr(im, "is_animated", False):
+        return data
+
+    if im.width > MAX_IMAGE_WIDTH:
+        ratio = MAX_IMAGE_WIDTH / im.width
+        im = im.resize((MAX_IMAGE_WIDTH, round(im.height * ratio)), Image.LANCZOS)
+
+    buf = BytesIO()
+    if ext in ("jpg", "jpeg"):
+        if im.mode != "RGB":
+            im = im.convert("RGB")
+        im.save(buf, format="JPEG", quality=JPEG_QUALITY, optimize=True)
+    else:
+        im.save(buf, format="PNG", optimize=True)
+    return buf.getvalue()
+
+
 def download_image(url, tweet_id):
-    """Download a tweet image and return its repo-relative path."""
+    """Download a tweet image, optimize it, and return its repo-relative path."""
     IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     ext = url.rsplit(".", 1)[-1].split("?")[0]
     if ext not in ("jpg", "jpeg", "png", "gif", "webp"):
@@ -68,7 +101,7 @@ def download_image(url, tweet_id):
     if not filepath.exists():
         resp = requests.get(url, timeout=30)
         resp.raise_for_status()
-        filepath.write_bytes(resp.content)
+        filepath.write_bytes(optimize_image(resp.content, ext))
     return f"/assets/images/tweets/{filename}"
 
 
