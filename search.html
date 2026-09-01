@@ -12,23 +12,29 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     </button>
   </form>
   <p class="search-query-display"></p>
-  <div class="search-source-filters">
+  <div class="search-filter-group" id="filters-source" data-param="source">
     <span class="search-filter-label">מקור:</span>
-    <button class="search-filter-btn active" data-source="">הכל <span class="filter-count"></span></button>
-    <button class="search-filter-btn" data-source="דבר">דבר <span class="filter-count"></span></button>
-    <button class="search-filter-btn" data-source="דאר היום">דאר היום <span class="filter-count"></span></button>
-    <button class="search-filter-btn" data-source="הארץ">הארץ <span class="filter-count"></span></button>
-    <button class="search-filter-btn" data-source="כתובים">כתובים <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn active" data-value="">הכל <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn" data-value="דבר">דבר <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn" data-value="דאר היום">דאר היום <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn" data-value="הארץ">הארץ <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn" data-value="כתובים">כתובים <span class="filter-count"></span></button>
   </div>
-  <div class="search-tag-filter">
-    <label for="filter-tag" class="search-filter-label">נושא:</label>
-    <select id="filter-tag" class="search-tag-select">
-      <option value="">כל הנושאים</option>
-      {% for tag in site.data.tags %}
-      <option value="{{ tag.slug }}">{{ tag.name }}</option>
-      {% endfor %}
-    </select>
-    <a href="{{ '/tags/' | relative_url }}" class="search-tags-link">כל התגיות ←</a>
+  <div class="search-filter-group" id="filters-tag" data-param="tag">
+    <span class="search-filter-label">נושא:</span>
+    <button type="button" class="search-filter-btn active" data-value="">הכל <span class="filter-count"></span></button>
+    {% assign top_tags = site.data.tags | limit: 4 %}
+    {% assign more_tags = site.data.tags | offset: 4 %}
+    {% for tag in top_tags %}
+    <button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>
+    {% endfor %}
+    {% for tag in more_tags %}
+    {% assign batch_pos = forloop.index0 | modulo: 5 %}
+    {% if batch_pos == 0 %}<span class="search-filter-batch" hidden>{% endif %}
+    <button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>
+    {% if batch_pos == 4 or forloop.last %}</span>{% endif %}
+    {% endfor %}
+    <button type="button" class="search-filter-more-toggle" id="btn-tags-more">הצג עוד נושאים ▾</button>
   </div>
   <div class="search-results"></div>
   <p class="search-no-results" style="display:none;">לא נמצאו תוצאות.</p>
@@ -39,8 +45,6 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   const params = new URLSearchParams(window.location.search);
   const query = (params.get('q') || '').trim();
   const dateFilter = params.get('date') || '';
-  const sourceFilter = params.get('source') || '';
-  const tagFilter = params.get('tag') || '';
 
   // Secret admin access
   if (query.toLowerCase() === 'admin') {
@@ -53,22 +57,7 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   const noResults = document.querySelector('.search-no-results');
   const pageSearchInput = document.querySelector('.search-page-input');
   const datePicker = document.getElementById('filter-date');
-  const filterBtns = document.querySelectorAll('.search-filter-btn');
-  const tagSelect = document.getElementById('filter-tag');
   const btnDatePage = document.getElementById('btn-date-page');
-
-  if (tagSelect && tagFilter) tagSelect.value = tagFilter;
-  if (tagSelect) {
-    tagSelect.addEventListener('change', function() {
-      var newParams = new URLSearchParams(window.location.search);
-      if (tagSelect.value) {
-        newParams.set('tag', tagSelect.value);
-      } else {
-        newParams.delete('tag');
-      }
-      window.location.search = newParams.toString();
-    });
-  }
 
   if (pageSearchInput && query) pageSearchInput.value = query;
   if (datePicker && dateFilter) datePicker.value = dateFilter;
@@ -78,26 +67,61 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     });
   }
 
-  // Activate the matching source filter button
-  if (sourceFilter) {
-    filterBtns.forEach(function(btn) {
-      btn.classList.toggle('active', btn.dataset.source === sourceFilter);
+  // Turns a filter group's buttons into a multi-select toggle, synced with a
+  // comma-separated URL param (e.g. ?source=דבר,הארץ). Returns the buttons and
+  // the currently-selected values (read from the URL on page load).
+  function initFilterGroup(container) {
+    var paramName = container.dataset.param;
+    var buttons = Array.prototype.slice.call(container.querySelectorAll('.search-filter-btn'));
+    var selected = (params.get(paramName) || '').split(',').filter(Boolean);
+
+    buttons.forEach(function(btn) {
+      var val = btn.dataset.value;
+      btn.classList.toggle('active', val === '' ? selected.length === 0 : selected.indexOf(val) !== -1);
+      btn.addEventListener('click', function() {
+        var newParams = new URLSearchParams(window.location.search);
+        if (val === '') {
+          newParams.delete(paramName);
+        } else {
+          var current = (newParams.get(paramName) || '').split(',').filter(Boolean);
+          var idx = current.indexOf(val);
+          if (idx === -1) { current.push(val); } else { current.splice(idx, 1); }
+          if (current.length === 0) { newParams.delete(paramName); } else { newParams.set(paramName, current.join(',')); }
+        }
+        window.location.search = newParams.toString();
+      });
     });
+
+    return { buttons: buttons, selected: selected };
   }
 
-  // Source filter button clicks
-  filterBtns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var newParams = new URLSearchParams(window.location.search);
-      var src = btn.dataset.source;
-      if (src) {
-        newParams.set('source', src);
-      } else {
-        newParams.delete('source');
-      }
-      window.location.search = newParams.toString();
+  var sourceGroup = initFilterGroup(document.getElementById('filters-source'));
+  var tagGroup = initFilterGroup(document.getElementById('filters-tag'));
+
+  // "Show more topics" — reveals one batch of hidden tags at a time (rather than
+  // dumping the whole long tail at once), auto-revealing up to any pre-selected tag.
+  var tagBatches = Array.prototype.slice.call(document.querySelectorAll('#filters-tag .search-filter-batch'));
+  var moreBtn = document.getElementById('btn-tags-more');
+  if (moreBtn) {
+    function updateMoreBtn() {
+      var next = tagBatches.filter(function(b) { return b.hidden; })[0];
+      if (!next) { moreBtn.hidden = true; return; }
+      var count = next.querySelectorAll('.search-filter-btn').length;
+      moreBtn.hidden = false;
+      moreBtn.textContent = 'הצג עוד ' + count + ' נושאים ▾';
+    }
+    moreBtn.addEventListener('click', function() {
+      var next = tagBatches.filter(function(b) { return b.hidden; })[0];
+      if (next) next.hidden = false;
+      updateMoreBtn();
     });
-  });
+    // Reveal batches in order until any pre-selected (URL) tag becomes visible
+    var activeBatchIndex = tagBatches.findIndex(function(b) { return b.querySelector('.search-filter-btn.active'); });
+    if (activeBatchIndex !== -1) {
+      for (var bi = 0; bi <= activeBatchIndex; bi++) { tagBatches[bi].hidden = false; }
+    }
+    updateMoreBtn();
+  }
 
   if (query) {
     queryDisplay.textContent = 'חיפוש: "' + query + '"';
@@ -105,9 +129,6 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     var parts = dateFilter.split('-');
     var display = parts[2] + '.' + parts[1] + '.' + parts[0];
     queryDisplay.textContent = 'ידיעות מתאריך ' + display;
-  } else if (tagFilter && tagSelect) {
-    var selectedOption = tagSelect.querySelector('option[value="' + tagFilter + '"]');
-    if (selectedOption) queryDisplay.textContent = 'נושא: ' + selectedOption.textContent;
   }
 
   function highlightText(text, terms) {
@@ -128,13 +149,33 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // Source names for counting
-  var sourceNames = ['דבר', 'דאר היום', 'הארץ', 'כתובים'];
+  function matchesSource(post, sources) {
+    if (!sources.length) return true;
+    return sources.some(function(s) { return post.image_alt && post.image_alt.includes(s); });
+  }
+
+  function matchesTags(post, tags) {
+    if (!tags.length) return true;
+    return post.tags && tags.some(function(t) { return post.tags.includes(t); });
+  }
+
+  // Updates every button's count within a facet group, applying only the
+  // *other* group's current selection — so picking a topic updates source
+  // counts (and vice versa) without a button ever hiding its own count.
+  function updateFacetCounts(group, subset) {
+    group.buttons.forEach(function(btn) {
+      var countEl = btn.querySelector('.filter-count');
+      if (!countEl) return;
+      var val = btn.dataset.value;
+      var matcher = group === sourceGroup ? matchesSource : matchesTags;
+      var count = val ? subset.filter(function(post) { return matcher(post, [val]); }).length : subset.length;
+      countEl.textContent = '(' + count + ')';
+    });
+  }
 
   fetch('{{ "/search.json" | relative_url }}')
     .then(function(r) { return r.json(); })
     .then(function(posts) {
-      // First filter by query and date (base results for counting)
       var baseResults = posts;
       var terms = [];
 
@@ -152,37 +193,15 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
         });
       }
 
-      // Count results per source
-      var totalCount = baseResults.length;
-      var sourceCounts = {};
-      sourceNames.forEach(function(src) {
-        sourceCounts[src] = baseResults.filter(function(post) {
-          return post.image_alt && post.image_alt.includes(src);
-        }).length;
+      var selectedSources = sourceGroup.selected;
+      var selectedTags = tagGroup.selected;
+
+      updateFacetCounts(sourceGroup, baseResults.filter(function(post) { return matchesTags(post, selectedTags); }));
+      updateFacetCounts(tagGroup, baseResults.filter(function(post) { return matchesSource(post, selectedSources); }));
+
+      var results = baseResults.filter(function(post) {
+        return matchesSource(post, selectedSources) && matchesTags(post, selectedTags);
       });
-
-      // Update filter button counts
-      filterBtns.forEach(function(btn) {
-        var countEl = btn.querySelector('.filter-count');
-        if (!countEl) return;
-        var src = btn.dataset.source;
-        var count = src ? (sourceCounts[src] || 0) : totalCount;
-        countEl.textContent = '(' + count + ')';
-      });
-
-      var results = baseResults;
-
-      if (tagFilter) {
-        results = results.filter(function(post) {
-          return post.tags && post.tags.includes(tagFilter);
-        });
-      }
-
-      if (sourceFilter) {
-        results = results.filter(function(post) {
-          return post.image_alt && post.image_alt.includes(sourceFilter);
-        });
-      }
 
       if (results.length === 0) {
         noResults.style.display = 'block';

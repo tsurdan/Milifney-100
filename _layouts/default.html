@@ -100,6 +100,12 @@
           <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></svg>
         </a>
       </div>
+      <div class="navbar-topics">
+        {% for tag in site.data.tags limit: 3 %}
+        <a href="{{ '/tags/' | append: tag.slug | append: '/' | relative_url }}" class="navbar-topic-link">{{ tag.name }}</a>
+        {% endfor %}
+        <a href="{{ '/tags/' | relative_url }}" class="navbar-topic-link navbar-topic-all">כל הנושאים</a>
+      </div>
       <!-- Mobile three-dots menu -->
       <div class="navbar-mobile-menu">
         <button class="navbar-btn" id="btn-mobile-menu" aria-label="תפריט">
@@ -109,6 +115,10 @@
           <a href="{{ '/popular' | relative_url }}" class="mobile-menu-item">הנקראים ביותר</a>
           <button class="mobile-menu-item" id="btn-search-mobile">חיפוש</button>
           <a href="{{ '/about' | relative_url }}" class="mobile-menu-item">אודות המיזם</a>
+          {% for tag in site.data.tags limit: 3 %}
+          <a href="{{ '/tags/' | append: tag.slug | append: '/' | relative_url }}" class="mobile-menu-item">{{ tag.name }}</a>
+          {% endfor %}
+          <a href="{{ '/tags/' | relative_url }}" class="mobile-menu-item">כל הנושאים</a>
         </div>
       </div>
       <div class="navbar-social-links">
