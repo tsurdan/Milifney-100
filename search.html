@@ -28,12 +28,16 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     {% for tag in top_tags %}
     <button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>
     {% endfor %}
-    {% for tag in more_tags %}
-    {% assign batch_pos = forloop.index0 | modulo: 5 %}
-    {% if batch_pos == 0 %}<span class="search-filter-batch" hidden>{% endif %}
-    <button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>
-    {% if batch_pos == 4 or forloop.last %}</span>{% endif %}
-    {% endfor %}
+    {% assign batch1 = more_tags | slice: 0, 5 %}
+    {% assign batch2 = more_tags | slice: 5, 5 %}
+    {% assign batch3 = more_tags | slice: 10, 5 %}
+    {% assign batch4 = more_tags | slice: 15, 5 %}
+    {% assign batch5 = more_tags | slice: 20, 5 %}
+    {% if batch1.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch1 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
+    {% if batch2.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch2 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
+    {% if batch3.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch3 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
+    {% if batch4.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch4 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
+    {% if batch5.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch5 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
     <button type="button" class="search-filter-more-toggle" id="btn-tags-more">הצג עוד נושאים ▾</button>
   </div>
   <div class="search-results"></div>

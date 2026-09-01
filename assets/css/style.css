@@ -728,7 +728,7 @@ time {
 
 /* ============ TAGS ============ */
 
-.post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; padding-top: 0.6rem; border-top: 1px solid var(--border); }
 .tag-chip {
   font-size: 0.78rem; padding: 0.25rem 0.75rem; border-radius: 1rem;
   border: 1px solid var(--border); background: var(--card-bg); color: var(--accent);
