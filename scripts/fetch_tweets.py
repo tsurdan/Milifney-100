@@ -65,43 +65,65 @@ def fetch_timeline(since_timestamp=None):
 
 
 def optimize_image(data, ext):
-    """Resize/compress image bytes to a sane web size. Leaves gifs/animations untouched."""
+    """Resize/compress image bytes to a sane web size. Leaves gifs/animations untouched.
+
+    Returns (data, ext). For PNGs without real transparency, also tries JPEG
+    re-encoding and switches to it when meaningfully smaller — lossless PNG barely
+    shrinks photo-like tweet screenshots, JPEG usually cuts them 3-10x.
+    """
     if ext not in ("jpg", "jpeg", "png"):
-        return data
+        return data, ext
     try:
         im = Image.open(BytesIO(data))
         im.load()
     except Exception:
-        return data
+        return data, ext
     if getattr(im, "is_animated", False):
-        return data
+        return data, ext
+
+    has_alpha = im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info)
 
     if im.width > MAX_IMAGE_WIDTH:
         ratio = MAX_IMAGE_WIDTH / im.width
         im = im.resize((MAX_IMAGE_WIDTH, round(im.height * ratio)), Image.LANCZOS)
 
-    buf = BytesIO()
     if ext in ("jpg", "jpeg"):
-        if im.mode != "RGB":
-            im = im.convert("RGB")
-        im.save(buf, format="JPEG", quality=JPEG_QUALITY, optimize=True)
-    else:
-        im.save(buf, format="PNG", optimize=True)
-    return buf.getvalue()
+        buf = BytesIO()
+        rgb_im = im.convert("RGB") if im.mode != "RGB" else im
+        rgb_im.save(buf, format="JPEG", quality=JPEG_QUALITY, optimize=True)
+        return buf.getvalue(), "jpg"
+
+    png_buf = BytesIO()
+    im.save(png_buf, format="PNG", optimize=True)
+    png_bytes = png_buf.getvalue()
+    if has_alpha:
+        return png_bytes, "png"
+
+    jpeg_buf = BytesIO()
+    rgb_im = im.convert("RGB") if im.mode != "RGB" else im
+    rgb_im.save(jpeg_buf, format="JPEG", quality=JPEG_QUALITY, optimize=True)
+    jpeg_bytes = jpeg_buf.getvalue()
+
+    if len(jpeg_bytes) < len(png_bytes) * 0.8:
+        return jpeg_bytes, "jpg"
+    return png_bytes, "png"
 
 
 def download_image(url, tweet_id):
     """Download a tweet image, optimize it, and return its repo-relative path."""
     IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+    existing = list(IMAGES_DIR.glob(f"{tweet_id}.*"))
+    if existing:
+        return f"/assets/images/tweets/{existing[0].name}"
+
     ext = url.rsplit(".", 1)[-1].split("?")[0]
     if ext not in ("jpg", "jpeg", "png", "gif", "webp"):
         ext = "jpg"
+    resp = requests.get(url, timeout=30)
+    resp.raise_for_status()
+    data, ext = optimize_image(resp.content, ext)
     filename = f"{tweet_id}.{ext}"
-    filepath = IMAGES_DIR / filename
-    if not filepath.exists():
-        resp = requests.get(url, timeout=30)
-        resp.raise_for_status()
-        filepath.write_bytes(optimize_image(resp.content, ext))
+    (IMAGES_DIR / filename).write_bytes(data)
     return f"/assets/images/tweets/{filename}"
 
 
