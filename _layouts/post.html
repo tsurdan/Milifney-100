@@ -4,6 +4,11 @@ layout: default
 {% assign post_description = page.content | strip_html | strip_newlines | truncate: 200 %}
 {% assign real_date_str = page.path | split: "/" | last | truncate: 10, "" %}
 {% assign real_date_iso = real_date_str | append: "T12:00:00+03:00" %}
+{% assign tag_names = "" | split: "" %}
+{% for tag_slug in page.tags %}
+{% assign tag_info = site.data.tags | where: "slug", tag_slug | first %}
+{% if tag_info %}{% assign tag_names = tag_names | push: tag_info.name %}{% endif %}
+{% endfor %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -13,7 +18,9 @@ layout: default
   "datePublished": "{{ real_date_iso }}",
   "dateModified": "{{ real_date_iso }}",
   "inLanguage": "he",
-  "articleSection": "היסטוריה",
+  "genre": ["חדשות", "היסטוריה"],
+  "articleSection": "{{ tag_names | first | default: "היסטוריה" | escape }}",
+  "keywords": {{ tag_names | push: "חדשות" | push: "היסטוריה" | jsonify }},
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ page.url | absolute_url }}"
