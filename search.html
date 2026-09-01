@@ -20,6 +20,16 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     <button class="search-filter-btn" data-source="הארץ">הארץ <span class="filter-count"></span></button>
     <button class="search-filter-btn" data-source="כתובים">כתובים <span class="filter-count"></span></button>
   </div>
+  <div class="search-tag-filter">
+    <label for="filter-tag" class="search-filter-label">נושא:</label>
+    <select id="filter-tag" class="search-tag-select">
+      <option value="">כל הנושאים</option>
+      {% for tag in site.data.tags %}
+      <option value="{{ tag.slug }}">{{ tag.name }}</option>
+      {% endfor %}
+    </select>
+    <a href="{{ '/tags/' | relative_url }}" class="search-tags-link">כל התגיות ←</a>
+  </div>
   <div class="search-results"></div>
   <p class="search-no-results" style="display:none;">לא נמצאו תוצאות.</p>
 </div>
@@ -30,6 +40,7 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   const query = (params.get('q') || '').trim();
   const dateFilter = params.get('date') || '';
   const sourceFilter = params.get('source') || '';
+  const tagFilter = params.get('tag') || '';
 
   // Secret admin access
   if (query.toLowerCase() === 'admin') {
@@ -43,7 +54,21 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   const pageSearchInput = document.querySelector('.search-page-input');
   const datePicker = document.getElementById('filter-date');
   const filterBtns = document.querySelectorAll('.search-filter-btn');
+  const tagSelect = document.getElementById('filter-tag');
   const btnDatePage = document.getElementById('btn-date-page');
+
+  if (tagSelect && tagFilter) tagSelect.value = tagFilter;
+  if (tagSelect) {
+    tagSelect.addEventListener('change', function() {
+      var newParams = new URLSearchParams(window.location.search);
+      if (tagSelect.value) {
+        newParams.set('tag', tagSelect.value);
+      } else {
+        newParams.delete('tag');
+      }
+      window.location.search = newParams.toString();
+    });
+  }
 
   if (pageSearchInput && query) pageSearchInput.value = query;
   if (datePicker && dateFilter) datePicker.value = dateFilter;
@@ -80,6 +105,9 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
     var parts = dateFilter.split('-');
     var display = parts[2] + '.' + parts[1] + '.' + parts[0];
     queryDisplay.textContent = 'ידיעות מתאריך ' + display;
+  } else if (tagFilter && tagSelect) {
+    var selectedOption = tagSelect.querySelector('option[value="' + tagFilter + '"]');
+    if (selectedOption) queryDisplay.textContent = 'נושא: ' + selectedOption.textContent;
   }
 
   function highlightText(text, terms) {
@@ -143,6 +171,12 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
       });
 
       var results = baseResults;
+
+      if (tagFilter) {
+        results = results.filter(function(post) {
+          return post.tags && post.tags.includes(tagFilter);
+        });
+      }
 
       if (sourceFilter) {
         results = results.filter(function(post) {

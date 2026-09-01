@@ -24,6 +24,15 @@ layout: null
     <loc>{{ '/search' | absolute_url }}</loc>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>{{ '/tags/' | absolute_url }}</loc>
+    <priority>0.6</priority>
+  </url>
+  {% for tag in site.data.tags %}<url>
+    <loc>{{ '/tags/' | append: tag.slug | append: '/' | absolute_url }}</loc>
+    <priority>0.6</priority>
+  </url>
+  {% endfor %}
   {% for post in site.posts %}{% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}<url>
     <loc>{{ post.url | absolute_url }}</loc>
     <lastmod>{{ real_date_str }}T12:00:00+03:00</lastmod>

@@ -1,0 +1,23 @@
+---
+layout: default
+title: תגיות
+description: כל הנושאים והתגיות בארכיון "חדשות מלפני מאה" - עיינו בידיעות היסטוריות מסודרות לפי נושא.
+permalink: /tags/
+---
+<div class="tags-index">
+  <header class="tags-index-header">
+    <h1>תגיות</h1>
+    <p>עיינו בידיעות ההיסטוריות מסודרות לפי נושא.</p>
+  </header>
+
+  <div class="tags-index-grid">
+    {% for tag in site.data.tags %}
+    {% assign count = site.posts | where_exp: "post", "post.tags contains tag.slug" | size %}
+    <a href="{{ '/tags/' | append: tag.slug | append: '/' | relative_url }}" class="tag-index-card">
+      <h2>{{ tag.name }}</h2>
+      <p>{{ tag.description }}</p>
+      <span class="tag-index-count">{{ count }} ידיעות</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>

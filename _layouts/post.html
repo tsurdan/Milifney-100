@@ -63,6 +63,14 @@ layout: default
           {{ page.date | date: "%d.%m.%Y" }}
         </time>
       </div>
+      {% if page.tags.size > 0 %}
+      <div class="post-tags">
+        {% for tag_slug in page.tags %}
+        {% assign tag_info = site.data.tags | where: "slug", tag_slug | first %}
+        {% if tag_info %}<a href="{{ '/tags/' | append: tag_info.slug | append: '/' | relative_url }}" class="tag-chip">{{ tag_info.name }}</a>{% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
     </header>
 
     {% if page.image %}

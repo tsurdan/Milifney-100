@@ -10,7 +10,8 @@ layout: null
     "date_iso": "{{ post.date | date: '%Y-%m-%d' }}",
     "content": {{ post.content | strip_html | strip_newlines | truncate: 300 | jsonify }},
     "image": "{{ post.image | relative_url }}",
-    "image_alt": {{ post.image_alt | jsonify }}
+    "image_alt": {{ post.image_alt | jsonify }},
+    "tags": {{ post.tags | jsonify }}
   }{% unless forloop.last %},{% endunless %}
 {% endfor %}
 ]

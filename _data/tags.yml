@@ -1,0 +1,71 @@
+# Fixed tag vocabulary. Slugs are used in post front matter and URLs (/tags/<slug>/).
+# This is the single source of truth shared by the site (Liquid) and scripts/tag_posts.py.
+- slug: yishuv
+  name: יישוב הארץ
+  description: עלייה, התיישבות חקלאית ובניין הארץ בידי היישוב היהודי בפלשתינה (א"י).
+- slug: tel-aviv
+  name: תל אביב וערי הארץ
+  description: חדשות עירוניות מתל אביב, ירושלים, חיפה ויפו ועיריותיהן.
+- slug: jewish-arab-relations
+  name: יחסי יהודים-ערבים
+  description: עימותים, משא ומתן והתרחשויות סביב היחסים בין יהודים לערבים בארץ ישראל, ובהם הסכסוך סביב הכותל המערבי.
+- slug: british-mandate
+  name: המנדט הבריטי
+  description: מדיניות, פקודות ומינויים של ממשלת המנדט הבריטי בארץ ישראל.
+- slug: antisemitism
+  name: אנטישמיות
+  description: גילויי שנאת יהודים, פרעות והסתה אנטישמית ברחבי העולם.
+- slug: jewish-diaspora
+  name: יהדות התפוצות
+  description: חדשות מקהילות יהודיות ברחבי העולם - אירופה, ארצות הברית וארצות ערביות.
+- slug: religion
+  name: דת ומסורת
+  description: רבנים, בתי כנסת, הלכה, חגים ומחלוקות דתיות בקהילה היהודית.
+- slug: world-politics
+  name: פוליטיקה עולמית
+  description: דיפלומטיה בינלאומית, הסכמים ומדיניות ממשלות ברחבי העולם.
+- slug: monarchy
+  name: מלוכה
+  description: חדשות על מלכים, נסיכים ובתי מלוכה באירופה ובמזרח התיכון.
+- slug: revolts
+  name: מרידות
+  description: התקוממויות ומרידות, ובהן מרד הדרוזים בסוריה ומרד הריף במרוקו.
+- slug: military
+  name: צבא
+  description: פעולות צבא, לחימה וכוחות חימוש במדינות שונות.
+- slug: crime-justice
+  name: פשע ומשפט
+  description: פשעים, משפטים ופסקי דין מרחבי העולם.
+- slug: science-tech
+  name: מדע וטכנולוגיה
+  description: גילויים מדעיים, המצאות טכנולוגיות וחידושים בתחומי המדע.
+- slug: health
+  name: בריאות ומגפות
+  description: מחלות, מגפות ואירועי בריאות ציבורית.
+- slug: disasters
+  name: אסונות ותאונות
+  description: שריפות, שיטפונות, רעידות אדמה ותאונות.
+- slug: economy
+  name: כלכלה ומסחר
+  description: מטבע, מסחר, מיסים ואירועים כלכליים.
+- slug: culture-arts
+  name: תרבות ואמנות
+  description: תיאטרון, ספרות, אמנות ואירועי תרבות.
+- slug: sports
+  name: ספורט
+  description: תחרויות ואירועי ספורט מרחבי העולם.
+- slug: education
+  name: חינוך
+  description: בתי ספר, אוניברסיטאות ומדיניות חינוכית.
+- slug: women-society
+  name: נשים וחברה
+  description: מעמד האישה, אופנה ותמורות חברתיות.
+- slug: transportation
+  name: תחבורה ותשתיות
+  description: מסילות ברזל, נמלים ותשתיות תחבורה.
+- slug: curiosities
+  name: סקרנות ומוזרויות
+  description: סיפורים תמוהים ומוזרים במיוחד, ותופעות יוצאות דופן.
+- slug: press
+  name: עיתונות ותקשורת
+  description: חדשות על עיתונים, עיתונאים וחופש העיתונות.
