@@ -22,9 +22,15 @@
 - slug: economy
   name: כלכלה ומסחר
   description: מטבע, מסחר, מיסים ואירועים כלכליים.
+- slug: jerusalem
+  name: ירושלים
+  description: חדשות עירוניות מירושלים ועיריית העיר.
 - slug: tel-aviv
-  name: תל אביב וערי הארץ
-  description: חדשות עירוניות מתל אביב, ירושלים, חיפה ויפו ועיריותיהן.
+  name: תל אביב
+  description: חדשות עירוניות מתל אביב-יפו ועיריית העיר.
+- slug: haifa
+  name: חיפה
+  description: חדשות עירוניות מחיפה ועיריית העיר.
 - slug: antisemitism
   name: אנטישמיות
   description: גילויי שנאת יהודים, פרעות והסתה אנטישמית ברחבי העולם.
