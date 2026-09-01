@@ -534,8 +534,7 @@ time {
 .search-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
 .search-filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 .filter-count { font-size: 0.75rem; opacity: 0.8; }
-.search-filter-batch[hidden] { display: none; }
-.search-filter-batch:not([hidden]) { display: contents; }
+.search-filter-extra { display: none; }
 .search-filter-more-toggle {
   font-family: inherit; font-size: 0.78rem; padding: 0.3rem 0.6rem; border: none; background: none;
   color: var(--meta); cursor: pointer; text-decoration: underline;
@@ -728,13 +727,13 @@ time {
 
 /* ============ TAGS ============ */
 
-.post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; padding-top: 0.6rem; border-top: 1px solid var(--border); }
+.post-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-top: 0.75rem; }
 .tag-chip {
-  font-size: 0.78rem; padding: 0.25rem 0.75rem; border-radius: 1rem;
-  border: 1px solid var(--border); background: var(--card-bg); color: var(--accent);
+  font-size: 0.68rem; line-height: 1; padding: 0.3rem 0.6rem; border-radius: 1rem;
+  background: var(--bg); color: var(--meta);
   text-decoration: none; transition: all 0.15s ease;
 }
-.tag-chip:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tag-chip:hover { background: var(--accent); color: #fff; }
 
 .tags-index { max-width: var(--max-w); margin: 0 auto; padding: 2rem 1.25rem 3rem; }
 .tags-index-header { text-align: center; margin-bottom: 2rem; }

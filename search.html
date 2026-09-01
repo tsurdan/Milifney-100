@@ -23,22 +23,10 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   <div class="search-filter-group" id="filters-tag" data-param="tag">
     <span class="search-filter-label">נושא:</span>
     <button type="button" class="search-filter-btn active" data-value="">הכל <span class="filter-count"></span></button>
-    {% assign top_tags = site.data.tags | limit: 4 %}
-    {% assign more_tags = site.data.tags | offset: 4 %}
-    {% for tag in top_tags %}
-    <button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>
+    {% for tag in site.data.tags %}
+    <button type="button" class="search-filter-btn{% if forloop.index0 >= 4 %} search-filter-extra{% endif %}" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>
     {% endfor %}
-    {% assign batch1 = more_tags | slice: 0, 5 %}
-    {% assign batch2 = more_tags | slice: 5, 5 %}
-    {% assign batch3 = more_tags | slice: 10, 5 %}
-    {% assign batch4 = more_tags | slice: 15, 5 %}
-    {% assign batch5 = more_tags | slice: 20, 5 %}
-    {% if batch1.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch1 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
-    {% if batch2.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch2 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
-    {% if batch3.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch3 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
-    {% if batch4.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch4 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
-    {% if batch5.size > 0 %}<span class="search-filter-batch" hidden>{% for tag in batch5 %}<button type="button" class="search-filter-btn" data-value="{{ tag.slug }}">{{ tag.name }} <span class="filter-count"></span></button>{% endfor %}</span>{% endif %}
-    <button type="button" class="search-filter-more-toggle" id="btn-tags-more">הצג עוד נושאים ▾</button>
+    <button type="button" class="search-filter-more-toggle" id="btn-tags-more">הצג עוד נושאים</button>
   </div>
   <div class="search-results"></div>
   <p class="search-no-results" style="display:none;">לא נמצאו תוצאות.</p>
@@ -102,27 +90,34 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   var sourceGroup = initFilterGroup(document.getElementById('filters-source'));
   var tagGroup = initFilterGroup(document.getElementById('filters-tag'));
 
-  // "Show more topics" — reveals one batch of hidden tags at a time (rather than
-  // dumping the whole long tail at once), auto-revealing up to any pre-selected tag.
-  var tagBatches = Array.prototype.slice.call(document.querySelectorAll('#filters-tag .search-filter-batch'));
+  // "Show more topics" — reveals 5 more of the extra tags at a time, instead of
+  // dumping the whole long tail on page load.
+  var TAG_REVEAL_BATCH = 5;
+  var extraTagBtns = Array.prototype.slice.call(document.querySelectorAll('#filters-tag .search-filter-extra'));
   var moreBtn = document.getElementById('btn-tags-more');
-  if (moreBtn) {
-    function updateMoreBtn() {
-      var next = tagBatches.filter(function(b) { return b.hidden; })[0];
-      if (!next) { moreBtn.hidden = true; return; }
-      var count = next.querySelectorAll('.search-filter-btn').length;
-      moreBtn.hidden = false;
-      moreBtn.textContent = 'הצג עוד ' + count + ' נושאים ▾';
-    }
-    moreBtn.addEventListener('click', function() {
-      var next = tagBatches.filter(function(b) { return b.hidden; })[0];
-      if (next) next.hidden = false;
-      updateMoreBtn();
+  var revealedCount = 0;
+
+  function updateMoreBtn() {
+    var remaining = extraTagBtns.length - revealedCount;
+    if (remaining <= 0) { moreBtn.hidden = true; return; }
+    moreBtn.hidden = false;
+    moreBtn.textContent = 'הצג עוד ' + Math.min(TAG_REVEAL_BATCH, remaining) + ' נושאים';
+  }
+
+  function revealMoreTags() {
+    extraTagBtns.slice(revealedCount, revealedCount + TAG_REVEAL_BATCH).forEach(function(btn) {
+      btn.classList.remove('search-filter-extra');
     });
-    // Reveal batches in order until any pre-selected (URL) tag becomes visible
-    var activeBatchIndex = tagBatches.findIndex(function(b) { return b.querySelector('.search-filter-btn.active'); });
-    if (activeBatchIndex !== -1) {
-      for (var bi = 0; bi <= activeBatchIndex; bi++) { tagBatches[bi].hidden = false; }
+    revealedCount += TAG_REVEAL_BATCH;
+    updateMoreBtn();
+  }
+
+  if (moreBtn) {
+    moreBtn.addEventListener('click', revealMoreTags);
+    // Keep revealing batches until any pre-selected (URL) tag becomes visible
+    var activeExtraIndex = extraTagBtns.findIndex(function(b) { return b.classList.contains('active'); });
+    while (activeExtraIndex !== -1 && activeExtraIndex >= revealedCount) {
+      revealMoreTags();
     }
     updateMoreBtn();
   }
