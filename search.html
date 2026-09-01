@@ -7,6 +7,9 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   <form class="search-page-form" action="{{ '/search' | relative_url }}" method="get">
     <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-page-input" autocomplete="off">
     <button type="submit" class="search-page-submit">חפש</button>
+    <button type="button" class="panel-date-btn" id="btn-date-page" aria-label="בחר תאריך" title="בחר תאריך">
+      <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
   </form>
   <p class="search-query-display"></p>
   <div class="search-source-filters">
@@ -40,9 +43,15 @@ description: חפשו בארכיון הידיעות של חדשות מלפני �
   const pageSearchInput = document.querySelector('.search-page-input');
   const datePicker = document.getElementById('filter-date');
   const filterBtns = document.querySelectorAll('.search-filter-btn');
+  const btnDatePage = document.getElementById('btn-date-page');
 
   if (pageSearchInput && query) pageSearchInput.value = query;
   if (datePicker && dateFilter) datePicker.value = dateFilter;
+  if (btnDatePage) {
+    btnDatePage.addEventListener('click', function(e) {
+      if (window.openDatePicker) window.openDatePicker(e);
+    });
+  }
 
   // Activate the matching source filter button
   if (sourceFilter) {

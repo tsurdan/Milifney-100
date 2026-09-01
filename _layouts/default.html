@@ -96,9 +96,9 @@
         <button class="navbar-btn" id="btn-search" aria-label="חיפוש">
           <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
-        <button class="navbar-btn" id="btn-date" aria-label="בחר תאריך">
-          <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
+        <a class="navbar-btn" href="{{ '/about' | relative_url }}" aria-label="אודות המיזם" title="אודות המיזם">
+          <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></svg>
+        </a>
       </div>
       <!-- Mobile three-dots menu -->
       <div class="navbar-mobile-menu">
@@ -108,7 +108,6 @@
         <div class="mobile-menu-dropdown" id="mobile-menu-dropdown" hidden>
           <a href="{{ '/popular' | relative_url }}" class="mobile-menu-item">הנקראים ביותר</a>
           <button class="mobile-menu-item" id="btn-search-mobile">חיפוש</button>
-          <button class="mobile-menu-item" id="btn-date-mobile">בחר תאריך</button>
           <a href="{{ '/about' | relative_url }}" class="mobile-menu-item">אודות המיזם</a>
         </div>
       </div>
@@ -124,22 +123,20 @@
         </button>
       </div>
       <a href="{{ '/support' | relative_url }}" class="navbar-support-link">לתמיכה במיזם</a>
-      <a class="navbar-btn navbar-about-link" href="{{ '/about' | relative_url }}" aria-label="אודות המיזם" title="אודות המיזם">
-        <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></svg>
-      </a>
     </div>
-    <!-- Search overlay -->
+    <!-- Search overlay (includes date-jump) -->
     <div class="navbar-panel" id="panel-search" hidden>
       <form class="panel-search-form" action="{{ '/search' | relative_url }}" method="get">
         <input type="search" name="q" placeholder="חיפוש בידיעות..." class="panel-search-input" autocomplete="off">
         <button type="submit" class="panel-search-submit">חפש</button>
+        <button type="button" class="panel-date-btn" id="btn-date" aria-label="בחר תאריך" title="בחר תאריך">
+          <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <input type="date" id="filter-date" class="hidden-date-input">
         <button type="button" class="panel-close" data-panel="panel-search">✕</button>
       </form>
     </div>
-    <!-- Date picker overlay -->
-    <div class="navbar-panel" id="panel-date" hidden></div>
   </nav>
-  <input type="date" id="filter-date" class="hidden-date-input">
 
   <main>
     {{ content }}
@@ -170,38 +167,24 @@
   <script data-goatcounter="https://milifney100.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
   <script>
-    // Navbar panels (search + date picker)
+    // Navbar search panel (includes date-jump)
     (function() {
       var btnSearch = document.getElementById('btn-search');
       var btnDate = document.getElementById('btn-date');
       var panelSearch = document.getElementById('panel-search');
-      var panelDate = document.getElementById('panel-date');
       var dp = document.getElementById('filter-date');
 
       function togglePanel(panel) {
         var isOpen = !panel.hidden;
-        // close all
-        panelSearch.hidden = true;
-        panelDate.hidden = true;
+        panel.hidden = !panel.hidden;
         if (!isOpen) {
-          panel.hidden = false;
-          var input = panel.querySelector('input');
+          var input = panel.querySelector('.panel-search-input');
           if (input) input.focus();
         }
       }
 
-      // Initialize date picker to -100 years from today
-      var now = new Date();
-      var y = now.getFullYear() - 100;
-      var m = String(now.getMonth() + 1).padStart(2, '0');
-      var d = String(now.getDate()).padStart(2, '0');
-      dp.value = y + '-' + m + '-' + d;
-      dp.max = y + '-12-31';
-
-      btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
-      btnDate.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+      function openDatePicker(e) {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
         dp.style.pointerEvents = 'auto';
         dp.focus();
         if (typeof dp.showPicker === 'function') {
@@ -209,7 +192,19 @@
         } else {
           dp.click();
         }
-      });
+      }
+      window.openDatePicker = openDatePicker;
+
+      // Default the date picker to -100 years from today, unless a date was already prefilled (e.g. from ?date=)
+      var now = new Date();
+      var y = now.getFullYear() - 100;
+      var m = String(now.getMonth() + 1).padStart(2, '0');
+      var d = String(now.getDate()).padStart(2, '0');
+      if (!dp.value) dp.value = y + '-' + m + '-' + d;
+      dp.max = y + '-12-31';
+
+      btnSearch.addEventListener('click', function() { togglePanel(panelSearch); });
+      btnDate.addEventListener('click', openDatePicker);
 
       dp.addEventListener('change', function() {
         if (this.value) {
@@ -228,7 +223,6 @@
       var mobileMenuBtn = document.getElementById('btn-mobile-menu');
       var mobileDropdown = document.getElementById('mobile-menu-dropdown');
       var btnSearchMobile = document.getElementById('btn-search-mobile');
-      var btnDateMobile = document.getElementById('btn-date-mobile');
       if (mobileMenuBtn && mobileDropdown) {
         mobileMenuBtn.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -246,20 +240,6 @@
           btnSearchMobile.addEventListener('click', function() {
             mobileDropdown.hidden = true;
             togglePanel(panelSearch);
-          });
-        }
-        if (btnDateMobile) {
-          btnDateMobile.addEventListener('click', function(e) {
-            mobileDropdown.hidden = true;
-            e.preventDefault();
-            e.stopPropagation();
-            dp.style.pointerEvents = 'auto';
-            dp.focus();
-            if (typeof dp.showPicker === 'function') {
-              try { dp.showPicker(); } catch(err) { dp.click(); }
-            } else {
-              dp.click();
-            }
           });
         }
       }

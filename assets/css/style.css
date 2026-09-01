@@ -486,52 +486,19 @@ time {
   padding: 0.4rem;
 }
 .panel-close:hover { color: var(--text); }
-
-.panel-date-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-.panel-date-label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.85rem;
-  color: var(--meta);
-  white-space: nowrap;
-}
-.panel-date-display {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-  min-width: 5rem;
-  direction: ltr;
-  text-align: center;
-}
-.panel-date-input {
-  padding: 0.55rem 0.8rem;
+.panel-date-btn {
+  background: none;
   border: 1px solid var(--border);
   border-radius: 4px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.9rem;
-  background: var(--bg);
-  direction: ltr;
-}
-.panel-date-input:focus { outline: none; border-color: var(--accent); }
-.panel-date-go {
-  padding: 0.55rem 1rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
+  color: var(--meta);
   cursor: pointer;
-  white-space: nowrap;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, border-color 0.2s;
 }
-.panel-date-go:hover { opacity: 0.9; }
+.panel-date-btn:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ============ SEARCH RESULTS PAGE ============ */
 
@@ -815,7 +782,6 @@ time {
   .navbar-tagline { display: none; }
   .navbar-logo { width: 32px; height: 32px; flex-shrink: 0; }
   .navbar-site-actions { display: none; }
-  .navbar-about-link { display: none; }
   .navbar-mobile-menu { display: block; flex-shrink: 0; }
   .navbar-inner { gap: 0.35rem; padding: 0.6rem 0.75rem; }
   .navbar-btn { padding: 0.35rem; }
@@ -826,5 +792,4 @@ time {
   .search-result-link { grid-template-columns: 80px 1fr; }
   .search-result-img { width: 80px; height: 60px; }
   .panel-search-form { flex-wrap: wrap; }
-  .panel-date-inner { flex-wrap: wrap; }
 }
