@@ -37,6 +37,9 @@
 - slug: curiosities
   name: סקרנות ומוזרויות
   description: סיפורים תמוהים ומוזרים במיוחד, ותופעות יוצאות דופן.
+- slug: jerusalem
+  name: ירושלים
+  description: חדשות עירוניות מירושלים ועיריית העיר.
 - slug: transportation
   name: תחבורה ותשתיות
   description: מסילות ברזל, נמלים ותשתיות תחבורה.
@@ -67,12 +70,9 @@
 - slug: women-society
   name: נשים וחברה
   description: מעמד האישה, אופנה ותמורות חברתיות.
-- slug: jerusalem
-  name: ירושלים
-  description: חדשות עירוניות מירושלים ועיריית העיר.
-- slug: sports
-  name: ספורט
-  description: תחרויות ואירועי ספורט מרחבי העולם.
 - slug: haifa
   name: חיפה
   description: חדשות עירוניות מחיפה ועיריית העיר.
+- slug: sports
+  name: ספורט
+  description: תחרויות ואירועי ספורט מרחבי העולם.
