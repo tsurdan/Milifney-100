@@ -22,15 +22,6 @@
 - slug: economy
   name: כלכלה ומסחר
   description: מטבע, מסחר, מיסים ואירועים כלכליים.
-- slug: jerusalem
-  name: ירושלים
-  description: חדשות עירוניות מירושלים ועיריית העיר.
-- slug: tel-aviv
-  name: תל אביב
-  description: חדשות עירוניות מתל אביב-יפו ועיריית העיר.
-- slug: haifa
-  name: חיפה
-  description: חדשות עירוניות מחיפה ועיריית העיר.
 - slug: antisemitism
   name: אנטישמיות
   description: גילויי שנאת יהודים, פרעות והסתה אנטישמית ברחבי העולם.
@@ -55,6 +46,9 @@
 - slug: science-tech
   name: מדע וטכנולוגיה
   description: גילויים מדעיים, המצאות טכנולוגיות וחידושים בתחומי המדע.
+- slug: tel-aviv
+  name: תל אביב
+  description: חדשות עירוניות מתל אביב-יפו ועיריית העיר.
 - slug: education
   name: חינוך
   description: בתי ספר, אוניברסיטאות ומדיניות חינוכית.
@@ -73,6 +67,12 @@
 - slug: women-society
   name: נשים וחברה
   description: מעמד האישה, אופנה ותמורות חברתיות.
+- slug: jerusalem
+  name: ירושלים
+  description: חדשות עירוניות מירושלים ועיריית העיר.
 - slug: sports
   name: ספורט
   description: תחרויות ואירועי ספורט מרחבי העולם.
+- slug: haifa
+  name: חיפה
+  description: חדשות עירוניות מחיפה ועיריית העיר.
