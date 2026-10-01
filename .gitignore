@@ -2,3 +2,5 @@ node_modules/
 .vscode/
 _site/
 __pycache__/
+scripts/_preview/
+
