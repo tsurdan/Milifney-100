@@ -12,10 +12,12 @@ them itself rather than accepting a file upload — generate_instagram_cards.py
 commits the branded card before this script runs, so the URL is already live.
 """
 
+import datetime
 import os
 from pathlib import Path
 
 import requests
+import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
@@ -44,32 +46,21 @@ def save_last_posted_timestamp(filename):
 def parse_post(filepath):
     """Extract title, date, image, image_alt, tweet_id, and body from a post file."""
     content = filepath.read_text(encoding="utf-8")
-    lines = content.split("\n")
+    _, front_matter, body_text = content.split("---", 2)
+    meta = yaml.safe_load(front_matter) or {}
 
-    meta = {}
-    in_front = False
-    body_start = 0
-    for i, line in enumerate(lines):
-        if line.strip() == "---":
-            if not in_front:
-                in_front = True
-            else:
-                body_start = i + 1
-                break
-        elif in_front:
-            if ":" in line:
-                key, val = line.split(":", 1)
-                meta[key.strip()] = val.strip().strip('"').strip("'").replace('\\"', '"')
+    date_val = meta.get("date", "")
+    date_str = date_val.isoformat() if isinstance(date_val, (datetime.datetime, datetime.date)) else str(date_val)
 
-    body_lines = lines[body_start:]
+    body_lines = body_text.split("\n")
     body_text = " ".join(l.strip() for l in body_lines if l.strip() and not l.startswith("!["))
 
     return {
-        "title": meta.get("title", ""),
-        "date": meta.get("date", ""),
-        "image": meta.get("image", ""),
-        "image_alt": meta.get("image_alt", ""),
-        "tweet_id": meta.get("tweet_id", ""),
+        "title": str(meta.get("title", "")),
+        "date": date_str,
+        "image": meta.get("image", "") or "",
+        "image_alt": meta.get("image_alt", "") or "",
+        "tweet_id": str(meta.get("tweet_id", "")),
         "body": body_text,
     }
 
@@ -89,21 +80,19 @@ def build_post_url(post_data, filepath):
 
 
 def format_facebook_message(post_data, url):
-    """Plain-text Facebook caption, with a site link (no HTML support)."""
+    """Plain-text Facebook caption with a site link — the full image credit
+    is shown on the site itself, not repeated inline here."""
     title = post_data["title"]
     body = post_data["body"]
-    image_alt = post_data.get("image_alt", "")
-    credit = f"\n\n📷 {image_alt}" if image_alt else ""
-    return f"{title}\n\n{body}{credit}\n\nקראו עוד באתר: {url}"
+    return f"{title}\n\n{body}\n\nקראו עוד באתר: {url}"
 
 
-def format_instagram_caption(post_data):
-    """Instagram caption (no clickable links — IG doesn't linkify captions)."""
+def format_instagram_caption(post_data, url):
+    """Instagram caption (no clickable links — IG doesn't linkify captions).
+    The site URL (with the full image credit) is included as plain text."""
     title = post_data["title"]
     body = post_data["body"]
-    image_alt = post_data.get("image_alt", "")
-    credit = f"\n\n📷 {image_alt}" if image_alt else ""
-    return f"{title}\n\n{body}{credit}\n\n{HASHTAGS}"
+    return f"{title}\n\n{body}\n\nקראו עוד באתר: {url}\n\n{HASHTAGS}"
 
 
 def main():
@@ -158,9 +147,10 @@ def main():
             "tweet_id": tweet_id,
             "post_url": url,
             "facebook_image_url": facebook_image_url,
+            "facebook_image_alt": post_data.get("image_alt", ""),
             "facebook_message": format_facebook_message(post_data, url),
             "instagram_image_url": instagram_image_url,
-            "instagram_caption": format_instagram_caption(post_data),
+            "instagram_caption": format_instagram_caption(post_data, url),
         }
 
         print(f"  Sending: {post_data['title']}")
