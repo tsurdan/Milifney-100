@@ -2,10 +2,10 @@
 """Generate a branded, professional-looking Instagram card from a post.
 
 Produces a 1080x1350 (4:5) JPEG styled like mainstream news Instagram
-accounts: the source photo fills the top ~60% (cropped, sharp, no overlay),
-below it a solid black band holds the bold wrapped headline in full-width
-accent-color bars, and the logo + site name sit at the very bottom —
-mirroring how outlets like N12 lay out their text-on-image posts.
+accounts: full-bleed source photo, gently darkened (gradient only, no blur)
+towards the bottom, with the bold wrapped headline in full-width accent-color
+bars and the logo + site name at the very bottom — mirroring how outlets like
+N12 lay out their text-on-image posts.
 
 Requires a Hebrew-capable TTF on the system (e.g. apt package
 `fonts-noto-core`, which ships Noto Sans Hebrew) — Pillow cannot fall back to
@@ -16,16 +16,21 @@ import glob
 from pathlib import Path
 
 from bidi.algorithm import get_display
-from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LOGO_PATH = REPO_ROOT / "assets" / "images" / "branding" / "avatar.jpg"
 
 CARD_SIZE = (1080, 1350)  # 4:5 — standard news-card ratio (Ynet/N12/Mako/CNN/BBC all use this for text-on-image posts)
-ACCENT = (139, 26, 26)        # --accent
+ACCENT = (222, 24, 24)        # vivid "fluorescent" red, like the reference news-card template
 WHITE = (255, 255, 255)
 
 FONT_SEARCH_DIRS = ["/usr/share/fonts", "/usr/local/share/fonts", str(Path.home() / ".fonts")]
+
+HEBREW_MONTHS = {
+    1: "בינואר", 2: "בפברואר", 3: "במרץ", 4: "באפריל", 5: "במאי", 6: "ביוני",
+    7: "ביולי", 8: "באוגוסט", 9: "בספטמבר", 10: "באוקטובר", 11: "בנובמבר", 12: "בדצמבר",
+}
 
 
 def _find_hebrew_font_files():
@@ -99,39 +104,30 @@ def paste_circular_logo(base, logo_path, diameter, center_x, center_y):
     base.paste(logo, (center_x - diameter // 2, center_y - diameter // 2), mask)
 
 
-def add_blurred_bottom_panel(base, height, blur_radius=24, transition=70, max_darken=190, curve=1.3):
-    """Blur the bottom `height` px of `base` with a soft transition at the top
-    (so it doesn't look like a hard seam against the sharp photo above), then
-    darken it with a gradient that deepens towards the bottom — not a flat
-    opaque stripe — for a moodier, more natural-looking backdrop."""
-    w, h = base.size
-    top = h - height
-    sharp_crop = base.crop((0, top, w, h)).convert("RGB")
-    blurred_crop = sharp_crop.filter(ImageFilter.GaussianBlur(blur_radius))
+def format_hebrew_date(dt):
+    """Format a date as '<day> ב<month> <year>' with Hebrew month name."""
+    return f"{dt.day} {HEBREW_MONTHS[dt.month]} {dt.year}"
 
-    blur_mask = Image.new("L", (1, height), 255)
-    for y in range(min(transition, height)):
-        blur_mask.putpixel((0, y), int(255 * (y / transition)))
-    blur_mask = blur_mask.resize((w, height))
-    blended = Image.composite(blurred_crop, sharp_crop, blur_mask).convert("RGBA")
 
-    darken_mask = Image.new("L", (1, height), 0)
+def add_bottom_gradient(base, height, max_opacity=255, curve=0.6):
+    """Darken the bottom `height` px of `base` with an eased gradient (no
+    blur) — deepening towards the bottom, close to black, so the headline
+    pops clearly against the photo."""
+    gradient = Image.new("L", (1, height), 0)
     for y in range(height):
-        darken_mask.putpixel((0, y), int(max_darken * (y / height) ** curve))
-    darken_mask = darken_mask.resize((w, height))
-    dark = Image.new("RGBA", (w, height), (0, 0, 0, 255))
-    blended.paste(dark, (0, 0), darken_mask)
-
-    base.paste(blended, (0, top))
+        gradient.putpixel((0, y), int(max_opacity * (y / height) ** curve))
+    gradient = gradient.resize((base.width, height))
+    black = Image.new("RGBA", (base.width, height), (0, 0, 0, 255))
+    base.paste(black, (0, base.height - height), gradient)
 
 
-def generate_card(source_image_path, title):
+def generate_card(source_image_path, title, historical_date):
     """Build the branded Instagram card. Returns a PIL Image (RGB)."""
     photo = ImageOps.exif_transpose(Image.open(source_image_path)).convert("RGB")
     base = ImageOps.fit(photo, CARD_SIZE, Image.LANCZOS).convert("RGBA")
 
-    # --- Pre-measure the headline (marker-highlight boxes) + bottom logo
-    # row, so the blurred panel is sized to exactly fit them ---
+    # --- Pre-measure the headline + bottom logo row first, so the gradient
+    # and content block are sized to fit them ---
     title = title.rstrip(": ")
     text_side_pad = 60
     measure_draw = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
@@ -143,15 +139,15 @@ def generate_card(source_image_path, title):
     highlight_h = (h_ascent + h_descent) + 2 * highlight_v_pad
     total_text_h = highlight_h * len(headline_lines) + line_gap * (len(headline_lines) - 1)
 
+    gap_top, gap_after_bars, bottom_margin = 36, 28, 36
     logo_diameter = 56
-    gap_top, gap_after_headline, bottom_margin = 70, 30, 36
-    panel_height = gap_top + total_text_h + gap_after_headline + logo_diameter + bottom_margin
-    add_blurred_bottom_panel(base, panel_height)
+    content_height = gap_top + total_text_h + gap_after_bars + logo_diameter + bottom_margin
+    add_bottom_gradient(base, content_height + 90)  # extra room above so the fade feels gradual
     draw = ImageDraw.Draw(base)
 
     # --- Headline: big, bold, centered — each line "marker-highlighted" in
-    # semi-transparent red, positioned near the top of the blurred panel ---
-    y = CARD_SIZE[1] - panel_height + gap_top
+    # semi-transparent accent color, sized to that line's own text width ---
+    y = CARD_SIZE[1] - content_height + gap_top
     highlight_pad_x = 20
     highlight_overlay = Image.new("RGBA", base.size, (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(highlight_overlay)
@@ -161,7 +157,7 @@ def generate_card(source_image_path, title):
         w = draw.textlength(visual, font=headline_font)
         box_left = (CARD_SIZE[0] - w) / 2 - highlight_pad_x
         box_right = (CARD_SIZE[0] + w) / 2 + highlight_pad_x
-        overlay_draw.rectangle((box_left, y, box_right, y + highlight_h), fill=(*ACCENT, 210))
+        overlay_draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=12, fill=(*ACCENT, 220))
         line_ys.append((y, w, visual))
         y += highlight_h + line_gap
     base.alpha_composite(highlight_overlay)
@@ -169,7 +165,7 @@ def generate_card(source_image_path, title):
     for y, w, visual in line_ys:
         draw.text(((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, font=headline_font, fill=WHITE)
 
-    # --- Logo + site name, bottom-right in the blurred panel ---
+    # --- Logo + site name, bottom-right over the gradient ---
     logo_cy = CARD_SIZE[1] - bottom_margin - logo_diameter // 2
     logo_cx = CARD_SIZE[0] - bottom_margin - logo_diameter // 2
     paste_circular_logo(base, LOGO_PATH, logo_diameter, logo_cx, logo_cy)
@@ -183,9 +179,23 @@ def generate_card(source_image_path, title):
     draw.text((brand_x_right - brand_w, logo_cy - (b_ascent + b_descent) // 2),
               brand_text, font=brand_font, fill=WHITE)
 
+    # --- Date kicker pill, bottom-left over the gradient ---
+    kicker_font = load_hebrew_font(20, bold=True)
+    kicker_text = get_display(format_hebrew_date(historical_date))
+    kicker_w = draw.textlength(kicker_text, font=kicker_font)
+    k_pad_x, k_pad_y = 14, 7
+    kicker_h = draw.textbbox((0, 0), kicker_text, font=kicker_font)[3] + 2 * k_pad_y
+    pill_left = bottom_margin
+    pill_right = pill_left + kicker_w + 2 * k_pad_x
+    pill_top = logo_cy - kicker_h / 2
+    pill_bottom = pill_top + kicker_h
+    draw.rounded_rectangle((pill_left, pill_top, pill_right, pill_bottom), radius=8, fill=ACCENT)
+    draw.text((pill_left + k_pad_x, pill_top + k_pad_y), kicker_text, font=kicker_font, fill=WHITE)
+
     return base.convert("RGB")
 
-def generate_text_card(title):
+
+def generate_text_card(title, historical_date):
     """Build a card for text-only posts (no tweet image): black background,
     white masthead, and the headline "marker-highlighted" — white boxes
     behind bold accent-red text — echoing the photo-card's highlight style."""
@@ -237,7 +247,7 @@ def generate_text_card(title):
         w = draw.textlength(visual, font=headline_font)
         box_left = (CARD_SIZE[0] - w) / 2 - highlight_pad_x
         box_right = (CARD_SIZE[0] + w) / 2 + highlight_pad_x
-        draw.rectangle((box_left, y, box_right, y + highlight_h), fill=WHITE)
+        draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=12, fill=WHITE)
         line_ys.append((y, w, visual))
         y += highlight_h + line_gap
     for y, w, visual in line_ys:
@@ -245,7 +255,7 @@ def generate_text_card(title):
 
     # --- Footer ---
     footer_font = load_hebrew_font(24, bold=True)
-    footer_text = "milifney100.com"
+    footer_text = get_display(f"{format_hebrew_date(historical_date)}  •  milifney100.com")
     footer_w = draw.textlength(footer_text, font=footer_font)
     draw.text(((CARD_SIZE[0] - footer_w) / 2, CARD_SIZE[1] - 70),
               footer_text, font=footer_font, fill=(170, 170, 170))

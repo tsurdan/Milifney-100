@@ -6,6 +6,7 @@ pushes these before post_instagram.py runs, since Instagram's API needs a
 public image URL (raw.githubusercontent.com) rather than a direct file upload.
 """
 
+from datetime import datetime
 from pathlib import Path
 
 from instagram_card import generate_card, generate_text_card, parse_post_front_matter
@@ -46,7 +47,8 @@ def main():
 
         if not post["image"]:
             print(f"  Generating text-only card for: {post['title']}")
-            card = generate_text_card(post["title"])
+            historical_date = datetime.fromisoformat(post["date"])
+            card = generate_text_card(post["title"], historical_date)
             card.save(card_path, "JPEG", quality=90)
             created += 1
             continue
@@ -57,7 +59,8 @@ def main():
             continue
 
         print(f"  Generating card for: {post['title']}")
-        card = generate_card(source_path, post["title"])
+        historical_date = datetime.fromisoformat(post["date"])
+        card = generate_card(source_path, post["title"], historical_date)
         card.save(card_path, "JPEG", quality=90)
         created += 1
 

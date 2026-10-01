@@ -39,7 +39,7 @@ def save_last_posted_timestamp(filename):
 
 
 def parse_post(filepath):
-    """Extract title, tweet_id, and excerpt from a post file."""
+    """Extract title, tweet_id, image_alt, and excerpt from a post file."""
     content = filepath.read_text(encoding="utf-8")
     lines = content.split("\n")
 
@@ -64,6 +64,7 @@ def parse_post(filepath):
     return {
         "title": meta.get("title", ""),
         "tweet_id": meta.get("tweet_id", ""),
+        "image_alt": meta.get("image_alt", ""),
         "body": body_text,
     }
 
@@ -72,7 +73,9 @@ def format_caption(post_data):
     """Format the Instagram caption (no clickable links — IG doesn't linkify captions)."""
     title = post_data["title"]
     body = post_data["body"]
-    return f"{title}\n\n{body}\n\n{HASHTAGS}"
+    image_alt = post_data.get("image_alt", "")
+    credit = f"\n\n📷 {image_alt}" if image_alt else ""
+    return f"{title}\n\n{body}{credit}\n\n{HASHTAGS}"
 
 
 def post_to_instagram(image_url, caption):

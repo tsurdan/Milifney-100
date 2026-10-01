@@ -12,6 +12,7 @@ back to a system font that supports Hebrew, purely for local previewing.
 """
 
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -60,7 +61,7 @@ def main():
 
         if not post["image"]:
             print(f"  Rendering text-only card: {post['title']}")
-            card = ic.generate_text_card(post["title"])
+            card = ic.generate_text_card(post["title"], datetime.fromisoformat(post["date"]))
             card.save(out_path, "JPEG", quality=92)
             generated += 1
             continue
@@ -71,7 +72,7 @@ def main():
             continue
 
         print(f"  Rendering: {post['title']}")
-        card = ic.generate_card(source_path, post["title"])
+        card = ic.generate_card(source_path, post["title"], datetime.fromisoformat(post["date"]))
         card.save(out_path, "JPEG", quality=92)
         generated += 1
 
