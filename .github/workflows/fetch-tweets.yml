@@ -2,7 +2,7 @@ name: Fetch Tweets
 
 on:
   schedule:
-    - cron: '0 */1 * * *'   # Every 1 hour
+    - cron: '*/15 * * * *'  # Every 15 minutes
   workflow_dispatch:          # Manual trigger from GitHub UI
 
 permissions:
