@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Generate branded Instagram card images for posts not yet posted to Instagram.
+"""Generate branded Instagram card images for posts not yet posted.
 
 Writes JPGs into assets/images/instagram-cards/. The workflow commits and
-pushes these before post_instagram.py runs, since Instagram's API needs a
-public image URL (raw.githubusercontent.com) rather than a direct file upload.
+pushes these before post_via_make.py runs, since both Instagram (direct Graph
+API) and the Make.com webhook route need a public image URL
+(raw.githubusercontent.com) rather than a direct file upload.
 """
 
 from datetime import datetime
@@ -13,7 +14,7 @@ from instagram_card import generate_card, generate_text_card, parse_post_front_m
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
-STATE_FILE = REPO_ROOT / "scripts" / ".last_instagram_post"
+STATE_FILE = REPO_ROOT / "scripts" / ".last_make_post"
 CARDS_DIR = REPO_ROOT / "assets" / "images" / "instagram-cards"
 
 

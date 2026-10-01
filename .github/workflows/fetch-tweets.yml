@@ -55,15 +55,6 @@ jobs:
           git add scripts/.last_telegram_post
           git diff --staged --quiet || git commit -m "Update Telegram state" && git push
 
-      - name: Post new articles to Facebook
-        env:
-          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
-          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
-        run: |
-          python scripts/post_facebook.py
-          git add scripts/.last_facebook_post
-          git diff --staged --quiet || git commit -m "Update Facebook state" && git push
-
       - name: Generate Instagram card images
         run: python scripts/generate_instagram_cards.py
 
@@ -72,11 +63,11 @@ jobs:
           git add assets/images/instagram-cards
           git diff --staged --quiet || git commit -m "Add Instagram card(s)" && git push
 
-      - name: Post new articles to Instagram
+      - name: Post new articles to Facebook + Instagram (via Make.com)
         env:
-          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
-          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
+          MAKE_API_KEY: ${{ secrets.MAKE_API_KEY }}
         run: |
-          python scripts/post_instagram.py
-          git add scripts/.last_instagram_post
-          git diff --staged --quiet || git commit -m "Update Instagram state" && git push
+          python scripts/post_via_make.py
+          git add scripts/.last_make_post
+          git diff --staged --quiet || git commit -m "Update Make.com posting state" && git push
