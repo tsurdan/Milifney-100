@@ -109,13 +109,19 @@ def format_hebrew_date(dt):
     return f"{dt.day} {HEBREW_MONTHS[dt.month]} {dt.year}"
 
 
-def add_bottom_gradient(base, height, max_opacity=255, curve=0.6):
+def add_bottom_gradient(base, height, max_opacity=255, curve=0.45, soft_start=0.32):
     """Darken the bottom `height` px of `base` with an eased gradient (no
     blur) — deepening towards the bottom, close to black, so the headline
-    pops clearly against the photo."""
+    pops clearly against the photo. `soft_start` smooths out the very top of
+    the region so the darkening fades in gently instead of starting abruptly."""
     gradient = Image.new("L", (1, height), 0)
     for y in range(height):
-        gradient.putpixel((0, y), int(max_opacity * (y / height) ** curve))
+        t = y / height
+        value = t ** curve
+        if soft_start > 0:
+            ramp = min(1.0, t / soft_start)
+            value *= ramp * ramp * (3 - 2 * ramp)  # smoothstep ease-in
+        gradient.putpixel((0, y), int(max_opacity * value))
     gradient = gradient.resize((base.width, height))
     black = Image.new("RGBA", (base.width, height), (0, 0, 0, 255))
     base.paste(black, (0, base.height - height), gradient)
@@ -126,8 +132,8 @@ def generate_card(source_image_path, title, historical_date):
     photo = ImageOps.exif_transpose(Image.open(source_image_path)).convert("RGB")
     base = ImageOps.fit(photo, CARD_SIZE, Image.LANCZOS).convert("RGBA")
 
-    # --- Pre-measure the headline + bottom logo row first, so the gradient
-    # and content block are sized to fit them ---
+    # --- Pre-measure the headline + centered logo/name/date stack first, so
+    # the gradient and content block are sized to fit them ---
     title = title.rstrip(": ")
     text_side_pad = 60
     measure_draw = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
@@ -139,15 +145,46 @@ def generate_card(source_image_path, title, historical_date):
     highlight_h = (h_ascent + h_descent) + 2 * highlight_v_pad
     total_text_h = highlight_h * len(headline_lines) + line_gap * (len(headline_lines) - 1)
 
-    gap_top, gap_after_bars, bottom_margin = 36, 28, 36
-    logo_diameter = 56
-    content_height = gap_top + total_text_h + gap_after_bars + logo_diameter + bottom_margin
-    add_bottom_gradient(base, content_height + 90)  # extra room above so the fade feels gradual
+    logo_diameter = 68
+    brand_font = load_hebrew_font(28, bold=True)
+    brand_text = get_display("חדשות מלפני מאה")
+    b_ascent, b_descent = brand_font.getmetrics()
+    brand_h = b_ascent + b_descent
+    kicker_font = load_hebrew_font(22, bold=True)
+    kicker_text = get_display(format_hebrew_date(historical_date))
+    k_ascent, k_descent = kicker_font.getmetrics()
+    kicker_h = k_ascent + k_descent
+
+    gap_top, gap_logo_brand, gap_brand_headline, gap_headline_date, bottom_margin = 40, 16, 30, 24, 40
+    stack_h = logo_diameter + gap_logo_brand + brand_h
+    content_height = gap_top + stack_h + gap_brand_headline + total_text_h + gap_headline_date + kicker_h + bottom_margin
+    add_bottom_gradient(base, content_height + 130)  # extra room above so the fade feels gradual
     draw = ImageDraw.Draw(base)
+
+    # --- Logo + site name, centered, above the headline ---
+    block_top = CARD_SIZE[1] - content_height + gap_top
+    logo_cx = CARD_SIZE[0] // 2
+    logo_cy = block_top + logo_diameter // 2
+    paste_circular_logo(base, LOGO_PATH, logo_diameter, logo_cx, logo_cy)
+    draw = ImageDraw.Draw(base)
+    draw.ellipse(
+        (logo_cx - logo_diameter // 2, logo_cy - logo_diameter // 2,
+         logo_cx + logo_diameter // 2, logo_cy + logo_diameter // 2),
+        outline=WHITE, width=4,
+    )
+
+    # --- Divider line flanking the logo, like a classic masthead rule ---
+    rule_gap = 24
+    draw.line((text_side_pad, logo_cy, logo_cx - logo_diameter // 2 - rule_gap, logo_cy), fill=WHITE, width=2)
+    draw.line((logo_cx + logo_diameter // 2 + rule_gap, logo_cy, CARD_SIZE[0] - text_side_pad, logo_cy), fill=WHITE, width=2)
+
+    brand_w = draw.textlength(brand_text, font=brand_font)
+    brand_y = logo_cy + logo_diameter // 2 + gap_logo_brand
+    draw.text(((CARD_SIZE[0] - brand_w) / 2, brand_y), brand_text, font=brand_font, fill=WHITE)
 
     # --- Headline: big, bold, centered — each line "marker-highlighted" in
     # semi-transparent accent color, sized to that line's own text width ---
-    y = CARD_SIZE[1] - content_height + gap_top
+    y = brand_y + brand_h + gap_brand_headline
     highlight_pad_x = 20
     highlight_overlay = Image.new("RGBA", base.size, (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(highlight_overlay)
@@ -165,32 +202,10 @@ def generate_card(source_image_path, title, historical_date):
     for y, w, visual in line_ys:
         draw.text(((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, font=headline_font, fill=WHITE)
 
-    # --- Logo + site name, bottom-right over the gradient ---
-    logo_cy = CARD_SIZE[1] - bottom_margin - logo_diameter // 2
-    logo_cx = CARD_SIZE[0] - bottom_margin - logo_diameter // 2
-    paste_circular_logo(base, LOGO_PATH, logo_diameter, logo_cx, logo_cy)
-    draw = ImageDraw.Draw(base)
-
-    brand_font = load_hebrew_font(28, bold=True)
-    brand_text = get_display("חדשות מלפני מאה")
-    brand_w = draw.textlength(brand_text, font=brand_font)
-    b_ascent, b_descent = brand_font.getmetrics()
-    brand_x_right = logo_cx - logo_diameter // 2 - 14
-    draw.text((brand_x_right - brand_w, logo_cy - (b_ascent + b_descent) // 2),
-              brand_text, font=brand_font, fill=WHITE)
-
-    # --- Date kicker pill, bottom-left over the gradient ---
-    kicker_font = load_hebrew_font(20, bold=True)
-    kicker_text = get_display(format_hebrew_date(historical_date))
+    # --- Date, centered, below the headline ---
     kicker_w = draw.textlength(kicker_text, font=kicker_font)
-    k_pad_x, k_pad_y = 14, 7
-    kicker_h = draw.textbbox((0, 0), kicker_text, font=kicker_font)[3] + 2 * k_pad_y
-    pill_left = bottom_margin
-    pill_right = pill_left + kicker_w + 2 * k_pad_x
-    pill_top = logo_cy - kicker_h / 2
-    pill_bottom = pill_top + kicker_h
-    draw.rounded_rectangle((pill_left, pill_top, pill_right, pill_bottom), radius=8, fill=ACCENT)
-    draw.text((pill_left + k_pad_x, pill_top + k_pad_y), kicker_text, font=kicker_font, fill=WHITE)
+    kicker_y = line_ys[-1][0] + highlight_h + gap_headline_date
+    draw.text(((CARD_SIZE[0] - kicker_w) / 2, kicker_y), kicker_text, font=kicker_font, fill=(220, 220, 220))
 
     return base.convert("RGB")
 
