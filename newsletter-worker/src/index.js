@@ -6,7 +6,15 @@
  *   POST /subscribe       - Add email to newsletter list
  *   POST /unsubscribe     - Remove email from list
  *   POST /send-newsletter - Admin: send newsletter to all subscribers
+ *
+ * Also runs a Cron Trigger (see wrangler.toml [triggers]) that reliably
+ * dispatches the fetch-tweets.yml GitHub Actions workflow — GitHub's own
+ * `schedule:` trigger is best-effort and can be delayed for hours on
+ * free-tier/public repos, so this replaces it as the actual clock.
  */
+
+const GITHUB_REPO = 'tsurdan/Milifney-100';
+const GITHUB_WORKFLOW = 'fetch-tweets.yml';
 
 export default {
   async fetch(request, env) {
@@ -50,8 +58,33 @@ export default {
     } catch (err) {
       return jsonResponse({ error: 'Internal error' }, 500, corsHeaders);
     }
+  },
+
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(triggerGithubWorkflow(env));
   }
 };
+
+// ─── GitHub Actions trigger ────────────────────────────────────────────────────
+
+async function triggerGithubWorkflow(env) {
+  const resp = await fetch(
+    `https://api.github.com/repos/${GITHUB_REPO}/actions/workflows/${GITHUB_WORKFLOW}/dispatches`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_PAT}`,
+        'Accept': 'application/vnd.github+json',
+        'User-Agent': 'milifney100-cron-worker',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      body: JSON.stringify({ ref: 'main' }),
+    }
+  );
+  if (!resp.ok) {
+    console.error('Failed to trigger GitHub workflow:', resp.status, await resp.text());
+  }
+}
 
 // ─── Subscribe ─────────────────────────────────────────────────────────────────
 

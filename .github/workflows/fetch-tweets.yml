@@ -1,9 +1,11 @@
 name: Fetch Tweets
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'  # Every 15 minutes
-  workflow_dispatch:          # Manual trigger from GitHub UI
+  # GitHub's own `schedule:` trigger is best-effort and can be delayed for
+  # hours on free-tier/public repos — triggered reliably instead by a
+  # Cloudflare Worker Cron Trigger (see newsletter-worker/) calling this via
+  # workflow_dispatch every ~10 minutes.
+  workflow_dispatch:          # Manual trigger from GitHub UI / external cron
 
 permissions:
   contents: write
