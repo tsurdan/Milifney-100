@@ -65,6 +65,61 @@ def load_hebrew_font(size, bold=False):
     return font
 
 
+FALLBACK_FONT_PATHS = {
+    True: "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    False: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+}
+
+
+def load_fallback_font(size, bold=False):
+    """Font for glyphs the Hebrew font's subset doesn't cover — Noto Sans
+    Hebrew only ships ~149 Hebrew-script glyphs, no digits or Latin
+    punctuation. DejaVu Sans ships by default on Ubuntu/GitHub Actions; if
+    missing (e.g. local Windows previews), falls back to load_hebrew_font,
+    which already covers these characters there (e.g. Arial)."""
+    path = FALLBACK_FONT_PATHS[bold]
+    if not Path(path).exists():
+        return load_hebrew_font(size, bold=bold)
+    return ImageFont.truetype(path, size, layout_engine=ImageFont.Layout.BASIC)
+
+
+def _needs_fallback_font(ch):
+    """True for characters outside the Hebrew Unicode block — digits, Latin
+    punctuation, etc. — which the Hebrew font subset doesn't include."""
+    return ch != " " and not ("\u0590" <= ch <= "\u05FF")
+
+
+def _split_font_runs(text, main_font, fallback_font):
+    """Split (already bidi-reordered) text into consecutive runs paired with
+    the font that should render each one."""
+    runs = []
+    run, run_font = "", None
+    for ch in text:
+        font = fallback_font if _needs_fallback_font(ch) else main_font
+        if run and font is not run_font:
+            runs.append((run, run_font))
+            run = ""
+        run += ch
+        run_font = font
+    if run:
+        runs.append((run, run_font))
+    return runs
+
+
+def measure_mixed_text(draw, text, main_font, fallback_font):
+    """Total width of text if drawn with per-character font fallback."""
+    return sum(draw.textlength(s, font=f) for s, f in _split_font_runs(text, main_font, fallback_font))
+
+
+def draw_mixed_text(draw, xy, text, main_font, fallback_font, fill):
+    """Draw text left-to-right at xy, substituting fallback_font for glyphs
+    main_font doesn't cover (digits, Latin punctuation)."""
+    x, y = xy
+    for s, f in _split_font_runs(text, main_font, fallback_font):
+        draw.text((x, y), s, font=f, fill=fill)
+        x += draw.textlength(s, font=f)
+
+
 def wrap_text(draw, text, font, max_width):
     """Word-wrap logical (not yet bidi-reordered) text to fit max_width."""
     words = text.split()
@@ -156,6 +211,7 @@ def generate_card(source_image_path, title, historical_date):
     brand_h = b_ascent + b_descent
     kicker_font = load_hebrew_font(22, bold=True)
     kicker_text = get_display(format_hebrew_date(historical_date))
+    kicker_fallback_font = load_fallback_font(22, bold=True)
     k_ascent, k_descent = kicker_font.getmetrics()
     kicker_h = k_ascent + k_descent
 
@@ -190,12 +246,13 @@ def generate_card(source_image_path, title, historical_date):
     # semi-transparent accent color, sized to that line's own text width ---
     y = brand_y + brand_h + gap_brand_headline
     highlight_pad_x = 20
+    headline_fallback_font = load_fallback_font(headline_font.size, bold=True)
     highlight_overlay = Image.new("RGBA", base.size, (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(highlight_overlay)
     line_ys = []
     for line in headline_lines:
         visual = get_display(line)
-        w = draw.textlength(visual, font=headline_font)
+        w = measure_mixed_text(draw, visual, headline_font, headline_fallback_font)
         box_left = (CARD_SIZE[0] - w) / 2 - highlight_pad_x
         box_right = (CARD_SIZE[0] + w) / 2 + highlight_pad_x
         overlay_draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=12, fill=(*ACCENT, 220))
@@ -204,12 +261,12 @@ def generate_card(source_image_path, title, historical_date):
     base.alpha_composite(highlight_overlay)
     draw = ImageDraw.Draw(base)
     for y, w, visual in line_ys:
-        draw.text(((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, font=headline_font, fill=WHITE)
+        draw_mixed_text(draw, ((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, headline_font, headline_fallback_font, fill=WHITE)
 
     # --- Date, centered, below the headline ---
-    kicker_w = draw.textlength(kicker_text, font=kicker_font)
+    kicker_w = measure_mixed_text(draw, kicker_text, kicker_font, kicker_fallback_font)
     kicker_y = line_ys[-1][0] + highlight_h + gap_headline_date
-    draw.text(((CARD_SIZE[0] - kicker_w) / 2, kicker_y), kicker_text, font=kicker_font, fill=(220, 220, 220))
+    draw_mixed_text(draw, ((CARD_SIZE[0] - kicker_w) / 2, kicker_y), kicker_text, kicker_font, kicker_fallback_font, fill=(220, 220, 220))
 
     return base.convert("RGB")
 
@@ -260,24 +317,26 @@ def generate_text_card(title, historical_date):
     area_top, area_bottom = rule_y + 50, CARD_SIZE[1] - 110
     y = area_top + max(0, (area_bottom - area_top - total_h)) // 2
     highlight_pad_x = 20
+    headline_fallback_font = load_fallback_font(headline_font.size, bold=True)
     line_ys = []
     for line in headline_lines:
         visual = get_display(line)
-        w = draw.textlength(visual, font=headline_font)
+        w = measure_mixed_text(draw, visual, headline_font, headline_fallback_font)
         box_left = (CARD_SIZE[0] - w) / 2 - highlight_pad_x
         box_right = (CARD_SIZE[0] + w) / 2 + highlight_pad_x
         draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=12, fill=WHITE)
         line_ys.append((y, w, visual))
         y += highlight_h + line_gap
     for y, w, visual in line_ys:
-        draw.text(((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, font=headline_font, fill=ACCENT)
+        draw_mixed_text(draw, ((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, headline_font, headline_fallback_font, fill=ACCENT)
 
     # --- Footer ---
     footer_font = load_hebrew_font(24, bold=True)
+    footer_fallback_font = load_fallback_font(24, bold=True)
     footer_text = get_display(f"{format_hebrew_date(historical_date)}  •  milifney100.com")
-    footer_w = draw.textlength(footer_text, font=footer_font)
-    draw.text(((CARD_SIZE[0] - footer_w) / 2, CARD_SIZE[1] - 70),
-              footer_text, font=footer_font, fill=(170, 170, 170))
+    footer_w = measure_mixed_text(draw, footer_text, footer_font, footer_fallback_font)
+    draw_mixed_text(draw, ((CARD_SIZE[0] - footer_w) / 2, CARD_SIZE[1] - 70),
+                     footer_text, footer_font, footer_fallback_font, fill=(170, 170, 170))
 
     return base.convert("RGB")
 
