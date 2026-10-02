@@ -52,7 +52,11 @@ def load_hebrew_font(size, bold=False):
     weight_word = "bold" if bold else "regular"
     static_match = next((f for f in candidates if weight_word in f.lower()), None)
     font_path = static_match or candidates[0]
-    font = ImageFont.truetype(font_path, size)
+    # Force the legacy "basic" layout engine — when raqm is available (as it
+    # is in Pillow's official Linux wheels, unlike this project's Windows
+    # dev setups), Pillow applies its own bidi reordering during draw.text(),
+    # which double-reverses text we've already reordered via get_display().
+    font = ImageFont.truetype(font_path, size, layout_engine=ImageFont.Layout.BASIC)
     if static_match is None:
         try:
             font.set_variation_by_axes([700 if bold else 400])
