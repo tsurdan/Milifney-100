@@ -87,12 +87,14 @@ def format_facebook_message(post_data, url):
     return f"{title}\n\n{body}\n\nקראו עוד באתר: {url}"
 
 
-def format_instagram_caption(post_data, url):
+def format_instagram_caption(post_data):
     """Instagram caption (no clickable links — IG doesn't linkify captions).
-    The site URL (with the full image credit) is included as plain text."""
+    The full image alt text is appended at the very end."""
     title = post_data["title"]
     body = post_data["body"]
-    return f"{title}\n\n{body}\n\nקראו עוד באתר: {url}\n\n{HASHTAGS}"
+    image_alt = post_data.get("image_alt", "")
+    credit = f"\n\n📷 {image_alt}" if image_alt else ""
+    return f"{title}\n\n{body}\n\n{HASHTAGS}{credit}"
 
 
 def main():
@@ -150,7 +152,7 @@ def main():
             "facebook_image_alt": post_data.get("image_alt", ""),
             "facebook_message": format_facebook_message(post_data, url),
             "instagram_image_url": instagram_image_url,
-            "instagram_caption": format_instagram_caption(post_data, url),
+            "instagram_caption": format_instagram_caption(post_data),
         }
 
         print(f"  Sending: {post_data['title']}")

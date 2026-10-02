@@ -11,12 +11,15 @@ On Windows/macOS, where Noto Sans Hebrew usually isn't installed, it falls
 back to a system font that supports Hebrew, purely for local previewing.
 """
 
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import instagram_card as ic
+from instagram_title import generate_card_titles
+from post_via_make import parse_post
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
@@ -53,15 +56,23 @@ def main():
     all_posts = sorted(POSTS_DIR.glob("*.md"))
     recent_posts = all_posts[-count:]
 
+    posts = [parse_post(filepath) for filepath in recent_posts]
+    card_titles = generate_card_titles(
+        [{"tweet_id": p["tweet_id"], "title": p["title"], "body": p["body"]} for p in posts if p["tweet_id"]],
+        os.environ.get("GEMINI_API_KEY", ""),
+    )
+
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
     generated = 0
-    for filepath in recent_posts:
-        post = ic.parse_post_front_matter(filepath)
+    for filepath, post in zip(recent_posts, posts):
+        card_title = card_titles.get(post["tweet_id"], post["title"])
         out_path = PREVIEW_DIR / f"{filepath.stem}.jpg"
+        if card_title != post["title"]:
+            print(f"  [title] {post['title']!r} -> {card_title!r}")
 
         if not post["image"]:
-            print(f"  Rendering text-only card: {post['title']}")
-            card = ic.generate_text_card(post["title"], datetime.fromisoformat(post["date"]))
+            print(f"  Rendering text-only card: {card_title}")
+            card = ic.generate_text_card(card_title, datetime.fromisoformat(post["date"]))
             card.save(out_path, "JPEG", quality=92)
             generated += 1
             continue
@@ -71,8 +82,8 @@ def main():
             print(f"  [SKIP] Missing source image: {filepath.name}")
             continue
 
-        print(f"  Rendering: {post['title']}")
-        card = ic.generate_card(source_path, post["title"], datetime.fromisoformat(post["date"]))
+        print(f"  Rendering: {card_title}")
+        card = ic.generate_card(source_path, card_title, datetime.fromisoformat(post["date"]))
         card.save(out_path, "JPEG", quality=92)
         generated += 1
 

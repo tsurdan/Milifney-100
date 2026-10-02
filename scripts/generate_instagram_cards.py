@@ -7,10 +7,13 @@ API) and the Make.com webhook route need a public image URL
 (raw.githubusercontent.com) rather than a direct file upload.
 """
 
+import os
 from datetime import datetime
 from pathlib import Path
 
-from instagram_card import generate_card, generate_text_card, parse_post_front_matter
+from instagram_card import generate_card, generate_text_card
+from instagram_title import generate_card_titles
+from post_via_make import parse_post
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
@@ -35,10 +38,15 @@ def main():
         print("No pending posts for Instagram.")
         return
 
+    posts = [parse_post(filepath) for filepath in pending]
+    card_titles = generate_card_titles(
+        [{"tweet_id": p["tweet_id"], "title": p["title"], "body": p["body"]} for p in posts if p["tweet_id"]],
+        os.environ.get("GEMINI_API_KEY", ""),
+    )
+
     CARDS_DIR.mkdir(parents=True, exist_ok=True)
     created = 0
-    for filepath in pending:
-        post = parse_post_front_matter(filepath)
+    for filepath, post in zip(pending, posts):
         if not post["tweet_id"]:
             continue
 
@@ -46,10 +54,12 @@ def main():
         if card_path.exists():
             continue
 
+        card_title = card_titles.get(post["tweet_id"], post["title"])
+
         if not post["image"]:
-            print(f"  Generating text-only card for: {post['title']}")
+            print(f"  Generating text-only card for: {card_title}")
             historical_date = datetime.fromisoformat(post["date"])
-            card = generate_text_card(post["title"], historical_date)
+            card = generate_text_card(card_title, historical_date)
             card.save(card_path, "JPEG", quality=90)
             created += 1
             continue
@@ -59,9 +69,9 @@ def main():
             print(f"  [SKIP] Source image missing for {filepath.name}")
             continue
 
-        print(f"  Generating card for: {post['title']}")
+        print(f"  Generating card for: {card_title}")
         historical_date = datetime.fromisoformat(post["date"])
-        card = generate_card(source_path, post["title"], historical_date)
+        card = generate_card(source_path, card_title, historical_date)
         card.save(card_path, "JPEG", quality=90)
         created += 1
 
