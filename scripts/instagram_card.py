@@ -113,10 +113,15 @@ def measure_mixed_text(draw, text, main_font, fallback_font):
 
 def draw_mixed_text(draw, xy, text, main_font, fallback_font, fill):
     """Draw text left-to-right at xy, substituting fallback_font for glyphs
-    main_font doesn't cover (digits, Latin punctuation)."""
+    main_font doesn't cover (digits, Latin punctuation). All runs are aligned
+    to main_font's baseline — different fonts have different ascent/descent
+    proportions, so drawing each run at the same top-left y (the default)
+    makes the fallback-font characters (e.g. digits) sit noticeably higher
+    or lower than the Hebrew text around them."""
     x, y = xy
+    baseline_y = y + main_font.getmetrics()[0]
     for s, f in _split_font_runs(text, main_font, fallback_font):
-        draw.text((x, y), s, font=f, fill=fill)
+        draw.text((x, baseline_y), s, font=f, fill=fill, anchor="ls")
         x += draw.textlength(s, font=f)
 
 
