@@ -385,7 +385,7 @@ time {
 .navbar-social-links {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.15rem;
   margin-inline-start: auto;
 }
 .navbar-topics {
@@ -861,7 +861,7 @@ time {
   .navbar-inner { gap: 0.35rem; padding: 0.6rem 0.75rem; }
   .navbar-btn { padding: 0.35rem; }
   .navbar-social-links { gap: 0; margin-inline-start: auto; }
-  .navbar-social svg { width: 17px; height: 17px; }
+  .navbar-social svg { width: 15px; height: 15px; }
   .navbar-support-link { font-size: 0.68rem; margin-inline-start: 0.25rem; flex-shrink: 0; }
   .same-day-grid { grid-template-columns: 1fr; }
   .search-result-link { grid-template-columns: 80px 1fr; }
