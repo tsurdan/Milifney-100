@@ -172,6 +172,17 @@
     </div>
   </div>
 
+  <!-- Newsletter quiet prompt toast -->
+  <div class="nl-toast" id="nl-toast" hidden>
+    <button type="button" class="nl-toast-close" id="nl-toast-close" aria-label="סגור">✕</button>
+    <p class="nl-toast-text">רוצים לקבל סיכום שבועי של החדשות ההיסטוריות במייל?</p>
+    <form class="nl-toast-form" id="nl-toast-form">
+      <input type="email" id="nl-toast-email" placeholder="הזינו כתובת מייל..." required>
+      <button type="submit" class="nl-toast-submit">הרשמה</button>
+    </form>
+    <div id="nl-toast-msg"></div>
+  </div>
+
   <footer class="site-footer">
     <div class="footer-inner">
       <p class="footer-credit">
@@ -273,9 +284,20 @@
       var msgEl = document.getElementById('newsletter-form-msg');
       if (!modal || !form) return;
 
-      btnOpen.addEventListener('click', function() { modal.hidden = false; emailInput.focus(); });
-      btnClose.addEventListener('click', function() { modal.hidden = true; });
-      modal.addEventListener('click', function(e) { if (e.target === modal) modal.hidden = true; });
+      function openModal() { modal.hidden = false; emailInput.focus(); }
+      function closeModal() { modal.hidden = true; }
+
+      btnOpen.addEventListener('click', openModal);
+      btnClose.addEventListener('click', closeModal);
+      modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+
+      function subscribe(email) {
+        return fetch(WORKER_URL + '/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        }).then(function(resp) { return resp.json(); });
+      }
 
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -283,15 +305,11 @@
         if (!email) return;
         msgEl.innerHTML = '<span style="color:var(--meta);font-size:0.85rem;">שולח...</span>';
         try {
-          var resp = await fetch(WORKER_URL + '/subscribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
-          });
-          var data = await resp.json();
+          var data = await subscribe(email);
           if (data.success) {
             msgEl.innerHTML = '<span style="color:#155724;font-size:0.85rem;">✓ ' + data.message + '</span>';
             emailInput.value = '';
+            try { localStorage.setItem('nl_subscribed', '1'); } catch (err) {}
           } else {
             msgEl.innerHTML = '<span style="color:#721c24;font-size:0.85rem;">' + (data.error || 'שגיאה') + '</span>';
           }
@@ -299,6 +317,62 @@
           msgEl.innerHTML = '<span style="color:#721c24;font-size:0.85rem;">שגיאת רשת</span>';
         }
       });
+
+      // Occasionally invite visitors to subscribe, without being annoying:
+      // skip if already subscribed, cap frequency with a cooldown, and only show to a fraction of eligible visits.
+      var toast = document.getElementById('nl-toast');
+      var toastClose = document.getElementById('nl-toast-close');
+      var toastForm = document.getElementById('nl-toast-form');
+      var toastEmail = document.getElementById('nl-toast-email');
+      var toastMsg = document.getElementById('nl-toast-msg');
+      var PROMPT_COOLDOWN_DAYS = 14;
+      var PROMPT_CHANCE = 0.2;
+      var PROMPT_DELAY_MS = 15000;
+
+      function markPrompted() {
+        try { localStorage.setItem('nl_prompt_last', String(Date.now())); } catch (err) {}
+      }
+
+      function hideToast() { if (toast) toast.hidden = true; }
+
+      if (toast && toastClose && toastForm) {
+        toastClose.addEventListener('click', hideToast);
+        toastForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          var email = toastEmail.value.trim();
+          if (!email) return;
+          toastMsg.innerHTML = '<span style="color:var(--meta);font-size:0.8rem;">שולח...</span>';
+          try {
+            var data = await subscribe(email);
+            if (data.success) {
+              toastMsg.innerHTML = '<span style="color:#155724;font-size:0.8rem;">✓ ' + data.message + '</span>';
+              try { localStorage.setItem('nl_subscribed', '1'); } catch (err) {}
+              setTimeout(hideToast, 2500);
+            } else {
+              toastMsg.innerHTML = '<span style="color:#721c24;font-size:0.8rem;">' + (data.error || 'שגיאה') + '</span>';
+            }
+          } catch (err) {
+            toastMsg.innerHTML = '<span style="color:#721c24;font-size:0.8rem;">שגיאת רשת</span>';
+          }
+        });
+      }
+
+      function maybeAutoPrompt() {
+        if (!toast) return;
+        try {
+          if (localStorage.getItem('nl_subscribed')) return;
+          var last = parseInt(localStorage.getItem('nl_prompt_last') || '0', 10);
+          var cooldownMs = PROMPT_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+          if (last && (Date.now() - last) < cooldownMs) return;
+        } catch (err) { return; }
+        markPrompted();
+        if (Math.random() >= PROMPT_CHANCE) return;
+        setTimeout(function() {
+          if (modal.hidden) toast.hidden = false;
+        }, PROMPT_DELAY_MS);
+      }
+
+      maybeAutoPrompt();
     })();
 
     // Infinite scroll
