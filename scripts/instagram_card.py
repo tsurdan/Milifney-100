@@ -173,9 +173,9 @@ def format_hebrew_date(dt):
     return f"{dt.day} {HEBREW_MONTHS[dt.month]} {dt.year}"
 
 
-def add_bottom_gradient(base, height, max_opacity=255, curve=0.45, soft_start=0.32):
+def add_bottom_gradient(base, height, max_opacity=255, curve=0.45, soft_start=0.32, color=(0, 0, 0)):
     """Darken the bottom `height` px of `base` with an eased gradient (no
-    blur) — deepening towards the bottom, close to black, so the headline
+    blur) — deepening towards `color` (black by default), so the headline
     pops clearly against the photo. `soft_start` smooths out the very top of
     the region so the darkening fades in gently instead of starting abruptly."""
     gradient = Image.new("L", (1, height), 0)
@@ -187,14 +187,17 @@ def add_bottom_gradient(base, height, max_opacity=255, curve=0.45, soft_start=0.
             value *= ramp * ramp * (3 - 2 * ramp)  # smoothstep ease-in
         gradient.putpixel((0, y), int(max_opacity * value))
     gradient = gradient.resize((base.width, height))
-    black = Image.new("RGBA", (base.width, height), (0, 0, 0, 255))
-    base.paste(black, (0, base.height - height), gradient)
+    tint = Image.new("RGBA", (base.width, height), (*color, 255))
+    base.paste(tint, (0, base.height - height), gradient)
 
 
-def generate_card(source_image_path, title, historical_date, box_fill=ACCENT, box_alpha=220, text_fill=WHITE):
+def generate_card(source_image_path, title, historical_date, box_fill=ACCENT, box_alpha=220, text_fill=WHITE,
+                   gradient_color=(0, 0, 0), date_fill=(220, 220, 220), frame_color=None, frame_inset=22, frame_width=3):
     """Build the branded Instagram card. Returns a PIL Image (RGB).
     box_fill/box_alpha/text_fill control the per-line headline highlight —
-    overridden by generate_banner_card for a same-layout color variant."""
+    overridden by generate_banner_card for a same-layout color variant.
+    frame_color, if set, draws a thin inset border around the whole card —
+    used by generate_soft_card for a gentler, "framed" feel."""
     photo = ImageOps.exif_transpose(Image.open(source_image_path)).convert("RGB")
     base = ImageOps.fit(photo, CARD_SIZE, Image.LANCZOS).convert("RGBA")
 
@@ -225,7 +228,7 @@ def generate_card(source_image_path, title, historical_date, box_fill=ACCENT, bo
     gap_top, gap_logo_brand, gap_brand_headline, gap_headline_date, bottom_margin = 40, 16, 30, 24, 40
     stack_h = logo_diameter + gap_logo_brand + brand_h
     content_height = gap_top + stack_h + gap_brand_headline + total_text_h + gap_headline_date + kicker_h + bottom_margin
-    add_bottom_gradient(base, content_height + 130)  # extra room above so the fade feels gradual
+    add_bottom_gradient(base, content_height + 130, color=gradient_color)  # extra room above so the fade feels gradual
     draw = ImageDraw.Draw(base)
 
     # --- Logo + site name, centered, above the headline ---
@@ -273,7 +276,14 @@ def generate_card(source_image_path, title, historical_date, box_fill=ACCENT, bo
     # --- Date, centered, below the headline ---
     kicker_w = measure_mixed_text(draw, kicker_text, kicker_font, kicker_fallback_font)
     kicker_y = line_ys[-1][0] + highlight_h + gap_headline_date
-    draw_mixed_text(draw, ((CARD_SIZE[0] - kicker_w) / 2, kicker_y), kicker_text, kicker_font, kicker_fallback_font, fill=(220, 220, 220))
+    draw_mixed_text(draw, ((CARD_SIZE[0] - kicker_w) / 2, kicker_y), kicker_text, kicker_font, kicker_fallback_font, fill=date_fill)
+
+    # --- Optional soft inset frame around the whole card ---
+    if frame_color is not None:
+        draw.rectangle(
+            (frame_inset, frame_inset, CARD_SIZE[0] - frame_inset, CARD_SIZE[1] - frame_inset),
+            outline=frame_color, width=frame_width,
+        )
 
     return base.convert("RGB")
 
@@ -284,6 +294,25 @@ def generate_banner_card(source_image_path, title, historical_date):
     headline, date), just with the headline highlight inverted: white boxes
     with bold accent-red text instead of accent-red boxes with white text."""
     return generate_card(source_image_path, title, historical_date, box_fill=WHITE, box_alpha=235, text_fill=ACCENT)
+
+
+SOFT_AMBER = (166, 115, 55)       # the logo's warm amber/brown, used for the headline boxes
+SOFT_GRADIENT = (26, 23, 20)      # site's --dark-bg — warm near-black brown instead of pure black
+SOFT_DATE = (230, 215, 190)       # warm cream (near site's --bg paper tone), for the date line
+
+
+def generate_soft_card(source_image_path, title, historical_date):
+    """Softer color variant of generate_card for spiritual/cultural posts —
+    identical layout, but using the site's and logo's own warm brown/amber
+    palette (instead of the punchy news-red), with a white headline and a
+    soft frame flush against the card's edges.
+    Selected when a post's image_alt contains '::'."""
+    return generate_card(
+        source_image_path, title, historical_date,
+        box_fill=SOFT_AMBER, box_alpha=235, text_fill=WHITE,
+        gradient_color=SOFT_GRADIENT, date_fill=SOFT_DATE,
+        frame_color=SOFT_DATE, frame_inset=4, frame_width=6,
+    )
 
 
 def generate_full_image_card(source_image_path, title, historical_date):

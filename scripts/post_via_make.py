@@ -80,9 +80,9 @@ def build_post_url(post_data, filepath):
 
 
 def clean_image_alt(post_data):
-    """Strip the ';;' marker (used to pick the uncropped-image card template)
-    before the alt text is ever shown/sent anywhere."""
-    return post_data.get("image_alt", "").replace(";;", "").strip()
+    """Strip the ';;'/'::' card-template markers before the alt text is ever
+    shown/sent anywhere."""
+    return post_data.get("image_alt", "").replace(";;", "").replace("::", "").strip()
 
 
 def format_facebook_message(post_data, url):
