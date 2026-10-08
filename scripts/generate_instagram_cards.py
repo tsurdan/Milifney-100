@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from instagram_card import generate_card, generate_full_image_card, generate_text_card
+from instagram_card import generate_banner_card, generate_card, generate_full_image_card, generate_text_card
 from instagram_title import generate_card_titles
 from post_via_make import parse_post
 
@@ -74,6 +74,8 @@ def main():
         historical_date = datetime.fromisoformat(post["date"])
         if FULL_IMAGE_MARKER in post.get("image_alt", ""):
             card = generate_full_image_card(source_path, card_title, historical_date)
+        elif int(post["tweet_id"]) % 2 == 0:
+            card = generate_banner_card(source_path, card_title, historical_date)
         else:
             card = generate_card(source_path, card_title, historical_date)
         card.save(card_path, "JPEG", quality=90)

@@ -87,6 +87,8 @@ def main():
         historical_date = datetime.fromisoformat(post["date"])
         if FULL_IMAGE_MARKER in post.get("image_alt", ""):
             card = ic.generate_full_image_card(source_path, card_title, historical_date)
+        elif int(post["tweet_id"]) % 2 == 0:
+            card = ic.generate_banner_card(source_path, card_title, historical_date)
         else:
             card = ic.generate_card(source_path, card_title, historical_date)
         card.save(out_path, "JPEG", quality=92)

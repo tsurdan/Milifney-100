@@ -191,8 +191,10 @@ def add_bottom_gradient(base, height, max_opacity=255, curve=0.45, soft_start=0.
     base.paste(black, (0, base.height - height), gradient)
 
 
-def generate_card(source_image_path, title, historical_date):
-    """Build the branded Instagram card. Returns a PIL Image (RGB)."""
+def generate_card(source_image_path, title, historical_date, box_fill=ACCENT, box_alpha=220, text_fill=WHITE):
+    """Build the branded Instagram card. Returns a PIL Image (RGB).
+    box_fill/box_alpha/text_fill control the per-line headline highlight —
+    overridden by generate_banner_card for a same-layout color variant."""
     photo = ImageOps.exif_transpose(Image.open(source_image_path)).convert("RGB")
     base = ImageOps.fit(photo, CARD_SIZE, Image.LANCZOS).convert("RGBA")
 
@@ -260,13 +262,13 @@ def generate_card(source_image_path, title, historical_date):
         w = measure_mixed_text(draw, visual, headline_font, headline_fallback_font)
         box_left = (CARD_SIZE[0] - w) / 2 - highlight_pad_x
         box_right = (CARD_SIZE[0] + w) / 2 + highlight_pad_x
-        overlay_draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=12, fill=(*ACCENT, 220))
+        overlay_draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=12, fill=(*box_fill, box_alpha))
         line_ys.append((y, w, visual))
         y += highlight_h + line_gap
     base.alpha_composite(highlight_overlay)
     draw = ImageDraw.Draw(base)
     for y, w, visual in line_ys:
-        draw_mixed_text(draw, ((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, headline_font, headline_fallback_font, fill=WHITE)
+        draw_mixed_text(draw, ((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, headline_font, headline_fallback_font, fill=text_fill)
 
     # --- Date, centered, below the headline ---
     kicker_w = measure_mixed_text(draw, kicker_text, kicker_font, kicker_fallback_font)
@@ -274,6 +276,14 @@ def generate_card(source_image_path, title, historical_date):
     draw_mixed_text(draw, ((CARD_SIZE[0] - kicker_w) / 2, kicker_y), kicker_text, kicker_font, kicker_fallback_font, fill=(220, 220, 220))
 
     return base.convert("RGB")
+
+
+def generate_banner_card(source_image_path, title, historical_date):
+    """Alternate color variant of generate_card, for visual variety in the
+    feed — identical layout (full-bleed photo, gradient, logo/brand,
+    headline, date), just with the headline highlight inverted: white boxes
+    with bold accent-red text instead of accent-red boxes with white text."""
+    return generate_card(source_image_path, title, historical_date, box_fill=WHITE, box_alpha=235, text_fill=ACCENT)
 
 
 def generate_full_image_card(source_image_path, title, historical_date):
