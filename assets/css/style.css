@@ -105,6 +105,7 @@ time {
   padding: 1.25rem 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  cursor: pointer;
 }
 .carousel-scroll {
   display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
@@ -113,19 +114,19 @@ time {
 }
 .carousel-scroll::-webkit-scrollbar { display: none; }
 .carousel-item {
-  flex: 0 0 auto; width: 170px; scroll-snap-align: start;
-  text-decoration: none; color: inherit;
+  flex: 0 0 auto; width: 240px; scroll-snap-align: start;
+  text-decoration: none; color: inherit; cursor: pointer;
   display: flex; flex-direction: column; gap: 0.5rem;
 }
 .carousel-item img {
-  width: 170px; aspect-ratio: 4 / 5; object-fit: cover;
+  width: 240px; aspect-ratio: 4 / 5; object-fit: cover;
   border-radius: 8px; border: 1px solid var(--border);
   background: var(--card-bg);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .carousel-item:hover img { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.15); }
 .carousel-item-title {
-  font-size: 0.78rem; line-height: 1.4; color: var(--text);
+  font-size: 0.85rem; line-height: 1.4; color: var(--text);
   display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .carousel-arrow {
@@ -139,6 +140,34 @@ time {
 .carousel-arrow:hover { background: var(--bg); }
 .carousel-arrow-prev { right: 0.25rem; }
 .carousel-arrow-next { left: 0.25rem; }
+
+@media (max-width: 720px) {
+  .carousel-item, .carousel-item img { width: 160px; }
+}
+
+/* ---- Full-screen gallery modal (opened by clicking the carousel) ---- */
+
+.carousel-modal {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(10,8,6,0.78);
+  display: flex; align-items: flex-start; justify-content: center;
+  overflow-y: auto; padding: 3rem 1rem;
+}
+.carousel-modal-inner {
+  position: relative; width: 100%; max-width: var(--max-w);
+  background: var(--bg); border-radius: 10px; padding: 2.5rem 1.5rem 1.5rem;
+}
+.carousel-modal-close {
+  position: absolute; top: 0.75rem; left: 0.75rem;
+  width: 2.25rem; height: 2.25rem; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--card-bg); color: var(--text); font-size: 1.1rem; cursor: pointer;
+}
+.carousel-modal-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem 1rem;
+}
+.carousel-modal-grid .carousel-item { width: 100%; }
+.carousel-modal-grid .carousel-item img { width: 100%; }
 
 /* ============ 2-COL ROW ============ */
 

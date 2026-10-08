@@ -255,14 +255,39 @@
           return [first === -1 ? 0 : first, last === -1 ? 0 : last];
         }
 
-        if (nextBtn) nextBtn.addEventListener('click', function() {
+        if (nextBtn) nextBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
           var range = visibleRange();
           items[Math.min(items.length - 1, range[1] + 1)].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
         });
-        if (prevBtn) prevBtn.addEventListener('click', function() {
+        if (prevBtn) prevBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
           var range = visibleRange();
           items[Math.max(0, range[0] - 1)].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
         });
+
+        // Clicking the section itself (not a card link or an arrow) opens
+        // the full-screen gallery modal.
+        var modal = document.getElementById('carousel-modal');
+        if (modal) {
+          section.addEventListener('click', function(e) {
+            if (e.target.closest('.carousel-item') || e.target.closest('.carousel-arrow')) return;
+            modal.hidden = false;
+            document.body.style.overflow = 'hidden';
+          });
+          var closeBtn = document.getElementById('carousel-modal-close');
+          function closeModal() {
+            modal.hidden = true;
+            document.body.style.overflow = '';
+          }
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+          });
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !modal.hidden) closeModal();
+          });
+        }
       });
     })();
 

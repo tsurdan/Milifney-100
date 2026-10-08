@@ -23,29 +23,6 @@ layout: default
 </section>
 {% assign idx = 1 %}
 
-<!-- ============ CARD CAROUSEL — separate scrollable section ============ -->
-{% assign carousel_posts = posts | where_exp: "item", "item.tweet_id" | slice: 0, 14 %}
-{% if carousel_posts.size > 0 %}
-<section class="card-carousel">
-  <button type="button" class="carousel-arrow carousel-arrow-prev" aria-label="הקודם">
-    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="carousel-scroll">
-    {% for p in carousel_posts %}
-    <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}">
-      <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
-           alt="{{ p.title }}" loading="lazy"
-           onerror="this.closest('.carousel-item').remove()">
-      <span class="carousel-item-title">{{ p.title }}</span>
-    </a>
-    {% endfor %}
-  </div>
-  <button type="button" class="carousel-arrow carousel-arrow-next" aria-label="הבא">
-    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-</section>
-{% endif %}
-
 <!-- ============ 2-COL row ============ -->
 {% assign slice2 = posts | slice: idx, 2 %}
 {% if slice2.size > 0 %}
@@ -66,6 +43,48 @@ layout: default
 </section>
 {% assign idx = 3 %}
 {% endif %}
+
+<!-- ============ CARD CAROUSEL — separate section, click to open full gallery ============ -->
+{% assign carousel_posts = posts | where_exp: "item", "item.tweet_id" | slice: 0, 12 %}
+{% if carousel_posts.size > 0 %}
+<section class="card-carousel" id="card-carousel">
+  <button type="button" class="carousel-arrow carousel-arrow-prev" aria-label="הקודם">
+    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="carousel-scroll">
+    {% for p in carousel_posts %}
+    <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}">
+      <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
+           alt="{{ p.title }}" loading="lazy"
+           onerror="this.closest('.carousel-item').remove()">
+      <span class="carousel-item-title">{{ p.title }}</span>
+    </a>
+    {% endfor %}
+  </div>
+  <button type="button" class="carousel-arrow carousel-arrow-next" aria-label="הבא">
+    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</section>
+
+<!-- Full-screen gallery overlay, opened by clicking the carousel section -->
+{% assign gallery_posts = posts | where_exp: "item", "item.tweet_id" %}
+<div class="carousel-modal" id="carousel-modal" hidden>
+  <div class="carousel-modal-inner">
+    <button type="button" class="carousel-modal-close" id="carousel-modal-close" aria-label="סגור">✕</button>
+    <div class="carousel-modal-grid">
+      {% for p in gallery_posts %}
+      <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}">
+        <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
+             alt="{{ p.title }}" loading="lazy"
+             onerror="this.closest('.carousel-item').remove()">
+        <span class="carousel-item-title">{{ p.title }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
 
 <!-- ============ DARK BANNER — full-bleed dark section ============ -->
 {% if total > idx %}
