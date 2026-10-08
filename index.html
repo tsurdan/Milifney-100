@@ -90,7 +90,7 @@ layout: default
   </button>
   <div class="carousel-scroll">
     {% for p in carousel_posts %}
-    <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}">
+    <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
       <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
            alt="{{ p.title }}" loading="lazy"
            onerror="this.closest('.carousel-item').remove()">
@@ -109,12 +109,18 @@ layout: default
   <button type="button" class="carousel-modal-close" id="carousel-modal-close" aria-label="סגור">✕</button>
   <div class="carousel-modal-scroll">
     {% for p in gallery_posts %}
-    <a href="{{ p.url | relative_url }}" class="carousel-modal-slide" aria-label="{{ p.title }}">
+    <a href="{{ p.url | relative_url }}" class="carousel-modal-slide" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
       <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
            alt="{{ p.title }}" loading="lazy"
            onerror="this.closest('.carousel-modal-slide').remove()">
     </a>
     {% endfor %}
+    <div class="carousel-modal-slide carousel-modal-end">
+      <div class="carousel-modal-end-inner">
+        <p>זה הכל להיום 👋</p>
+        <button type="button" class="carousel-modal-end-close">סגירה</button>
+      </div>
+    </div>
   </div>
   <div class="carousel-modal-hint">
     <span>גללו לכרטיס הבא</span>

@@ -279,10 +279,16 @@
             e.preventDefault();
             modal.hidden = false;
             document.body.style.overflow = 'hidden';
+            if (modalScroll) {
+              var clickedCard = e.target.closest('.carousel-item');
+              var tweetId = clickedCard ? clickedCard.dataset.tweetId : null;
+              var targetSlide = tweetId ? modalScroll.querySelector('.carousel-modal-slide[data-tweet-id="' + tweetId + '"]') : null;
+              modalScroll.scrollTop = 0; // reset first so scrollIntoView below doesn't animate from the old position
+              if (targetSlide) targetSlide.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }
             if (hint) {
               hint.style.display = '';
               if (modalScroll) {
-                modalScroll.scrollTop = 0;
                 modalScroll.addEventListener('scroll', function() {
                   hint.style.display = 'none';
                 }, { once: true });
@@ -290,11 +296,13 @@
             }
           });
           var closeBtn = document.getElementById('carousel-modal-close');
+          var endCloseBtn = modal.querySelector('.carousel-modal-end-close');
           function closeModal() {
             modal.hidden = true;
             document.body.style.overflow = '';
           }
           if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          if (endCloseBtn) endCloseBtn.addEventListener('click', closeModal);
           modal.addEventListener('click', function(e) {
             if (e.target === modal) closeModal();
           });
