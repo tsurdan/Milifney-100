@@ -23,24 +23,26 @@ layout: default
 </section>
 {% assign idx = 1 %}
 
-<!-- ============ INSTAGRAM CARDS — horizontal scroll gallery ============ -->
-{% assign ig_posts = posts | where_exp: "item", "item.tweet_id" | slice: 0, 14 %}
-{% if ig_posts.size > 0 %}
-<section class="ig-gallery">
-  <div class="ig-gallery-head">
-    <h2>מהאינסטגרם שלנו</h2>
-    <a href="https://www.instagram.com/milifney100/" target="_blank" rel="noopener" class="ig-gallery-link">עקבו אחרינו ←</a>
-  </div>
-  <div class="ig-gallery-scroll">
-    {% for p in ig_posts %}
-    <a href="{{ p.url | relative_url }}" class="ig-gallery-item" aria-label="{{ p.title }}">
+<!-- ============ CARD CAROUSEL — separate scrollable section ============ -->
+{% assign carousel_posts = posts | where_exp: "item", "item.tweet_id" | slice: 0, 14 %}
+{% if carousel_posts.size > 0 %}
+<section class="card-carousel">
+  <button type="button" class="carousel-arrow carousel-arrow-prev" aria-label="הקודם">
+    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="carousel-scroll">
+    {% for p in carousel_posts %}
+    <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}">
       <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
            alt="{{ p.title }}" loading="lazy"
-           onerror="this.closest('.ig-gallery-item').remove()">
-      <span class="ig-gallery-item-title">{{ p.title }}</span>
+           onerror="this.closest('.carousel-item').remove()">
+      <span class="carousel-item-title">{{ p.title }}</span>
     </a>
     {% endfor %}
   </div>
+  <button type="button" class="carousel-arrow carousel-arrow-next" aria-label="הבא">
+    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 </section>
 {% endif %}
 

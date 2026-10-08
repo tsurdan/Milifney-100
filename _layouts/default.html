@@ -232,6 +232,40 @@
       if (btnMobile) btnMobile.addEventListener('click', toggleTheme);
     })();
 
+    // Card carousel arrows — uses scrollIntoView (not manual scrollLeft math)
+    // since browsers disagree on the sign of scrollLeft in RTL containers.
+    (function() {
+      document.querySelectorAll('.card-carousel').forEach(function(section) {
+        var scroller = section.querySelector('.carousel-scroll');
+        var items = Array.prototype.slice.call(section.querySelectorAll('.carousel-item'));
+        var prevBtn = section.querySelector('.carousel-arrow-prev');
+        var nextBtn = section.querySelector('.carousel-arrow-next');
+        if (!scroller || !items.length) return;
+
+        function visibleRange() {
+          var scrollerRect = scroller.getBoundingClientRect();
+          var first = -1, last = -1;
+          items.forEach(function(item, i) {
+            var r = item.getBoundingClientRect();
+            if (r.right > scrollerRect.left + 1 && r.left < scrollerRect.right - 1) {
+              if (first === -1) first = i;
+              last = i;
+            }
+          });
+          return [first === -1 ? 0 : first, last === -1 ? 0 : last];
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', function() {
+          var range = visibleRange();
+          items[Math.min(items.length - 1, range[1] + 1)].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        });
+        if (prevBtn) prevBtn.addEventListener('click', function() {
+          var range = visibleRange();
+          items[Math.max(0, range[0] - 1)].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        });
+      });
+    })();
+
     // Navbar search panel (includes date-jump)
     (function() {
       var btnSearch = document.getElementById('btn-search');
