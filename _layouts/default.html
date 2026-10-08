@@ -266,14 +266,28 @@
           items[Math.max(0, range[0] - 1)].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
         });
 
-        // Clicking the section itself (not a card link or an arrow) opens
-        // the full-screen gallery modal.
+        // Any click in the section — including directly on a card — opens
+        // the full-screen viewer instead of navigating. Only the arrow
+        // buttons are excluded (they stopPropagation in their own handlers,
+        // so they never even reach this listener; kept here as a safeguard).
         var modal = document.getElementById('carousel-modal');
+        var hint = modal ? modal.querySelector('.carousel-modal-hint') : null;
+        var modalScroll = modal ? modal.querySelector('.carousel-modal-scroll') : null;
         if (modal) {
           section.addEventListener('click', function(e) {
-            if (e.target.closest('.carousel-item') || e.target.closest('.carousel-arrow')) return;
+            if (e.target.closest('.carousel-arrow')) return;
+            e.preventDefault();
             modal.hidden = false;
             document.body.style.overflow = 'hidden';
+            if (hint) {
+              hint.style.display = '';
+              if (modalScroll) {
+                modalScroll.scrollTop = 0;
+                modalScroll.addEventListener('scroll', function() {
+                  hint.style.display = 'none';
+                }, { once: true });
+              }
+            }
           });
           var closeBtn = document.getElementById('carousel-modal-close');
           function closeModal() {
