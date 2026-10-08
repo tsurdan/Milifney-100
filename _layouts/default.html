@@ -3,6 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Applied synchronously, before first paint, to avoid a flash of the wrong theme.
+    (function() {
+      try {
+        var stored = localStorage.getItem('theme');
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      } catch (e) {}
+    })();
+  </script>
   <meta name="google-site-verification" content="p82N12v4OhVJAsr9ipd5XlgHRMeDOlUqUxZtAhgd0BI" />
   {% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
@@ -96,6 +106,10 @@
         <button class="navbar-btn" id="btn-search" aria-label="חיפוש">
           <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
+        <button class="navbar-btn" id="btn-theme-toggle" aria-label="מצב כהה/בהיר" title="מצב כהה/בהיר">
+          <svg class="theme-icon-light" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.5" y1="4.5" x2="6.2" y2="6.2"/><line x1="17.8" y1="17.8" x2="19.5" y2="19.5"/><line x1="4.5" y1="19.5" x2="6.2" y2="17.8"/><line x1="17.8" y1="6.2" x2="19.5" y2="4.5"/></g></svg>
+          <svg class="theme-icon-dark" viewBox="0 0 24 24" width="20" height="20"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a9 9 0 1 0 11 11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
         <a class="navbar-btn" href="{{ '/about' | relative_url }}" aria-label="אודות המיזם" title="אודות המיזם">
           <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="11" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></svg>
         </a>
@@ -114,6 +128,7 @@
         <div class="mobile-menu-dropdown" id="mobile-menu-dropdown" hidden>
           <a href="{{ '/popular' | relative_url }}" class="mobile-menu-item">הנקראים ביותר</a>
           <button class="mobile-menu-item" id="btn-search-mobile">חיפוש</button>
+          <button class="mobile-menu-item" id="btn-theme-toggle-mobile">מצב כהה/בהיר</button>
           <a href="{{ '/about' | relative_url }}" class="mobile-menu-item">אודות המיזם</a>
           {% for tag in site.data.tags limit: 3 %}
           <a href="{{ '/tags/' | append: tag.slug | append: '/' | relative_url }}" class="mobile-menu-item">{{ tag.name }}</a>
@@ -195,6 +210,28 @@
   <script data-goatcounter="https://milifney100.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
   <script>
+    // Dark mode toggle (desktop + mobile menu button)
+    (function() {
+      function currentTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      }
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+      }
+      function toggleTheme() {
+        setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+      }
+      var btn = document.getElementById('btn-theme-toggle');
+      var btnMobile = document.getElementById('btn-theme-toggle-mobile');
+      if (btn) btn.addEventListener('click', toggleTheme);
+      if (btnMobile) btnMobile.addEventListener('click', toggleTheme);
+    })();
+
     // Navbar search panel (includes date-jump)
     (function() {
       var btnSearch = document.getElementById('btn-search');

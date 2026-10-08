@@ -23,6 +23,27 @@ layout: default
 </section>
 {% assign idx = 1 %}
 
+<!-- ============ INSTAGRAM CARDS — horizontal scroll gallery ============ -->
+{% assign ig_posts = posts | where_exp: "item", "item.tweet_id" | slice: 0, 14 %}
+{% if ig_posts.size > 0 %}
+<section class="ig-gallery">
+  <div class="ig-gallery-head">
+    <h2>מהאינסטגרם שלנו</h2>
+    <a href="https://www.instagram.com/milifney100/" target="_blank" rel="noopener" class="ig-gallery-link">עקבו אחרינו ←</a>
+  </div>
+  <div class="ig-gallery-scroll">
+    {% for p in ig_posts %}
+    <a href="{{ p.url | relative_url }}" class="ig-gallery-item" aria-label="{{ p.title }}">
+      <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
+           alt="{{ p.title }}" loading="lazy"
+           onerror="this.closest('.ig-gallery-item').remove()">
+      <span class="ig-gallery-item-title">{{ p.title }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <!-- ============ 2-COL row ============ -->
 {% assign slice2 = posts | slice: idx, 2 %}
 {% if slice2.size > 0 %}
