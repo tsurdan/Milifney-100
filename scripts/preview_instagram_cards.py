@@ -24,6 +24,7 @@ from post_via_make import parse_post
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 PREVIEW_DIR = REPO_ROOT / "scripts" / "_preview"
+FULL_IMAGE_MARKER = ";;"  # in image_alt — picks the uncropped-image template
 
 FALLBACK_FONTS = {
     False: [r"C:\Windows\Fonts\arial.ttf", "/System/Library/Fonts/Supplemental/Arial.ttf"],
@@ -83,7 +84,11 @@ def main():
             continue
 
         print(f"  Rendering: {card_title}")
-        card = ic.generate_card(source_path, card_title, datetime.fromisoformat(post["date"]))
+        historical_date = datetime.fromisoformat(post["date"])
+        if FULL_IMAGE_MARKER in post.get("image_alt", ""):
+            card = ic.generate_full_image_card(source_path, card_title, historical_date)
+        else:
+            card = ic.generate_card(source_path, card_title, historical_date)
         card.save(out_path, "JPEG", quality=92)
         generated += 1
 

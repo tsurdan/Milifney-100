@@ -79,6 +79,12 @@ def build_post_url(post_data, filepath):
     return SITE_URL
 
 
+def clean_image_alt(post_data):
+    """Strip the ';;' marker (used to pick the uncropped-image card template)
+    before the alt text is ever shown/sent anywhere."""
+    return post_data.get("image_alt", "").replace(";;", "").strip()
+
+
 def format_facebook_message(post_data, url):
     """Plain-text Facebook caption with a site link — the full image credit
     is shown on the site itself, not repeated inline here."""
@@ -92,7 +98,7 @@ def format_instagram_caption(post_data):
     The full image alt text is appended at the very end."""
     title = post_data["title"]
     body = post_data["body"]
-    image_alt = post_data.get("image_alt", "")
+    image_alt = clean_image_alt(post_data)
     credit = f"\n\n📷 {image_alt}" if image_alt else ""
     return f"{title}\n\n{body}\n\n{HASHTAGS}{credit}"
 
@@ -149,7 +155,7 @@ def main():
             "tweet_id": tweet_id,
             "post_url": url,
             "facebook_image_url": facebook_image_url,
-            "facebook_image_alt": post_data.get("image_alt", ""),
+            "facebook_image_alt": clean_image_alt(post_data),
             "facebook_message": format_facebook_message(post_data, url),
             "instagram_image_url": instagram_image_url,
             "instagram_caption": format_instagram_caption(post_data),

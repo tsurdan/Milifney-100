@@ -276,6 +276,98 @@ def generate_card(source_image_path, title, historical_date):
     return base.convert("RGB")
 
 
+def generate_full_image_card(source_image_path, title, historical_date):
+    """Build a card for images that must be shown uncropped — e.g. scanned
+    documents/clippings with their own embedded text, where the usual
+    full-bleed crop (generate_card) would cut off or illegibly shrink it.
+    Black background, white masthead (logo + brand name), the full image
+    letterboxed inside a white frame (never cropped), then the headline and
+    date below — selected when a post's image_alt contains ";;"."""
+    base = Image.new("RGB", CARD_SIZE, (0, 0, 0)).convert("RGBA")
+    draw = ImageDraw.Draw(base)
+
+    # --- Masthead: logo + brand name + a rule, all in white ---
+    logo_diameter = 80
+    top_margin = 50
+    logo_cx = CARD_SIZE[0] // 2
+    logo_cy = top_margin + logo_diameter // 2
+    paste_circular_logo(base, LOGO_PATH, logo_diameter, logo_cx, logo_cy)
+    draw = ImageDraw.Draw(base)
+    draw.ellipse(
+        (logo_cx - logo_diameter // 2, logo_cy - logo_diameter // 2,
+         logo_cx + logo_diameter // 2, logo_cy + logo_diameter // 2),
+        outline=WHITE, width=3,
+    )
+
+    brand_font = load_hebrew_font(28, bold=True)
+    brand_text = get_display("חדשות מלפני מאה")
+    brand_w = draw.textlength(brand_text, font=brand_font)
+    b_ascent, b_descent = brand_font.getmetrics()
+    brand_y = logo_cy + logo_diameter // 2 + 20
+    draw.text((logo_cx - brand_w / 2, brand_y), brand_text, font=brand_font, fill=WHITE)
+
+    rule_y = brand_y + (b_ascent + b_descent) + 26
+    draw.line((CARD_SIZE[0] // 2 - 50, rule_y, CARD_SIZE[0] // 2 + 50, rule_y), fill=WHITE, width=3)
+
+    # --- Pre-measure the headline + footer, so the image area can fill
+    # whatever vertical space is left between the masthead and them ---
+    title = title.rstrip(": ")
+    side_pad = 90
+    measure_draw = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
+    headline_font, headline_lines = fit_headline(
+        measure_draw, title, max_width=CARD_SIZE[0] - 2 * side_pad, max_lines=3, start_size=48, min_size=34
+    )
+    h_ascent, h_descent = headline_font.getmetrics()
+    highlight_v_pad, line_gap = 10, 8
+    highlight_h = (h_ascent + h_descent) + 2 * highlight_v_pad
+    total_headline_h = highlight_h * len(headline_lines) + line_gap * (len(headline_lines) - 1)
+
+    footer_font = load_hebrew_font(22, bold=True)
+    footer_fallback_font = load_fallback_font(22, bold=True)
+    footer_text = get_display(f"{format_hebrew_date(historical_date)}  •  milifney100.com")
+    footer_h = sum(footer_font.getmetrics())
+
+    # --- The image itself: contained (never cropped) inside a white frame,
+    # centered in whatever space is left ---
+    image_top = rule_y + 30
+    image_bottom = CARD_SIZE[1] - 40 - footer_h - 20 - total_headline_h - 20
+    image_area_w, image_area_h = CARD_SIZE[0] - 2 * 60, image_bottom - image_top
+
+    photo = ImageOps.exif_transpose(Image.open(source_image_path)).convert("RGB")
+    fitted = ImageOps.contain(photo, (int(image_area_w), int(image_area_h)), Image.LANCZOS)
+    frame_pad = 10
+    frame_w, frame_h = fitted.width + 2 * frame_pad, fitted.height + 2 * frame_pad
+    frame_x = (CARD_SIZE[0] - frame_w) // 2
+    frame_y = int(image_top + (image_area_h - frame_h) / 2)
+    draw.rectangle((frame_x, frame_y, frame_x + frame_w, frame_y + frame_h), fill=WHITE)
+    base.paste(fitted, (frame_x + frame_pad, frame_y + frame_pad))
+    draw = ImageDraw.Draw(base)
+
+    # --- Headline, centered, below the image — same marker-highlight style
+    # as the other cards (white boxes, bold accent-red text) ---
+    y = frame_y + frame_h + 30
+    highlight_pad_x = 20
+    headline_fallback_font = load_fallback_font(headline_font.size, bold=True)
+    line_ys = []
+    for line in headline_lines:
+        visual = get_display(line)
+        w = measure_mixed_text(draw, visual, headline_font, headline_fallback_font)
+        box_left = (CARD_SIZE[0] - w) / 2 - highlight_pad_x
+        box_right = (CARD_SIZE[0] + w) / 2 + highlight_pad_x
+        draw.rounded_rectangle((box_left, y, box_right, y + highlight_h), radius=10, fill=WHITE)
+        line_ys.append((y, w, visual))
+        y += highlight_h + line_gap
+    for y, w, visual in line_ys:
+        draw_mixed_text(draw, ((CARD_SIZE[0] - w) / 2, y + highlight_v_pad), visual, headline_font, headline_fallback_font, fill=ACCENT)
+
+    # --- Footer ---
+    footer_w = measure_mixed_text(draw, footer_text, footer_font, footer_fallback_font)
+    draw_mixed_text(draw, ((CARD_SIZE[0] - footer_w) / 2, CARD_SIZE[1] - 55),
+                     footer_text, footer_font, footer_fallback_font, fill=(170, 170, 170))
+
+    return base.convert("RGB")
+
+
 def generate_text_card(title, historical_date):
     """Build a card for text-only posts (no tweet image): black background,
     white masthead, and the headline "marker-highlighted" — white boxes

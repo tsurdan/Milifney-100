@@ -75,9 +75,9 @@ layout: default
     {% if page.image %}
     {% assign stripped_content = content | strip_html | strip_newlines | strip %}
     <figure class="post-image{% if stripped_content == "" %} post-image-full{% endif %}">
-      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title }}">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | remove: ';;' }}">
       {% if page.image_alt %}
-      <figcaption>{{ page.image_alt }}</figcaption>
+      <figcaption>{{ page.image_alt | remove: ';;' }}</figcaption>
       {% endif %}
     </figure>
     {% endif %}

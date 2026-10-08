@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from instagram_card import generate_card, generate_text_card
+from instagram_card import generate_card, generate_full_image_card, generate_text_card
 from instagram_title import generate_card_titles
 from post_via_make import parse_post
 
@@ -19,6 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 STATE_FILE = REPO_ROOT / "scripts" / ".last_make_post"
 CARDS_DIR = REPO_ROOT / "assets" / "images" / "instagram-cards"
+FULL_IMAGE_MARKER = ";;"  # in image_alt — picks the uncropped-image template
 
 
 def get_pending_posts():
@@ -71,7 +72,10 @@ def main():
 
         print(f"  Generating card for: {card_title}")
         historical_date = datetime.fromisoformat(post["date"])
-        card = generate_card(source_path, card_title, historical_date)
+        if FULL_IMAGE_MARKER in post.get("image_alt", ""):
+            card = generate_full_image_card(source_path, card_title, historical_date)
+        else:
+            card = generate_card(source_path, card_title, historical_date)
         card.save(card_path, "JPEG", quality=90)
         created += 1
 
