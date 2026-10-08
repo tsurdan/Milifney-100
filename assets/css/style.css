@@ -917,6 +917,7 @@ time {
   margin-inline-start: 0.5rem;
 }
 .navbar-support-link:hover { opacity: 0.75; }
+.navbar-theme-edge { flex-shrink: 0; margin-inline-start: 0.5rem; }
 
 /* ---- Mobile three-dots menu ---- */
 .navbar-mobile-menu { display: none; position: relative; }
@@ -992,6 +993,7 @@ time {
   .navbar-tagline { display: none; }
   .navbar-logo { width: 32px; height: 32px; flex-shrink: 0; }
   .navbar-site-actions { display: none; }
+  .navbar-theme-edge { display: none; }
   .navbar-mobile-menu { display: block; flex-shrink: 0; }
   .navbar-inner { gap: 0.35rem; padding: 0.6rem 0.75rem; }
   .navbar-btn { padding: 0.35rem; }
