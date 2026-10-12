@@ -27,6 +27,7 @@ SITE_URL = "https://milifney100.com"
 RAW_CONTENT_BASE = "https://raw.githubusercontent.com/tsurdan/Milifney-100/main"
 
 HASHTAGS = "#לפני100שנה #היסטוריה #חדשות #מהעיתונות"
+IGNORE_MARKER = "**"  # in image_alt — post is skipped on every channel, including the website
 
 WEBHOOK_URL = os.environ.get("MAKE_WEBHOOK_URL", "")
 API_KEY = os.environ.get("MAKE_API_KEY", "")
@@ -135,6 +136,11 @@ def main():
         tweet_id = post_data.get("tweet_id", "")
         if not tweet_id:
             print(f"  [SKIP] No tweet_id: {filepath.name}")
+            continue
+
+        if IGNORE_MARKER in post_data.get("image_alt", ""):
+            print(f"  [SKIP] Ignored post (marked with '**'): {post_data['title']}")
+            save_last_posted_timestamp(filepath.name)
             continue
 
         card_path = CARDS_DIR / f"{tweet_id}.jpg"

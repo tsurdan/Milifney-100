@@ -40,6 +40,9 @@ jobs:
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
         run: python scripts/fetch_popular.py
 
+      - name: Exclude posts marked with '**' from the website
+        run: python scripts/apply_ignore_marker.py
+
       - name: Commit & push new posts
         run: |
           git config user.name  "github-actions[bot]"

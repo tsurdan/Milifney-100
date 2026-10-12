@@ -21,6 +21,7 @@ STATE_FILE = REPO_ROOT / "scripts" / ".last_make_post"
 CARDS_DIR = REPO_ROOT / "assets" / "images" / "instagram-cards"
 FULL_IMAGE_MARKER = ";;"  # in image_alt — picks the uncropped-image template
 SOFT_MARKER = "::"  # in image_alt — picks the soft/cultural template
+IGNORE_MARKER = "**"  # in image_alt — post is skipped on every channel, including the website
 
 
 def get_pending_posts():
@@ -50,6 +51,9 @@ def main():
     created = 0
     for filepath, post in zip(pending, posts):
         if not post["tweet_id"]:
+            continue
+
+        if IGNORE_MARKER in post.get("image_alt", ""):
             continue
 
         card_path = CARDS_DIR / f"{post['tweet_id']}.jpg"

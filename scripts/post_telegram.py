@@ -2,14 +2,17 @@
 """Post new articles to Telegram channel after tweet fetch."""
 
 import os
-import json
-import requests
 from pathlib import Path
+
+import requests
+
+from post_via_make import parse_post  # robust YAML front-matter parsing (handles multi-line image_alt, etc.)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 STATE_FILE = REPO_ROOT / "scripts" / ".last_telegram_post"
 SITE_URL = "https://milifney100.com"
+IGNORE_MARKER = "**"  # in image_alt — post is skipped on every channel, including the website
 
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -34,40 +37,6 @@ def get_new_posts(since_filename):
         if f.name > since_filename:
             posts.append(f)
     return posts
-
-
-def parse_post(filepath):
-    """Extract title, date, image, and excerpt from a post file."""
-    content = filepath.read_text(encoding="utf-8")
-    lines = content.split("\n")
-
-    # Parse front matter
-    meta = {}
-    in_front = False
-    body_start = 0
-    for i, line in enumerate(lines):
-        if line.strip() == "---":
-            if not in_front:
-                in_front = True
-            else:
-                body_start = i + 1
-                break
-        elif in_front:
-            if ":" in line:
-                key, val = line.split(":", 1)
-                meta[key.strip()] = val.strip().strip('"').strip("'")
-
-    # Get body text (first meaningful paragraph)
-    body_lines = lines[body_start:]
-    body_text = " ".join(l.strip() for l in body_lines if l.strip() and not l.startswith("!["))
-
-    return {
-        "title": meta.get("title", ""),
-        "date": meta.get("date", ""),
-        "image": meta.get("image", ""),
-        "tweet_id": meta.get("tweet_id", ""),
-        "body": body_text,
-    }
 
 
 def build_post_url(filepath):
@@ -182,6 +151,12 @@ def main():
 
     for filepath in new_posts:
         post_data = parse_post(filepath)
+
+        if IGNORE_MARKER in post_data.get("image_alt", ""):
+            print(f"  [SKIP] Ignored post (marked with '**'): {post_data['title']}")
+            save_last_posted_timestamp(filepath.name)
+            continue
+
         url = build_post_url(filepath)
 
         print(f"  Sending: {post_data['title']}")
