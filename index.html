@@ -82,20 +82,24 @@ layout: default
 {% endif %}
 
 <!-- ============ CARD CAROUSEL — separate section, click to open full-screen viewer ============ -->
-{% assign carousel_posts = posts | where_exp: "item", "item.tweet_id" | slice: 0, 12 %}
-{% if carousel_posts.size > 0 %}
+{% assign candidate_posts = posts | where_exp: "item", "item.tweet_id" %}
 <section class="card-carousel" id="card-carousel">
   <button type="button" class="carousel-arrow carousel-arrow-prev" aria-label="הקודם">
     <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <div class="carousel-scroll">
-    {% for p in carousel_posts %}
-    <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
-      <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
-           alt="{{ p.title }}" loading="lazy"
-           onerror="this.closest('.carousel-item').remove()">
-      <span class="carousel-item-title">{{ p.title }}</span>
-    </a>
+    {% assign shown = 0 %}
+    {% for p in candidate_posts %}
+      {% if shown < 12 %}
+      {% assign card_path = "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" %}
+      {% assign match = site.static_files | where: "path", card_path %}
+      {% if match.size > 0 %}
+      {% assign shown = shown | plus: 1 %}
+      <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
+        <img src="{{ card_path | relative_url }}" alt="{{ p.title }}" loading="lazy">
+      </a>
+      {% endif %}
+      {% endif %}
     {% endfor %}
   </div>
   <button type="button" class="carousel-arrow carousel-arrow-next" aria-label="הבא">
@@ -104,16 +108,17 @@ layout: default
 </section>
 
 <!-- Full-screen viewer: one card at a time, vertical scroll between them -->
-{% assign gallery_posts = posts | where_exp: "item", "item.tweet_id" %}
 <div class="carousel-modal" id="carousel-modal" hidden>
   <button type="button" class="carousel-modal-close" id="carousel-modal-close" aria-label="סגור">✕</button>
   <div class="carousel-modal-scroll">
-    {% for p in gallery_posts %}
+    {% for p in candidate_posts %}
+    {% assign card_path = "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" %}
+    {% assign match = site.static_files | where: "path", card_path %}
+    {% if match.size > 0 %}
     <a href="{{ p.url | relative_url }}" class="carousel-modal-slide" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
-      <img src="{{ '/assets/images/instagram-cards/' | append: p.tweet_id | append: '.jpg' | relative_url }}"
-           alt="{{ p.title }}" loading="lazy"
-           onerror="this.closest('.carousel-modal-slide').remove()">
+      <img src="{{ card_path | relative_url }}" alt="{{ p.title }}" loading="lazy">
     </a>
+    {% endif %}
     {% endfor %}
     <div class="carousel-modal-slide carousel-modal-end">
       <div class="carousel-modal-end-inner">
@@ -127,7 +132,6 @@ layout: default
     <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
 </div>
-{% endif %}
 
 <!-- ============ FULL-WIDTH feature ============ -->
 {% if total > idx %}
