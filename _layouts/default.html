@@ -286,41 +286,35 @@
               modalScroll.scrollTop = 0; // reset first so scrollIntoView below doesn't animate from the old position
               if (targetSlide) targetSlide.scrollIntoView({ behavior: 'auto', block: 'start' });
             }
+            // Show the hint once per open; hide it on the first genuine
+            // user scroll. The scrollIntoView jump above fires its own
+            // native 'scroll' event asynchronously, so a short grace period
+            // ignores that programmatic scroll instead of hiding the hint
+            // before the user even sees it.
+            if (hint && modalScroll) {
+              hint.style.display = '';
+              var ignoreScroll = true;
+              setTimeout(function() { ignoreScroll = false; }, 150);
+              var onScroll = function() {
+                if (ignoreScroll) return;
+                hint.style.display = 'none';
+                modalScroll.removeEventListener('scroll', onScroll);
+              };
+              modalScroll.addEventListener('scroll', onScroll);
+            }
           });
           var closeBtn = document.getElementById('carousel-modal-close');
-          var endCloseBtn = modal.querySelector('.carousel-modal-end-close');
           function closeModal() {
             modal.hidden = true;
             document.body.style.overflow = '';
           }
           if (closeBtn) closeBtn.addEventListener('click', closeModal);
-          if (endCloseBtn) endCloseBtn.addEventListener('click', closeModal);
           modal.addEventListener('click', function(e) {
             if (e.target === modal) closeModal();
           });
           document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && !modal.hidden) closeModal();
           });
-
-          // Show the "scroll for next" hint briefly every time a new card
-          // becomes the active one — whether reached by scrolling or by
-          // jumping straight to a specific card — then auto-fade it, rather
-          // than only showing it once per modal-open.
-          if (hint && modalScroll && window.IntersectionObserver) {
-            var hintTimer = null;
-            var observer = new IntersectionObserver(function(entries) {
-              entries.forEach(function(entry) {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-                  hint.style.display = '';
-                  if (hintTimer) clearTimeout(hintTimer);
-                  hintTimer = setTimeout(function() { hint.style.display = 'none'; }, 1400);
-                }
-              });
-            }, { root: modalScroll, threshold: 0.6 });
-            modal.querySelectorAll('.carousel-modal-slide:not(.carousel-modal-end)').forEach(function(slide) {
-              observer.observe(slide);
-            });
-          }
         }
       });
     })();

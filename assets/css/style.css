@@ -94,7 +94,7 @@ time {
 .hero-content h2 {
   font-size: 2rem; font-weight: 900; line-height: 1.35; margin-bottom: 0.75rem;
 }
-.hero-content p { font-size: 1.05rem; color: #555; line-height: 1.75; margin-bottom: 0.5rem; }
+.hero-content p { font-size: 1.05rem; color: var(--meta); line-height: 1.75; margin-bottom: 0.5rem; }
 .hero-content time { margin-top: auto; }
 
 /* ============ CARD CAROUSEL ============ */
@@ -172,15 +172,6 @@ time {
   object-fit: contain; border-radius: 10px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
-.carousel-modal-end { cursor: default; }
-.carousel-modal-end-inner { text-align: center; color: #fff; }
-.carousel-modal-end-inner p { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.25rem; }
-.carousel-modal-end-close {
-  font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
-  padding: 0.6rem 1.75rem; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.1); color: #fff;
-}
-.carousel-modal-end-close:hover { background: rgba(255,255,255,0.2); }
 .carousel-modal-hint {
   position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 2;
   display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
@@ -215,7 +206,7 @@ time {
 .card-md-body { padding: 1.25rem 1.5rem; }
 .card-md-body time { display: block; margin-bottom: 0.35rem; color: var(--accent); font-weight: 500; }
 .card-md-body h3 { font-size: 1.2rem; font-weight: 700; line-height: 1.45; margin-bottom: 0.4rem; }
-.card-md-body p { font-size: 0.88rem; color: #666; line-height: 1.6; }
+.card-md-body p { font-size: 0.88rem; color: var(--meta); line-height: 1.6; }
 
 /* ============ DARK BANNER ============ */
 
@@ -311,7 +302,7 @@ time {
   display: flex; flex-direction: column; justify-content: center;
 }
 .feature-full-body h2 { font-size: 1.6rem; font-weight: 900; line-height: 1.4; margin-bottom: 0.6rem; }
-.feature-full-body p { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 0.5rem; }
+.feature-full-body p { font-size: 0.95rem; color: var(--meta); line-height: 1.7; margin-bottom: 0.5rem; }
 .feature-full-body time { margin-top: auto; }
 
 /* ============ 1 BIG + 2 STACKED ============ */
@@ -335,7 +326,7 @@ time {
 .card-big-body { padding: 1.5rem 1.75rem; }
 .card-big-body time { display: block; margin-bottom: 0.35rem; color: var(--accent); font-weight: 500; }
 .card-big-body h2 { font-size: 1.4rem; font-weight: 900; line-height: 1.4; margin-bottom: 0.5rem; }
-.card-big-body p { font-size: 0.9rem; color: #555; line-height: 1.65; }
+.card-big-body p { font-size: 0.9rem; color: var(--meta); line-height: 1.65; }
 
 .stack-2 { display: flex; flex-direction: column; gap: 1.5rem; }
 
