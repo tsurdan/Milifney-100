@@ -18,7 +18,8 @@ permalink: /linktree/
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--border);
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
+  display: block;
 }
 .linktree-title {
   font-size: 1.4rem;
@@ -65,24 +66,20 @@ permalink: /linktree/
   <div class="linktree-tagline">{{ site.tagline }}</div>
 
   <div class="linktree-links">
-    <a class="linktree-link" href="{{ '/' | relative_url }}">
-      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.5V21h14V9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>האתר הראשי</span>
-    </a>
     <a class="linktree-link" href="https://www.instagram.com/milifney100/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" width="22" height="22"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" width="22" height="22"><defs><linearGradient id="igGradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFDD55"/><stop offset="35%" stop-color="#FD5949"/><stop offset="65%" stop-color="#D6249F"/><stop offset="100%" stop-color="#285AEB"/></linearGradient></defs><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="url(#igGradient)" stroke-width="2"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="url(#igGradient)" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="#D6249F"/></svg>
       <span>אינסטגרם</span>
     </a>
     <a class="linktree-link" href="https://www.facebook.com/milifney100" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M13.5 22v-8.5h2.85l.43-3.32H13.5V8.05c0-.96.27-1.62 1.65-1.62h1.76V3.47C16.6 3.4 15.58 3.3 14.4 3.3c-2.47 0-4.16 1.51-4.16 4.28v2.6H7.38v3.32h2.86V22z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M13.5 22v-8.5h2.85l.43-3.32H13.5V8.05c0-.96.27-1.62 1.65-1.62h1.76V3.47C16.6 3.4 15.58 3.3 14.4 3.3c-2.47 0-4.16 1.51-4.16 4.28v2.6H7.38v3.32h2.86V22z" fill="#1877F2"/></svg>
       <span>פייסבוק</span>
     </a>
     <a class="linktree-link" href="https://x.com/Milifney100" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.09-.205-7.719-2.165-10.148-5.144-.42.72-.666 1.56-.666 2.457 0 1.69.863 3.178 2.175 4.052-.803-.026-1.56-.248-2.228-.616v.061c0 2.362 1.683 4.335 3.912 4.785-.409.111-.84.17-1.287.17-.315 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 14-7.503 14-14.009 0-.21-.006-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" fill="currentColor"/></svg>
-      <span>X / טוויטר</span>
+      <svg viewBox="0 0 24 24" width="22" height="22" style="color: var(--text)"><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.09-.205-7.719-2.165-10.148-5.144-.42.72-.666 1.56-.666 2.457 0 1.69.863 3.178 2.175 4.052-.803-.026-1.56-.248-2.228-.616v.061c0 2.362 1.683 4.335 3.912 4.785-.409.111-.84.17-1.287.17-.315 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 14-7.503 14-14.009 0-.21-.006-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" fill="currentColor"/></svg>
+      <span>טוויטר</span>
     </a>
     <a class="linktree-link" href="https://t.me/milifney100" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" fill="#229ED9"/></svg>
       <span>טלגרם</span>
     </a>
     <button type="button" class="linktree-link" id="linktree-newsletter-btn">
