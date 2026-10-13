@@ -88,7 +88,7 @@
   </script>
   {% endunless %}
 </head>
-<body>
+<body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
   <nav class="navbar" style="background-image: url('{{ '/assets/images/branding/banner.jpg' | relative_url }}')">
     <div class="navbar-overlay"></div>
     <div class="navbar-inner">
