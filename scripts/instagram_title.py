@@ -14,6 +14,7 @@ regenerations/previews.
 
 import json
 import os
+import re
 import time
 from pathlib import Path
 
@@ -25,6 +26,16 @@ CACHE_FILE = REPO_ROOT / "scripts" / ".instagram_card_titles.json"
 BATCH_SIZE = 20
 SECONDS_BETWEEN_REQUESTS = 5
 MAX_BODY_CHARS = 500
+MAX_TITLE_ATTEMPTS = 3
+
+# Non-Hebrew letters that sometimes slip into generated titles (Arabic script
+# or stray English words/names) — such titles are rejected in favor of the
+# original tweet title.
+_FOREIGN_LETTERS_RE = re.compile(r"[A-Za-z\u0600-\u06FF]")
+
+
+def _has_foreign_letters(text):
+    return bool(_FOREIGN_LETTERS_RE.search(text))
 
 
 def _load_cache():
@@ -52,6 +63,8 @@ def build_prompt(batch):
 
 כלל קריטי - דיוק עובדתי: אסור לשנות, להמציא, להחליף או לעגל מספרים, תאריכים, שמות אנשים ומקומות לעומת מה שכתוב במפורש בתוכן הידיעה. לפני שתכתוב את הכותרת הסופית, ודא שכל מספר/תאריך/שם בה מדויק ובהקשר הנכון; אם אינך בטוח - עדיף להשמיט את הפרט מאשר לנחש.
 
+כלל קריטי - שפה: הכותרת חייבת להיות כתובה כולה באותיות עבריות בלבד (מותרים גם ספרות וסימני פיסוק). אסור באותיות ערביות ואסור במילים או שמות באנגלית - גם שמות אנשים/מקומות/ארגונים זרים חייבים להיכתב בתעתיק עברי, לא בכתב המקור.
+
 לפני שאתה מסיים, קרא שוב את כל כותרת שכתבת: ודא שהיא משפט תקין ומובן בעברית, ללא מילים מוזרות, שבורות או חסרות משמעות, ושהיא נשמעת כמו כותרת חדשותית אמיתית. אם משהו לא נשמע טבעי - נסח מחדש.
 
 הידיעות:
@@ -60,6 +73,40 @@ def build_prompt(batch):
 החזר אך ורק JSON תקין בפורמט הבא, בלי טקסט נוסף:
 {{"1": "הכותרת החדשה", "2": "הכותרת החדשה", ...}}
 כל מפתח הוא מספר הידיעה (כמחרוזת)."""
+
+
+def _generate_batch_titles(batch, api_key, log, attempt=1):
+    """Calls Gemini for one batch and re-asks (up to MAX_TITLE_ATTEMPTS) for any
+    titles that came back empty or containing non-Hebrew letters, instead of
+    silently falling back to the original title on the first bad result."""
+    prompt = build_prompt(batch)
+
+    try:
+        parsed = call_gemini(prompt, api_key)
+    except Exception as e:
+        log(f"  Card-title batch failed: {e}. Using original titles.")
+        return {post["tweet_id"]: post["title"] for post in batch}
+
+    titles = {}
+    retry_posts = []
+    for i, post in enumerate(batch, start=1):
+        new_title = str(parsed.get(str(i), "")).strip()
+        if new_title and not _has_foreign_letters(new_title):
+            titles[post["tweet_id"]] = new_title
+        else:
+            retry_posts.append(post)
+
+    if retry_posts:
+        if attempt < MAX_TITLE_ATTEMPTS:
+            log(f"  {len(retry_posts)} title(s) had non-Hebrew letters — retrying (attempt {attempt + 1}/{MAX_TITLE_ATTEMPTS}).")
+            time.sleep(SECONDS_BETWEEN_REQUESTS)
+            titles.update(_generate_batch_titles(retry_posts, api_key, log, attempt + 1))
+        else:
+            log(f"  Giving up on {len(retry_posts)} title(s) with non-Hebrew letters after {MAX_TITLE_ATTEMPTS} attempts — using original titles.")
+            for post in retry_posts:
+                titles[post["tweet_id"]] = post["title"]
+
+    return titles
 
 
 def generate_card_titles(posts, api_key, log=print):
@@ -87,20 +134,12 @@ def generate_card_titles(posts, api_key, log=print):
 
     for start in range(0, len(pending), BATCH_SIZE):
         batch = pending[start:start + BATCH_SIZE]
-        prompt = build_prompt(batch)
+        batch_titles = _generate_batch_titles(batch, api_key, log)
 
-        try:
-            parsed = call_gemini(prompt, api_key)
-        except Exception as e:
-            log(f"  Card-title batch starting at post {start} failed: {e}. Using original titles.")
-            for post in batch:
-                result[post["tweet_id"]] = post["title"]
-            continue
-
-        for i, post in enumerate(batch, start=1):
-            new_title = str(parsed.get(str(i), "")).strip()
-            result[post["tweet_id"]] = new_title or post["title"]
-            cache[post["tweet_id"]] = result[post["tweet_id"]]
+        for post in batch:
+            tid = post["tweet_id"]
+            result[tid] = batch_titles[tid]
+            cache[tid] = batch_titles[tid]
 
         _save_cache(cache)
         log(f"  Generated card titles for {min(start + BATCH_SIZE, len(pending))}/{len(pending)} posts.")
