@@ -1,2 +1,13 @@
 # Generated: entities that have their own page, most mentioned first.
-[]
+- slug: land-of-israel
+  name: ארץ ישראל
+  type: place
+  count: 5
+- slug: benito-mussolini
+  name: בניטו מוסוליני
+  type: person
+  count: 3
+- slug: jerusalem
+  name: ירושלים
+  type: place
+  count: 3

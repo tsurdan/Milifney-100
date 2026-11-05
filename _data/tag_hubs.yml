@@ -1,6 +1,9 @@
 # Generated: top entities and stories per topic.
 world-politics:
-  entities: []
+  entities:
+  - benito-mussolini
+  - jerusalem
+  - land-of-israel
   stories:
   - fascist-italy
   - druze-revolt
@@ -9,17 +12,21 @@ world-politics:
   - ibn-saud-hejaz
   - zionist-congress-14
 yishuv:
-  entities: []
+  entities:
+  - land-of-israel
   stories:
   - western-wall-1925
   - zionist-congress-14
   - turkey-hat-law
 crime-justice:
-  entities: []
+  entities:
+  - jerusalem
   stories:
   - fascist-italy
 culture-arts:
-  entities: []
+  entities:
+  - benito-mussolini
+  - jerusalem
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -29,13 +36,16 @@ jewish-diaspora:
   stories:
   - fascist-italy
 religion:
-  entities: []
+  entities:
+  - land-of-israel
   stories:
   - western-wall-1925
   - fascist-italy
   - turkey-hat-law
 economy:
-  entities: []
+  entities:
+  - jerusalem
+  - land-of-israel
   stories: []
 antisemitism:
   entities: []
@@ -43,7 +53,8 @@ antisemitism:
   - zionist-congress-14
   - fascist-italy
 british-mandate:
-  entities: []
+  entities:
+  - land-of-israel
   stories:
   - western-wall-1925
   - druze-revolt
@@ -53,7 +64,9 @@ military:
   - druze-revolt
   - fascist-italy
 jewish-arab-relations:
-  entities: []
+  entities:
+  - land-of-israel
+  - jerusalem
   stories:
   - western-wall-1925
   - druze-revolt
@@ -61,14 +74,18 @@ curiosities:
   entities: []
   stories: []
 jerusalem:
-  entities: []
+  entities:
+  - jerusalem
   stories:
   - western-wall-1925
 transportation:
-  entities: []
+  entities:
+  - land-of-israel
+  - jerusalem
   stories: []
 monarchy:
-  entities: []
+  entities:
+  - benito-mussolini
   stories:
   - fascist-italy
   - ibn-saud-hejaz
@@ -93,7 +110,8 @@ health:
   entities: []
   stories: []
 press:
-  entities: []
+  entities:
+  - benito-mussolini
   stories:
   - fascist-italy
   - zionist-congress-14
