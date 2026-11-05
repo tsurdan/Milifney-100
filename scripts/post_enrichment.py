@@ -72,10 +72,11 @@ def build_prompt(batch, registry, stories):
 
     return f"""אתה עורך באתר חדשות עברי שמפרסם ידיעות אמיתיות מהעיתונות העברית של לפני מאה שנה, כאילו קרו היום.
 עבור כל ידיעה מהרשימה כתוב את השדות הבאים, בעברית מודרנית ותקנית (כתיב ושמות של ימינו, למשל "ווינה" ולא "וינא", "איראן" ולא "פרס", "רזא שאה" ולא "ריזא ח'אן").
+חשוב: כתב אך ורק באותיות עבריות, ספרות וסימני פיסוק. אסור לכתוב באותיות ערביות, לא כתב אחר ולא שמות בערבית - גם כשמדובר בשמות ערביים, רשום אותם בתעתיק עברי.
 
 1. standfirst: משפט או שניים (עד 170 תווים) שמסכמים את הידיעה כמו כותרת משנה באתר חדשות מודרני: מי, מה, איפה, ואם הטקסט מציין זמן - בניסוח מוחלט ("ב-31 באוקטובר 1926") ולא יחסי ("אמש"). אל תוסיף עובדות שאינן בכותרת, בטקסט או בכיתוב. בלי אימוג'ים ובלי האשטאגים. אם אין טקסט, הסתמך רק על הכותרת והכיתוב.
 2. seo_title: רק אם הכותרת לא מציינת מי או מה הנושא (למשל כותרת כללית או כותרת שמסתיימת בנקודתיים), כתוב כותרת חיפוש תיאורית של 35 עד 65 תווים. אחרת החזר null.
-3. entities: עד {MAX_ENTITIES_PER_POST} אישים, מקומות, אירועים או ארגונים מרכזיים בידיעה, כל אחד כאובייקט {{"name": שם בעברית מודרנית, "slug": מזהה באנגלית באותיות קטנות עם מקפים, "type": person|place|event|org}}.
+3. entities: עד {MAX_ENTITIES_PER_POST} אישים, מקומות, אירועים או ארגונים מרכזיים בידיעה, כל אחד כאובייקט {{"name": שם בעברית מודרנית, "slug": מזהה באנגלית באותיות קטנות עם מקפים, "type": person|place|event|org, "mention": הביטוי המדויק כפי שהוא מופיע בטקסט הידיעה (בכתיב המקורי, בלי אותיות שימוש כמו ב/ל/ה/ו/מ בתחילת המילה), או null אם הישות לא מופיעה בטקסט בצורה של אותו ביטוי}}.
    - העדף מזהים קיימים מהרשימה למטה כשמדובר באותה ישות. אל תיצור מזהה חדש לישות שכבר קיימת.
    - אירועים ופרשות בשם מלא וברור (למשל "משפט רודולף האס"), אישים בשם המלא, מקומות בשם המוכר היום.
    - בלי מושגים כלליים (ממשלה, עיתון, עם) ובלי ישויות שהן רק רקע שולי.
@@ -91,7 +92,7 @@ def build_prompt(batch, registry, stories):
 {articles}
 
 החזר אך ורק JSON תקין בפורמט:
-{{"1": {{"standfirst": "...", "seo_title": null, "entities": [{{"name": "...", "slug": "...", "type": "person"}}], "stories": []}}, "2": {{...}}}}"""
+{{"1": {{"standfirst": "...", "seo_title": null, "entities": [{{"name": "...", "slug": "...", "type": "person", "mention": "..."}}], "stories": []}}, "2": {{...}}}}"""
 
 
 def call_gemini(prompt, api_key):
@@ -106,19 +107,31 @@ def call_gemini(prompt, api_key):
     return json.loads(text)
 
 
+def _has_foreign_script(text):
+    """True if the text has letters outside Hebrew and Latin (the model sometimes slips in Arabic)."""
+    return any(
+        ch.isalpha() and not (ch < "\u0250" or "\u0590" <= ch <= "\u05ff" or "\ufb1d" <= ch <= "\ufb4f")
+        for ch in text
+    )
+
+
 def _clean_sentence(value):
     if not isinstance(value, str):
         return ""
     value = re.sub(r"\s+", " ", value).strip().strip("-–— ")
-    return value
+    return "" if _has_foreign_script(value) else value
 
 
-def normalize_entities(raw_entities, registry):
-    """Validate model output, reuse existing slugs, and add new ones to the registry."""
+def normalize_entities(raw_entities, registry, text=""):
+    """Validate model output, reuse existing slugs, and add new ones to the registry.
+
+    Returns (slugs, mentions) where mentions maps slug -> exact text found in the post body.
+    """
     name_to_slug = {info.get("name"): slug for slug, info in registry.items()}
     slugs = []
+    mentions = {}
     if not isinstance(raw_entities, list):
-        return slugs
+        return slugs, mentions
     for item in raw_entities:
         if not isinstance(item, dict):
             continue
@@ -138,12 +151,15 @@ def normalize_entities(raw_entities, registry):
             continue
         if slug not in slugs:
             slugs.append(slug)
+            mention = _clean_sentence(item.get("mention"))
+            if 2 <= len(mention) <= 40 and mention in text:
+                mentions[slug] = mention
         if len(slugs) >= MAX_ENTITIES_PER_POST:
             break
-    return slugs
+    return slugs, mentions
 
 
-def build_updates(entry, registry, valid_stories):
+def build_updates(entry, registry, valid_stories, text=""):
     standfirst = _clean_sentence(entry.get("standfirst")) if isinstance(entry, dict) else ""
     if len(standfirst) < 15:
         return None
@@ -151,7 +167,9 @@ def build_updates(entry, registry, valid_stories):
     seo_title = _clean_sentence(entry.get("seo_title"))
     if 20 <= len(seo_title) <= 90:
         updates["seo_title"] = seo_title
-    updates["entities"] = normalize_entities(entry.get("entities"), registry)
+    updates["entities"], mentions = normalize_entities(entry.get("entities"), registry, text)
+    if mentions:
+        updates["mentions"] = mentions
     stories = entry.get("stories") if isinstance(entry.get("stories"), list) else []
     updates["stories"] = [s for s in dict.fromkeys(str(x) for x in stories) if s in valid_stories]
     return updates
@@ -183,7 +201,7 @@ def enrich_pending_posts(api_key, log=print, limit=None, dry_run=False):
             continue
 
         for i, post in enumerate(batch, start=1):
-            updates = build_updates(result.get(str(i)), registry, stories)
+            updates = build_updates(result.get(str(i)), registry, stories, post.text)
             if not updates:
                 log(f"  No usable result for {post.path.name}")
                 continue

@@ -81,6 +81,7 @@ class Post:
 
 def clean_body(body):
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", body)
+    text = re.sub(r"\[([^\]\n]+)\]\([^)\s]*\)", r"\1", text)
     text = re.sub(r"^>+\s*$", "", text, flags=re.MULTILINE)
     return text.strip()
 
@@ -149,6 +150,19 @@ def update_front_matter(path, updates, remove=()):
     if new_raw == raw:
         return False
     write_text(path, new_raw)
+    return True
+
+
+def update_body(path, transform):
+    """Replace a post's body with transform(body). Returns True if the file changed."""
+    raw = Path(path).read_text(encoding="utf-8").replace("\r\n", "\n")
+    match = _FM_RE.match(raw)
+    if not match:
+        return False
+    new_body = transform(match.group(2))
+    if new_body == match.group(2):
+        return False
+    write_text(path, "---\n" + match.group(1) + "\n---\n" + new_body)
     return True
 
 

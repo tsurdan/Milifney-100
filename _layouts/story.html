@@ -1,0 +1,90 @@
+---
+layout: default
+---
+{% assign story = site.data.stories[page.hub_slug] %}
+{% assign tl = site.data.story_timelines[page.hub_slug] %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ story.name | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "url": "{{ page.url | absolute_url }}",
+  "inLanguage": "he",
+  {% if tl.hero %}"image": "{{ tl.hero.i | absolute_url }}",{% endif %}
+  "isPartOf": { "@type": "WebSite", "name": {{ site.title | jsonify }}, "url": "{{ site.url }}{{ site.baseurl }}/" },
+  "numberOfItems": {{ tl.count }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ site.title | jsonify }}, "item": "{{ '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 2, "name": "סיפורים מתמשכים", "item": "{{ '/stories/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 3, "name": {{ story.name | jsonify }} }
+  ]
+}
+</script>
+
+<div class="story-page">
+  <nav class="breadcrumbs" aria-label="פירורי לחם">
+    <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <span aria-hidden="true">›</span>
+    <a href="{{ '/stories/' | relative_url }}">סיפורים מתמשכים</a>
+  </nav>
+
+  <header class="story-hero">
+    <div class="story-hero-text">
+      <span class="label">סיפור מתמשך</span>
+      <h1>{{ story.name }}</h1>
+      <p class="story-hero-count">{{ tl.count }} ידיעות</p>
+    </div>
+    {% if tl.hero %}
+    <a class="story-hero-clip" href="{{ tl.hero.u | relative_url }}">
+      <img src="{{ tl.hero.i | relative_url }}" alt="{{ tl.hero.t | escape }}"{% if tl.hero.w > 0 %} width="{{ tl.hero.w }}" height="{{ tl.hero.h }}"{% endif %} fetchpriority="high" decoding="async">
+      <span class="story-hero-caption">{{ tl.hero.t | escape }} &middot; {{ tl.hero.d }}</span>
+    </a>
+    {% endif %}
+  </header>
+
+  <section class="hub-intro">
+    {{ story.intro | markdownify }}
+  </section>
+
+  {% if tl.chapters.size > 1 %}
+  <nav class="story-chapters-nav" aria-label="פרקי הסיפור">
+    <ol>
+      {% for ch in tl.chapters %}<li><a href="#chapter-{{ forloop.index }}">{{ ch.title | escape }}</a></li>{% endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+
+  {% for ch in tl.chapters %}
+  {% assign ch_no = forloop.index %}
+  <section class="story-chapter" id="chapter-{{ ch_no }}">
+    {% if ch.title != "" %}
+    <header class="story-chapter-header">
+      <span class="story-chapter-num" aria-hidden="true">{{ ch_no }}</span>
+      <h2>{{ ch.title | escape }}</h2>
+      {% if ch.intro != "" %}<p>{{ ch.intro | escape }}</p>{% endif %}
+    </header>
+    {% endif %}
+    <ol class="story-timeline">
+      {% for item in ch.items %}
+      <li class="story-event">
+        <a href="{{ item.u | relative_url }}">
+          <time>{{ item.d }}</time>
+          <h3>{{ item.t | escape }}</h3>
+          {% if item.x != "" %}<p>{{ item.x | escape }}</p>{% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endfor %}
+
+  <a href="{{ '/stories/' | relative_url }}" class="tag-archive-back">← סיפורים מתמשכים</a>
+</div>

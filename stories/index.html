@@ -1,7 +1,7 @@
 ---
 layout: default
 title: סיפורים מתמשכים
-description: סיפורים שמתפתחים לאורך זמן בעיתונות העברית של לפני מאה שנה - פרשות, משפטים ואירועים, ידיעה אחר ידיעה.
+description: סיפורים שמתפתחים וממשיכים - פרשות, משפטים ואירועים, ידיעה אחר ידיעה.
 permalink: /stories/
 in_sitemap: true
 ---
@@ -9,16 +9,20 @@ in_sitemap: true
   <header class="archive-header">
     <span class="label">סיפורים</span>
     <h1>סיפורים מתמשכים</h1>
-    <p class="archive-summary">פרשות, משפטים ואירועים שהעיתונות של לפני מאה שנה סיקרה ידיעה אחר ידיעה. כל סיפור מרכז את הידיעות שלו לפי סדר הופעתן.</p>
+    <p class="archive-summary">פרשות, משפטים ואירועים שממשיכים להתפתח, ידיעה אחר ידיעה. כל סיפור מרכז את הידיעות שלו לפי סדר הופעתן.</p>
   </header>
 
-  <div class="archive-month-grid">
+  <div class="story-card-grid">
     {% for s in site.data.story_pages %}
     {% assign story_slug = s[0] %}
     {% assign story = site.data.stories[story_slug] %}
-    <a class="archive-month-card" href="{{ '/stories/' | append: story_slug | append: '/' | relative_url }}">
-      <h2>{{ story.name | escape }}</h2>
-      <span>{{ s[1] }} ידיעות</span>
+    {% assign tl = site.data.story_timelines[story_slug] %}
+    <a class="story-card" href="{{ '/stories/' | append: story_slug | append: '/' | relative_url }}">
+      {% if tl.hero %}<img src="{{ tl.hero.i | relative_url }}" alt="" loading="lazy" decoding="async">{% endif %}
+      <div class="story-card-body">
+        <h2>{{ story.name | escape }}</h2>
+        <span>{{ s[1] }} ידיעות &middot; {{ tl.chapters.size }} פרקים</span>
+      </div>
     </a>
     {% endfor %}
   </div>

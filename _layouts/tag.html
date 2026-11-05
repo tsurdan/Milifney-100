@@ -56,7 +56,7 @@ layout: default
   <section class="hub-links">
     <h2>אישים, מקומות ואירועים בנושא</h2>
     <div class="hub-chips">
-      {% for e_slug in tag_hub.entities %}{% assign ent = site.data.entities[e_slug] %}{% if ent and ent.page %}<a href="{{ '/topics/' | append: e_slug | append: '/' | relative_url }}" class="entity-chip">{{ ent.name | escape }}</a>{% endif %}{% endfor %}
+      {% for e_slug in tag_hub.entities limit: 8 %}{% assign ent = site.data.entities[e_slug] %}{% if ent and ent.page %}<a href="{{ '/topics/' | append: e_slug | append: '/' | relative_url }}" class="entity-chip">{{ ent.name | escape }}</a>{% endif %}{% endfor %}
     </div>
   </section>
   {% endif %}
@@ -70,7 +70,6 @@ layout: default
         <div class="card-sm-body">
           <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
           <h3>{{ p.title }}</h3>
-          {% if p.standfirst %}<p class="card-standfirst">{{ p.standfirst | escape }}</p>{% endif %}
         </div>
       </a>
     </article>
