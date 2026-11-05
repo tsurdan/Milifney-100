@@ -3,40 +3,41 @@ layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% assign latest_post = site.posts | first %}
+  {% assign latest_date = latest_post.path | split: "/" | last | truncate: 10, "" %}
   <url>
     <loc>{{ '/' | absolute_url }}</loc>
-    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-    <priority>1.0</priority>
+    <lastmod>{{ latest_date }}T12:00:00+03:00</lastmod>
   </url>
   <url>
-    <loc>{{ '/popular' | absolute_url }}</loc>
-    <priority>0.7</priority>
+    <loc>{{ '/about/' | absolute_url }}</loc>
   </url>
   <url>
-    <loc>{{ '/about' | absolute_url }}</loc>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>{{ '/support' | absolute_url }}</loc>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>{{ '/search' | absolute_url }}</loc>
-    <priority>0.5</priority>
+    <loc>{{ '/popular/' | absolute_url }}</loc>
   </url>
   <url>
     <loc>{{ '/tags/' | absolute_url }}</loc>
-    <priority>0.6</priority>
   </url>
   {% for tag in site.data.tags %}<url>
     <loc>{{ '/tags/' | append: tag.slug | append: '/' | absolute_url }}</loc>
-    <priority>0.6</priority>
   </url>
   {% endfor %}
-  {% for post in site.posts %}{% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}<url>
+  {% assign hub_pages = site.pages | where: "in_sitemap", true %}
+  {% for hub_page in hub_pages %}<url>
+    <loc>{{ hub_page.url | absolute_url }}</loc>
+  </url>
+  {% endfor %}
+  {% if site.articles.size > 0 %}<url>
+    <loc>{{ '/articles/' | absolute_url }}</loc>
+  </url>
+  {% for article in site.articles %}<url>
+    <loc>{{ article.url | absolute_url }}</loc>
+    <lastmod>{{ article.last_modified_at | default: article.date | date_to_xmlschema }}</lastmod>
+  </url>
+  {% endfor %}{% endif %}
+  {% for post in site.posts %}{% assign post_text = post.content | strip_html | strip_newlines | strip %}{% if post_text != "" or post.standfirst %}{% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}<url>
     <loc>{{ post.url | absolute_url }}</loc>
     <lastmod>{{ real_date_str }}T12:00:00+03:00</lastmod>
-    <priority>0.8</priority>
   </url>
-  {% endfor %}
+  {% endif %}{% endfor %}
 </urlset>

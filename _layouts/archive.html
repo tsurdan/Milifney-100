@@ -1,0 +1,105 @@
+---
+layout: default
+---
+{% assign level = page.archive_level %}
+{% assign key_fmt = "%Y-%m-%d" %}
+{% if level == "month" %}{% assign key_fmt = "%Y-%m" %}{% elsif level == "year" %}{% assign key_fmt = "%Y" %}{% endif %}
+{% assign year_url = '/' | append: page.archive_year | append: '/' %}
+{% assign month_url = year_url | append: page.archive_month | append: '/' %}
+
+{% assign crumbs = "" | split: "" %}
+{% capture crumb %}{ "@type": "ListItem", "position": {{ crumbs.size | plus: 1 }}, "name": {{ site.title | jsonify }}, "item": "{{ '/' | absolute_url }}" }{% endcapture %}{% assign crumbs = crumbs | push: crumb %}
+{% capture crumb %}{ "@type": "ListItem", "position": {{ crumbs.size | plus: 1 }}, "name": {{ page.archive_year | jsonify }}{% if level != "year" %}, "item": "{{ year_url | absolute_url }}"{% endif %} }{% endcapture %}{% assign crumbs = crumbs | push: crumb %}
+{% if level == "month" or level == "day" %}
+{% capture crumb %}{ "@type": "ListItem", "position": {{ crumbs.size | plus: 1 }}, "name": {{ page.month_name | append: " " | append: page.archive_year | jsonify }}{% if level == "day" %}, "item": "{{ month_url | absolute_url }}"{% endif %} }{% endcapture %}{% assign crumbs = crumbs | push: crumb %}
+{% endif %}
+{% if level == "day" %}
+{% capture crumb %}{ "@type": "ListItem", "position": {{ crumbs.size | plus: 1 }}, "name": {{ page.day_num | append: " ב" | append: page.month_name | append: " " | append: page.archive_year | jsonify }} }{% endcapture %}{% assign crumbs = crumbs | push: crumb %}
+{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ page.title | jsonify }},
+  "description": {{ page.summary | default: page.description | jsonify }},
+  "url": "{{ page.url | absolute_url }}",
+  "inLanguage": "he",
+  "temporalCoverage": "{{ page.archive_key }}",
+  "isPartOf": { "@type": "WebSite", "name": {{ site.title | jsonify }}, "url": "{{ site.url }}{{ site.baseurl }}/" },
+  "numberOfItems": {{ page.post_count | default: 0 }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{{ crumbs | join: ", " }}]
+}
+</script>
+
+<div class="archive-page">
+  <nav class="breadcrumbs" aria-label="פירורי לחם">
+    <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    {% if level != "year" %}
+    <span aria-hidden="true">›</span>
+    <a href="{{ year_url | relative_url }}">{{ page.archive_year }}</a>
+    {% endif %}
+    {% if level == "day" %}
+    <span aria-hidden="true">›</span>
+    <a href="{{ month_url | relative_url }}">{{ page.month_name }}</a>
+    {% endif %}
+  </nav>
+
+  <header class="archive-header">
+    <span class="label">{% if level == "day" %}יום בעיתונות{% elsif level == "month" %}חודש בעיתונות{% else %}שנה בעיתונות{% endif %}</span>
+    <h1>{{ page.title }}</h1>
+    {% if page.summary %}<p class="archive-summary">{{ page.summary | escape }}</p>{% endif %}
+    <p class="archive-count">{{ page.post_count }} ידיעות</p>
+  </header>
+
+  {% if level == "year" %}
+  <div class="archive-month-grid">
+    {% for m in site.data.archive_months %}
+    {% if m.year == page.archive_year %}
+    <a class="archive-month-card" href="{{ '/' | append: m.year | append: '/' | append: m.month | append: '/' | relative_url }}">
+      <h2>{{ m.name }}</h2>
+      <span>{{ m.count }} ידיעות</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  {% elsif level == "month" %}
+  {% assign last_day = "" %}
+  {% for p in site.posts reversed %}
+    {% assign pk = p.date | date: key_fmt %}
+    {% if pk == page.archive_key %}
+      {% assign pd = p.date | date: "%d" %}
+      {% if pd != last_day %}
+        {% unless last_day == "" %}</ul>{% endunless %}
+        <h2 class="archive-day-heading"><a href="{{ month_url | append: pd | append: '/' | relative_url }}">{{ p.date | date: "%-d" }} ב{{ page.month_name }}</a></h2>
+        <ul class="archive-list">
+        {% assign last_day = pd %}
+      {% endif %}
+      {% include archive-item.html p=p %}
+    {% endif %}
+  {% endfor %}
+  {% unless last_day == "" %}</ul>{% endunless %}
+
+  {% else %}
+  <ul class="archive-list">
+    {% for p in site.posts reversed %}
+      {% assign pk = p.date | date: key_fmt %}
+      {% if pk == page.archive_key %}{% include archive-item.html p=p %}{% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if page.prev_url or page.next_url %}
+  <nav class="archive-pager" aria-label="ניווט">
+    {% if page.prev_url %}<a class="archive-pager-link" href="{{ page.prev_url | relative_url }}" rel="prev">→ {{ page.prev_label }}</a>{% else %}<span></span>{% endif %}
+    {% if page.next_url %}<a class="archive-pager-link" href="{{ page.next_url | relative_url }}" rel="next">{{ page.next_label }} ←</a>{% endif %}
+  </nav>
+  {% endif %}
+</div>

@@ -1,39 +1,76 @@
 ---
 layout: default
 ---
-{% assign post_description = page.content | strip_html | strip_newlines | truncate: 200 %}
+{% assign body_text = content | strip_html | strip_newlines | strip %}
+{% assign clean_title = page.title | strip %}{% assign ct_last = clean_title | slice: -1 %}{% if ct_last == ":" %}{% assign ct_cut = clean_title | size | minus: 1 %}{% assign clean_title = clean_title | slice: 0, ct_cut | strip %}{% endif %}
 {% assign real_date_str = page.path | split: "/" | last | truncate: 10, "" %}
 {% assign real_date_iso = real_date_str | append: "T12:00:00+03:00" %}
+{% assign event_date_iso = page.date | date: "%Y-%m-%d" %}
+{% assign ev_year = page.date | date: "%Y" %}
+{% assign ev_month = page.date | date: "%m" %}
+{% assign ev_day = page.date | date: "%d" %}
+{% assign ev_day_num = page.date | date: "%-d" %}
+{% assign ev_month_index = page.date | date: "%-m" | minus: 1 %}
+{% assign ev_month_name = site.data.months[ev_month_index] %}
+
+{% if page.standfirst %}{% assign ld_description = page.standfirst %}
+{% elsif body_text != "" %}{% assign ld_description = body_text %}
+{% else %}{% assign ld_description = page.image_alt | remove: ";;" | remove: "::" | strip %}{% endif %}
+{% if ld_description == "" %}{% assign ld_description = page.title %}{% endif %}
+{% assign ld_description = ld_description | strip_newlines | truncate: 200 %}
+
 {% assign tag_names = "" | split: "" %}
 {% for tag_slug in page.tags %}
 {% assign tag_info = site.data.tags | where: "slug", tag_slug | first %}
 {% if tag_info %}{% assign tag_names = tag_names | push: tag_info.name %}{% endif %}
 {% endfor %}
+
+{% assign entity_names = "" | split: "" %}
+{% assign about_items = "" | split: "" %}
+{% for e_slug in page.entities %}
+{% assign ent = site.data.entities[e_slug] %}
+{% if ent %}
+{% assign entity_names = entity_names | push: ent.name %}
+{% capture about_json %}{"@type": "Thing", "name": {{ ent.name | jsonify }} }{% endcapture %}
+{% assign about_items = about_items | push: about_json %}
+{% endif %}
+{% endfor %}
+{% assign ld_keywords = tag_names | concat: entity_names | push: "חדשות" | push: "היסטוריה" %}
+
+{% assign based_on = "" | split: "" %}
+{% for s in page.sources %}{% if s.url %}
+{% capture based_on_json %}{ "@type": "CreativeWork", "name": {{ s.paper | append: ", " | append: s.date | jsonify }}, "url": "{{ s.url }}", "datePublished": "{{ s.date }}" }{% endcapture %}
+{% assign based_on = based_on | push: based_on_json %}
+{% endif %}{% endfor %}
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "NewsArticle",
-  "headline": "{{ page.title | escape }}",
-  "description": "{{ post_description | escape }}",
+  "headline": {{ clean_title | jsonify }},
+  "description": {{ ld_description | jsonify }},
   "datePublished": "{{ real_date_iso }}",
   "dateModified": "{{ real_date_iso }}",
+  "temporalCoverage": "{{ event_date_iso }}",
   "inLanguage": "he",
   "genre": ["חדשות", "היסטוריה"],
-  "articleSection": "{{ tag_names | first | default: "היסטוריה" | escape }}",
-  "keywords": {{ tag_names | push: "חדשות" | push: "היסטוריה" | jsonify }},
+  "articleSection": {{ tag_names | first | default: "היסטוריה" | jsonify }},
+  "keywords": {{ ld_keywords | jsonify }},
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ page.url | absolute_url }}"
   },
-  {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+  {% if page.image %}"image": ["{{ page.image | absolute_url }}"],{% endif %}
+  {% if about_items.size > 0 %}"about": [{{ about_items | join: ", " }}],{% endif %}
+  {% if based_on.size > 0 %}"isBasedOn": [{{ based_on | join: ", " }}],{% endif %}
   "author": {
     "@type": "Organization",
-    "name": "{{ site.title }}",
-    "url": "{{ site.url }}{{ site.baseurl }}/"
+    "name": {{ site.title | jsonify }},
+    "url": "{{ '/about/' | absolute_url }}"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ site.title }}",
+    "name": {{ site.title | jsonify }},
     "url": "{{ site.url }}{{ site.baseurl }}/",
     "logo": {
       "@type": "ImageObject",
@@ -41,14 +78,31 @@ layout: default
     },
     "sameAs": [
       "https://x.com/Milifney100",
-      "https://t.me/milifney100"
+      "https://t.me/milifney100",
+      "https://www.facebook.com/milifney100",
+      "https://www.instagram.com/milifney100/"
     ]
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ site.title | jsonify }}, "item": "{{ '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 2, "name": "{{ ev_year }}", "item": "{{ '/' | append: ev_year | append: '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 3, "name": {{ ev_month_name | append: " " | append: ev_year | jsonify }}, "item": "{{ '/' | append: ev_year | append: '/' | append: ev_month | append: '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 4, "name": {{ ev_day_num | append: " ב" | append: ev_month_name | append: " " | append: ev_year | jsonify }}, "item": "{{ '/' | append: ev_year | append: '/' | append: ev_month | append: '/' | append: ev_day | append: '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 5, "name": {{ clean_title | jsonify }} }
+  ]
 }
 </script>
 {% assign current_day = page.date | date: "%m-%d" %}
 {% assign current_year = page.date | date: "%Y" | plus: 0 %}
 {% assign prev_year = current_year | minus: 1 %}
+{% assign real_year = real_date_str | date: "%Y" | plus: 0 %}
+{% assign years_gap = real_year | minus: prev_year %}
 {% assign sidebar_posts = "" | split: "" %}
 {% for post in site.posts %}
   {% if post.id != page.id %}
@@ -63,21 +117,29 @@ layout: default
 
 <div class="post-layout {% if sidebar_posts.size > 0 %}has-sidebar{% endif %}">
   <article class="post">
+    <nav class="breadcrumbs" aria-label="פירורי לחם">
+      <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <span aria-hidden="true">›</span>
+      <a href="{{ '/' | append: ev_year | append: '/' | relative_url }}">{{ ev_year }}</a>
+      <span aria-hidden="true">›</span>
+      <a href="{{ '/' | append: ev_year | append: '/' | append: ev_month | append: '/' | relative_url }}">{{ ev_month_name }}</a>
+      <span aria-hidden="true">›</span>
+      <a href="{{ '/' | append: ev_year | append: '/' | append: ev_month | append: '/' | append: ev_day | append: '/' | relative_url }}">{{ ev_day_num }}</a>
+    </nav>
     <header class="post-header">
-      <h1>{{ page.title }}</h1>
+      <h1>{{ page.title | escape }}</h1>
+      {% if page.standfirst %}<p class="post-standfirst">{{ page.standfirst | escape }}</p>{% endif %}
       <div class="post-meta">
-        <time datetime="{{ page.date | date_to_xmlschema }}">
-          {{ page.date | date: "%d.%m.%Y" }}
-        </time>
+        <span class="post-event-date" title="התאריך בעיתון המקורי">{{ page.date | date: "%d.%m.%Y" }}</span>
+        <time class="post-published" datetime="{{ real_date_iso }}">פורסם באתר ב-{{ real_date_str | date: "%d.%m.%Y" }}</time>
       </div>
     </header>
 
     {% if page.image %}
-    {% assign stripped_content = content | strip_html | strip_newlines | strip %}
-    <figure class="post-image{% if stripped_content == "" %} post-image-full{% endif %}">
-      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | remove: ';;' | remove: '::' }}">
+    <figure class="post-image{% if body_text == "" %} post-image-full{% endif %}">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | remove: ';;' | remove: '::' | escape }}"{% if page.image_w %} width="{{ page.image_w }}" height="{{ page.image_h }}"{% endif %} fetchpriority="high" decoding="async">
       {% if page.image_alt %}
-      <figcaption>{{ page.image_alt | remove: ';;' | remove: '::' }}</figcaption>
+      <figcaption>{{ page.image_alt | remove: ';;' | remove: '::' | escape }}</figcaption>
       {% endif %}
     </figure>
     {% endif %}
@@ -85,6 +147,18 @@ layout: default
     <div class="post-content">
       {{ content }}
     </div>
+
+    {% capture entity_chips %}{% for e_slug in page.entities %}{% assign ent = site.data.entities[e_slug] %}{% if ent and ent.page %}<a href="{{ '/topics/' | append: e_slug | append: '/' | relative_url }}" class="entity-chip">{{ ent.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}
+    {% assign entity_chips = entity_chips | strip %}
+    {% if entity_chips != "" %}
+    <div class="post-entities"><span class="post-entities-label">בכתבה:</span> {{ entity_chips }}</div>
+    {% endif %}
+
+    {% capture story_links %}{% for s_slug in page.stories %}{% assign story = site.data.stories[s_slug] %}{% if story and site.data.story_pages[s_slug] %}<a href="{{ '/stories/' | append: s_slug | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}
+    {% assign story_links = story_links | strip %}
+    {% if story_links != "" %}
+    <div class="post-stories"><span class="post-stories-label">חלק מהסיפור:</span> {{ story_links }}</div>
+    {% endif %}
 
     {% if page.tags.size > 0 %}
     <div class="post-tags">
@@ -94,11 +168,24 @@ layout: default
       {% endfor %}
     </div>
     {% endif %}
+
+    <details class="post-source">
+      <summary>מקור הידיעה</summary>
+      <div class="post-source-body">
+        {% if page.sources.size > 0 %}
+        <ul class="post-source-list">
+          {% for s in page.sources %}<li>{% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.paper | escape }}, {{ s.date | date: "%d.%m.%Y" }}</a> — הגיליון בארכיון העיתונות של הספרייה הלאומית{% else %}{{ s.paper | escape }}, {{ s.date | date: "%d.%m.%Y" }} — ארכיון העיתונות של הספרייה הלאומית{% endif %}</li>{% endfor %}
+        </ul>
+        {% else %}
+        <p>הידיעה מבוססת על עיתוני התקופה, מתוך <a href="https://www.nli.org.il/he/newspapers" target="_blank" rel="noopener">ארכיון העיתונות של הספרייה הלאומית</a>.</p>
+        {% endif %}
+      </div>
+    </details>
   </article>
 
   {% if sidebar_posts.size > 0 %}
   <aside class="history-sidebar">
-    <h3 class="history-sidebar-title">היום לפני 101 שנים</h3>
+    <h3 class="history-sidebar-title">היום לפני {{ years_gap }} שנים</h3>
     <div class="history-sidebar-list">
       {% for p in sidebar_posts %}
       <a href="{{ p.url | relative_url }}" class="history-sidebar-item">
@@ -111,7 +198,26 @@ layout: default
   {% endif %}
 </div>
 
-<!-- ============ RELATED NEARBY NEWS ============ -->
+<!-- ============ RELATED NEWS (by shared entities/stories/topics; falls back to neighbouring dates) ============ -->
+{% assign related_items = site.data.related[page.tweet_id] %}
+{% if related_items.size > 0 %}
+<section class="same-day-section">
+  <h2 class="same-day-title">ידיעות קשורות</h2>
+  <div class="same-day-grid">
+    {% for r in related_items %}
+    <article class="same-day-card">
+      <a href="{{ r.u | relative_url }}" class="card-link">
+        {% if r.i %}<div class="same-day-img"><img src="{{ r.i | relative_url }}" alt="{{ r.t | escape }}" loading="lazy" decoding="async"></div>{% endif %}
+        <div class="same-day-body">
+          <time>{{ r.d }}</time>
+          <h3>{{ r.t | escape }}</h3>
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% else %}
 {% assign current_id = page.id %}
 {% assign related = "" | split: "" %}
 {% assign found_current = false %}
@@ -129,14 +235,15 @@ layout: default
     {% for p in related %}
     <article class="same-day-card">
       <a href="{{ p.url | relative_url }}" class="card-link">
-        {% if p.image %}<div class="same-day-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+        {% if p.image %}<div class="same-day-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy" decoding="async"></div>{% endif %}
         <div class="same-day-body">
           <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
-          <h3>{{ p.title }}</h3>
+          <h3>{{ p.title | escape }}</h3>
         </div>
       </a>
     </article>
     {% endfor %}
   </div>
 </section>
+{% endif %}
 {% endif %}

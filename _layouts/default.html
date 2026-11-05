@@ -23,31 +23,74 @@
     })();
   </script>
   <meta name="google-site-verification" content="p82N12v4OhVJAsr9ipd5XlgHRMeDOlUqUxZtAhgd0BI" />
-  {% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
-  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  {% if page.layout == 'post' %}{% assign seo_desc = page.content | strip_html | strip_newlines | truncate: 160 %}{% assign real_date_str = page.path | split: "/" | last | truncate: 10, "" %}{% assign real_date_iso = real_date_str | append: "T12:00:00+03:00" %}{% elsif page.description %}{% assign seo_desc = page.description %}{% else %}{% assign seo_desc = site.description %}{% endif %}
+  {% comment %}
+    Head metadata. Posts and articles get a modern-language <title>/description (standfirst, seo_title)
+    while the on-page headline and og:title keep the original newspaper voice.
+  {% endcomment %}
+  {% assign page_is_post = false %}{% if page.layout == 'post' %}{% assign page_is_post = true %}{% endif %}
+  {% assign page_is_article = false %}{% if page.layout == 'article' %}{% assign page_is_article = true %}{% endif %}
+  {% assign body_text = "" %}
+  {% if page_is_post or page_is_article %}{% assign body_text = page.content | strip_html | strip_newlines | strip %}{% endif %}
+
+  {% assign clean_title = page.title | strip %}
+  {% assign title_last_char = clean_title | slice: -1 %}
+  {% if title_last_char == ":" %}{% assign title_cut = clean_title | size | minus: 1 %}{% assign clean_title = clean_title | slice: 0, title_cut | strip %}{% endif %}
+
+  {% assign head_title = clean_title %}
+  {% if page.seo_title %}{% assign head_title = page.seo_title %}
+  {% elsif page_is_post %}{% assign event_year = page.date | date: "%Y" %}{% assign head_title = clean_title | append: " (" | append: event_year | append: ")" %}
+  {% elsif page.layout == 'tag' %}{% assign head_title = clean_title | append: ": ידיעות מהעיתונות של לפני מאה שנה" %}
+  {% endif %}
+
+  {% if page_is_post %}
+    {% assign real_date_str = page.path | split: "/" | last | truncate: 10, "" %}
+    {% assign real_date_iso = real_date_str | append: "T12:00:00+03:00" %}
+  {% endif %}
+
+  {% if page_is_post or page_is_article %}
+    {% if page.standfirst %}{% assign seo_desc = page.standfirst %}
+    {% elsif body_text != "" %}{% assign seo_desc = body_text %}
+    {% else %}{% assign seo_desc = page.image_alt | remove: ";;" | remove: "::" | strip_html | strip %}{% endif %}
+    {% if seo_desc == "" %}{% assign seo_desc = page.title %}{% endif %}
+    {% assign seo_desc = seo_desc | strip_newlines | truncate: 160 %}
+  {% elsif page.description %}{% assign seo_desc = page.description %}
+  {% else %}{% assign seo_desc = site.description %}{% endif %}
+
+  {% assign robots_content = "index, follow, max-image-preview:large, max-snippet:-1" %}
+  {% if page.noindex %}{% assign robots_content = "noindex, nofollow" %}
+  {% elsif page.robots %}{% assign robots_content = page.robots %}
+  {% elsif page.articles_hub and site.articles.size == 0 %}{% assign robots_content = "noindex, follow" %}
+  {% elsif page_is_post and body_text == "" %}{% unless page.standfirst %}{% assign robots_content = "noindex, follow" %}{% endunless %}
+  {% endif %}
+  <meta name="robots" content="{{ robots_content }}">
+  <title>{% if head_title != "" and page.url != "/" %}{{ head_title | escape }} | {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ seo_desc | escape }}">
-  <meta name="keywords" content="חדשות מלפני מאה שנה, היסטוריה, ארכיון עיתונות, {{ page.title | default: '' | escape }}">
-  <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:title" content="{% if clean_title != "" %}{{ clean_title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
   <meta property="og:description" content="{{ seo_desc | escape }}">
-  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:type" content="{% if page_is_post or page_is_article %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
-  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:site_name" content="{{ site.title | escape }}">
   <meta property="og:locale" content="he_IL">
-  {% if page.layout == 'post' %}
+  {% if page_is_post %}
   <meta property="article:published_time" content="{{ real_date_iso }}">
   <meta property="article:modified_time" content="{{ real_date_iso }}">
   <meta property="article:section" content="היסטוריה">
+  {% elsif page_is_article %}
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  <meta property="article:modified_time" content="{{ page.last_modified_at | default: page.date | date_to_xmlschema }}">
   {% endif %}
   {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">
-  {% else %}<meta property="og:image" content="{{ '/assets/images/branding/banner.jpg' | absolute_url }}">
+  {% if page.image_w %}<meta property="og:image:width" content="{{ page.image_w }}">
+  <meta property="og:image:height" content="{{ page.image_h }}">
+  {% endif %}{% else %}<meta property="og:image" content="{{ '/assets/images/branding/banner.jpg' | absolute_url }}">
   {% endif %}
-  <meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary_large_image{% endif %}">
-  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% if clean_title != "" %}{{ clean_title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
   <meta name="twitter:description" content="{{ seo_desc | escape }}">
   {% if page.image %}<meta name="twitter:image" content="{{ page.image | absolute_url }}">
   {% else %}<meta name="twitter:image" content="{{ '/assets/images/branding/banner.jpg' | absolute_url }}">
   {% endif %}
+  {% if page_is_post and page.image %}<link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">{% endif %}
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="any">
   <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/branding/favicon-16.png' | relative_url }}">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/branding/favicon-32.png' | relative_url }}">
@@ -63,18 +106,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
-  {% unless page.layout == 'post' %}
+  {% if page.url == "/" %}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "{{ site.title }}",
-    "description": "{{ site.description }}",
-    "url": "{{ site.url }}{{ site.baseurl }}/",
-    "inLanguage": "he",
-    "publisher": {
-      "@type": "Organization",
-      "name": "{{ site.title }}",
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "{{ site.url }}{{ site.baseurl }}/#website",
+      "name": {{ site.title | jsonify }},
+      "description": {{ site.description | jsonify }},
+      "url": "{{ site.url }}{{ site.baseurl }}/",
+      "inLanguage": "he",
+      "publisher": { "@id": "{{ site.url }}{{ site.baseurl }}/#organization" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsMediaOrganization",
+      "@id": "{{ site.url }}{{ site.baseurl }}/#organization",
+      "name": {{ site.title | jsonify }},
       "url": "{{ site.url }}{{ site.baseurl }}/",
       "logo": {
         "@type": "ImageObject",
@@ -82,20 +131,14 @@
       },
       "sameAs": [
         "https://x.com/Milifney100",
-        "https://t.me/milifney100"
+        "https://t.me/milifney100",
+        "https://www.facebook.com/milifney100",
+        "https://www.instagram.com/milifney100/"
       ]
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "{{ '/search' | absolute_url }}?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
     }
-  }
+  ]
   </script>
-  {% endunless %}
+  {% endif %}
 </head>
 <body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
   <nav class="navbar" style="background-image: url('{{ '/assets/images/branding/banner.jpg' | relative_url }}')">
@@ -209,6 +252,16 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
+      <nav class="footer-links" aria-label="קישורים באתר">
+        <a href="{{ '/about/' | relative_url }}">אודות המיזם</a>
+        <a href="{{ '/tags/' | relative_url }}">נושאים</a>
+        <a href="{{ '/topics/' | relative_url }}">אישים, מקומות ואירועים</a>
+        <a href="{{ '/stories/' | relative_url }}">סיפורים מתמשכים</a>
+        {% if site.articles.size > 0 %}<a href="{{ '/articles/' | relative_url }}">מאמרים</a>{% endif %}
+        <a href="{{ '/popular/' | relative_url }}">הנקראים ביותר</a>
+        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+        <a href="{{ '/support/' | relative_url }}">תמיכה ויצירת קשר</a>
+      </nav>
       <p class="footer-credit">
         התוכן באתר מבוסס על עיתוני התקופה מ-
         <a href="https://www.nli.org.il/he/newspapers" target="_blank" rel="noopener">ארכיון העיתונות</a>

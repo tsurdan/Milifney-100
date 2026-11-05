@@ -13,14 +13,16 @@ layout: null
     <name>{{ site.title }}</name>
   </author>
   {% for post in site.posts limit:30 %}
+  {% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}
+  {% assign feed_summary = post.standfirst | default: post.content | strip_html | strip_newlines | truncate: 200 %}
   <entry>
     <title type="html">{{ post.title | xml_escape }}</title>
     <link href="{{ post.url | absolute_url }}" rel="alternate" type="text/html"/>
-    <published>{{ post.date | date_to_xmlschema }}</published>
-    <updated>{{ post.date | date_to_xmlschema }}</updated>
+    <published>{{ real_date_str }}T12:00:00+03:00</published>
+    <updated>{{ real_date_str }}T12:00:00+03:00</updated>
     <id>{{ post.url | absolute_url }}</id>
     <content type="html" xml:base="{{ post.url | absolute_url }}">{{ post.content | xml_escape }}</content>
-    <summary type="html">{{ post.content | strip_html | strip_newlines | truncate: 200 | xml_escape }}</summary>
+    <summary type="html">{{ feed_summary | xml_escape }}</summary>
     {% if post.image %}<link rel="enclosure" type="image/jpeg" href="{{ post.image | absolute_url }}"/>{% endif %}
   </entry>
   {% endfor %}

@@ -1,0 +1,29 @@
+---
+layout: default
+title: הדף לא נמצא
+permalink: /404.html
+noindex: true
+---
+<div class="archive-page not-found">
+  <header class="archive-header">
+    <h1>הדף שחיפשתם לא נמצא</h1>
+    <p class="archive-summary">אולי הכתובת השתנתה, ואולי הידיעה עוד לא פורסמה. אפשר להמשיך מכאן:</p>
+  </header>
+
+  <form class="search-page-form" action="{{ '/search/' | relative_url }}" method="get">
+    <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-page-input" autocomplete="off">
+    <button type="submit" class="search-page-submit">חפש</button>
+  </form>
+
+  <p class="not-found-links">
+    <a href="{{ '/' | relative_url }}">לעמוד הראשי</a> ·
+    <a href="{{ '/tags/' | relative_url }}">נושאים</a> ·
+    <a href="{{ '/stories/' | relative_url }}">סיפורים מתמשכים</a> ·
+    <a href="{{ '/popular/' | relative_url }}">הנקראים ביותר</a>
+  </p>
+
+  <h2 class="same-day-title">הידיעות האחרונות</h2>
+  <ul class="archive-list">
+    {% for p in site.posts limit: 8 %}{% include archive-item.html p=p show_date=true %}{% endfor %}
+  </ul>
+</div>

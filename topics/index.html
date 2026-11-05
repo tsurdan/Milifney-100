@@ -1,0 +1,47 @@
+---
+layout: default
+title: אישים, מקומות ואירועים
+description: אישים, מקומות ואירועים שחוזרים בעיתונות העברית של לפני מאה שנה - כל הידיעות על כל אחד מהם במקום אחד.
+permalink: /topics/
+in_sitemap: true
+---
+<div class="archive-page">
+  <header class="archive-header">
+    <span class="label">אינדקס</span>
+    <h1>אישים, מקומות ואירועים</h1>
+    <p class="archive-summary">כל הידיעות על אותו אדם, מקום או אירוע מרוכזות בעמוד אחד.</p>
+  </header>
+
+  {% assign people = site.data.entity_index | where: "type", "person" %}
+  {% assign places = site.data.entity_index | where: "type", "place" %}
+  {% assign events = site.data.entity_index | where: "type", "event" %}
+  {% assign orgs = site.data.entity_index | where: "type", "org" %}
+
+  {% if people.size > 0 %}
+  <section class="hub-links">
+    <h2>אישים</h2>
+    <div class="hub-chips">{% for e in people %}<a href="{{ '/topics/' | append: e.slug | append: '/' | relative_url }}" class="entity-chip">{{ e.name | escape }} <span class="entity-chip-count">{{ e.count }}</span></a>{% endfor %}</div>
+  </section>
+  {% endif %}
+  {% if places.size > 0 %}
+  <section class="hub-links">
+    <h2>מקומות</h2>
+    <div class="hub-chips">{% for e in places %}<a href="{{ '/topics/' | append: e.slug | append: '/' | relative_url }}" class="entity-chip">{{ e.name | escape }} <span class="entity-chip-count">{{ e.count }}</span></a>{% endfor %}</div>
+  </section>
+  {% endif %}
+  {% if events.size > 0 %}
+  <section class="hub-links">
+    <h2>אירועים ופרשות</h2>
+    <div class="hub-chips">{% for e in events %}<a href="{{ '/topics/' | append: e.slug | append: '/' | relative_url }}" class="entity-chip">{{ e.name | escape }} <span class="entity-chip-count">{{ e.count }}</span></a>{% endfor %}</div>
+  </section>
+  {% endif %}
+  {% if orgs.size > 0 %}
+  <section class="hub-links">
+    <h2>ארגונים וגופים</h2>
+    <div class="hub-chips">{% for e in orgs %}<a href="{{ '/topics/' | append: e.slug | append: '/' | relative_url }}" class="entity-chip">{{ e.name | escape }} <span class="entity-chip-count">{{ e.count }}</span></a>{% endfor %}</div>
+  </section>
+  {% endif %}
+  {% if people.size == 0 and places.size == 0 and events.size == 0 and orgs.size == 0 %}
+  <p class="tag-archive-empty">האינדקס יתמלא ככל שהידיעות יתויגו.</p>
+  {% endif %}
+</div>

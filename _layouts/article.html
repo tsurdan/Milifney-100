@@ -1,0 +1,127 @@
+---
+layout: default
+---
+{% assign body_text = content | strip_html | strip_newlines | strip %}
+{% assign clean_title = page.title | strip %}
+{% assign article_author = page.author | default: site.title %}
+{% assign article_modified = page.last_modified_at | default: page.date %}
+{% if page.standfirst %}{% assign ld_description = page.standfirst %}{% else %}{% assign ld_description = body_text %}{% endif %}
+{% assign ld_description = ld_description | strip_newlines | truncate: 200 %}
+
+{% assign tag_names = "" | split: "" %}
+{% for tag_slug in page.tags %}
+{% assign tag_info = site.data.tags | where: "slug", tag_slug | first %}
+{% if tag_info %}{% assign tag_names = tag_names | push: tag_info.name %}{% endif %}
+{% endfor %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": {{ clean_title | jsonify }},
+  "description": {{ ld_description | jsonify }},
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ article_modified | date_to_xmlschema }}",
+  "inLanguage": "he",
+  "keywords": {{ tag_names | push: "היסטוריה" | jsonify }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ page.url | absolute_url }}" },
+  {% if page.image %}"image": ["{{ page.image | absolute_url }}"],{% endif %}
+  "author": {
+    "@type": "{% if page.author %}Person{% else %}Organization{% endif %}",
+    "name": {{ article_author | jsonify }},
+    "url": "{{ '/about/' | absolute_url }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.title | jsonify }},
+    "url": "{{ site.url }}{{ site.baseurl }}/",
+    "logo": { "@type": "ImageObject", "url": "{{ '/assets/images/branding/avatar.jpg' | absolute_url }}" }
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ site.title | jsonify }}, "item": "{{ '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 2, "name": "מאמרים", "item": "{{ '/articles/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 3, "name": {{ clean_title | jsonify }} }
+  ]
+}
+</script>
+
+<div class="post-layout">
+  <article class="post article">
+    <nav class="breadcrumbs" aria-label="פירורי לחם">
+      <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <span aria-hidden="true">›</span>
+      <a href="{{ '/articles/' | relative_url }}">מאמרים</a>
+    </nav>
+    <header class="post-header">
+      <span class="label">מאמר</span>
+      <h1>{{ page.title | escape }}</h1>
+      {% if page.standfirst %}<p class="post-standfirst">{{ page.standfirst | escape }}</p>{% endif %}
+      <div class="post-meta">
+        <span class="post-byline">מאת {{ article_author | escape }}</span>
+        <time class="post-published" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d.%m.%Y" }}</time>
+        {% if page.last_modified_at %}<time class="post-published" datetime="{{ page.last_modified_at | date_to_xmlschema }}">עודכן: {{ page.last_modified_at | date: "%d.%m.%Y" }}</time>{% endif %}
+      </div>
+    </header>
+
+    {% if page.image %}
+    <figure class="post-image">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}"{% if page.image_w %} width="{{ page.image_w }}" height="{{ page.image_h }}"{% endif %} fetchpriority="high" decoding="async">
+      {% if page.image_alt %}<figcaption>{{ page.image_alt | escape }}</figcaption>{% endif %}
+    </figure>
+    {% endif %}
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    {% capture entity_chips %}{% for e_slug in page.entities %}{% assign ent = site.data.entities[e_slug] %}{% if ent and ent.page %}<a href="{{ '/topics/' | append: e_slug | append: '/' | relative_url }}" class="entity-chip">{{ ent.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}
+    {% assign entity_chips = entity_chips | strip %}
+    {% if entity_chips != "" %}<div class="post-entities"><span class="post-entities-label">במאמר:</span> {{ entity_chips }}</div>{% endif %}
+
+    {% capture story_links %}{% for s_slug in page.stories %}{% assign story = site.data.stories[s_slug] %}{% if story and site.data.story_pages[s_slug] %}<a href="{{ '/stories/' | append: s_slug | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}
+    {% assign story_links = story_links | strip %}
+    {% if story_links != "" %}<div class="post-stories"><span class="post-stories-label">הסיפור המלא:</span> {{ story_links }}</div>{% endif %}
+
+    {% if page.tags.size > 0 %}
+    <div class="post-tags">
+      {% for tag_slug in page.tags %}
+      {% assign tag_info = site.data.tags | where: "slug", tag_slug | first %}
+      {% if tag_info %}<a href="{{ '/tags/' | append: tag_info.slug | append: '/' | relative_url }}" class="tag-chip">{{ tag_info.name }}</a>{% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if page.sources.size > 0 %}
+    <details class="post-source">
+      <summary>מקורות</summary>
+      <div class="post-source-body">
+        <ul>
+          {% for s in page.sources %}<li>{% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.title | escape }}</a>{% else %}{{ s.title | escape }}{% endif %}</li>{% endfor %}
+        </ul>
+      </div>
+    </details>
+    {% endif %}
+  </article>
+</div>
+
+{% assign anchor_story = page.stories | first %}
+{% assign anchor_entity = page.entities | first %}
+{% if anchor_story %}
+  {% assign archive_posts = site.posts | where_exp: "p", "p.stories contains anchor_story" | reverse %}
+{% elsif anchor_entity %}
+  {% assign archive_posts = site.posts | where_exp: "p", "p.entities contains anchor_entity" %}
+{% endif %}
+{% if archive_posts.size > 0 %}
+<section class="same-day-section">
+  <h2 class="same-day-title">מהארכיון: ידיעות מהעיתונות של התקופה</h2>
+  <ul class="archive-list">
+    {% for p in archive_posts limit: 6 %}{% include archive-item.html p=p show_date=true %}{% endfor %}
+  </ul>
+</section>
+{% endif %}

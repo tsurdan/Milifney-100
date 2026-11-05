@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+<h1 class="visually-hidden">חדשות מלפני מאה: ידיעות אמיתיות מהעיתונות העברית של לפני מאה שנה, כאילו קרו היום</h1>
 {% assign posts = site.posts | sort: "date" | reverse %}
 {% assign total = posts.size %}
 {% assign idx = 0 %}
@@ -11,7 +12,7 @@ layout: default
 {% assign p = posts[0] %}
 <section class="hero">
   <a href="{{ p.url | relative_url }}" class="hero-link">
-    {% if p.image %}<div class="hero-image"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}"></div>{% endif %}
+    {% if p.image %}<div class="hero-image"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}"{% if p.image_w %} width="{{ p.image_w }}" height="{{ p.image_h }}"{% endif %} fetchpriority="high" decoding="async"></div>{% endif %}
     <div class="hero-content">
       <span class="label">חדשות אחרונות</span>
       <h2>{{ p.title }}</h2>
@@ -23,6 +24,20 @@ layout: default
 </section>
 {% assign idx = 1 %}
 
+<!-- ============ TOPIC BAR — crawlable links to topics and ongoing stories ============ -->
+<nav class="home-topics" aria-label="נושאים וסיפורים">
+  <div class="hub-chips">
+    {% for tag in site.data.tags %}<a href="{{ '/tags/' | append: tag.slug | append: '/' | relative_url }}" class="tag-chip">{{ tag.name }}</a>{% endfor %}
+  </div>
+  {% if site.data.story_pages.size > 0 %}
+  <div class="hub-chips">
+    <span class="post-stories-label">סיפורים מתמשכים:</span>
+    {% for s in site.data.story_pages limit: 8 %}{% assign story = site.data.stories[s[0]] %}<a href="{{ '/stories/' | append: s[0] | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endfor %}
+    <a href="{{ '/stories/' | relative_url }}" class="story-link story-link-all">כל הסיפורים</a>
+  </div>
+  {% endif %}
+</nav>
+
 <!-- ============ 2-COL row ============ -->
 {% assign slice2 = posts | slice: idx, 2 %}
 {% if slice2.size > 0 %}
@@ -30,7 +45,7 @@ layout: default
   {% for p in slice2 %}
   <article class="card-md">
     <a href="{{ p.url | relative_url }}" class="card-link">
-      {% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+      {% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}
       <div class="card-md-body">
         <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
         <h3>{{ p.title }}</h3>
@@ -49,7 +64,7 @@ layout: default
 {% assign p = posts[idx] %}
 <section class="banner-dark">
   <a href="{{ p.url | relative_url }}" class="banner-dark-link">
-    {% if p.image %}<img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="banner-dark-bg" loading="lazy">{% endif %}
+    {% if p.image %}<img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" class="banner-dark-bg" loading="lazy">{% endif %}
     <div class="banner-dark-overlay"></div>
     <div class="banner-dark-content">
       <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
@@ -69,7 +84,7 @@ layout: default
   {% for p in slice3 %}
   <article class="card-sm">
     <a href="{{ p.url | relative_url }}" class="card-link">
-      {% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+      {% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}
       <div class="card-sm-body">
         <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
         <h3>{{ p.title }}</h3>
@@ -95,8 +110,8 @@ layout: default
       {% assign match = site.static_files | where: "path", card_path %}
       {% if match.size > 0 %}
       {% assign shown = shown | plus: 1 %}
-      <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
-        <img src="{{ card_path | relative_url }}" alt="{{ p.title }}" loading="lazy">
+      <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title | escape }}" data-tweet-id="{{ p.tweet_id }}">
+        <img src="{{ card_path | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
       </a>
       {% endif %}
       {% endif %}
@@ -115,8 +130,8 @@ layout: default
     {% assign card_path = "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" %}
     {% assign match = site.static_files | where: "path", card_path %}
     {% if match.size > 0 %}
-    <a href="{{ p.url | relative_url }}" class="carousel-modal-slide" aria-label="{{ p.title }}" data-tweet-id="{{ p.tweet_id }}">
-      <img src="{{ card_path | relative_url }}" alt="{{ p.title }}" loading="lazy">
+    <a href="{{ p.url | relative_url }}" class="carousel-modal-slide" aria-label="{{ p.title | escape }}" data-tweet-id="{{ p.tweet_id }}">
+      <img src="{{ card_path | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
     </a>
     {% endif %}
     {% endfor %}
@@ -132,7 +147,7 @@ layout: default
 {% assign p = posts[idx] %}
 <section class="feature-full">
   <a href="{{ p.url | relative_url }}" class="feature-full-link">
-    {% if p.image %}<div class="feature-full-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+    {% if p.image %}<div class="feature-full-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}
     <div class="feature-full-body">
       <span class="label">לקריאה מורחבת</span>
       <h2>{{ p.title }}</h2>
@@ -152,7 +167,7 @@ layout: default
 <section class="row-1plus2">
   <article class="card-big">
     <a href="{{ big.url | relative_url }}" class="card-link">
-      {% if big.image %}<div class="card-big-img"><img src="{{ big.image | relative_url }}" alt="{{ big.title }}" loading="lazy"></div>{% endif %}
+      {% if big.image %}<div class="card-big-img"><img src="{{ big.image | relative_url }}" alt="{{ big.title | escape }}" loading="lazy"></div>{% endif %}
       <div class="card-big-body">
         <time datetime="{{ big.date | date_to_xmlschema }}">{{ big.date | date: "%d.%m.%Y" }}</time>
         <h2>{{ big.title }}</h2>
@@ -166,7 +181,7 @@ layout: default
     {% for p in stack %}
     <article class="card-horiz">
       <a href="{{ p.url | relative_url }}" class="card-link">
-        {% if p.image %}<div class="card-horiz-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+        {% if p.image %}<div class="card-horiz-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}
         <div class="card-horiz-body">
           <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
           <h3>{{ p.title }}</h3>
@@ -191,7 +206,7 @@ layout: default
   {% if phase == 0 %}
   <section class="banner-dark post-item" data-idx="{{ abs_idx }}">
     <a href="{{ p.url | relative_url }}" class="banner-dark-link">
-      {% if p.image %}<img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="banner-dark-bg" loading="lazy">{% endif %}
+      {% if p.image %}<img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" class="banner-dark-bg" loading="lazy">{% endif %}
       <div class="banner-dark-overlay"></div>
       <div class="banner-dark-content">
         <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
@@ -202,16 +217,16 @@ layout: default
 
   {% elsif phase == 1 %}
   <section class="row-3col post-item" data-idx="{{ abs_idx }}">
-  <article class="card-sm"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}<div class="card-sm-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3></div></a></article>
+  <article class="card-sm"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}<div class="card-sm-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3></div></a></article>
 
   {% elsif phase == 2 or phase == 3 %}
-  <article class="card-sm"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}<div class="card-sm-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3></div></a></article>
+  <article class="card-sm"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}<div class="card-sm-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3></div></a></article>
   {% if phase == 3 %}</section>{% endif %}
 
   {% elsif phase == 4 %}
   <section class="feature-full post-item" data-idx="{{ abs_idx }}">
     <a href="{{ p.url | relative_url }}" class="feature-full-link">
-      {% if p.image %}<div class="feature-full-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+      {% if p.image %}<div class="feature-full-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}
       <div class="feature-full-body">
         <h2>{{ p.title }}</h2>
         {% assign ex = p.content | strip_html | strip_newlines | truncate: 200 %}
@@ -223,10 +238,10 @@ layout: default
 
   {% elsif phase == 5 %}
   <section class="row-2col post-item" data-idx="{{ abs_idx }}">
-  <article class="card-md"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}<div class="card-md-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3>{% assign ex = p.content | strip_html | strip_newlines | truncate: 120 %}{% if ex.size > 0 %}<p>{{ ex }}</p>{% endif %}</div></a></article>
+  <article class="card-md"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}<div class="card-md-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3>{% assign ex = p.content | strip_html | strip_newlines | truncate: 120 %}{% if ex.size > 0 %}<p>{{ ex }}</p>{% endif %}</div></a></article>
 
   {% elsif phase == 6 %}
-  <article class="card-md"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}<div class="card-md-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3>{% assign ex = p.content | strip_html | strip_newlines | truncate: 120 %}{% if ex.size > 0 %}<p>{{ ex }}</p>{% endif %}</div></a></article>
+  <article class="card-md"><a href="{{ p.url | relative_url }}" class="card-link">{% if p.image %}<div class="card-md-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>{% endif %}<div class="card-md-body"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time><h3>{{ p.title }}</h3>{% assign ex = p.content | strip_html | strip_newlines | truncate: 120 %}{% if ex.size > 0 %}<p>{{ ex }}</p>{% endif %}</div></a></article>
   </section>
 
   {% elsif phase == 7 %}
@@ -239,6 +254,13 @@ layout: default
 <div class="scroll-loader" id="scroll-loader">
   <span class="loader-spinner"></span>
 </div>
+
+<section class="home-archive" aria-label="ארכיון לפי חודש">
+  <h2 class="same-day-title">ארכיון לפי חודש</h2>
+  <div class="hub-chips">
+    {% for m in site.data.archive_months reversed %}<a href="{{ '/' | append: m.year | append: '/' | append: m.month | append: '/' | relative_url }}" class="tag-chip">{{ m.name }} {{ m.year }}</a>{% endfor %}
+  </div>
+</section>
 
 {% else %}
 <div class="empty-state">

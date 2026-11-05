@@ -1,6 +1,6 @@
 title: חדשות מלפני מאה
 tagline: "ההיסטוריה חוזרת ∞"
-description: כל מה שקרה היום בדיוק לפני מאה שנה
+description: ידיעות אמיתיות מהעיתונות העברית של לפני מאה שנה, מתפרסמות כאילו קרו היום.
 url: "https://milifney100.com"
 baseurl: ""
 lang: he
@@ -9,16 +9,27 @@ timezone: Asia/Jerusalem
 
 permalink: /:year/:month/:day/:title/
 
+collections:
+  articles:
+    output: true
+    permalink: /articles/:name/
+
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: post
+  - scope:
+      path: ""
+      type: "articles"
+    values:
+      layout: article
 
 exclude:
   - scripts/
   - newsletter-worker/
+  - seo-docs/
   - Gemfile
   - Gemfile.lock
   - README.md
