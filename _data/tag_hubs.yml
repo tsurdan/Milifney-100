@@ -1,0 +1,108 @@
+# Generated: top entities and stories per topic.
+world-politics:
+  entities: []
+  stories:
+  - fascist-italy
+  - druze-revolt
+  - turkey-hat-law
+  - locarno
+  - ibn-saud-hejaz
+  - zionist-congress-14
+yishuv:
+  entities: []
+  stories:
+  - western-wall-1925
+  - zionist-congress-14
+  - turkey-hat-law
+crime-justice:
+  entities: []
+  stories:
+  - fascist-italy
+culture-arts:
+  entities: []
+  stories:
+  - fascist-italy
+  - turkey-hat-law
+  - zionist-congress-14
+jewish-diaspora:
+  entities: []
+  stories:
+  - fascist-italy
+religion:
+  entities: []
+  stories:
+  - western-wall-1925
+  - fascist-italy
+  - turkey-hat-law
+economy:
+  entities: []
+  stories: []
+antisemitism:
+  entities: []
+  stories:
+  - zionist-congress-14
+  - fascist-italy
+british-mandate:
+  entities: []
+  stories:
+  - western-wall-1925
+  - druze-revolt
+military:
+  entities: []
+  stories:
+  - druze-revolt
+  - fascist-italy
+jewish-arab-relations:
+  entities: []
+  stories:
+  - western-wall-1925
+  - druze-revolt
+curiosities:
+  entities: []
+  stories: []
+jerusalem:
+  entities: []
+  stories:
+  - western-wall-1925
+transportation:
+  entities: []
+  stories: []
+monarchy:
+  entities: []
+  stories:
+  - fascist-italy
+  - ibn-saud-hejaz
+  - locarno
+science-tech:
+  entities: []
+  stories: []
+tel-aviv:
+  entities: []
+  stories: []
+education:
+  entities: []
+  stories: []
+disasters:
+  entities: []
+  stories: []
+revolts:
+  entities: []
+  stories:
+  - druze-revolt
+health:
+  entities: []
+  stories: []
+press:
+  entities: []
+  stories:
+  - fascist-italy
+  - zionist-congress-14
+women-society:
+  entities: []
+  stories: []
+haifa:
+  entities: []
+  stories: []
+sports:
+  entities: []
+  stories: []

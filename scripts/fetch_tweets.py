@@ -12,6 +12,10 @@ from pathlib import Path
 from PIL import Image
 
 from gemini_tagging import tag_pending_posts
+from image_meta import size_updates
+from post_enrichment import enrich_pending_posts
+from post_io import format_value
+from source_links import source_updates
 
 USERNAME = "Milifney100"
 API_BASE = "https://api.fxtwitter.com/2/profile"
@@ -320,6 +324,9 @@ def create_post(item):
     lines = text.split("\n", 1)
     title = lines[0].strip()
     body = lines[1].strip() if len(lines) > 1 else ""
+    # Lines made only of '>' are thread-continuation markers typed in the tweets
+    body = re.sub(r"^>+[ \t]*$", "", body, flags=re.MULTILINE)
+    body = re.sub(r"\n{3,}", "\n\n", body).strip()
 
     # Avoid duplicate posts
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -352,6 +359,10 @@ def create_post(item):
         fm.append(f"image: {image_path}")
         if image_alt:
             fm.append(f'image_alt: "{safe_alt}"')
+        for key, value in size_updates(image_path).items():
+            fm.append(f"{key}: {value}")
+    for key, value in source_updates(image_alt, historical_date.date().isoformat()).items():
+        fm.append(f"{key}: {format_value(value)}")
     fm.append("---")
     fm.append("")
 
@@ -395,7 +406,10 @@ def main():
     print(f"Done. Created {count} new post(s).")
 
     # Best-effort — also retries any post left untagged by a previous failed run
-    tag_pending_posts(os.environ.get("GEMINI_API_KEY", ""))
+    api_key = os.environ.get("GEMINI_API_KEY", "")
+    tag_pending_posts(api_key)
+    # Modern-Hebrew standfirst, SEO title, entities and stories (same best-effort retry)
+    enrich_pending_posts(api_key)
 
 
 if __name__ == "__main__":

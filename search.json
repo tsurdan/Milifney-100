@@ -3,12 +3,13 @@ layout: null
 ---
 [
 {% for post in site.posts %}
+  {% assign search_text = post.standfirst | append: " " | append: post.content %}
   {
     "title": {{ post.title | jsonify }},
     "url": "{{ post.url | relative_url }}",
     "date": "{{ post.date | date: '%d.%m.%Y' }}",
     "date_iso": "{{ post.date | date: '%Y-%m-%d' }}",
-    "content": {{ post.content | strip_html | strip_newlines | truncate: 300 | jsonify }},
+    "content": {{ search_text | strip_html | strip_newlines | strip | truncate: 400 | jsonify }},
     "image": "{{ post.image | relative_url }}",
     "image_alt": {{ post.image_alt | jsonify }},
     "tags": {{ post.tags | jsonify }}

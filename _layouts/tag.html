@@ -3,6 +3,31 @@ layout: default
 ---
 {% assign tag_info = site.data.tags | where: "slug", page.tag_slug | first %}
 {% assign tagged_posts = site.posts | sort: "date" | reverse | where_exp: "post", "post.tags contains page.tag_slug" %}
+{% assign tag_hub = site.data.tag_hubs[page.tag_slug] %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ tag_info.name | jsonify }},
+  "description": {{ tag_info.description | jsonify }},
+  "url": "{{ page.url | absolute_url }}",
+  "inLanguage": "he",
+  "isPartOf": { "@type": "WebSite", "name": {{ site.title | jsonify }}, "url": "{{ site.url }}{{ site.baseurl }}/" },
+  "numberOfItems": {{ tagged_posts.size }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ site.title | jsonify }}, "item": "{{ '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 2, "name": "נושאים", "item": "{{ '/tags/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 3, "name": {{ tag_info.name | jsonify }} }
+  ]
+}
+</script>
 
 <div class="tag-archive">
   <header class="tag-archive-header">
@@ -12,15 +37,40 @@ layout: default
     <p class="tag-archive-count">{{ tagged_posts.size }} ידיעות</p>
   </header>
 
+  {% if tag_info.intro %}
+  <section class="hub-intro">
+    {{ tag_info.intro | markdownify }}
+  </section>
+  {% endif %}
+
+  {% if tag_hub.stories.size > 0 %}
+  <section class="hub-links">
+    <h2>סיפורים מתמשכים בנושא</h2>
+    <div class="hub-chips">
+      {% for s_slug in tag_hub.stories %}{% assign story = site.data.stories[s_slug] %}{% if story %}<a href="{{ '/stories/' | append: s_slug | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endif %}{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if tag_hub.entities.size > 0 %}
+  <section class="hub-links">
+    <h2>אישים, מקומות ואירועים בנושא</h2>
+    <div class="hub-chips">
+      {% for e_slug in tag_hub.entities %}{% assign ent = site.data.entities[e_slug] %}{% if ent and ent.page %}<a href="{{ '/topics/' | append: e_slug | append: '/' | relative_url }}" class="entity-chip">{{ ent.name | escape }}</a>{% endif %}{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
   {% if tagged_posts.size > 0 %}
   <section class="row-3col tag-archive-grid">
     {% for p in tagged_posts %}
     <article class="card-sm">
       <a href="{{ p.url | relative_url }}" class="card-link">
-        {% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
+        {% if p.image %}<div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy" decoding="async"></div>{% endif %}
         <div class="card-sm-body">
           <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
           <h3>{{ p.title }}</h3>
+          {% if p.standfirst %}<p class="card-standfirst">{{ p.standfirst | escape }}</p>{% endif %}
         </div>
       </a>
     </article>

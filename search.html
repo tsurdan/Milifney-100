@@ -2,7 +2,9 @@
 layout: default
 title: חיפוש
 description: חפשו בארכיון הידיעות של חדשות מלפני מאה לפי נושא, מילה או תאריך.
+robots: "noindex, follow"
 ---
+<h1 class="visually-hidden">חיפוש בארכיון הידיעות</h1>
 <div class="search-page">
   <form class="search-page-form" action="{{ '/search' | relative_url }}" method="get">
     <input type="search" name="q" placeholder="חיפוש בידיעות..." class="search-page-input" autocomplete="off">

@@ -1,0 +1,72 @@
+---
+layout: default
+---
+{% assign is_story = false %}{% if page.hub_kind == "story" %}{% assign is_story = true %}{% endif %}
+{% if is_story %}
+  {% assign hub = site.data.stories[page.hub_slug] %}
+  {% assign hub_posts = site.posts | where_exp: "p", "p.stories contains page.hub_slug" | reverse %}
+{% else %}
+  {% assign hub = site.data.entities[page.hub_slug] %}
+  {% assign hub_posts = site.posts | where_exp: "p", "p.entities contains page.hub_slug" %}
+{% endif %}
+{% assign hub_asc = hub_posts | sort: "date" %}
+{% assign hub_first = hub_asc | first %}
+{% assign hub_last = hub_asc | last %}
+{% assign first_label = hub_first.date | date: "%d.%m.%Y" %}
+{% assign last_label = hub_last.date | date: "%d.%m.%Y" %}
+{% assign hub_index_url = '/topics/' %}{% if is_story %}{% assign hub_index_url = '/stories/' %}{% endif %}
+{% assign hub_index_name = "אישים, מקומות ואירועים" %}{% if is_story %}{% assign hub_index_name = "סיפורים מתמשכים" %}{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": {{ hub.name | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "url": "{{ page.url | absolute_url }}",
+  "inLanguage": "he",
+  "about": { "@type": "Thing", "name": {{ hub.name | jsonify }} },
+  {% if hub_first %}"temporalCoverage": "{{ hub_first.date | date: '%Y-%m-%d' }}/{{ hub_last.date | date: '%Y-%m-%d' }}",{% endif %}
+  "isPartOf": { "@type": "WebSite", "name": {{ site.title | jsonify }}, "url": "{{ site.url }}{{ site.baseurl }}/" },
+  "numberOfItems": {{ hub_posts.size }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ site.title | jsonify }}, "item": "{{ '/' | absolute_url }}" },
+    { "@type": "ListItem", "position": 2, "name": {{ hub_index_name | jsonify }}, "item": "{{ hub_index_url | absolute_url }}" },
+    { "@type": "ListItem", "position": 3, "name": {{ hub.name | jsonify }} }
+  ]
+}
+</script>
+
+<div class="archive-page hub-page">
+  <nav class="breadcrumbs" aria-label="פירורי לחם">
+    <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <span aria-hidden="true">›</span>
+    <a href="{{ hub_index_url | relative_url }}">{{ hub_index_name }}</a>
+  </nav>
+
+  <header class="archive-header">
+    <span class="label">{% if is_story %}סיפור מתמשך{% else %}{% case hub.type %}{% when "person" %}אישיות{% when "place" %}מקום{% when "event" %}אירוע{% when "org" %}ארגון{% else %}נושא{% endcase %}{% endif %}</span>
+    <h1>{{ hub.name }}</h1>
+    {% if hub_first %}<p class="archive-summary">{{ hub_posts.size }} ידיעות בארכיון, מ-{{ first_label }}{% if first_label != last_label %} עד {{ last_label }}{% endif %}.</p>{% endif %}
+  </header>
+
+  {% if hub.intro %}
+  <section class="hub-intro">
+    {{ hub.intro | markdownify }}
+  </section>
+  {% elsif hub.description %}
+  <section class="hub-intro"><p>{{ hub.description | escape }}</p></section>
+  {% endif %}
+
+  <ul class="archive-list{% if is_story %} archive-timeline{% endif %}">
+    {% for p in hub_posts %}{% include archive-item.html p=p show_date=true %}{% endfor %}
+  </ul>
+
+  <a href="{{ hub_index_url | relative_url }}" class="tag-archive-back">← {{ hub_index_name }}</a>
+</div>

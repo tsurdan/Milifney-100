@@ -1,0 +1,22 @@
+---
+layout: default
+title: מאמרים
+description: מאמרי עומק והרחבות מבית "חדשות מלפני מאה" - סיפורים, רקע והקשר לידיעות מהעיתונות העברית של לפני מאה שנה.
+articles_hub: true
+---
+<div class="archive-page">
+  <header class="archive-header">
+    <span class="label">מאמרים</span>
+    <h1>מאמרים</h1>
+    <p class="archive-summary">הרחבות ורקע לידיעות מהעיתונות של לפני מאה שנה.</p>
+  </header>
+
+  {% assign sorted_articles = site.articles | sort: "date" | reverse %}
+  {% if sorted_articles.size > 0 %}
+  <ul class="archive-list">
+    {% for a in sorted_articles %}{% include archive-item.html p=a show_date=true %}{% endfor %}
+  </ul>
+  {% else %}
+  <p class="tag-archive-empty">עדיין אין מאמרים.</p>
+  {% endif %}
+</div>
