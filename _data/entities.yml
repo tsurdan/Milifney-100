@@ -14,6 +14,11 @@ jerusalem:
   type: place
   count: 3
   page: true
+france:
+  name: צרפת
+  type: place
+  count: 3
+  page: true
 italy:
   name: איטליה
   type: place
@@ -29,13 +34,13 @@ lebanon:
   type: place
   count: 2
   page: false
-iraq:
-  name: עיראק
+london:
+  name: לונדון
   type: place
   count: 2
   page: false
-france:
-  name: צרפת
+iraq:
+  name: עיראק
   type: place
   count: 2
   page: false
@@ -132,11 +137,6 @@ yitzhak-ben-zvi:
 israel-meir-hakohen:
   name: ישראל מאיר הכהן
   type: person
-  count: 1
-  page: false
-london:
-  name: לונדון
-  type: place
   count: 1
   page: false
 lithuania:

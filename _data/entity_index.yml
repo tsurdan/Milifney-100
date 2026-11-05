@@ -11,3 +11,7 @@
   name: ירושלים
   type: place
   count: 3
+- slug: france
+  name: צרפת
+  type: place
+  count: 3

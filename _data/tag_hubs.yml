@@ -1,6 +1,7 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
+  - france
   - benito-mussolini
   - jerusalem
   - land-of-israel
@@ -14,6 +15,7 @@ world-politics:
 yishuv:
   entities:
   - land-of-israel
+  - france
   stories:
   - western-wall-1925
   - zionist-congress-14
@@ -42,6 +44,7 @@ economy:
   entities:
   - jerusalem
   - land-of-israel
+  - france
   stories: []
 antisemitism:
   entities: []
@@ -50,6 +53,7 @@ antisemitism:
 british-mandate:
   entities:
   - land-of-israel
+  - france
   stories:
   - western-wall-1925
   - druze-revolt
@@ -80,6 +84,7 @@ transportation:
   stories: []
 monarchy:
   entities:
+  - france
   - benito-mussolini
   stories:
   - fascist-italy
