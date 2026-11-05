@@ -24,20 +24,6 @@ layout: default
 </section>
 {% assign idx = 1 %}
 
-<!-- ============ TOPIC BAR — crawlable links to topics and ongoing stories ============ -->
-<nav class="home-topics" aria-label="נושאים וסיפורים">
-  <div class="hub-chips">
-    {% for tag in site.data.tags %}<a href="{{ '/tags/' | append: tag.slug | append: '/' | relative_url }}" class="tag-chip">{{ tag.name }}</a>{% endfor %}
-  </div>
-  {% if site.data.story_pages.size > 0 %}
-  <div class="hub-chips">
-    <span class="post-stories-label">סיפורים מתמשכים:</span>
-    {% for s in site.data.story_pages limit: 8 %}{% assign story = site.data.stories[s[0]] %}<a href="{{ '/stories/' | append: s[0] | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endfor %}
-    <a href="{{ '/stories/' | relative_url }}" class="story-link story-link-all">כל הסיפורים</a>
-  </div>
-  {% endif %}
-</nav>
-
 <!-- ============ 2-COL row ============ -->
 {% assign slice2 = posts | slice: idx, 2 %}
 {% if slice2.size > 0 %}
@@ -254,13 +240,6 @@ layout: default
 <div class="scroll-loader" id="scroll-loader">
   <span class="loader-spinner"></span>
 </div>
-
-<section class="home-archive" aria-label="ארכיון לפי חודש">
-  <h2 class="same-day-title">ארכיון לפי חודש</h2>
-  <div class="hub-chips">
-    {% for m in site.data.archive_months reversed %}<a href="{{ '/' | append: m.year | append: '/' | append: m.month | append: '/' | relative_url }}" class="tag-chip">{{ m.name }} {{ m.year }}</a>{% endfor %}
-  </div>
-</section>
 
 {% else %}
 <div class="empty-state">

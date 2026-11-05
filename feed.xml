@@ -14,7 +14,7 @@ layout: null
   </author>
   {% for post in site.posts limit:30 %}
   {% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}
-  {% assign feed_summary = post.standfirst | default: post.content | strip_html | strip_newlines | truncate: 200 %}
+  {% assign feed_summary = post.content | strip_html | strip_newlines | truncate: 200 %}
   <entry>
     <title type="html">{{ post.title | xml_escape }}</title>
     <link href="{{ post.url | absolute_url }}" rel="alternate" type="text/html"/>

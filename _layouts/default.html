@@ -39,7 +39,7 @@
   {% assign head_title = clean_title %}
   {% if page.seo_title %}{% assign head_title = page.seo_title %}
   {% elsif page_is_post %}{% assign event_year = page.date | date: "%Y" %}{% assign head_title = clean_title | append: " (" | append: event_year | append: ")" %}
-  {% elsif page.layout == 'tag' %}{% assign head_title = clean_title | append: ": ידיעות מהעיתונות של לפני מאה שנה" %}
+  {% elsif page.layout == 'tag' %}{% assign head_title = clean_title | append: ": כל הידיעות" %}
   {% endif %}
 
   {% if page_is_post %}
@@ -257,6 +257,8 @@
         <a href="{{ '/tags/' | relative_url }}">נושאים</a>
         <a href="{{ '/topics/' | relative_url }}">אישים, מקומות ואירועים</a>
         <a href="{{ '/stories/' | relative_url }}">סיפורים מתמשכים</a>
+        <a href="{{ '/1926/' | relative_url }}">ארכיון 1926</a>
+        <a href="{{ '/1925/' | relative_url }}">ארכיון 1925</a>
         {% if site.articles.size > 0 %}<a href="{{ '/articles/' | relative_url }}">מאמרים</a>{% endif %}
         <a href="{{ '/popular/' | relative_url }}">הנקראים ביותר</a>
         <a href="{{ '/feed.xml' | relative_url }}">RSS</a>

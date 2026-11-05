@@ -17,7 +17,6 @@ yishuv:
   stories:
   - western-wall-1925
   - zionist-congress-14
-  - turkey-hat-law
 crime-justice:
   entities:
   - jerusalem
@@ -33,15 +32,12 @@ culture-arts:
   - zionist-congress-14
 jewish-diaspora:
   entities: []
-  stories:
-  - fascist-italy
+  stories: []
 religion:
   entities:
   - land-of-israel
   stories:
   - western-wall-1925
-  - fascist-italy
-  - turkey-hat-law
 economy:
   entities:
   - jerusalem
@@ -51,7 +47,6 @@ antisemitism:
   entities: []
   stories:
   - zionist-congress-14
-  - fascist-italy
 british-mandate:
   entities:
   - land-of-israel

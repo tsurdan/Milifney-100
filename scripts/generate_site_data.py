@@ -24,7 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from image_meta import size_updates  # noqa: E402
 from post_io import (  # noqa: E402
-    DATA_DIR, REPO_ROOT, dump_yaml, format_value, iter_posts, load_yaml, update_front_matter, write_text,
+    DATA_DIR, REPO_ROOT, dump_yaml, format_value, iter_posts, load_yaml, update_body, update_front_matter, write_text,
 )
 from source_links import source_updates  # noqa: E402
 
@@ -119,12 +119,20 @@ def apply_story_rules(posts, stories):
     changed = set()
     current = {p.path: p.get_list("stories") for p in posts}
     for slug, info in stories.items():
+        excluded = {str(x) for x in info.get("exclude_posts", [])}
+        for post in posts:
+            if post.tweet_id in excluded and slug in current[post.path]:
+                current[post.path] = [s for s in current[post.path] if s != slug]
+                if update_front_matter(post.path, {"stories": current[post.path]}):
+                    changed.add(post.path)
         keywords = [k for k in info.get("keywords", []) if k]
         excludes = [k for k in info.get("exclude", []) if k]
         if not keywords:
             continue
         matched = []
         for post in posts:
+            if post.tweet_id in excluded:
+                continue
             haystack = f"{post.title} {post.text}"
             if any(k in haystack for k in keywords) and not any(x in haystack for x in excludes):
                 matched.append(post)
@@ -141,6 +149,53 @@ def apply_story_rules(posts, stories):
 
 
 # ---------------------------------------------------------------- step 2
+
+AUTO_LINK_RE = re.compile(r"\[([^\]\n]+)\]\(/topics/[a-z0-9-]+/\)")
+PROTECTED_RE = re.compile(r"!?\[[^\]\n]*\]\([^)\n]*\)|https?://\S+")
+WORD_CHAR_RE = re.compile(r"[\u0590-\u05ffA-Za-z0-9]")
+HEBREW_PREFIXES = "ובהכלמש"
+
+
+def link_first_mention(body, mention, url):
+    """Wrap the first free-standing occurrence of `mention` in a markdown link."""
+    protected = [m.span() for m in PROTECTED_RE.finditer(body)]
+    for found in re.finditer(re.escape(mention), body):
+        start, end = found.span()
+        if any(s < end and start < e for s, e in protected):
+            continue
+        prev = body[start - 1] if start else ""
+        if prev and WORD_CHAR_RE.match(prev):
+            before_prev = body[start - 2] if start > 1 else ""
+            if prev not in HEBREW_PREFIXES or (before_prev and WORD_CHAR_RE.match(before_prev)):
+                continue
+        nxt = body[end] if end < len(body) else ""
+        if nxt and WORD_CHAR_RE.match(nxt):
+            continue
+        return body[:start] + f"[{mention}]({url})" + body[end:]
+    return body
+
+
+def link_entities(posts, entities):
+    """Turn each post's `mentions` into links to the entity pages that exist. Safe to re-run."""
+    changed = 0
+    for post in posts:
+        mentions = post.meta.get("mentions")
+        if not isinstance(mentions, dict):
+            continue
+
+        def transform(body, mentions=mentions):
+            body = AUTO_LINK_RE.sub(r"\1", body)
+            for slug, mention in mentions.items():
+                if entities.get(slug, {}).get("page") and not re.search(r"[\[\]]", str(mention)):
+                    body = link_first_mention(body, str(mention), f"/topics/{slug}/")
+            return body
+
+        if update_body(post.path, transform):
+            changed += 1
+    return changed
+
+
+# ---------------------------------------------------------------- step 2b
 
 def build_entities(posts, registry):
     counts = Counter()
@@ -345,14 +400,14 @@ def generate_entity_pages(posts, entities, first_last):
         if not info["page"]:
             continue
         first, last = first_last[slug]
-        description = f"{info['count']} ידיעות על {info['name']} מהעיתונות העברית של לפני מאה שנה, מ-{display_date(first)} עד {display_date(last)}."
+        description = f"{info['count']} ידיעות על {info['name']} במקום אחד."
         front = {
             "layout": "hub",
             "generated": True,
             "hub_kind": "entity",
             "hub_slug": slug,
             "title": info["name"],
-            "seo_title": f"{info['name']}: כל הידיעות מהעיתונות של לפני מאה שנה",
+            "seo_title": f"{info['name']}: כל הידיעות והעדכונים",
             "description": truncate(description, 155),
             "permalink": f"/topics/{slug}/",
             "in_sitemap": True,
@@ -364,28 +419,99 @@ def generate_entity_pages(posts, entities, first_last):
     return written, removed
 
 
-def generate_story_pages(posts, stories):
-    counts = Counter(s for p in posts for s in p.get_list("stories"))
+def story_item(post):
+    return {
+        "u": post.url,
+        "t": clean_title(post.title) or post.slug,
+        "d": display_date(post.date_str),
+        "x": truncate(post.text, 220),
+    }
+
+
+def build_story_timelines(posts, stories):
+    """Per story: hero article and chapters, each with its posts in date order."""
+    by_id = {p.tweet_id: p for p in posts}
+    timelines = {}
+    for slug, info in stories.items():
+        members = sorted((p for p in posts if slug in p.get_list("stories")), key=lambda p: (p.date_str, p.time_str))
+        if len(members) < MIN_STORY_POSTS:
+            continue
+        config = info.get("chapters") or []
+        member_ids = {p.tweet_id for p in members}
+        assigned = {}
+        for index, chapter in enumerate(config):
+            for pid in chapter.get("posts") or []:
+                if str(pid) in member_ids:
+                    assigned.setdefault(str(pid), index)
+        for post in members:
+            if post.tweet_id in assigned:
+                continue
+            for index, chapter in enumerate(config):
+                lo, hi = str(chapter.get("from") or ""), str(chapter.get("to") or "")
+                if (lo or hi) and (not lo or post.date_str >= lo) and (not hi or post.date_str <= hi):
+                    assigned[post.tweet_id] = index
+                    break
+
+        chapters = []
+        for index, chapter in enumerate(config):
+            group = [p for p in members if assigned.get(p.tweet_id) == index]
+            if group:
+                chapters.append({
+                    "title": str(chapter.get("title", "")),
+                    "intro": str(chapter.get("intro", "")).strip(),
+                    "items": [story_item(p) for p in group],
+                })
+        rest = [p for p in members if p.tweet_id not in assigned]
+        if rest:
+            chapters.append({
+                "title": "עדכונים נוספים" if config else "",
+                "intro": "",
+                "items": [story_item(p) for p in rest],
+            })
+
+        entry = {"count": len(members), "chapters": chapters}
+        hero = by_id.get(str(info.get("hero", "")))
+        if hero and hero.meta.get("image"):
+            entry["hero"] = {
+                "u": hero.url,
+                "t": clean_title(hero.title) or hero.slug,
+                "d": display_date(hero.date_str),
+                "i": hero.meta["image"],
+                "w": hero.meta.get("image_w") or 0,
+                "h": hero.meta.get("image_h") or 0,
+            }
+        timelines[slug] = entry
+    return timelines
+
+
+def generate_story_pages(posts, stories, timelines):
     story_pages = {}
     keep = set()
     written = 0
     for slug, info in stories.items():
-        if counts.get(slug, 0) < MIN_STORY_POSTS:
+        timeline = timelines.get(slug)
+        if not timeline:
             continue
-        story_pages[slug] = counts[slug]
+        story_pages[slug] = timeline["count"]
         intro = strip_markdown(info.get("intro", ""))
         first_sentence = re.split(r"(?<=[.!?])\s", intro, maxsplit=1)[0] if intro else info.get("name", "")
         front = {
-            "layout": "hub",
+            "layout": "story",
             "generated": True,
             "hub_kind": "story",
             "hub_slug": slug,
             "title": info.get("name", slug),
-            "seo_title": f"{info.get('name', slug)}: סיפור מהעיתונות של לפני מאה שנה",
+            "seo_title": f"{info.get('name', slug)}: כל הידיעות והעדכונים",
             "description": truncate(first_sentence, 155),
             "permalink": f"/stories/{slug}/",
             "in_sitemap": True,
         }
+        hero = timeline.get("hero")
+        if hero:
+            front["image"] = hero["i"]
+            if hero["w"]:
+                front["image_w"] = hero["w"]
+                front["image_h"] = hero["h"]
         name = f"{slug}.md"
         keep.add(name)
         written += write_if_changed(STORIES_DIR / name, render_page(front))
@@ -414,9 +540,14 @@ def main():
         header="# Generated by scripts/generate_site_data.py from post front matter. Names/types come from Gemini enrichment.\n")
     index = [{"slug": s, "name": i["name"], "type": i["type"], "count": i["count"]} for s, i in entities.items() if i["page"]]
     dump_yaml(DATA_DIR / "entity_index.yml", index, header="# Generated: entities that have their own page, most mentioned first.\n")
+    linked = link_entities(posts, entities)
+    if linked:
+        posts = list(iter_posts())
 
-    story_pages, story_written, story_removed = generate_story_pages(posts, stories)
+    story_timelines = build_story_timelines(posts, stories)
+    story_pages, story_written, story_removed = generate_story_pages(posts, stories, story_timelines)
     dump_yaml(DATA_DIR / "story_pages.yml", story_pages, header="# Generated: stories that have a page, with their post counts.\n")
+    dump_yaml(DATA_DIR / "story_timelines.yml", story_timelines, header="# Generated: hero article and chapters (with posts) per story.\n")
 
     archive_months, date_written, date_removed = generate_date_pages(posts, tag_names)
     dump_yaml(DATA_DIR / "archive_months.yml", archive_months, header="# Generated: one entry per month that has posts.\n")
@@ -435,7 +566,7 @@ def main():
         f"Entities: {len(entities)} ({len(index)} with a page) | stories with a page: {len(story_pages)} | "
         f"date pages: {date_written} written, {date_removed} removed | "
         f"entity pages: {ent_written} written, {ent_removed} removed | story pages: {story_written} written, {story_removed} removed | "
-        f"related for {len(related)} posts | entities.yml changed: {ent_changed}"
+        f"related for {len(related)} posts | entities.yml changed: {ent_changed} | inline links updated in {linked} posts"
     )
 
 

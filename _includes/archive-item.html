@@ -4,7 +4,7 @@
     <span class="archive-item-text">
       {% if include.show_date %}<time class="archive-item-date">{{ include.p.date | date: "%d.%m.%Y" }}</time>{% endif %}
       <span class="archive-item-title">{{ include.p.title | escape }}</span>
-      {% if include.p.standfirst %}<span class="archive-item-sf">{{ include.p.standfirst | escape }}</span>{% else %}<span class="archive-item-sf">{{ include.p.content | strip_html | strip_newlines | strip | truncate: 140 | escape }}</span>{% endif %}
+      <span class="archive-item-sf">{{ include.p.content | strip_html | strip_newlines | strip | truncate: 140 | escape }}</span>
     </span>
   </a>
 </li>

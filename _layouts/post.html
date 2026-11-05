@@ -128,7 +128,6 @@ layout: default
     </nav>
     <header class="post-header">
       <h1>{{ page.title | escape }}</h1>
-      {% if page.standfirst %}<p class="post-standfirst">{{ page.standfirst | escape }}</p>{% endif %}
       <div class="post-meta">
         <span class="post-event-date" title="התאריך בעיתון המקורי">{{ page.date | date: "%d.%m.%Y" }}</span>
         <time class="post-published" datetime="{{ real_date_iso }}">פורסם באתר ב-{{ real_date_str | date: "%d.%m.%Y" }}</time>
@@ -148,12 +147,6 @@ layout: default
       {{ content }}
     </div>
 
-    {% capture entity_chips %}{% for e_slug in page.entities %}{% assign ent = site.data.entities[e_slug] %}{% if ent and ent.page %}<a href="{{ '/topics/' | append: e_slug | append: '/' | relative_url }}" class="entity-chip">{{ ent.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}
-    {% assign entity_chips = entity_chips | strip %}
-    {% if entity_chips != "" %}
-    <div class="post-entities"><span class="post-entities-label">בכתבה:</span> {{ entity_chips }}</div>
-    {% endif %}
-
     {% capture story_links %}{% for s_slug in page.stories %}{% assign story = site.data.stories[s_slug] %}{% if story and site.data.story_pages[s_slug] %}<a href="{{ '/stories/' | append: s_slug | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}
     {% assign story_links = story_links | strip %}
     {% if story_links != "" %}
@@ -162,7 +155,7 @@ layout: default
 
     {% if page.tags.size > 0 %}
     <div class="post-tags">
-      {% for tag_slug in page.tags %}
+      {% for tag_slug in page.tags limit: 3 %}
       {% assign tag_info = site.data.tags | where: "slug", tag_slug | first %}
       {% if tag_info %}<a href="{{ '/tags/' | append: tag_info.slug | append: '/' | relative_url }}" class="tag-chip">{{ tag_info.name }}</a>{% endif %}
       {% endfor %}
