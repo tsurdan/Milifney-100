@@ -1,11 +1,11 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - france
   - benito-mussolini
+  - france
   - lebanon
-  - jerusalem
   - land-of-israel
+  - jerusalem
   stories:
   - fascist-italy
   - druze-revolt
@@ -38,11 +38,13 @@ culture-arts:
   - turkey-hat-law
   - zionist-congress-14
 jewish-diaspora:
-  entities: []
+  entities:
+  - london
   stories: []
 religion:
   entities:
   - land-of-israel
+  - london
   stories:
   - western-wall-1925
 economy:
@@ -61,6 +63,7 @@ british-mandate:
   - land-of-israel
   - lebanon
   - france
+  - benito-mussolini
   stories:
   - western-wall-1925
   - druze-revolt
@@ -94,8 +97,8 @@ transportation:
   stories: []
 monarchy:
   entities:
-  - france
   - benito-mussolini
+  - france
   - lebanon
   stories:
   - fascist-italy
@@ -122,6 +125,7 @@ revolts:
 health:
   entities:
   - london
+  - jerusalem
   stories: []
 press:
   entities:

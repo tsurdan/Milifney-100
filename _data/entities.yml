@@ -2,25 +2,25 @@
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 5
+  count: 6
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 3
+  count: 5
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 3
-  page: true
-lebanon:
-  name: לבנון
-  type: place
-  count: 3
+  count: 4
   page: true
 london:
   name: לונדון
+  type: place
+  count: 4
+  page: true
+lebanon:
+  name: לבנון
   type: place
   count: 3
   page: true
@@ -42,6 +42,16 @@ united-states:
 berlin:
   name: ברלין
   type: place
+  count: 2
+  page: false
+germany:
+  name: גרמניה
+  type: place
+  count: 2
+  page: false
+david-ben-gurion:
+  name: דוד בן-גוריון
+  type: person
   count: 2
   page: false
 iraq:
@@ -74,18 +84,8 @@ james-rothschild:
   type: person
   count: 1
   page: false
-germany:
-  name: גרמניה
-  type: place
-  count: 1
-  page: false
 david:
   name: דוד
-  type: person
-  count: 1
-  page: false
-david-ben-gurion:
-  name: דוד בן-גוריון
   type: person
   count: 1
   page: false
