@@ -14,6 +14,16 @@ jerusalem:
   type: place
   count: 3
   page: true
+lebanon:
+  name: לבנון
+  type: place
+  count: 3
+  page: true
+london:
+  name: לונדון
+  type: place
+  count: 3
+  page: true
 france:
   name: צרפת
   type: place
@@ -24,18 +34,13 @@ italy:
   type: place
   count: 2
   page: false
+united-states:
+  name: ארצות הברית
+  type: place
+  count: 2
+  page: false
 berlin:
   name: ברלין
-  type: place
-  count: 2
-  page: false
-lebanon:
-  name: לבנון
-  type: place
-  count: 2
-  page: false
-london:
-  name: לונדון
   type: place
   count: 2
   page: false
@@ -44,14 +49,14 @@ iraq:
   type: place
   count: 2
   page: false
+tel-aviv:
+  name: תל אביב
+  type: place
+  count: 2
+  page: false
 adolf-hitler:
   name: אדולף היטלר
   type: person
-  count: 1
-  page: false
-united-states:
-  name: ארצות הברית
-  type: place
   count: 1
   page: false
 john-d-rockefeller:
@@ -166,11 +171,6 @@ faisal-i:
   page: false
 radin:
   name: ראדין
-  type: place
-  count: 1
-  page: false
-tel-aviv:
-  name: תל אביב
   type: place
   count: 1
   page: false

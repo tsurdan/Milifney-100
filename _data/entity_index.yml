@@ -11,6 +11,14 @@
   name: ירושלים
   type: place
   count: 3
+- slug: lebanon
+  name: לבנון
+  type: place
+  count: 3
+- slug: london
+  name: לונדון
+  type: place
+  count: 3
 - slug: france
   name: צרפת
   type: place

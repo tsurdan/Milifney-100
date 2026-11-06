@@ -3,6 +3,7 @@ world-politics:
   entities:
   - france
   - benito-mussolini
+  - lebanon
   - jerusalem
   - land-of-israel
   stories:
@@ -15,19 +16,23 @@ world-politics:
 yishuv:
   entities:
   - land-of-israel
+  - london
   - france
   stories:
   - western-wall-1925
   - zionist-congress-14
 crime-justice:
   entities:
+  - lebanon
   - jerusalem
+  - london
   stories:
   - fascist-italy
 culture-arts:
   entities:
   - benito-mussolini
   - jerusalem
+  - london
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -44,6 +49,7 @@ economy:
   entities:
   - jerusalem
   - land-of-israel
+  - london
   - france
   stories: []
 antisemitism:
@@ -53,19 +59,23 @@ antisemitism:
 british-mandate:
   entities:
   - land-of-israel
+  - lebanon
   - france
   stories:
   - western-wall-1925
   - druze-revolt
 military:
-  entities: []
+  entities:
+  - lebanon
   stories:
   - druze-revolt
   - fascist-italy
 jewish-arab-relations:
   entities:
+  - london
   - land-of-israel
   - jerusalem
+  - lebanon
   stories:
   - western-wall-1925
   - druze-revolt
@@ -86,12 +96,14 @@ monarchy:
   entities:
   - france
   - benito-mussolini
+  - lebanon
   stories:
   - fascist-italy
   - ibn-saud-hejaz
   - locarno
 science-tech:
-  entities: []
+  entities:
+  - london
   stories: []
 tel-aviv:
   entities: []
@@ -103,11 +115,13 @@ disasters:
   entities: []
   stories: []
 revolts:
-  entities: []
+  entities:
+  - lebanon
   stories:
   - druze-revolt
 health:
-  entities: []
+  entities:
+  - london
   stories: []
 press:
   entities:
@@ -116,7 +130,8 @@ press:
   - fascist-italy
   - zionist-congress-14
 women-society:
-  entities: []
+  entities:
+  - london
   stories: []
 haifa:
   entities: []
