@@ -1,16 +1,16 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - benito-mussolini
   - germany
+  - benito-mussolini
   - united-states
   - france
   - italy
   - lebanon
   - iraq
+  - jerusalem
   - land-of-israel
   - berlin
-  - jerusalem
   - london
   stories:
   - fascist-italy
@@ -22,8 +22,8 @@ world-politics:
 yishuv:
   entities:
   - land-of-israel
-  - london
   - jerusalem
+  - london
   - tel-aviv
   - france
   stories:
@@ -73,10 +73,10 @@ economy:
   - tel-aviv
   - land-of-israel
   - london
+  - germany
   - jerusalem
   - france
   - iraq
-  - germany
   stories: []
 antisemitism:
   entities:
@@ -116,10 +116,10 @@ jewish-arab-relations:
   - druze-revolt
 curiosities:
   entities:
+  - united-states
   - benito-mussolini
   - italy
   - london
-  - united-states
   stories: []
 jerusalem:
   entities:
@@ -148,8 +148,8 @@ monarchy:
   - locarno
 science-tech:
   entities:
-  - london
   - united-states
+  - london
   stories: []
 tel-aviv:
   entities:
@@ -171,10 +171,10 @@ revolts:
   - druze-revolt
 health:
   entities:
+  - tel-aviv
   - berlin
   - london
   - jerusalem
-  - tel-aviv
   stories: []
 press:
   entities:

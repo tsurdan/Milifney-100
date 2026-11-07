@@ -6,21 +6,21 @@
 - slug: germany
   name: גרמניה
   type: place
-  count: 8
+  count: 9
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 7
+  count: 8
+- slug: jerusalem
+  name: ירושלים
+  type: place
+  count: 8
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
   count: 7
 - slug: berlin
   name: ברלין
-  type: place
-  count: 7
-- slug: jerusalem
-  name: ירושלים
   type: place
   count: 7
 - slug: london
@@ -30,7 +30,7 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 5
+  count: 6
 - slug: italy
   name: איטליה
   type: place
