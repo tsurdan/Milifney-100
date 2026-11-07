@@ -44,6 +44,7 @@ jobs:
         run: python scripts/apply_ignore_marker.py
 
       - name: Regenerate date, story and related-post data
+        continue-on-error: true
         run: python scripts/generate_site_data.py
 
       - name: Commit & push new posts

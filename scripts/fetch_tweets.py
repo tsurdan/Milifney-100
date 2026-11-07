@@ -408,8 +408,12 @@ def main():
     # Best-effort — also retries any post left untagged by a previous failed run
     api_key = os.environ.get("GEMINI_API_KEY", "")
     tag_pending_posts(api_key)
-    # Modern-Hebrew standfirst, SEO title, entities and stories (same best-effort retry)
-    enrich_pending_posts(api_key)
+    # Modern-Hebrew standfirst, SEO title, entities and stories. Capped per run so a backlog
+    # never slows the workflow; the rest is done locally with scripts/enrich_posts.py.
+    try:
+        enrich_pending_posts(api_key, limit=10)
+    except Exception as exc:  # noqa: BLE001 - must never fail the workflow
+        print(f"Enrichment skipped: {exc}")
 
 
 if __name__ == "__main__":

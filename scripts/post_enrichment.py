@@ -46,7 +46,8 @@ def load_stories():
 
 
 def pending_posts():
-    return [p for p in iter_posts() if "standfirst" not in p.meta]
+    # Newest first, so freshly fetched posts are enriched before any backlog.
+    return [p for p in reversed(list(iter_posts())) if "standfirst" not in p.meta]
 
 
 def _excerpt(post):
@@ -104,7 +105,12 @@ def call_gemini(prompt, api_key):
     resp = requests.post(url, params={"key": api_key}, json=body, timeout=120)
     resp.raise_for_status()
     text = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-    return json.loads(text)
+    data = json.loads(text)
+    if isinstance(data, list):  # the model sometimes answers with an array in input order
+        data = {str(i): item for i, item in enumerate(data, start=1)}
+    if not isinstance(data, dict):
+        raise ValueError("unexpected response shape")
+    return data
 
 
 def _has_foreign_script(text):
