@@ -144,7 +144,8 @@ layout: default
     {% endif %}
 
     <div class="post-content">
-      {{ content }}
+      {% assign linked_body = site.data.linked_bodies[page.tweet_id] %}
+      {% if linked_body %}{{ linked_body | markdownify }}{% else %}{{ content }}{% endif %}
     </div>
 
     {% capture story_links %}{% for s_slug in page.stories %}{% assign story = site.data.stories[s_slug] %}{% if story and site.data.story_pages[s_slug] %}<a href="{{ '/stories/' | append: s_slug | append: '/' | relative_url }}" class="story-link">{{ story.name | escape }}</a>{% endif %}{% endfor %}{% endcapture %}

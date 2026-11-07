@@ -14,6 +14,7 @@ commits the branded card before this script runs, so the URL is already live.
 
 import datetime
 import os
+import re
 from pathlib import Path
 
 import requests
@@ -55,6 +56,8 @@ def parse_post(filepath):
 
     body_lines = body_text.split("\n")
     body_text = " ".join(l.strip() for l in body_lines if l.strip() and not l.startswith("!["))
+    # The site auto-links entity mentions as markdown; social posts and cards need plain text.
+    body_text = re.sub(r"\[([^\]\n]+)\]\([^)\s]*\)", r"\1", body_text)
 
     return {
         "title": str(meta.get("title", "")),
