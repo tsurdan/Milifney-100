@@ -6,20 +6,40 @@
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 5
+  count: 6
 - slug: jerusalem
   name: ירושלים
+  type: place
+  count: 5
+- slug: berlin
+  name: ברלין
+  type: place
+  count: 4
+- slug: germany
+  name: גרמניה
+  type: place
+  count: 4
+- slug: lebanon
+  name: לבנון
   type: place
   count: 4
 - slug: london
   name: לונדון
   type: place
   count: 4
-- slug: lebanon
-  name: לבנון
-  type: place
-  count: 3
 - slug: france
   name: צרפת
+  type: place
+  count: 4
+- slug: italy
+  name: איטליה
+  type: place
+  count: 3
+- slug: united-states
+  name: ארצות הברית
+  type: place
+  count: 3
+- slug: iraq
+  name: עיראק
   type: place
   count: 3

@@ -4,7 +4,11 @@ world-politics:
   - benito-mussolini
   - france
   - lebanon
+  - germany
+  - italy
+  - iraq
   - land-of-israel
+  - united-states
   - jerusalem
   stories:
   - fascist-italy
@@ -18,6 +22,7 @@ yishuv:
   - land-of-israel
   - london
   - france
+  - jerusalem
   stories:
   - western-wall-1925
   - zionist-congress-14
@@ -30,19 +35,26 @@ crime-justice:
   - fascist-italy
 culture-arts:
   entities:
+  - berlin
   - benito-mussolini
   - jerusalem
+  - italy
   - london
+  - germany
   stories:
   - fascist-italy
   - turkey-hat-law
   - zionist-congress-14
 jewish-diaspora:
   entities:
+  - berlin
+  - united-states
+  - germany
   - london
   stories: []
 religion:
   entities:
+  - berlin
   - land-of-israel
   - london
   stories:
@@ -50,12 +62,17 @@ religion:
 economy:
   entities:
   - jerusalem
+  - united-states
   - land-of-israel
   - london
   - france
+  - iraq
   stories: []
 antisemitism:
-  entities: []
+  entities:
+  - germany
+  - united-states
+  - berlin
   stories:
   - zionist-congress-14
 british-mandate:
@@ -63,27 +80,32 @@ british-mandate:
   - land-of-israel
   - lebanon
   - france
+  - jerusalem
   - benito-mussolini
   stories:
   - western-wall-1925
   - druze-revolt
 military:
   entities:
+  - germany
   - lebanon
   stories:
   - druze-revolt
   - fascist-italy
 jewish-arab-relations:
   entities:
+  - jerusalem
   - london
   - land-of-israel
-  - jerusalem
   - lebanon
+  - iraq
   stories:
   - western-wall-1925
   - druze-revolt
 curiosities:
-  entities: []
+  entities:
+  - benito-mussolini
+  - italy
   stories: []
 jerusalem:
   entities:
@@ -94,11 +116,15 @@ transportation:
   entities:
   - land-of-israel
   - jerusalem
+  - iraq
+  - lebanon
   stories: []
 monarchy:
   entities:
   - benito-mussolini
   - france
+  - iraq
+  - italy
   - lebanon
   stories:
   - fascist-italy
@@ -112,7 +138,8 @@ tel-aviv:
   entities: []
   stories: []
 education:
-  entities: []
+  entities:
+  - united-states
   stories: []
 disasters:
   entities: []
@@ -124,12 +151,14 @@ revolts:
   - druze-revolt
 health:
   entities:
+  - berlin
   - london
   - jerusalem
   stories: []
 press:
   entities:
   - benito-mussolini
+  - italy
   stories:
   - fascist-italy
   - zionist-congress-14
