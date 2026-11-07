@@ -2,22 +2,27 @@
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 6
+  count: 8
+  page: true
+united-states:
+  name: ארצות הברית
+  type: place
+  count: 7
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
   count: 6
   page: true
+london:
+  name: לונדון
+  type: place
+  count: 6
+  page: true
 jerusalem:
   name: ירושלים
   type: place
   count: 5
-  page: true
-united-states:
-  name: ארצות הברית
-  type: place
-  count: 4
   page: true
 berlin:
   name: ברלין
@@ -31,11 +36,6 @@ germany:
   page: true
 lebanon:
   name: לבנון
-  type: place
-  count: 4
-  page: true
-london:
-  name: לונדון
   type: place
   count: 4
   page: true

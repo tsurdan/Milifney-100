@@ -2,14 +2,15 @@
 world-politics:
   entities:
   - benito-mussolini
+  - united-states
   - france
   - lebanon
   - germany
   - italy
-  - united-states
   - iraq
   - land-of-israel
   - jerusalem
+  - london
   stories:
   - fascist-italy
   - druze-revolt
@@ -32,6 +33,7 @@ crime-justice:
   - lebanon
   - jerusalem
   - london
+  - land-of-israel
   stories:
   - fascist-italy
 culture-arts:
@@ -63,11 +65,11 @@ religion:
   - western-wall-1925
 economy:
   entities:
+  - united-states
+  - london
   - jerusalem
   - tel-aviv
-  - united-states
   - land-of-israel
-  - london
   - france
   - iraq
   stories: []
@@ -85,6 +87,7 @@ british-mandate:
   - france
   - jerusalem
   - benito-mussolini
+  - london
   stories:
   - western-wall-1925
   - druze-revolt
@@ -109,6 +112,7 @@ curiosities:
   entities:
   - benito-mussolini
   - italy
+  - united-states
   stories: []
 jerusalem:
   entities:
@@ -137,6 +141,7 @@ monarchy:
 science-tech:
   entities:
   - london
+  - united-states
   stories: []
 tel-aviv:
   entities:

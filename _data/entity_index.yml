@@ -2,19 +2,23 @@
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 6
+  count: 8
+- slug: united-states
+  name: ארצות הברית
+  type: place
+  count: 7
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
+  count: 6
+- slug: london
+  name: לונדון
+  type: place
   count: 6
 - slug: jerusalem
   name: ירושלים
   type: place
   count: 5
-- slug: united-states
-  name: ארצות הברית
-  type: place
-  count: 4
 - slug: berlin
   name: ברלין
   type: place
@@ -25,10 +29,6 @@
   count: 4
 - slug: lebanon
   name: לבנון
-  type: place
-  count: 4
-- slug: london
-  name: לונדון
   type: place
   count: 4
 - slug: france
