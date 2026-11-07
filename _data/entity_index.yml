@@ -2,23 +2,23 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 16
+  count: 17
 - slug: germany
   name: גרמניה
   type: place
-  count: 13
+  count: 14
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 12
+  count: 13
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 11
+  count: 12
 - slug: london
   name: לונדון
   type: place
-  count: 10
+  count: 11
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
@@ -30,11 +30,11 @@
 - slug: france
   name: צרפת
   type: place
-  count: 7
+  count: 8
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 7
+  count: 8
 - slug: italy
   name: איטליה
   type: place

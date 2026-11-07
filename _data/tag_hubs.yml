@@ -7,9 +7,9 @@ world-politics:
   - united-states
   - italy
   - lebanon
+  - land-of-israel
   - iraq
   - jerusalem
-  - land-of-israel
   - london
   - berlin
   stories:
@@ -35,6 +35,7 @@ crime-justice:
   - lebanon
   - jerusalem
   - london
+  - france
   - united-states
   - berlin
   - germany
@@ -59,24 +60,25 @@ jewish-diaspora:
   - germany
   - united-states
   - london
+  - land-of-israel
   stories: []
 religion:
   entities:
   - jerusalem
   - berlin
   - land-of-israel
-  - london
   - tel-aviv
+  - london
   - united-states
   stories:
   - western-wall-1925
 economy:
   entities:
   - united-states
+  - london
   - germany
   - tel-aviv
   - land-of-israel
-  - london
   - jerusalem
   - france
   - iraq
@@ -103,6 +105,7 @@ military:
   entities:
   - germany
   - lebanon
+  - united-states
   - berlin
   - italy
   stories:
@@ -139,6 +142,7 @@ transportation:
   - tel-aviv
   - iraq
   - lebanon
+  - london
   - france
   stories: []
 monarchy:
@@ -157,8 +161,8 @@ monarchy:
 science-tech:
   entities:
   - united-states
-  - london
   - germany
+  - london
   stories: []
 tel-aviv:
   entities:
@@ -186,6 +190,7 @@ health:
   - tel-aviv
   - berlin
   - london
+  - germany
   - france
   - jerusalem
   stories: []
@@ -193,6 +198,7 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - tel-aviv
   stories:
   - fascist-italy
   - zionist-congress-14

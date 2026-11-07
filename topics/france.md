@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "france"
 title: "צרפת"
 seo_title: "צרפת: כל הידיעות והעדכונים"
-description: "7 ידיעות על צרפת במקום אחד."
+description: "8 ידיעות על צרפת במקום אחד."
 permalink: "/topics/france/"
 in_sitemap: true
 ---
