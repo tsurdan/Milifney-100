@@ -3,9 +3,9 @@ world-politics:
   entities:
   - germany
   - benito-mussolini
-  - united-states
   - france
   - italy
+  - united-states
   - lebanon
   - iraq
   - jerusalem
@@ -26,6 +26,7 @@ yishuv:
   - london
   - tel-aviv
   - france
+  - benito-mussolini
   stories:
   - western-wall-1925
   - zionist-congress-14
@@ -34,6 +35,7 @@ crime-justice:
   - lebanon
   - jerusalem
   - london
+  - united-states
   - berlin
   - germany
   - land-of-israel
@@ -54,16 +56,17 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - germany
   - united-states
+  - germany
   - london
   stories: []
 religion:
   entities:
   - berlin
   - land-of-israel
-  - tel-aviv
   - jerusalem
+  - tel-aviv
+  - united-states
   - london
   stories:
   - western-wall-1925
@@ -88,9 +91,9 @@ antisemitism:
 british-mandate:
   entities:
   - land-of-israel
+  - jerusalem
   - lebanon
   - france
-  - jerusalem
   - benito-mussolini
   - london
   stories:

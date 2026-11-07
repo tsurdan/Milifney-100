@@ -4,25 +4,25 @@ land-of-israel:
   type: place
   count: 11
   page: true
+jerusalem:
+  name: ירושלים
+  type: place
+  count: 11
+  page: true
 germany:
   name: גרמניה
   type: place
-  count: 9
+  count: 10
   page: true
 united-states:
   name: ארצות הברית
   type: place
-  count: 8
-  page: true
-jerusalem:
-  name: ירושלים
-  type: place
-  count: 8
+  count: 9
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 7
+  count: 8
   page: true
 berlin:
   name: ברלין
@@ -42,15 +42,15 @@ tel-aviv:
 italy:
   name: איטליה
   type: place
-  count: 4
-  page: true
-lebanon:
-  name: לבנון
-  type: place
-  count: 4
+  count: 5
   page: true
 france:
   name: צרפת
+  type: place
+  count: 5
+  page: true
+lebanon:
+  name: לבנון
   type: place
   count: 4
   page: true

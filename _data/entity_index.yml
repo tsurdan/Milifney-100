@@ -3,22 +3,22 @@
   name: ארץ ישראל
   type: place
   count: 11
-- slug: germany
-  name: גרמניה
-  type: place
-  count: 9
-- slug: united-states
-  name: ארצות הברית
-  type: place
-  count: 8
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 8
+  count: 11
+- slug: germany
+  name: גרמניה
+  type: place
+  count: 10
+- slug: united-states
+  name: ארצות הברית
+  type: place
+  count: 9
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 7
+  count: 8
 - slug: berlin
   name: ברלין
   type: place
@@ -34,13 +34,13 @@
 - slug: italy
   name: איטליה
   type: place
-  count: 4
-- slug: lebanon
-  name: לבנון
-  type: place
-  count: 4
+  count: 5
 - slug: france
   name: צרפת
+  type: place
+  count: 5
+- slug: lebanon
+  name: לבנון
   type: place
   count: 4
 - slug: iraq
