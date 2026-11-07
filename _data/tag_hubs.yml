@@ -3,8 +3,8 @@ world-politics:
   entities:
   - benito-mussolini
   - germany
-  - france
   - united-states
+  - france
   - italy
   - lebanon
   - land-of-israel
@@ -23,8 +23,8 @@ yishuv:
   entities:
   - land-of-israel
   - jerusalem
-  - london
   - tel-aviv
+  - london
   - france
   - benito-mussolini
   stories:
@@ -45,9 +45,9 @@ crime-justice:
 culture-arts:
   entities:
   - berlin
+  - jerusalem
   - benito-mussolini
   - london
-  - jerusalem
   - germany
   - italy
   stories:
@@ -96,6 +96,7 @@ british-mandate:
   - jerusalem
   - lebanon
   - france
+  - tel-aviv
   - benito-mussolini
   - london
   stories:
@@ -104,8 +105,8 @@ british-mandate:
 military:
   entities:
   - germany
-  - lebanon
   - united-states
+  - lebanon
   - berlin
   - italy
   stories:
@@ -148,9 +149,9 @@ transportation:
 monarchy:
   entities:
   - benito-mussolini
+  - italy
   - france
   - iraq
-  - italy
   - lebanon
   - london
   - land-of-israel
