@@ -9,28 +9,28 @@ united-states:
   type: place
   count: 7
   page: true
+london:
+  name: לונדון
+  type: place
+  count: 7
+  page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
   count: 6
   page: true
-london:
-  name: לונדון
+jerusalem:
+  name: ירושלים
   type: place
   count: 6
   page: true
-jerusalem:
-  name: ירושלים
+germany:
+  name: גרמניה
   type: place
   count: 5
   page: true
 berlin:
   name: ברלין
-  type: place
-  count: 4
-  page: true
-germany:
-  name: גרמניה
   type: place
   count: 4
   page: true
@@ -72,6 +72,11 @@ samaria:
 adolf-hitler:
   name: אדולף היטלר
   type: person
+  count: 1
+  page: false
+budapest:
+  name: בודפשט
+  type: place
   count: 1
   page: false
 john-d-rockefeller:
