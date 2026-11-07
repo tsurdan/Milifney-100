@@ -10,8 +10,8 @@ world-politics:
   - iraq
   - jerusalem
   - land-of-israel
-  - berlin
   - london
+  - berlin
   stories:
   - fascist-italy
   - druze-revolt
@@ -44,11 +44,11 @@ crime-justice:
 culture-arts:
   entities:
   - berlin
+  - london
   - jerusalem
   - benito-mussolini
-  - london
-  - italy
   - germany
+  - italy
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -56,18 +56,18 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - united-states
   - germany
+  - united-states
   - london
   stories: []
 religion:
   entities:
+  - jerusalem
   - berlin
   - land-of-israel
-  - jerusalem
+  - london
   - tel-aviv
   - united-states
-  - london
   stories:
   - western-wall-1925
 economy:
@@ -127,6 +127,7 @@ curiosities:
 jerusalem:
   entities:
   - jerusalem
+  - london
   stories:
   - western-wall-1925
 transportation:
@@ -136,6 +137,7 @@ transportation:
   - jerusalem
   - iraq
   - lebanon
+  - france
   stories: []
 monarchy:
   entities:
@@ -144,6 +146,7 @@ monarchy:
   - iraq
   - italy
   - lebanon
+  - london
   - land-of-israel
   stories:
   - fascist-italy
@@ -165,7 +168,8 @@ education:
   - land-of-israel
   stories: []
 disasters:
-  entities: []
+  entities:
+  - france
   stories: []
 revolts:
   entities:
