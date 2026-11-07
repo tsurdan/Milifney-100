@@ -5,11 +5,12 @@ world-politics:
   - germany
   - united-states
   - france
-  - lebanon
   - italy
+  - lebanon
   - iraq
   - land-of-israel
   - jerusalem
+  - berlin
   - london
   stories:
   - fascist-italy
@@ -95,6 +96,7 @@ military:
   entities:
   - germany
   - lebanon
+  - italy
   stories:
   - druze-revolt
   - fascist-italy

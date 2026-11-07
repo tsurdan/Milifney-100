@@ -7,24 +7,28 @@
   name: ארצות הברית
   type: place
   count: 7
+- slug: benito-mussolini
+  name: בניטו מוסוליני
+  type: person
+  count: 7
 - slug: london
   name: לונדון
   type: place
   count: 7
-- slug: benito-mussolini
-  name: בניטו מוסוליני
-  type: person
-  count: 6
 - slug: jerusalem
   name: ירושלים
   type: place
   count: 6
+- slug: berlin
+  name: ברלין
+  type: place
+  count: 5
 - slug: germany
   name: גרמניה
   type: place
   count: 5
-- slug: berlin
-  name: ברלין
+- slug: italy
+  name: איטליה
   type: place
   count: 4
 - slug: lebanon
@@ -35,10 +39,6 @@
   name: צרפת
   type: place
   count: 4
-- slug: italy
-  name: איטליה
-  type: place
-  count: 3
 - slug: iraq
   name: עיראק
   type: place
