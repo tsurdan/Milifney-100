@@ -2,7 +2,12 @@
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 10
+  count: 11
+  page: true
+germany:
+  name: גרמניה
+  type: place
+  count: 8
   page: true
 united-states:
   name: ארצות הברית
@@ -14,8 +19,13 @@ benito-mussolini:
   type: person
   count: 7
   page: true
-germany:
-  name: גרמניה
+berlin:
+  name: ברלין
+  type: place
+  count: 7
+  page: true
+jerusalem:
+  name: ירושלים
   type: place
   count: 7
   page: true
@@ -24,15 +34,10 @@ london:
   type: place
   count: 7
   page: true
-berlin:
-  name: ברלין
+tel-aviv:
+  name: תל אביב
   type: place
-  count: 6
-  page: true
-jerusalem:
-  name: ירושלים
-  type: place
-  count: 6
+  count: 5
   page: true
 italy:
   name: איטליה
@@ -54,18 +59,23 @@ iraq:
   type: place
   count: 3
   page: true
-tel-aviv:
-  name: תל אביב
-  type: place
-  count: 3
-  page: true
 david-ben-gurion:
   name: דוד בן-גוריון
   type: person
   count: 2
   page: false
+herbert-samuel:
+  name: הנציב העליון הרברט סמואל
+  type: person
+  count: 2
+  page: false
 samaria:
   name: השומרון
+  type: place
+  count: 2
+  page: false
+lithuania:
+  name: ליטא
   type: place
   count: 2
   page: false
@@ -109,11 +119,6 @@ dan:
   type: person
   count: 1
   page: false
-herbert-samuel:
-  name: הנציב העליון הרברט סמואל
-  type: person
-  count: 1
-  page: false
 hadera:
   name: חדרה
   type: place
@@ -147,11 +152,6 @@ yitzhak-ben-zvi:
 israel-meir-hakohen:
   name: ישראל מאיר הכהן
   type: person
-  count: 1
-  page: false
-lithuania:
-  name: ליטא
-  type: place
   count: 1
   page: false
 meir-berlin:

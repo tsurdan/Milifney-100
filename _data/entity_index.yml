@@ -2,7 +2,11 @@
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 10
+  count: 11
+- slug: germany
+  name: גרמניה
+  type: place
+  count: 8
 - slug: united-states
   name: ארצות הברית
   type: place
@@ -11,22 +15,22 @@
   name: בניטו מוסוליני
   type: person
   count: 7
-- slug: germany
-  name: גרמניה
+- slug: berlin
+  name: ברלין
+  type: place
+  count: 7
+- slug: jerusalem
+  name: ירושלים
   type: place
   count: 7
 - slug: london
   name: לונדון
   type: place
   count: 7
-- slug: berlin
-  name: ברלין
+- slug: tel-aviv
+  name: תל אביב
   type: place
-  count: 6
-- slug: jerusalem
-  name: ירושלים
-  type: place
-  count: 6
+  count: 5
 - slug: italy
   name: איטליה
   type: place
@@ -41,9 +45,5 @@
   count: 4
 - slug: iraq
   name: עיראק
-  type: place
-  count: 3
-- slug: tel-aviv
-  name: תל אביב
   type: place
   count: 3
