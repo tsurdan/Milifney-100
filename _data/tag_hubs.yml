@@ -127,14 +127,15 @@ curiosities:
 jerusalem:
   entities:
   - jerusalem
+  - land-of-israel
   - london
   stories:
   - western-wall-1925
 transportation:
   entities:
+  - jerusalem
   - land-of-israel
   - tel-aviv
-  - jerusalem
   - iraq
   - lebanon
   - france
@@ -164,8 +165,9 @@ tel-aviv:
 education:
   entities:
   - united-states
-  - tel-aviv
   - land-of-israel
+  - jerusalem
+  - tel-aviv
   stories: []
 disasters:
   entities:

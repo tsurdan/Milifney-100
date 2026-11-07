@@ -2,12 +2,12 @@
 jerusalem:
   name: ירושלים
   type: place
-  count: 13
+  count: 16
   page: true
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 11
+  count: 12
   page: true
 germany:
   name: גרמניה
@@ -34,13 +34,13 @@ berlin:
   type: place
   count: 8
   page: true
-france:
-  name: צרפת
-  type: place
-  count: 6
-  page: true
 tel-aviv:
   name: תל אביב
+  type: place
+  count: 7
+  page: true
+france:
+  name: צרפת
   type: place
   count: 6
   page: true
@@ -72,6 +72,11 @@ herbert-samuel:
 samaria:
   name: השומרון
   type: place
+  count: 2
+  page: false
+yitzhak-ben-zvi:
+  name: יצחק בן-צבי
+  type: person
   count: 2
   page: false
 lithuania:
@@ -152,11 +157,6 @@ harbaj:
 tumar:
   name: טומאר
   type: place
-  count: 1
-  page: false
-yitzhak-ben-zvi:
-  name: יצחק בן-צבי
-  type: person
   count: 1
   page: false
 israel-meir-hakohen:
