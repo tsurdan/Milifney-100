@@ -34,6 +34,8 @@ crime-justice:
   - lebanon
   - jerusalem
   - london
+  - berlin
+  - germany
   - land-of-israel
   stories:
   - fascist-italy
@@ -67,12 +69,13 @@ religion:
 economy:
   entities:
   - united-states
+  - land-of-israel
   - london
   - jerusalem
   - tel-aviv
-  - land-of-israel
   - france
   - iraq
+  - germany
   stories: []
 antisemitism:
   entities:
@@ -137,6 +140,7 @@ monarchy:
   - iraq
   - italy
   - lebanon
+  - land-of-israel
   stories:
   - fascist-italy
   - ibn-saud-hejaz
@@ -179,6 +183,8 @@ press:
 women-society:
   entities:
   - london
+  - berlin
+  - germany
   stories: []
 haifa:
   entities: []
