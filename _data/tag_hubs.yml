@@ -6,9 +6,9 @@ world-politics:
   - lebanon
   - germany
   - italy
+  - united-states
   - iraq
   - land-of-israel
-  - united-states
   - jerusalem
   stories:
   - fascist-italy
@@ -23,6 +23,7 @@ yishuv:
   - london
   - france
   - jerusalem
+  - tel-aviv
   stories:
   - western-wall-1925
   - zionist-congress-14
@@ -56,12 +57,14 @@ religion:
   entities:
   - berlin
   - land-of-israel
+  - tel-aviv
   - london
   stories:
   - western-wall-1925
 economy:
   entities:
   - jerusalem
+  - tel-aviv
   - united-states
   - land-of-israel
   - london
@@ -115,6 +118,7 @@ jerusalem:
 transportation:
   entities:
   - land-of-israel
+  - tel-aviv
   - jerusalem
   - iraq
   - lebanon
@@ -135,7 +139,8 @@ science-tech:
   - london
   stories: []
 tel-aviv:
-  entities: []
+  entities:
+  - tel-aviv
   stories: []
 education:
   entities:
@@ -154,6 +159,7 @@ health:
   - berlin
   - london
   - jerusalem
+  - tel-aviv
   stories: []
 press:
   entities:

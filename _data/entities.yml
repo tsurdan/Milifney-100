@@ -14,6 +14,11 @@ jerusalem:
   type: place
   count: 5
   page: true
+united-states:
+  name: ארצות הברית
+  type: place
+  count: 4
+  page: true
 berlin:
   name: ברלין
   type: place
@@ -44,13 +49,13 @@ italy:
   type: place
   count: 3
   page: true
-united-states:
-  name: ארצות הברית
+iraq:
+  name: עיראק
   type: place
   count: 3
   page: true
-iraq:
-  name: עיראק
+tel-aviv:
+  name: תל אביב
   type: place
   count: 3
   page: true
@@ -61,11 +66,6 @@ david-ben-gurion:
   page: false
 samaria:
   name: השומרון
-  type: place
-  count: 2
-  page: false
-tel-aviv:
-  name: תל אביב
   type: place
   count: 2
   page: false
