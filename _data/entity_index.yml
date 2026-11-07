@@ -3,38 +3,38 @@
   name: ירושלים
   type: place
   count: 16
+- slug: germany
+  name: גרמניה
+  type: place
+  count: 13
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
   count: 12
-- slug: germany
-  name: גרמניה
+- slug: united-states
+  name: ארצות הברית
   type: place
   count: 11
 - slug: london
   name: לונדון
   type: place
   count: 10
-- slug: united-states
-  name: ארצות הברית
-  type: place
-  count: 9
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 8
+  count: 9
 - slug: berlin
   name: ברלין
   type: place
-  count: 8
+  count: 9
+- slug: france
+  name: צרפת
+  type: place
+  count: 7
 - slug: tel-aviv
   name: תל אביב
   type: place
   count: 7
-- slug: france
-  name: צרפת
-  type: place
-  count: 6
 - slug: italy
   name: איטליה
   type: place

@@ -1,11 +1,11 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - germany
   - benito-mussolini
+  - germany
   - france
-  - italy
   - united-states
+  - italy
   - lebanon
   - iraq
   - jerusalem
@@ -44,9 +44,9 @@ crime-justice:
 culture-arts:
   entities:
   - berlin
+  - benito-mussolini
   - london
   - jerusalem
-  - benito-mussolini
   - germany
   - italy
   stories:
@@ -73,10 +73,10 @@ religion:
 economy:
   entities:
   - united-states
+  - germany
   - tel-aviv
   - land-of-israel
   - london
-  - germany
   - jerusalem
   - france
   - iraq
@@ -103,6 +103,7 @@ military:
   entities:
   - germany
   - lebanon
+  - berlin
   - italy
   stories:
   - druze-revolt
@@ -157,6 +158,7 @@ science-tech:
   entities:
   - united-states
   - london
+  - germany
   stories: []
 tel-aviv:
   entities:
@@ -171,6 +173,7 @@ education:
   stories: []
 disasters:
   entities:
+  - united-states
   - france
   stories: []
 revolts:
@@ -183,6 +186,7 @@ health:
   - tel-aviv
   - berlin
   - london
+  - france
   - jerusalem
   stories: []
 press:
@@ -195,6 +199,7 @@ press:
 women-society:
   entities:
   - london
+  - benito-mussolini
   - berlin
   - germany
   stories: []
