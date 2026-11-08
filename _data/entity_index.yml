@@ -2,7 +2,7 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 69
+  count: 70
 - slug: germany
   name: גרמניה
   type: place
@@ -18,7 +18,7 @@
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 43
+  count: 45
 - slug: france
   name: צרפת
   type: place
@@ -54,7 +54,7 @@
 - slug: iraq
   name: עיראק
   type: place
-  count: 7
+  count: 8
 - slug: none
   name: ספרד
   type: place

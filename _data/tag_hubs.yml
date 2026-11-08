@@ -10,8 +10,8 @@ world-politics:
   - london
   - lebanon
   - land-of-israel
-  - adolf-hitler
   - iraq
+  - adolf-hitler
   - none
   stories:
   - fascist-italy
@@ -105,12 +105,12 @@ economy:
   - tel-aviv
   - land-of-israel
   - london
+  - iraq
   - haifa
   - italy
   - berlin
   - jerusalem
   - lebanon
-  - iraq
   stories:
   - fascist-italy
 antisemitism:

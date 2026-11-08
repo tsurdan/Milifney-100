@@ -2,7 +2,7 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 69
+  count: 70
   page: true
 germany:
   name: גרמניה
@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 43
+  count: 45
   page: true
 france:
   name: צרפת
@@ -67,7 +67,7 @@ adolf-hitler:
 iraq:
   name: עיראק
   type: place
-  count: 7
+  count: 8
   page: true
 none:
   name: ספרד
