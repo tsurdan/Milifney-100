@@ -3,12 +3,12 @@ world-politics:
   entities:
   - germany
   - united-states
-  - benito-mussolini
   - france
+  - benito-mussolini
   - italy
+  - lebanon
   - london
   - berlin
-  - lebanon
   - land-of-israel
   - adolf-hitler
   - iraq
@@ -38,9 +38,9 @@ yishuv:
 crime-justice:
   entities:
   - united-states
+  - jerusalem
   - benito-mussolini
   - germany
-  - jerusalem
   - land-of-israel
   - france
   - london
@@ -53,14 +53,14 @@ crime-justice:
   - fascist-italy
 culture-arts:
   entities:
-  - jerusalem
   - tel-aviv
+  - jerusalem
   - berlin
   - benito-mussolini
   - italy
   - london
-  - germany
   - land-of-israel
+  - germany
   - united-states
   stories:
   - fascist-italy
@@ -146,11 +146,11 @@ british-mandate:
 military:
   entities:
   - united-states
+  - france
   - germany
   - italy
-  - france
-  - benito-mussolini
   - lebanon
+  - benito-mussolini
   - land-of-israel
   - london
   - berlin
@@ -235,6 +235,7 @@ science-tech:
 tel-aviv:
   entities:
   - tel-aviv
+  - land-of-israel
   - jerusalem
   stories: []
 education:
@@ -297,6 +298,7 @@ women-society:
   entities:
   - london
   - lithuania
+  - tel-aviv
   - france
   - adolf-hitler
   - haifa

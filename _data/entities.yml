@@ -2,7 +2,7 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 63
+  count: 64
   page: true
 germany:
   name: גרמניה
@@ -12,22 +12,22 @@ germany:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 41
+  count: 43
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 40
+  count: 41
   page: true
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 38
+  count: 39
   page: true
 france:
   name: צרפת
   type: place
-  count: 33
+  count: 34
   page: true
 london:
   name: לונדון
@@ -52,7 +52,7 @@ berlin:
 lebanon:
   name: לבנון
   type: place
-  count: 13
+  count: 14
   page: true
 haifa:
   name: חיפה

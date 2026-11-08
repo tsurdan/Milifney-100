@@ -2,7 +2,7 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 63
+  count: 64
 - slug: germany
   name: גרמניה
   type: place
@@ -10,19 +10,19 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 41
+  count: 43
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 40
+  count: 41
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 38
+  count: 39
 - slug: france
   name: צרפת
   type: place
-  count: 33
+  count: 34
 - slug: london
   name: לונדון
   type: place
@@ -42,7 +42,7 @@
 - slug: lebanon
   name: לבנון
   type: place
-  count: 13
+  count: 14
 - slug: haifa
   name: חיפה
   type: place
