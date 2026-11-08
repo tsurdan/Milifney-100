@@ -2,13 +2,13 @@
 world-politics:
   entities:
   - united-states
-  - germany
   - france
+  - germany
   - benito-mussolini
   - italy
   - lebanon
-  - adolf-hitler
   - london
+  - adolf-hitler
   - land-of-israel
   - berlin
   - iraq
@@ -92,8 +92,8 @@ religion:
 economy:
   entities:
   - united-states
-  - germany
   - france
+  - germany
   - tel-aviv
   - london
   - land-of-israel
@@ -111,6 +111,7 @@ antisemitism:
   - adolf-hitler
   - united-states
   - budapest
+  - jerusalem
   - london
   - france
   - benito-mussolini
@@ -133,9 +134,9 @@ military:
   entities:
   - united-states
   - germany
+  - france
   - italy
   - benito-mussolini
-  - france
   - lebanon
   - berlin
   stories:
@@ -228,10 +229,10 @@ disasters:
   stories: []
 revolts:
   entities:
+  - france
   - united-states
   - lebanon
   - adolf-hitler
-  - france
   stories:
   - druze-revolt
 health:
