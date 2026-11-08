@@ -53,9 +53,9 @@ crime-justice:
   - fascist-italy
 culture-arts:
   entities:
-  - berlin
   - jerusalem
   - tel-aviv
+  - berlin
   - benito-mussolini
   - italy
   - london
@@ -76,6 +76,8 @@ jewish-diaspora:
   - london
   - lithuania
   - adolf-hitler
+  - benito-mussolini
+  - italy
   - none
   - tel-aviv
   stories:
@@ -189,9 +191,9 @@ jerusalem:
   - western-wall-1925
 transportation:
   entities:
+  - tel-aviv
   - jerusalem
   - haifa
-  - tel-aviv
   - land-of-israel
   - united-states
   - france
@@ -225,6 +227,7 @@ science-tech:
   - london
   - france
   - berlin
+  - tel-aviv
   - none
   - italy
   - lebanon
@@ -236,8 +239,8 @@ tel-aviv:
   stories: []
 education:
   entities:
-  - united-states
   - tel-aviv
+  - united-states
   - land-of-israel
   - france
   - germany
