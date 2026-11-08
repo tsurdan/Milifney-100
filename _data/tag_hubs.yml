@@ -10,9 +10,9 @@ world-politics:
   - london
   - berlin
   - adolf-hitler
+  - iraq
   - jerusalem
   - land-of-israel
-  - iraq
   stories:
   - fascist-italy
   - druze-revolt
@@ -114,6 +114,7 @@ antisemitism:
   - berlin
   - united-states
   - budapest
+  - land-of-israel
   - jerusalem
   - london
   - france
@@ -125,10 +126,11 @@ british-mandate:
   entities:
   - land-of-israel
   - jerusalem
-  - tel-aviv
   - london
+  - tel-aviv
   - lebanon
   - france
+  - iraq
   - germany
   - benito-mussolini
   stories:
