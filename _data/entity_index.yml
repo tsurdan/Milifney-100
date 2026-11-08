@@ -1,4 +1,8 @@
 # Generated: entities that have their own page, most mentioned first.
+- slug: united-states
+  name: ארצות הברית
+  type: place
+  count: 20
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -7,10 +11,6 @@
   name: גרמניה
   type: place
   count: 19
-- slug: united-states
-  name: ארצות הברית
-  type: place
-  count: 18
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -23,18 +23,18 @@
   name: ברלין
   type: place
   count: 12
+- slug: france
+  name: צרפת
+  type: place
+  count: 12
+- slug: benito-mussolini
+  name: בניטו מוסוליני
+  type: person
+  count: 11
 - slug: london
   name: לונדון
   type: place
   count: 11
-- slug: france
-  name: צרפת
-  type: place
-  count: 11
-- slug: benito-mussolini
-  name: בניטו מוסוליני
-  type: person
-  count: 10
 - slug: italy
   name: איטליה
   type: place
@@ -43,6 +43,10 @@
   name: לבנון
   type: place
   count: 4
+- slug: budapest
+  name: בודפשט
+  type: place
+  count: 3
 - slug: iraq
   name: עיראק
   type: place

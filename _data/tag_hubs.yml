@@ -1,8 +1,8 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - germany
   - united-states
+  - germany
   - france
   - benito-mussolini
   - italy
@@ -12,6 +12,7 @@ world-politics:
   - iraq
   - jerusalem
   - london
+  - budapest
   stories:
   - fascist-italy
   - druze-revolt
@@ -63,6 +64,7 @@ jewish-diaspora:
   - united-states
   - london
   - land-of-israel
+  - budapest
   stories: []
 religion:
   entities:
@@ -76,12 +78,12 @@ religion:
   - western-wall-1925
 economy:
   entities:
-  - tel-aviv
   - united-states
+  - tel-aviv
   - london
+  - france
   - germany
   - land-of-israel
-  - france
   - jerusalem
   - iraq
   - benito-mussolini
@@ -92,9 +94,12 @@ antisemitism:
   entities:
   - germany
   - berlin
+  - budapest
   - united-states
+  - benito-mussolini
   stories:
   - zionist-congress-14
+  - fascist-italy
 british-mandate:
   entities:
   - land-of-israel
@@ -182,9 +187,11 @@ education:
   - tel-aviv
   - land-of-israel
   - jerusalem
+  - budapest
   stories: []
 disasters:
   entities:
+  - budapest
   - united-states
   - france
   stories: []
@@ -199,6 +206,7 @@ health:
   - tel-aviv
   - berlin
   - london
+  - budapest
   - germany
   - france
   - jerusalem
