@@ -7,7 +7,7 @@ united-states:
 jerusalem:
   name: ירושלים
   type: place
-  count: 72
+  count: 73
   page: true
 germany:
   name: גרמניה
@@ -17,17 +17,17 @@ germany:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 64
+  count: 65
   page: true
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 54
+  count: 56
   page: true
 france:
   name: צרפת
   type: place
-  count: 47
+  count: 48
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
@@ -52,7 +52,7 @@ berlin:
 haifa:
   name: חיפה
   type: place
-  count: 19
+  count: 20
   page: true
 lebanon:
   name: לבנון
@@ -97,7 +97,7 @@ israel-meir-hakohen:
 lithuania:
   name: ליטא
   type: place
-  count: 4
+  count: 5
   page: true
 david-ben-gurion:
   name: דוד בן-גוריון

@@ -41,16 +41,16 @@ crime-justice:
   entities:
   - united-states
   - jerusalem
-  - benito-mussolini
   - france
+  - benito-mussolini
   - germany
   - berlin
   - tel-aviv
   - land-of-israel
+  - haifa
   - italy
   - london
   - none
-  - lebanon
   stories:
   - fascist-italy
 culture-arts:
@@ -79,9 +79,9 @@ jewish-diaspora:
   - land-of-israel
   - vienna
   - budapest
-  - london
   - lithuania
   - tel-aviv
+  - london
   - adolf-hitler
   - herbert-samuel
   - benito-mussolini
@@ -109,8 +109,8 @@ economy:
   - germany
   - france
   - tel-aviv
-  - london
   - land-of-israel
+  - london
   - berlin
   - jerusalem
   - iraq
@@ -288,11 +288,11 @@ disasters:
   - germany
   - jerusalem
   - tel-aviv
+  - lithuania
   - lebanon
   - land-of-israel
   - berlin
   - italy
-  - budapest
   stories: []
 revolts:
   entities:
