@@ -1,8 +1,8 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - united-states
   - germany
+  - united-states
   - benito-mussolini
   - france
   - italy
@@ -72,8 +72,8 @@ jewish-diaspora:
   - united-states
   - germany
   - land-of-israel
-  - london
   - budapest
+  - london
   - lithuania
   - adolf-hitler
   - tel-aviv
@@ -115,8 +115,8 @@ antisemitism:
   - germany
   - adolf-hitler
   - berlin
-  - united-states
   - budapest
+  - united-states
   - land-of-israel
   - jerusalem
   - london
@@ -232,8 +232,8 @@ tel-aviv:
   stories: []
 education:
   entities:
-  - tel-aviv
   - united-states
+  - tel-aviv
   - land-of-israel
   - france
   - germany

@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 59
+  count: 60
   page: true
 germany:
   name: גרמניה
   type: place
-  count: 45
+  count: 46
   page: true
 jerusalem:
   name: ירושלים
@@ -67,7 +67,7 @@ adolf-hitler:
 budapest:
   name: בודפשט
   type: place
-  count: 4
+  count: 5
   page: true
 iraq:
   name: עיראק

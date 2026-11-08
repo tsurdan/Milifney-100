@@ -2,11 +2,11 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 59
+  count: 60
 - slug: germany
   name: גרמניה
   type: place
-  count: 45
+  count: 46
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -54,7 +54,7 @@
 - slug: budapest
   name: בודפשט
   type: place
-  count: 4
+  count: 5
 - slug: iraq
   name: עיראק
   type: place
