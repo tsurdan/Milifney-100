@@ -49,8 +49,8 @@ crime-justice:
   - italy
   - tel-aviv
   - land-of-israel
+  - vienna
   - haifa
-  - london
   stories:
   - fascist-italy
   - zionist-congress-14
@@ -124,8 +124,8 @@ antisemitism:
   entities:
   - germany
   - adolf-hitler
-  - berlin
   - vienna
+  - berlin
   - united-states
   - budapest
   - benito-mussolini
@@ -271,8 +271,8 @@ tel-aviv:
   stories: []
 education:
   entities:
-  - tel-aviv
   - united-states
+  - tel-aviv
   - jerusalem
   - land-of-israel
   - france

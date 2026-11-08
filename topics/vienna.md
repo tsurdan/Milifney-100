@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "vienna"
 title: "וינה"
 seo_title: "וינה: כל הידיעות והעדכונים"
-description: "16 ידיעות על וינה במקום אחד."
+description: "17 ידיעות על וינה במקום אחד."
 permalink: "/topics/vienna/"
 in_sitemap: true
 ---

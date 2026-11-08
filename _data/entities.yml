@@ -2,17 +2,17 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 82
+  count: 84
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 74
+  count: 75
   page: true
 germany:
   name: גרמניה
   type: place
-  count: 71
+  count: 72
   page: true
 tel-aviv:
   name: תל אביב
@@ -62,7 +62,7 @@ lebanon:
 vienna:
   name: וינה
   type: place
-  count: 16
+  count: 17
   page: true
 adolf-hitler:
   name: אדולף היטלר

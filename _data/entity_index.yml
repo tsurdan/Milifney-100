@@ -2,15 +2,15 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 82
+  count: 84
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 74
+  count: 75
 - slug: germany
   name: גרמניה
   type: place
-  count: 71
+  count: 72
 - slug: tel-aviv
   name: תל אביב
   type: place
@@ -50,7 +50,7 @@
 - slug: vienna
   name: וינה
   type: place
-  count: 16
+  count: 17
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person
