@@ -1,10 +1,10 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - germany
   - united-states
-  - france
+  - germany
   - benito-mussolini
+  - france
   - italy
   - lebanon
   - berlin
@@ -112,8 +112,8 @@ economy:
 antisemitism:
   entities:
   - germany
-  - berlin
   - adolf-hitler
+  - berlin
   - united-states
   - budapest
   - land-of-israel
@@ -265,6 +265,7 @@ health:
   - united-states
   - germany
   - berlin
+  - benito-mussolini
   - land-of-israel
   - budapest
   - france
@@ -285,6 +286,7 @@ women-society:
   entities:
   - london
   - lithuania
+  - france
   - adolf-hitler
   - haifa
   - united-states

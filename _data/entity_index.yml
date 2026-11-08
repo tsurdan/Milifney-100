@@ -2,11 +2,11 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 55
+  count: 57
 - slug: germany
   name: גרמניה
   type: place
-  count: 44
+  count: 45
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -22,7 +22,7 @@
 - slug: france
   name: צרפת
   type: place
-  count: 29
+  count: 30
 - slug: london
   name: לונדון
   type: place
@@ -30,7 +30,7 @@
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 24
+  count: 25
 - slug: berlin
   name: ברלין
   type: place
@@ -43,14 +43,14 @@
   name: לבנון
   type: place
   count: 13
+- slug: adolf-hitler
+  name: אדולף היטלר
+  type: person
+  count: 9
 - slug: haifa
   name: חיפה
   type: place
   count: 9
-- slug: adolf-hitler
-  name: אדולף היטלר
-  type: person
-  count: 8
 - slug: budapest
   name: בודפשט
   type: place
