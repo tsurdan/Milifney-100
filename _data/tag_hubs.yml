@@ -105,12 +105,12 @@ economy:
   - tel-aviv
   - land-of-israel
   - london
+  - italy
   - berlin
   - jerusalem
   - lebanon
   - iraq
   - haifa
-  - benito-mussolini
   stories:
   - fascist-italy
 antisemitism:
@@ -241,8 +241,8 @@ tel-aviv:
   stories: []
 education:
   entities:
-  - united-states
   - tel-aviv
+  - united-states
   - land-of-israel
   - france
   - germany
