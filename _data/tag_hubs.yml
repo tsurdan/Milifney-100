@@ -27,6 +27,7 @@ yishuv:
   - tel-aviv
   - haifa
   - london
+  - israel-meir-hakohen
   - france
   - lebanon
   - germany
@@ -87,17 +88,17 @@ jewish-diaspora:
 religion:
   entities:
   - tel-aviv
-  - jerusalem
   - land-of-israel
+  - jerusalem
   - berlin
   - united-states
   - france
+  - israel-meir-hakohen
   - london
   - haifa
   - lithuania
   - none
   - adolf-hitler
-  - benito-mussolini
   stories:
   - western-wall-1925
 economy:
@@ -106,8 +107,8 @@ economy:
   - germany
   - france
   - tel-aviv
-  - land-of-israel
   - london
+  - land-of-israel
   - jerusalem
   - iraq
   - haifa
@@ -122,12 +123,13 @@ antisemitism:
   - adolf-hitler
   - berlin
   - budapest
+  - benito-mussolini
   - united-states
+  - italy
   - land-of-israel
   - jerusalem
   - london
   - france
-  - benito-mussolini
   stories:
   - zionist-congress-14
   - fascist-italy
@@ -170,6 +172,7 @@ jewish-arab-relations:
   - london
   - lebanon
   - iraq
+  - france
   - tel-aviv
   stories:
   - western-wall-1925
@@ -260,13 +263,13 @@ disasters:
   - united-states
   - france
   - germany
+  - london
   - tel-aviv
   - lebanon
   - land-of-israel
   - berlin
   - italy
   - haifa
-  - london
   - budapest
   stories: []
 revolts:

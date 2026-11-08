@@ -22,27 +22,27 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 46
+  count: 47
   page: true
 france:
   name: צרפת
   type: place
-  count: 42
-  page: true
-london:
-  name: לונדון
-  type: place
-  count: 32
-  page: true
-italy:
-  name: איטליה
-  type: place
-  count: 31
+  count: 43
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 31
+  count: 33
+  page: true
+london:
+  name: לונדון
+  type: place
+  count: 33
+  page: true
+italy:
+  name: איטליה
+  type: place
+  count: 32
   page: true
 berlin:
   name: ברלין
@@ -79,6 +79,11 @@ budapest:
   type: place
   count: 5
   page: true
+israel-meir-hakohen:
+  name: ישראל מאיר הכהן
+  type: person
+  count: 3
+  page: true
 lithuania:
   name: ליטא
   type: place
@@ -111,11 +116,6 @@ hadera:
   page: false
 yitzhak-ben-zvi:
   name: יצחק בן-צבי
-  type: person
-  count: 2
-  page: false
-israel-meir-hakohen:
-  name: ישראל מאיר הכהן
   type: person
   count: 2
   page: false

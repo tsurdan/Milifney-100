@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "italy"
 title: "איטליה"
 seo_title: "איטליה: כל הידיעות והעדכונים"
-description: "31 ידיעות על איטליה במקום אחד."
+description: "32 ידיעות על איטליה במקום אחד."
 permalink: "/topics/italy/"
 in_sitemap: true
 ---
