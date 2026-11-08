@@ -2,37 +2,37 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 30
+  count: 31
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 25
+  count: 27
   page: true
 germany:
   name: גרמניה
   type: place
   count: 23
   page: true
+tel-aviv:
+  name: תל אביב
+  type: place
+  count: 19
+  page: true
 land-of-israel:
   name: ארץ ישראל
   type: place
   count: 17
   page: true
-tel-aviv:
-  name: תל אביב
+london:
+  name: לונדון
   type: place
-  count: 17
+  count: 15
   page: true
 france:
   name: צרפת
   type: place
   count: 15
-  page: true
-london:
-  name: לונדון
-  type: place
-  count: 14
   page: true
 benito-mussolini:
   name: בניטו מוסוליני

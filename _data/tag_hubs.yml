@@ -22,8 +22,8 @@ world-politics:
   - zionist-congress-14
 yishuv:
   entities:
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - tel-aviv
   - haifa
   - london
@@ -54,8 +54,8 @@ culture-arts:
   - benito-mussolini
   - london
   - germany
-  - italy
   - tel-aviv
+  - italy
   - land-of-israel
   - united-states
   stories:
@@ -196,15 +196,16 @@ tel-aviv:
 education:
   entities:
   - united-states
+  - jerusalem
   - tel-aviv
   - land-of-israel
   - germany
-  - jerusalem
   - budapest
   stories: []
 disasters:
   entities:
   - france
+  - london
   - budapest
   - united-states
   stories: []
@@ -217,10 +218,10 @@ revolts:
   - druze-revolt
 health:
   entities:
+  - london
   - germany
   - tel-aviv
   - berlin
-  - london
   - budapest
   - france
   - jerusalem
