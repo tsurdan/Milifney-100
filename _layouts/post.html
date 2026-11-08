@@ -168,7 +168,7 @@ layout: default
       <div class="post-source-body">
         {% if page.sources.size > 0 %}
         <ul class="post-source-list">
-          {% for s in page.sources %}<li>{% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.paper | escape }}, {{ s.date | date: "%d.%m.%Y" }}</a> — הגיליון בארכיון העיתונות של הספרייה הלאומית{% else %}{{ s.paper | escape }}, {{ s.date | date: "%d.%m.%Y" }} — ארכיון העיתונות של הספרייה הלאומית{% endif %}</li>{% endfor %}
+          {% for s in page.sources %}<li>{% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.paper | escape }}, {{ s.date | date: "%d.%m.%Y" }}{% if s.article %}, כתבה {{ s.article }}{% endif %}</a> — {% if s.article %}הכתבה{% else %}הגיליון{% endif %} בארכיון העיתונות של הספרייה הלאומית{% else %}{{ s.paper | escape }}, {{ s.date | date: "%d.%m.%Y" }} — ארכיון העיתונות של הספרייה הלאומית{% endif %}</li>{% endfor %}
         </ul>
         {% else %}
         <p>הידיעה מבוססת על עיתוני התקופה, מתוך <a href="https://www.nli.org.il/he/newspapers" target="_blank" rel="noopener">ארכיון העיתונות של הספרייה הלאומית</a>.</p>

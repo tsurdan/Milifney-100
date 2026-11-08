@@ -125,6 +125,17 @@ def write_text(path, text):
         handle.write(text)
 
 
+_KEY_LINE_RE = re.compile(r"^[A-Za-z_][\w-]*\s*:")
+
+
+def _value_end(fm_lines, index):
+    """Index after the last line of the value starting at fm_lines[index] (quoted values can span lines)."""
+    end = index + 1
+    while end < len(fm_lines) and not _KEY_LINE_RE.match(fm_lines[end]):
+        end += 1
+    return end
+
+
 def update_front_matter(path, updates, remove=()):
     """Set or replace front-matter keys on a post. Returns True if the file changed."""
     raw = Path(path).read_text(encoding="utf-8").replace("\r\n", "\n")
@@ -135,13 +146,16 @@ def update_front_matter(path, updates, remove=()):
     body = match.group(2)
 
     for key in remove:
-        fm_lines = [ln for ln in fm_lines if not re.match(rf"^{re.escape(key)}\s*:", ln)]
+        for i, line in enumerate(fm_lines):
+            if re.match(rf"^{re.escape(key)}\s*:", line):
+                del fm_lines[i:_value_end(fm_lines, i)]
+                break
 
     for key, value in updates.items():
         new_line = f"{key}: {format_value(value)}"
         for i, line in enumerate(fm_lines):
             if re.match(rf"^{re.escape(key)}\s*:", line):
-                fm_lines[i] = new_line
+                fm_lines[i:_value_end(fm_lines, i)] = [new_line]
                 break
         else:
             fm_lines.append(new_line)

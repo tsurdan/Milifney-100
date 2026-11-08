@@ -346,6 +346,8 @@ def create_post(item):
         image_alt = img_alt
 
     # Build front matter
+    source_fields = source_updates(image_alt, historical_date.date().isoformat())
+    image_alt = source_fields.pop("image_alt", image_alt)  # '#N' article refs are removed from the caption
     safe_title = title.replace('"', '\\"')
     safe_alt = image_alt.replace('"', '\\"')
     fm = [
@@ -361,7 +363,7 @@ def create_post(item):
             fm.append(f'image_alt: "{safe_alt}"')
         for key, value in size_updates(image_path).items():
             fm.append(f"{key}: {value}")
-    for key, value in source_updates(image_alt, historical_date.date().isoformat()).items():
+    for key, value in source_fields.items():
         fm.append(f"{key}: {format_value(value)}")
     fm.append("---")
     fm.append("")
