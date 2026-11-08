@@ -143,8 +143,8 @@ british-mandate:
   - tel-aviv
   - london
   - lebanon
-  - herbert-samuel
   - iraq
+  - herbert-samuel
   - france
   - haifa
   - germany
@@ -280,10 +280,10 @@ disasters:
   entities:
   - united-states
   - france
+  - haifa
   - london
   - germany
   - jerusalem
-  - haifa
   - tel-aviv
   - lebanon
   - land-of-israel
