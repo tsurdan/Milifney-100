@@ -2,16 +2,16 @@
 world-politics:
   entities:
   - united-states
-  - benito-mussolini
   - germany
   - france
+  - benito-mussolini
   - italy
+  - london
   - lebanon
   - land-of-israel
   - berlin
   - iraq
   - jerusalem
-  - london
   - budapest
   stories:
   - fascist-italy
@@ -22,8 +22,8 @@ world-politics:
   - zionist-congress-14
 yishuv:
   entities:
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - tel-aviv
   - haifa
   - london
@@ -47,14 +47,15 @@ crime-justice:
   - fascist-italy
 culture-arts:
   entities:
+  - jerusalem
   - berlin
   - benito-mussolini
-  - jerusalem
   - london
   - germany
-  - italy
-  - united-states
   - tel-aviv
+  - italy
+  - land-of-israel
+  - united-states
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -71,8 +72,8 @@ jewish-diaspora:
 religion:
   entities:
   - jerusalem
-  - berlin
   - tel-aviv
+  - berlin
   - land-of-israel
   - london
   - haifa
@@ -98,8 +99,8 @@ antisemitism:
   entities:
   - germany
   - berlin
-  - budapest
   - united-states
+  - budapest
   - benito-mussolini
   stories:
   - zionist-congress-14
@@ -147,9 +148,9 @@ curiosities:
 jerusalem:
   entities:
   - jerusalem
-  - london
   - tel-aviv
   - land-of-israel
+  - london
   stories:
   - western-wall-1925
 transportation:
@@ -166,8 +167,8 @@ transportation:
 monarchy:
   entities:
   - benito-mussolini
-  - italy
   - london
+  - italy
   - france
   - iraq
   - lebanon
@@ -222,6 +223,7 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - united-states
   - budapest
   - tel-aviv
   stories:
