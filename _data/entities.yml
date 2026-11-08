@@ -32,17 +32,17 @@ france:
 london:
   name: לונדון
   type: place
-  count: 31
+  count: 32
+  page: true
+italy:
+  name: איטליה
+  type: place
+  count: 28
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
   count: 28
-  page: true
-italy:
-  name: איטליה
-  type: place
-  count: 26
   page: true
 berlin:
   name: ברלין
@@ -119,6 +119,11 @@ meir-berlin:
   type: person
   count: 2
   page: false
+san-francisco:
+  name: סן פרנסיסקו
+  type: place
+  count: 2
+  page: false
 faisal-i:
   name: פייסל הראשון
   type: person
@@ -171,11 +176,6 @@ israel-meir-hakohen:
   page: false
 kishon-river:
   name: נחל קישון
-  type: place
-  count: 1
-  page: false
-san-francisco:
-  name: סן פרנסיסקו
   type: place
   count: 1
   page: false
