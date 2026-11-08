@@ -27,6 +27,8 @@ NLI_CODES = {
     "דאר היום": "dhy",
     "הארץ": "haretz",
     "דבר": "dav",
+    "הצפירה": "hzf",
+    "כתובים": "ktuvim",
 }
 PAPER_ALIASES = {"דואר היום": "דאר היום"}
 
@@ -37,7 +39,8 @@ MONTHS = {
 MONTH_ALT = "|".join(MONTHS)
 HEBREW = "\u0590-\u05FF"
 
-_PAPER_RE = re.compile(rf"(?<![{HEBREW}])ו?(דאר היום|דואר היום|הארץ|דבר)(?![{HEBREW}])")
+_PAPER_NAMES = "|".join(re.escape(name) for name in [*NLI_CODES, *PAPER_ALIASES])
+_PAPER_RE = re.compile(rf"(?<![{HEBREW}])ו?({_PAPER_NAMES})(?![{HEBREW}])")
 _ARCHIVE_RE = re.compile(r"ארכי(?:ון|וו) העיתונות")
 _NUM_DATE_RE = re.compile(r"(?<!\d)(\d{1,2})[./](\d{1,2})[./](\d{4})(?!\d)")
 _HE_DATE_RE = re.compile(rf"(?<!\d)(\d{{1,2}})\s+ב({MONTH_ALT})(?:[,\s]+(\d{{4}}))?")

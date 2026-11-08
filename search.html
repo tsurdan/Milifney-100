@@ -21,6 +21,8 @@ robots: "noindex, follow"
     <button type="button" class="search-filter-btn" data-value="דאר היום">דאר היום <span class="filter-count"></span></button>
     <button type="button" class="search-filter-btn" data-value="הארץ">הארץ <span class="filter-count"></span></button>
     <button type="button" class="search-filter-btn" data-value="כתובים">כתובים <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn" data-value="הצפירה">הצפירה <span class="filter-count"></span></button>
+    <button type="button" class="search-filter-btn" data-value="אחר">אחר <span class="filter-count"></span></button>
   </div>
   <div class="search-filter-group" id="filters-tag" data-param="tag">
     <span class="search-filter-label">נושא:</span>
@@ -150,9 +152,20 @@ robots: "noindex, follow"
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
+  // "אחר" = the caption names none of the papers listed as filter buttons.
+  var OTHER_SOURCE = 'אחר';
+  var NAMED_SOURCES = Array.prototype.map.call(
+    document.querySelectorAll('#filters-source .search-filter-btn'),
+    function(b) { return b.dataset.value; }
+  ).filter(function(v) { return v && v !== OTHER_SOURCE; });
+
   function matchesSource(post, sources) {
     if (!sources.length) return true;
-    return sources.some(function(s) { return post.image_alt && post.image_alt.includes(s); });
+    var alt = post.image_alt || '';
+    return sources.some(function(s) {
+      if (s === OTHER_SOURCE) return !NAMED_SOURCES.some(function(n) { return alt.includes(n); });
+      return alt.includes(s);
+    });
   }
 
   function matchesTags(post, tags) {
