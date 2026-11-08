@@ -2,7 +2,7 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 28
+  count: 29
   page: true
 jerusalem:
   name: ירושלים
@@ -12,7 +12,7 @@ jerusalem:
 germany:
   name: גרמניה
   type: place
-  count: 20
+  count: 21
   page: true
 tel-aviv:
   name: תל אביב
@@ -74,6 +74,11 @@ adolf-hitler:
   type: person
   count: 2
   page: false
+david:
+  name: דוד
+  type: person
+  count: 2
+  page: false
 david-ben-gurion:
   name: דוד בן-גוריון
   type: person
@@ -121,11 +126,6 @@ george-seldes:
   page: false
 james-rothschild:
   name: ג'יימס רוטשילד
-  type: person
-  count: 1
-  page: false
-david:
-  name: דוד
   type: person
   count: 1
   page: false
