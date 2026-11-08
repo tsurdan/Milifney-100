@@ -25,6 +25,7 @@ yishuv:
   - land-of-israel
   - jerusalem
   - tel-aviv
+  - haifa
   - london
   - france
   - benito-mussolini
@@ -33,13 +34,13 @@ yishuv:
   - zionist-congress-14
 crime-justice:
   entities:
+  - united-states
   - germany
   - lebanon
   - jerusalem
   - london
   - italy
   - france
-  - united-states
   - berlin
   - land-of-israel
   stories:
@@ -52,6 +53,7 @@ culture-arts:
   - london
   - germany
   - italy
+  - united-states
   - tel-aviv
   stories:
   - fascist-italy
@@ -73,6 +75,7 @@ religion:
   - tel-aviv
   - land-of-israel
   - london
+  - haifa
   - united-states
   stories:
   - western-wall-1925
@@ -86,6 +89,7 @@ economy:
   - land-of-israel
   - jerusalem
   - iraq
+  - haifa
   - benito-mussolini
   - italy
   stories:
@@ -143,6 +147,7 @@ curiosities:
 jerusalem:
   entities:
   - jerusalem
+  - tel-aviv
   - land-of-israel
   - london
   stories:
@@ -154,6 +159,7 @@ transportation:
   - land-of-israel
   - iraq
   - lebanon
+  - haifa
   - london
   - france
   stories: []
@@ -198,6 +204,7 @@ disasters:
 revolts:
   entities:
   - lebanon
+  - united-states
   - france
   stories:
   - druze-revolt
@@ -229,6 +236,7 @@ women-society:
   stories: []
 haifa:
   entities:
+  - haifa
   - tel-aviv
   stories: []
 sports:

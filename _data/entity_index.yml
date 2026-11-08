@@ -2,23 +2,23 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 20
+  count: 24
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 20
+  count: 23
 - slug: germany
   name: גרמניה
   type: place
   count: 19
+- slug: tel-aviv
+  name: תל אביב
+  type: place
+  count: 15
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
   count: 14
-- slug: tel-aviv
-  name: תל אביב
-  type: place
-  count: 13
 - slug: berlin
   name: ברלין
   type: place
@@ -45,6 +45,10 @@
   count: 4
 - slug: budapest
   name: בודפשט
+  type: place
+  count: 3
+- slug: haifa
+  name: חיפה
   type: place
   count: 3
 - slug: iraq

@@ -2,27 +2,27 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 20
+  count: 24
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 20
+  count: 23
   page: true
 germany:
   name: גרמניה
   type: place
   count: 19
   page: true
+tel-aviv:
+  name: תל אביב
+  type: place
+  count: 15
+  page: true
 land-of-israel:
   name: ארץ ישראל
   type: place
   count: 14
-  page: true
-tel-aviv:
-  name: תל אביב
-  type: place
-  count: 13
   page: true
 berlin:
   name: ברלין
@@ -59,6 +59,11 @@ budapest:
   type: place
   count: 3
   page: true
+haifa:
+  name: חיפה
+  type: place
+  count: 3
+  page: true
 iraq:
   name: עיראק
   type: place
@@ -81,11 +86,6 @@ herbert-samuel:
   page: false
 samaria:
   name: השומרון
-  type: place
-  count: 2
-  page: false
-haifa:
-  name: חיפה
   type: place
   count: 2
   page: false
