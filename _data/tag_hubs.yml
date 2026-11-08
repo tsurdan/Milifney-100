@@ -8,8 +8,8 @@ world-politics:
   - italy
   - berlin
   - lebanon
-  - london
   - adolf-hitler
+  - london
   - land-of-israel
   - iraq
   - none
@@ -146,8 +146,8 @@ british-mandate:
   - herbert-samuel
   - lebanon
   - iraq
-  - france
   - haifa
+  - france
   - germany
   - benito-mussolini
   stories:
@@ -180,6 +180,7 @@ jewish-arab-relations:
   - lebanon
   - tel-aviv
   - david-ben-gurion
+  - haifa
   - iraq
   - herbert-samuel
   stories:

@@ -17,7 +17,7 @@ germany:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 67
+  count: 68
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -52,7 +52,7 @@ berlin:
 haifa:
   name: חיפה
   type: place
-  count: 21
+  count: 22
   page: true
 lebanon:
   name: לבנון
@@ -62,12 +62,12 @@ lebanon:
 adolf-hitler:
   name: אדולף היטלר
   type: person
-  count: 13
+  count: 14
   page: true
 vienna:
   name: וינה
   type: place
-  count: 12
+  count: 13
   page: true
 iraq:
   name: עיראק

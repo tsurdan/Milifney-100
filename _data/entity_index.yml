@@ -14,7 +14,7 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 67
+  count: 68
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -42,7 +42,7 @@
 - slug: haifa
   name: חיפה
   type: place
-  count: 21
+  count: 22
 - slug: lebanon
   name: לבנון
   type: place
@@ -50,11 +50,11 @@
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person
-  count: 13
+  count: 14
 - slug: vienna
   name: וינה
   type: place
-  count: 12
+  count: 13
 - slug: iraq
   name: עיראק
   type: place
