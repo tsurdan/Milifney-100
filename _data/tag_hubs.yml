@@ -7,8 +7,8 @@ world-politics:
   - france
   - italy
   - lebanon
-  - london
   - berlin
+  - london
   - adolf-hitler
   - land-of-israel
   - iraq
@@ -28,12 +28,12 @@ yishuv:
   - haifa
   - london
   - israel-meir-hakohen
+  - meir-berlin
   - david-ben-gurion
   - france
   - lebanon
   - herbert-samuel
   - germany
-  - united-states
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -44,11 +44,11 @@ crime-justice:
   - benito-mussolini
   - france
   - germany
+  - berlin
   - tel-aviv
   - land-of-israel
   - italy
   - london
-  - berlin
   - none
   - lebanon
   stories:
@@ -97,10 +97,10 @@ religion:
   - united-states
   - london
   - france
+  - meir-berlin
   - haifa
   - lithuania
   - none
-  - adolf-hitler
   stories:
   - western-wall-1925
 economy:
@@ -111,12 +111,12 @@ economy:
   - tel-aviv
   - london
   - land-of-israel
+  - berlin
   - jerusalem
   - iraq
   - haifa
   - italy
-  - berlin
-  - david-ben-gurion
+  - meir-berlin
   stories:
   - fascist-italy
 antisemitism:
@@ -187,10 +187,10 @@ curiosities:
   entities:
   - united-states
   - london
+  - france
   - italy
   - germany
   - vienna
-  - france
   - adolf-hitler
   - tel-aviv
   - benito-mussolini
@@ -201,6 +201,7 @@ jerusalem:
   - tel-aviv
   - land-of-israel
   - london
+  - meir-berlin
   - haifa
   - david-ben-gurion
   - lebanon
