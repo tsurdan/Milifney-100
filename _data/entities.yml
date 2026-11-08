@@ -7,7 +7,7 @@ united-states:
 germany:
   name: גרמניה
   type: place
-  count: 41
+  count: 42
   page: true
 jerusalem:
   name: ירושלים
@@ -17,12 +17,12 @@ jerusalem:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 32
+  count: 34
   page: true
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 31
+  count: 32
   page: true
 france:
   name: צרפת
@@ -32,7 +32,7 @@ france:
 london:
   name: לונדון
   type: place
-  count: 26
+  count: 27
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
@@ -42,7 +42,7 @@ benito-mussolini:
 berlin:
   name: ברלין
   type: place
-  count: 17
+  count: 18
   page: true
 italy:
   name: איטליה
@@ -62,7 +62,7 @@ adolf-hitler:
 haifa:
   name: חיפה
   type: place
-  count: 7
+  count: 8
   page: true
 budapest:
   name: בודפשט

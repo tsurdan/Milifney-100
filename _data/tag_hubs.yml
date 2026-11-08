@@ -56,9 +56,9 @@ culture-arts:
   - berlin
   - jerusalem
   - benito-mussolini
+  - tel-aviv
   - london
   - germany
-  - tel-aviv
   - land-of-israel
   - italy
   - united-states
@@ -148,6 +148,7 @@ military:
   - france
   - land-of-israel
   - berlin
+  - london
   - haifa
   - jerusalem
   stories:
@@ -170,6 +171,7 @@ curiosities:
   - london
   - italy
   - germany
+  - tel-aviv
   - benito-mussolini
   stories: []
 jerusalem:
@@ -186,9 +188,9 @@ transportation:
   entities:
   - jerusalem
   - tel-aviv
+  - haifa
   - land-of-israel
   - united-states
-  - haifa
   - london
   - lebanon
   - berlin
