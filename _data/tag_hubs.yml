@@ -59,8 +59,8 @@ culture-arts:
   - tel-aviv
   - berlin
   - jerusalem
-  - land-of-israel
   - vienna
+  - land-of-israel
   - united-states
   - benito-mussolini
   - london
@@ -77,8 +77,8 @@ jewish-diaspora:
   - berlin
   - united-states
   - germany
-  - land-of-israel
   - vienna
+  - land-of-israel
   - budapest
   - lithuania
   - tel-aviv
@@ -253,6 +253,7 @@ science-tech:
   - london
   - berlin
   - italy
+  - herbert-samuel
   - vienna
   - land-of-israel
   - tel-aviv
