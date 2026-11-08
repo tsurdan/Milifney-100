@@ -10,7 +10,7 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 56
+  count: 59
 - slug: tel-aviv
   name: תל אביב
   type: place
@@ -18,18 +18,18 @@
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 47
+  count: 48
 - slug: france
   name: צרפת
   type: place
   count: 43
-- slug: benito-mussolini
-  name: בניטו מוסוליני
-  type: person
-  count: 33
 - slug: london
   name: לונדון
   type: place
+  count: 34
+- slug: benito-mussolini
+  name: בניטו מוסוליני
+  type: person
   count: 33
 - slug: italy
   name: איטליה
@@ -42,7 +42,7 @@
 - slug: haifa
   name: חיפה
   type: place
-  count: 17
+  count: 18
 - slug: lebanon
   name: לבנון
   type: place
@@ -63,6 +63,10 @@
   name: בודפשט
   type: place
   count: 5
+- slug: david-ben-gurion
+  name: דוד בן-גוריון
+  type: person
+  count: 3
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
   type: person

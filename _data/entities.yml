@@ -12,7 +12,7 @@ germany:
 jerusalem:
   name: ירושלים
   type: place
-  count: 56
+  count: 59
   page: true
 tel-aviv:
   name: תל אביב
@@ -22,21 +22,21 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 47
+  count: 48
   page: true
 france:
   name: צרפת
   type: place
   count: 43
   page: true
-benito-mussolini:
-  name: בניטו מוסוליני
-  type: person
-  count: 33
-  page: true
 london:
   name: לונדון
   type: place
+  count: 34
+  page: true
+benito-mussolini:
+  name: בניטו מוסוליני
+  type: person
   count: 33
   page: true
 italy:
@@ -52,7 +52,7 @@ berlin:
 haifa:
   name: חיפה
   type: place
-  count: 17
+  count: 18
   page: true
 lebanon:
   name: לבנון
@@ -79,6 +79,11 @@ budapest:
   type: place
   count: 5
   page: true
+david-ben-gurion:
+  name: דוד בן-גוריון
+  type: person
+  count: 3
+  page: true
 israel-meir-hakohen:
   name: ישראל מאיר הכהן
   type: person
@@ -91,11 +96,6 @@ lithuania:
   page: true
 david:
   name: דוד
-  type: person
-  count: 2
-  page: false
-david-ben-gurion:
-  name: דוד בן-גוריון
   type: person
   count: 2
   page: false

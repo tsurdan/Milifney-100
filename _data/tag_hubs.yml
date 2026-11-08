@@ -28,12 +28,12 @@ yishuv:
   - haifa
   - london
   - israel-meir-hakohen
+  - david-ben-gurion
   - france
   - lebanon
   - germany
   - united-states
   - lithuania
-  - benito-mussolini
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -114,7 +114,7 @@ economy:
   - haifa
   - italy
   - berlin
-  - lebanon
+  - david-ben-gurion
   stories:
   - fascist-italy
 antisemitism:
@@ -170,6 +170,7 @@ jewish-arab-relations:
   - jerusalem
   - land-of-israel
   - london
+  - david-ben-gurion
   - lebanon
   - iraq
   - france
@@ -193,6 +194,7 @@ jerusalem:
   - london
   - land-of-israel
   - haifa
+  - david-ben-gurion
   - lebanon
   stories:
   - western-wall-1925
@@ -203,9 +205,9 @@ transportation:
   - jerusalem
   - united-states
   - land-of-israel
+  - london
   - lebanon
   - france
-  - london
   - berlin
   - iraq
   stories:
@@ -251,10 +253,11 @@ education:
   entities:
   - tel-aviv
   - united-states
+  - jerusalem
   - land-of-israel
   - france
   - germany
-  - jerusalem
+  - david-ben-gurion
   - italy
   - budapest
   stories: []
@@ -262,14 +265,15 @@ disasters:
   entities:
   - united-states
   - france
-  - germany
   - london
+  - germany
+  - haifa
   - tel-aviv
+  - jerusalem
   - lebanon
   - land-of-israel
   - berlin
   - italy
-  - haifa
   - budapest
   stories: []
 revolts:
