@@ -38,17 +38,17 @@ yishuv:
 crime-justice:
   entities:
   - united-states
+  - germany
   - jerusalem
   - benito-mussolini
-  - germany
   - land-of-israel
   - france
   - london
+  - berlin
   - none
   - lebanon
   - adolf-hitler
   - tel-aviv
-  - italy
   stories:
   - fascist-italy
 culture-arts:
@@ -69,8 +69,8 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - united-states
   - germany
+  - united-states
   - land-of-israel
   - budapest
   - london
@@ -106,11 +106,11 @@ economy:
   - land-of-israel
   - london
   - jerusalem
+  - berlin
   - lebanon
   - iraq
   - haifa
   - benito-mussolini
-  - italy
   stories:
   - fascist-italy
 antisemitism:
@@ -152,10 +152,10 @@ military:
   - lebanon
   - benito-mussolini
   - land-of-israel
+  - jerusalem
   - london
   - berlin
   - haifa
-  - jerusalem
   stories:
   - druze-revolt
   - fascist-italy
@@ -194,8 +194,8 @@ transportation:
   - tel-aviv
   - jerusalem
   - haifa
-  - land-of-israel
   - united-states
+  - land-of-israel
   - france
   - london
   - lebanon
