@@ -38,9 +38,10 @@ crime-justice:
   entities:
   - united-states
   - germany
-  - lebanon
   - jerusalem
+  - lebanon
   - london
+  - tel-aviv
   - italy
   - france
   - berlin
@@ -52,8 +53,8 @@ culture-arts:
   - berlin
   - jerusalem
   - benito-mussolini
-  - london
   - germany
+  - london
   - tel-aviv
   - italy
   - land-of-israel
@@ -67,9 +68,9 @@ jewish-diaspora:
   - berlin
   - germany
   - united-states
+  - london
   - land-of-israel
   - budapest
-  - london
   - lithuania
   stories: []
 religion:
@@ -78,8 +79,8 @@ religion:
   - jerusalem
   - berlin
   - land-of-israel
-  - lithuania
   - london
+  - lithuania
   - haifa
   - united-states
   stories:
@@ -189,10 +190,12 @@ science-tech:
   - germany
   - berlin
   - london
+  - france
   stories: []
 tel-aviv:
   entities:
   - tel-aviv
+  - jerusalem
   stories: []
 education:
   entities:
@@ -223,6 +226,7 @@ health:
   - germany
   - tel-aviv
   - berlin
+  - united-states
   - budapest
   - france
   - jerusalem
@@ -254,5 +258,6 @@ haifa:
   stories: []
 sports:
   entities:
+  - haifa
   - jerusalem
   stories: []
