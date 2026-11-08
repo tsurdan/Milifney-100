@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 85
+  count: 86
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 76
+  count: 77
   page: true
 germany:
   name: גרמניה
@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 60
+  count: 61
   page: true
 france:
   name: צרפת
@@ -109,6 +109,11 @@ meir-berlin:
   type: person
   count: 3
   page: true
+james-rothschild:
+  name: ג'יימס רוטשילד
+  type: person
+  count: 2
+  page: false
 david:
   name: דוד
   type: person
@@ -171,11 +176,6 @@ john-d-rockefeller:
   page: false
 george-seldes:
   name: ג'ורג' סלדס
-  type: person
-  count: 1
-  page: false
-james-rothschild:
-  name: ג'יימס רוטשילד
   type: person
   count: 1
   page: false

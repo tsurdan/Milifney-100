@@ -2,11 +2,11 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 85
+  count: 86
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 76
+  count: 77
 - slug: germany
   name: גרמניה
   type: place
@@ -18,7 +18,7 @@
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 60
+  count: 61
 - slug: france
   name: צרפת
   type: place
