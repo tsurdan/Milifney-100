@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 53
+  count: 54
   page: true
 germany:
   name: גרמניה
   type: place
-  count: 40
+  count: 41
   page: true
 jerusalem:
   name: ירושלים
@@ -37,7 +37,7 @@ london:
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 23
+  count: 24
   page: true
 berlin:
   name: ברלין

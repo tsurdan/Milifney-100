@@ -2,11 +2,11 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 53
+  count: 54
 - slug: germany
   name: גרמניה
   type: place
-  count: 40
+  count: 41
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -30,7 +30,7 @@
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 23
+  count: 24
 - slug: berlin
   name: ברלין
   type: place

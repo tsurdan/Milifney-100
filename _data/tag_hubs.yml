@@ -3,8 +3,8 @@ world-politics:
   entities:
   - united-states
   - germany
-  - france
   - benito-mussolini
+  - france
   - italy
   - lebanon
   - london
@@ -69,8 +69,8 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - united-states
   - germany
+  - united-states
   - land-of-israel
   - london
   - budapest
@@ -144,10 +144,10 @@ military:
   - germany
   - italy
   - lebanon
+  - benito-mussolini
   - france
   - land-of-israel
   - berlin
-  - benito-mussolini
   - haifa
   - jerusalem
   stories:
