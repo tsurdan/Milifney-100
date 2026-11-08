@@ -192,10 +192,10 @@ jerusalem:
   - western-wall-1925
 transportation:
   entities:
-  - jerusalem
   - tel-aviv
-  - united-states
+  - jerusalem
   - haifa
+  - united-states
   - land-of-israel
   - france
   - london
@@ -207,8 +207,8 @@ transportation:
 monarchy:
   entities:
   - benito-mussolini
-  - london
   - italy
+  - london
   - iraq
   - germany
   - berlin
@@ -282,9 +282,9 @@ health:
   - land-of-israel
   - germany
   - berlin
+  - italy
   - jerusalem
   - united-states
-  - italy
   - haifa
   - benito-mussolini
   - budapest
@@ -294,12 +294,13 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - tel-aviv
   - london
+  - haifa
   - land-of-israel
   - none
   - united-states
   - budapest
-  - tel-aviv
   stories:
   - fascist-italy
   - zionist-congress-14
@@ -319,8 +320,8 @@ women-society:
 haifa:
   entities:
   - haifa
-  - land-of-israel
   - tel-aviv
+  - land-of-israel
   - lebanon
   - jerusalem
   stories:
