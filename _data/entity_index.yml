@@ -6,11 +6,11 @@
 - slug: germany
   name: גרמניה
   type: place
-  count: 61
+  count: 64
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 52
+  count: 53
 - slug: tel-aviv
   name: תל אביב
   type: place
@@ -22,7 +22,7 @@
 - slug: france
   name: צרפת
   type: place
-  count: 39
+  count: 41
 - slug: london
   name: לונדון
   type: place

@@ -29,6 +29,7 @@ yishuv:
   - london
   - france
   - lebanon
+  - germany
   - united-states
   - lithuania
   - benito-mussolini
@@ -58,10 +59,11 @@ culture-arts:
   - berlin
   - benito-mussolini
   - italy
+  - germany
   - london
   - land-of-israel
-  - germany
   - united-states
+  - france
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -146,8 +148,8 @@ british-mandate:
 military:
   entities:
   - united-states
-  - france
   - germany
+  - france
   - lebanon
   - italy
   - benito-mussolini
@@ -209,10 +211,10 @@ monarchy:
   - benito-mussolini
   - italy
   - london
+  - france
   - iraq
   - germany
   - berlin
-  - france
   - lebanon
   - none
   - united-states
@@ -267,9 +269,9 @@ disasters:
   stories: []
 revolts:
   entities:
+  - france
   - lebanon
   - land-of-israel
-  - france
   - haifa
   - united-states
   - adolf-hitler
