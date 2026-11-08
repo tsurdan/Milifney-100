@@ -2,8 +2,8 @@
 world-politics:
   entities:
   - united-states
-  - france
   - germany
+  - france
   - benito-mussolini
   - italy
   - london
@@ -39,11 +39,11 @@ crime-justice:
   - united-states
   - germany
   - jerusalem
+  - france
   - lebanon
   - london
   - tel-aviv
   - italy
-  - france
   - berlin
   - land-of-israel
   stories:
@@ -76,8 +76,8 @@ jewish-diaspora:
   - zionist-congress-14
 religion:
   entities:
-  - jerusalem
   - tel-aviv
+  - jerusalem
   - berlin
   - land-of-israel
   - london
@@ -107,6 +107,7 @@ antisemitism:
   - berlin
   - united-states
   - budapest
+  - france
   - benito-mussolini
   stories:
   - zionist-congress-14
@@ -165,11 +166,11 @@ transportation:
   entities:
   - jerusalem
   - tel-aviv
+  - haifa
   - land-of-israel
   - iraq
   - lebanon
   - united-states
-  - haifa
   - london
   - france
   stories: []
@@ -181,6 +182,7 @@ monarchy:
   - france
   - iraq
   - lebanon
+  - haifa
   - land-of-israel
   stories:
   - fascist-italy
@@ -217,8 +219,8 @@ disasters:
   stories: []
 revolts:
   entities:
-  - lebanon
   - united-states
+  - lebanon
   - france
   stories:
   - druze-revolt
