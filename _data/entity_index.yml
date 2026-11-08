@@ -2,7 +2,7 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 79
+  count: 80
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -14,7 +14,7 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 65
+  count: 66
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -22,7 +22,7 @@
 - slug: france
   name: צרפת
   type: place
-  count: 48
+  count: 49
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
@@ -54,7 +54,7 @@
 - slug: vienna
   name: וינה
   type: place
-  count: 9
+  count: 11
 - slug: iraq
   name: עיראק
   type: place
@@ -63,16 +63,16 @@
   name: בודפשט
   type: place
   count: 6
+- slug: israel-meir-hakohen
+  name: ישראל מאיר הכהן
+  type: person
+  count: 6
 - slug: none
   name: ספרד
   type: place
   count: 6
 - slug: herbert-samuel
   name: הנציב העליון הרברט סמואל
-  type: person
-  count: 5
-- slug: israel-meir-hakohen
-  name: ישראל מאיר הכהן
   type: person
   count: 5
 - slug: lithuania

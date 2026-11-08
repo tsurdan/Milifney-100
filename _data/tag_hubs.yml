@@ -26,8 +26,8 @@ yishuv:
   - jerusalem
   - tel-aviv
   - haifa
-  - london
   - israel-meir-hakohen
+  - london
   - meir-berlin
   - david-ben-gurion
   - france
@@ -53,6 +53,7 @@ crime-justice:
   - none
   stories:
   - fascist-italy
+  - zionist-congress-14
 culture-arts:
   entities:
   - tel-aviv
@@ -61,8 +62,8 @@ culture-arts:
   - land-of-israel
   - benito-mussolini
   - london
-  - italy
   - united-states
+  - italy
   - germany
   - vienna
   - adolf-hitler
@@ -124,9 +125,9 @@ antisemitism:
   - germany
   - adolf-hitler
   - berlin
+  - vienna
   - united-states
   - budapest
-  - vienna
   - benito-mussolini
   - lithuania
   - italy
@@ -156,8 +157,8 @@ british-mandate:
 military:
   entities:
   - united-states
-  - germany
   - france
+  - germany
   - lebanon
   - italy
   - benito-mussolini
@@ -175,8 +176,8 @@ jewish-arab-relations:
   - jerusalem
   - land-of-israel
   - london
-  - lebanon
   - france
+  - lebanon
   - tel-aviv
   - david-ben-gurion
   - iraq
