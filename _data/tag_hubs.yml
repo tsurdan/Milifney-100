@@ -12,7 +12,7 @@ world-politics:
   - adolf-hitler
   - land-of-israel
   - iraq
-  - jerusalem
+  - none
   stories:
   - fascist-italy
   - druze-revolt
@@ -45,12 +45,12 @@ crime-justice:
   - benito-mussolini
   - germany
   - berlin
+  - none
+  - italy
   - tel-aviv
   - land-of-israel
   - haifa
-  - italy
   - london
-  - none
   stories:
   - fascist-italy
   - zionist-congress-14
@@ -108,14 +108,14 @@ economy:
   entities:
   - united-states
   - germany
-  - france
   - tel-aviv
+  - france
   - land-of-israel
   - london
+  - haifa
   - berlin
   - jerusalem
   - iraq
-  - haifa
   - italy
   - meir-berlin
   stories:
@@ -233,11 +233,11 @@ monarchy:
   - germany
   - london
   - iraq
+  - none
   - vienna
   - berlin
   - lebanon
   - adolf-hitler
-  - none
   - united-states
   stories:
   - fascist-italy
@@ -261,6 +261,7 @@ science-tech:
 tel-aviv:
   entities:
   - tel-aviv
+  - haifa
   - herbert-samuel
   - vienna
   - berlin
@@ -323,8 +324,8 @@ health:
   stories: []
 press:
   entities:
-  - benito-mussolini
   - italy
+  - benito-mussolini
   - tel-aviv
   - land-of-israel
   - jerusalem

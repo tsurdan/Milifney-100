@@ -14,23 +14,23 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 66
+  count: 67
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 56
+  count: 58
 - slug: france
   name: צרפת
   type: place
   count: 49
+- slug: italy
+  name: איטליה
+  type: place
+  count: 38
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
   count: 38
-- slug: italy
-  name: איטליה
-  type: place
-  count: 37
 - slug: london
   name: לונדון
   type: place
@@ -38,11 +38,11 @@
 - slug: berlin
   name: ברלין
   type: place
-  count: 31
+  count: 32
 - slug: haifa
   name: חיפה
   type: place
-  count: 20
+  count: 21
 - slug: lebanon
   name: לבנון
   type: place
@@ -54,11 +54,15 @@
 - slug: vienna
   name: וינה
   type: place
-  count: 11
+  count: 12
 - slug: iraq
   name: עיראק
   type: place
   count: 9
+- slug: none
+  name: ספרד
+  type: place
+  count: 7
 - slug: budapest
   name: בודפשט
   type: place
@@ -66,10 +70,6 @@
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
   type: person
-  count: 6
-- slug: none
-  name: ספרד
-  type: place
   count: 6
 - slug: herbert-samuel
   name: הנציב העליון הרברט סמואל
