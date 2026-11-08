@@ -7,7 +7,7 @@ united-states:
 germany:
   name: גרמניה
   type: place
-  count: 35
+  count: 37
   page: true
 jerusalem:
   name: ירושלים
@@ -32,12 +32,12 @@ land-of-israel:
 london:
   name: לונדון
   type: place
-  count: 19
+  count: 21
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 16
+  count: 17
   page: true
 berlin:
   name: ברלין
@@ -57,7 +57,7 @@ lebanon:
 adolf-hitler:
   name: אדולף היטלר
   type: person
-  count: 7
+  count: 8
   page: true
 haifa:
   name: חיפה

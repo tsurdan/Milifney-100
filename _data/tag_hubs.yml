@@ -1,14 +1,14 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - united-states
   - germany
+  - united-states
   - france
   - benito-mussolini
   - italy
   - lebanon
-  - adolf-hitler
   - london
+  - adolf-hitler
   - berlin
   - land-of-israel
   - iraq
@@ -42,6 +42,7 @@ crime-justice:
   - jerusalem
   - lebanon
   - london
+  - adolf-hitler
   - benito-mussolini
   - tel-aviv
   - italy
@@ -109,8 +110,8 @@ economy:
 antisemitism:
   entities:
   - germany
-  - berlin
   - adolf-hitler
+  - berlin
   - united-states
   - budapest
   - jerusalem
@@ -124,11 +125,12 @@ british-mandate:
   entities:
   - land-of-israel
   - jerusalem
+  - london
   - tel-aviv
   - lebanon
   - france
+  - germany
   - benito-mussolini
-  - london
   stories:
   - western-wall-1925
   - druze-revolt
@@ -252,6 +254,7 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - london
   - united-states
   - budapest
   - tel-aviv
