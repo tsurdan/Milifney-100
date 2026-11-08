@@ -28,6 +28,7 @@ yishuv:
   - haifa
   - london
   - france
+  - lithuania
   - lebanon
   - benito-mussolini
   stories:
@@ -53,8 +54,8 @@ culture-arts:
   - benito-mussolini
   - london
   - germany
-  - tel-aviv
   - italy
+  - tel-aviv
   - land-of-israel
   - united-states
   stories:
@@ -68,6 +69,7 @@ jewish-diaspora:
   - united-states
   - budapest
   - london
+  - lithuania
   - land-of-israel
   stories: []
 religion:
@@ -76,6 +78,7 @@ religion:
   - tel-aviv
   - berlin
   - land-of-israel
+  - lithuania
   - london
   - haifa
   - united-states
@@ -110,9 +113,9 @@ british-mandate:
   entities:
   - land-of-israel
   - jerusalem
+  - tel-aviv
   - lebanon
   - france
-  - tel-aviv
   - benito-mussolini
   - london
   stories:
@@ -214,11 +217,11 @@ revolts:
   - druze-revolt
 health:
   entities:
+  - germany
   - tel-aviv
   - berlin
   - london
   - budapest
-  - germany
   - france
   - jerusalem
   stories: []
@@ -235,6 +238,7 @@ press:
 women-society:
   entities:
   - london
+  - lithuania
   - united-states
   - benito-mussolini
   - berlin
