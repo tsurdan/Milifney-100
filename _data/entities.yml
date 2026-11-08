@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 60
+  count: 62
   page: true
 germany:
   name: גרמניה
   type: place
-  count: 46
+  count: 48
   page: true
 jerusalem:
   name: ירושלים

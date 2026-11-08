@@ -84,9 +84,9 @@ religion:
   - tel-aviv
   - jerusalem
   - land-of-israel
+  - united-states
   - france
   - berlin
-  - united-states
   - london
   - lithuania
   - none
@@ -208,6 +208,8 @@ monarchy:
   - france
   - iraq
   - lebanon
+  - germany
+  - united-states
   - haifa
   - land-of-israel
   stories:
