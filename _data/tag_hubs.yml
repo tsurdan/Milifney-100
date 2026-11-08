@@ -88,8 +88,8 @@ jewish-diaspora:
 religion:
   entities:
   - tel-aviv
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - berlin
   - london
   - united-states
@@ -170,11 +170,11 @@ jewish-arab-relations:
   - jerusalem
   - land-of-israel
   - london
+  - tel-aviv
   - david-ben-gurion
   - lebanon
   - iraq
   - france
-  - tel-aviv
   stories:
   - western-wall-1925
   - druze-revolt
@@ -192,8 +192,8 @@ jerusalem:
   entities:
   - jerusalem
   - tel-aviv
-  - london
   - land-of-israel
+  - london
   - haifa
   - david-ben-gurion
   - lebanon
@@ -308,10 +308,11 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - land-of-israel
+  - jerusalem
   - tel-aviv
   - london
   - haifa
-  - land-of-israel
   - none
   - united-states
   - budapest
