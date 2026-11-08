@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 74
+  count: 77
   page: true
 germany:
   name: גרמניה
   type: place
-  count: 68
+  count: 69
   page: true
 jerusalem:
   name: ירושלים
@@ -17,7 +17,7 @@ jerusalem:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 58
+  count: 59
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -27,7 +27,7 @@ land-of-israel:
 france:
   name: צרפת
   type: place
-  count: 45
+  count: 46
   page: true
 italy:
   name: איטליה
@@ -57,7 +57,7 @@ haifa:
 lebanon:
   name: לבנון
   type: place
-  count: 17
+  count: 18
   page: true
 adolf-hitler:
   name: אדולף היטלר
@@ -84,6 +84,11 @@ vienna:
   type: place
   count: 5
   page: true
+herbert-samuel:
+  name: הנציב העליון הרברט סמואל
+  type: person
+  count: 4
+  page: true
 israel-meir-hakohen:
   name: ישראל מאיר הכהן
   type: person
@@ -91,11 +96,6 @@ israel-meir-hakohen:
   page: true
 david-ben-gurion:
   name: דוד בן-גוריון
-  type: person
-  count: 3
-  page: true
-herbert-samuel:
-  name: הנציב העליון הרברט סמואל
   type: person
   count: 3
   page: true
@@ -137,6 +137,11 @@ san-francisco:
 faisal-i:
   name: פייסל הראשון
   type: person
+  count: 2
+  page: false
+kaunas:
+  name: קובנה
+  type: place
   count: 2
   page: false
 radin:
@@ -211,11 +216,6 @@ kishon-river:
   page: false
 ein-karem:
   name: עין כרם
-  type: place
-  count: 1
-  page: false
-kaunas:
-  name: קובנה
   type: place
   count: 1
   page: false

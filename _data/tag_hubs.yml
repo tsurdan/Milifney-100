@@ -31,9 +31,9 @@ yishuv:
   - david-ben-gurion
   - france
   - lebanon
+  - herbert-samuel
   - germany
   - united-states
-  - lithuania
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -82,9 +82,9 @@ jewish-diaspora:
   - vienna
   - lithuania
   - adolf-hitler
+  - herbert-samuel
   - benito-mussolini
   - italy
-  - none
   stories:
   - zionist-congress-14
 religion:
@@ -124,8 +124,8 @@ antisemitism:
   - germany
   - adolf-hitler
   - berlin
-  - budapest
   - united-states
+  - budapest
   - vienna
   - benito-mussolini
   - italy
@@ -142,8 +142,8 @@ british-mandate:
   - land-of-israel
   - london
   - tel-aviv
-  - herbert-samuel
   - lebanon
+  - herbert-samuel
   - iraq
   - france
   - haifa
@@ -174,12 +174,12 @@ jewish-arab-relations:
   - jerusalem
   - land-of-israel
   - london
+  - lebanon
+  - france
   - tel-aviv
   - david-ben-gurion
-  - lebanon
   - iraq
   - herbert-samuel
-  - france
   stories:
   - western-wall-1925
   - druze-revolt

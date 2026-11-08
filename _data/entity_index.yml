@@ -2,11 +2,11 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 74
+  count: 77
 - slug: germany
   name: גרמניה
   type: place
-  count: 68
+  count: 69
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -14,7 +14,7 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 58
+  count: 59
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -22,7 +22,7 @@
 - slug: france
   name: צרפת
   type: place
-  count: 45
+  count: 46
 - slug: italy
   name: איטליה
   type: place
@@ -46,7 +46,7 @@
 - slug: lebanon
   name: לבנון
   type: place
-  count: 17
+  count: 18
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person
@@ -67,16 +67,16 @@
   name: וינה
   type: place
   count: 5
+- slug: herbert-samuel
+  name: הנציב העליון הרברט סמואל
+  type: person
+  count: 4
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
   type: person
   count: 4
 - slug: david-ben-gurion
   name: דוד בן-גוריון
-  type: person
-  count: 3
-- slug: herbert-samuel
-  name: הנציב העליון הרברט סמואל
   type: person
   count: 3
 - slug: lithuania
