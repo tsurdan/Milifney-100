@@ -2,9 +2,9 @@
 world-politics:
   entities:
   - germany
-  - benito-mussolini
-  - france
   - united-states
+  - france
+  - benito-mussolini
   - italy
   - lebanon
   - land-of-israel
@@ -76,8 +76,8 @@ religion:
   - western-wall-1925
 economy:
   entities:
-  - united-states
   - tel-aviv
+  - united-states
   - london
   - germany
   - land-of-israel
@@ -109,9 +109,10 @@ british-mandate:
   - druze-revolt
 military:
   entities:
-  - germany
   - united-states
+  - germany
   - lebanon
+  - france
   - berlin
   - italy
   stories:
@@ -169,6 +170,7 @@ science-tech:
   - united-states
   - germany
   - london
+  - berlin
   stories: []
 tel-aviv:
   entities:
@@ -189,6 +191,7 @@ disasters:
 revolts:
   entities:
   - lebanon
+  - france
   stories:
   - druze-revolt
 health:
@@ -211,12 +214,14 @@ press:
 women-society:
   entities:
   - london
+  - united-states
   - benito-mussolini
   - berlin
   - germany
   stories: []
 haifa:
-  entities: []
+  entities:
+  - tel-aviv
   stories: []
 sports:
   entities:
