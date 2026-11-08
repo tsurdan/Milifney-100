@@ -2,9 +2,9 @@
 world-politics:
   entities:
   - united-states
+  - benito-mussolini
   - germany
   - france
-  - benito-mussolini
   - italy
   - lebanon
   - land-of-israel
@@ -48,8 +48,8 @@ crime-justice:
 culture-arts:
   entities:
   - berlin
-  - jerusalem
   - benito-mussolini
+  - jerusalem
   - london
   - germany
   - italy
@@ -64,9 +64,9 @@ jewish-diaspora:
   - berlin
   - germany
   - united-states
+  - budapest
   - london
   - land-of-israel
-  - budapest
   stories: []
 religion:
   entities:
@@ -140,16 +140,16 @@ jewish-arab-relations:
 curiosities:
   entities:
   - united-states
+  - london
   - benito-mussolini
   - italy
-  - london
   stories: []
 jerusalem:
   entities:
   - jerusalem
+  - london
   - tel-aviv
   - land-of-israel
-  - london
   stories:
   - western-wall-1925
 transportation:
@@ -167,10 +167,10 @@ monarchy:
   entities:
   - benito-mussolini
   - italy
+  - london
   - france
   - iraq
   - lebanon
-  - london
   - land-of-israel
   stories:
   - fascist-italy
@@ -222,6 +222,7 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - budapest
   - tel-aviv
   stories:
   - fascist-italy
