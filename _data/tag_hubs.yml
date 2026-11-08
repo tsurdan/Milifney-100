@@ -10,9 +10,9 @@ world-politics:
   - london
   - berlin
   - adolf-hitler
+  - land-of-israel
   - iraq
   - jerusalem
-  - land-of-israel
   stories:
   - fascist-italy
   - druze-revolt
@@ -88,9 +88,9 @@ religion:
   - berlin
   - london
   - lithuania
+  - united-states
   - adolf-hitler
   - haifa
-  - united-states
   stories:
   - western-wall-1925
 economy:
@@ -142,14 +142,14 @@ military:
   entities:
   - united-states
   - germany
-  - france
   - italy
   - lebanon
+  - france
+  - land-of-israel
   - berlin
   - benito-mussolini
   - haifa
   - jerusalem
-  - land-of-israel
   stories:
   - druze-revolt
   - fascist-italy
@@ -168,9 +168,9 @@ curiosities:
   entities:
   - united-states
   - london
+  - italy
   - germany
   - benito-mussolini
-  - italy
   stories: []
 jerusalem:
   entities:
@@ -186,11 +186,11 @@ transportation:
   entities:
   - jerusalem
   - tel-aviv
-  - haifa
   - land-of-israel
+  - united-states
+  - haifa
   - london
   - lebanon
-  - united-states
   - berlin
   - iraq
   - france
