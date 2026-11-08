@@ -3,8 +3,8 @@ world-politics:
   entities:
   - germany
   - united-states
-  - france
   - benito-mussolini
+  - france
   - italy
   - berlin
   - lebanon
@@ -133,6 +133,7 @@ british-mandate:
   - tel-aviv
   - lebanon
   - france
+  - haifa
   - iraq
   - germany
   - benito-mussolini
@@ -143,10 +144,10 @@ military:
   entities:
   - united-states
   - germany
-  - france
   - italy
-  - lebanon
+  - france
   - benito-mussolini
+  - lebanon
   - land-of-israel
   - berlin
   - london
@@ -188,8 +189,8 @@ jerusalem:
 transportation:
   entities:
   - jerusalem
-  - tel-aviv
   - haifa
+  - tel-aviv
   - land-of-israel
   - united-states
   - france
@@ -204,11 +205,11 @@ monarchy:
   - benito-mussolini
   - london
   - italy
+  - germany
   - berlin
   - france
   - iraq
   - lebanon
-  - germany
   - united-states
   - haifa
   - land-of-israel
@@ -265,8 +266,8 @@ revolts:
   - druze-revolt
 health:
   entities:
-  - london
   - tel-aviv
+  - london
   - united-states
   - germany
   - berlin
@@ -310,6 +311,7 @@ haifa:
   - druze-revolt
 sports:
   entities:
+  - tel-aviv
   - haifa
   - jerusalem
   stories: []
