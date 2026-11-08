@@ -58,9 +58,9 @@ culture-arts:
   - tel-aviv
   - berlin
   - jerusalem
-  - london
   - land-of-israel
   - benito-mussolini
+  - london
   - italy
   - united-states
   - germany
@@ -78,13 +78,13 @@ jewish-diaspora:
   - germany
   - land-of-israel
   - budapest
-  - london
   - vienna
+  - london
+  - tel-aviv
   - lithuania
   - adolf-hitler
   - herbert-samuel
   - benito-mussolini
-  - italy
   stories:
   - zionist-congress-14
 religion:
@@ -231,10 +231,10 @@ monarchy:
   - germany
   - london
   - iraq
+  - vienna
   - berlin
   - lebanon
   - adolf-hitler
-  - vienna
   - none
   - united-states
   stories:
@@ -258,6 +258,7 @@ science-tech:
 tel-aviv:
   entities:
   - tel-aviv
+  - vienna
   - berlin
   - land-of-israel
   - jerusalem
@@ -356,6 +357,7 @@ haifa:
 sports:
   entities:
   - tel-aviv
+  - vienna
   - haifa
   - jerusalem
   stories: []
