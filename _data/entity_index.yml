@@ -10,19 +10,19 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 33
+  count: 34
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 29
+  count: 30
 - slug: france
   name: צרפת
   type: place
-  count: 26
+  count: 28
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 24
+  count: 25
 - slug: london
   name: לונדון
   type: place
@@ -30,7 +30,7 @@
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 20
+  count: 22
 - slug: berlin
   name: ברלין
   type: place
@@ -42,7 +42,7 @@
 - slug: lebanon
   name: לבנון
   type: place
-  count: 10
+  count: 11
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person
@@ -50,7 +50,7 @@
 - slug: haifa
   name: חיפה
   type: place
-  count: 6
+  count: 7
 - slug: budapest
   name: בודפשט
   type: place

@@ -37,11 +37,11 @@ yishuv:
 crime-justice:
   entities:
   - united-states
+  - benito-mussolini
   - germany
   - france
   - jerusalem
   - london
-  - benito-mussolini
   - land-of-israel
   - lebanon
   - adolf-hitler
@@ -83,8 +83,8 @@ religion:
   - tel-aviv
   - jerusalem
   - land-of-israel
-  - berlin
   - france
+  - berlin
   - london
   - lithuania
   - adolf-hitler
@@ -140,9 +140,12 @@ military:
   - germany
   - france
   - italy
+  - lebanon
   - berlin
   - benito-mussolini
-  - lebanon
+  - haifa
+  - jerusalem
+  - land-of-israel
   stories:
   - druze-revolt
   - fascist-italy
@@ -171,20 +174,23 @@ jerusalem:
   - tel-aviv
   - land-of-israel
   - london
+  - haifa
+  - lebanon
   stories:
   - western-wall-1925
 transportation:
   entities:
   - jerusalem
   - tel-aviv
-  - united-states
   - haifa
   - land-of-israel
-  - iraq
   - lebanon
+  - united-states
+  - iraq
   - london
   - france
-  stories: []
+  stories:
+  - druze-revolt
 monarchy:
   entities:
   - benito-mussolini
@@ -235,9 +241,12 @@ disasters:
 revolts:
   entities:
   - france
-  - united-states
   - lebanon
+  - united-states
   - adolf-hitler
+  - haifa
+  - jerusalem
+  - land-of-israel
   stories:
   - druze-revolt
 health:
@@ -277,7 +286,11 @@ haifa:
   entities:
   - haifa
   - tel-aviv
-  stories: []
+  - lebanon
+  - jerusalem
+  - land-of-israel
+  stories:
+  - druze-revolt
 sports:
   entities:
   - haifa
