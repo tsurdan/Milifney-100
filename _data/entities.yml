@@ -2,7 +2,7 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 77
+  count: 79
   page: true
 germany:
   name: גרמניה
@@ -84,13 +84,13 @@ vienna:
   type: place
   count: 5
   page: true
-herbert-samuel:
-  name: הנציב העליון הרברט סמואל
-  type: person
-  count: 4
-  page: true
 israel-meir-hakohen:
   name: ישראל מאיר הכהן
+  type: person
+  count: 5
+  page: true
+herbert-samuel:
+  name: הנציב העליון הרברט סמואל
   type: person
   count: 4
   page: true

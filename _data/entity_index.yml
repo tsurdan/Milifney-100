@@ -2,7 +2,7 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 77
+  count: 79
 - slug: germany
   name: גרמניה
   type: place
@@ -67,12 +67,12 @@
   name: וינה
   type: place
   count: 5
-- slug: herbert-samuel
-  name: הנציב העליון הרברט סמואל
-  type: person
-  count: 4
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
+  type: person
+  count: 5
+- slug: herbert-samuel
+  name: הנציב העליון הרברט סמואל
   type: person
   count: 4
 - slug: david-ben-gurion

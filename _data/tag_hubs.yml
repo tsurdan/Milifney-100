@@ -61,9 +61,9 @@ culture-arts:
   - london
   - benito-mussolini
   - italy
+  - united-states
   - land-of-israel
   - germany
-  - united-states
   - vienna
   - adolf-hitler
   - france
@@ -93,8 +93,8 @@ religion:
   - jerusalem
   - land-of-israel
   - berlin
-  - united-states
   - israel-meir-hakohen
+  - united-states
   - london
   - france
   - haifa
@@ -269,6 +269,7 @@ education:
   - land-of-israel
   - france
   - germany
+  - israel-meir-hakohen
   - david-ben-gurion
   - italy
   - budapest
