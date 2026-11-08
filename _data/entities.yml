@@ -12,7 +12,7 @@ germany:
 jerusalem:
   name: ירושלים
   type: place
-  count: 55
+  count: 56
   page: true
 tel-aviv:
   name: תל אביב
@@ -22,12 +22,12 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 45
+  count: 46
   page: true
 france:
   name: צרפת
   type: place
-  count: 41
+  count: 42
   page: true
 london:
   name: לונדון
@@ -37,12 +37,12 @@ london:
 italy:
   name: איטליה
   type: place
-  count: 28
+  count: 31
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 28
+  count: 31
   page: true
 berlin:
   name: ברלין
@@ -57,7 +57,7 @@ haifa:
 lebanon:
   name: לבנון
   type: place
-  count: 16
+  count: 17
   page: true
 adolf-hitler:
   name: אדולף היטלר
@@ -114,6 +114,11 @@ yitzhak-ben-zvi:
   type: person
   count: 2
   page: false
+israel-meir-hakohen:
+  name: ישראל מאיר הכהן
+  type: person
+  count: 2
+  page: false
 meir-berlin:
   name: מאיר ברלין
   type: person
@@ -127,6 +132,11 @@ san-francisco:
 faisal-i:
   name: פייסל הראשון
   type: person
+  count: 2
+  page: false
+radin:
+  name: ראדין
+  type: place
   count: 2
   page: false
 john-d-rockefeller:
@@ -169,18 +179,8 @@ tumar:
   type: place
   count: 1
   page: false
-israel-meir-hakohen:
-  name: ישראל מאיר הכהן
-  type: person
-  count: 1
-  page: false
 kishon-river:
   name: נחל קישון
-  type: place
-  count: 1
-  page: false
-radin:
-  name: ראדין
   type: place
   count: 1
   page: false

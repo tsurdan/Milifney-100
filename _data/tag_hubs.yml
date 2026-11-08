@@ -6,8 +6,8 @@ world-politics:
   - france
   - benito-mussolini
   - italy
-  - berlin
   - lebanon
+  - berlin
   - london
   - land-of-israel
   - iraq
@@ -40,16 +40,16 @@ crime-justice:
   entities:
   - united-states
   - jerusalem
+  - benito-mussolini
   - germany
   - france
-  - benito-mussolini
   - land-of-israel
+  - italy
   - london
   - tel-aviv
   - berlin
   - none
   - lebanon
-  - adolf-hitler
   stories:
   - fascist-italy
 culture-arts:
@@ -97,6 +97,7 @@ religion:
   - lithuania
   - none
   - adolf-hitler
+  - benito-mussolini
   stories:
   - western-wall-1925
 economy:
@@ -107,11 +108,11 @@ economy:
   - tel-aviv
   - land-of-israel
   - london
+  - jerusalem
   - iraq
   - haifa
   - italy
   - berlin
-  - jerusalem
   - lebanon
   stories:
   - fascist-italy
@@ -148,8 +149,8 @@ british-mandate:
 military:
   entities:
   - united-states
-  - germany
   - france
+  - germany
   - lebanon
   - italy
   - benito-mussolini
