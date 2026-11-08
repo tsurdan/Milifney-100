@@ -14,7 +14,7 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 48
+  count: 51
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -26,7 +26,7 @@
 - slug: london
   name: לונדון
   type: place
-  count: 30
+  count: 31
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person

@@ -17,7 +17,7 @@ tel-aviv:
 jerusalem:
   name: ירושלים
   type: place
-  count: 48
+  count: 51
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -32,7 +32,7 @@ france:
 london:
   name: לונדון
   type: place
-  count: 30
+  count: 31
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
