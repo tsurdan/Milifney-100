@@ -32,8 +32,8 @@ yishuv:
   - lebanon
   - benito-mussolini
   stories:
-  - western-wall-1925
   - zionist-congress-14
+  - western-wall-1925
 crime-justice:
   entities:
   - united-states
@@ -54,8 +54,8 @@ culture-arts:
   - jerusalem
   - benito-mussolini
   - germany
-  - london
   - tel-aviv
+  - london
   - italy
   - land-of-israel
   - united-states
@@ -72,11 +72,12 @@ jewish-diaspora:
   - land-of-israel
   - budapest
   - lithuania
-  stories: []
+  stories:
+  - zionist-congress-14
 religion:
   entities:
-  - tel-aviv
   - jerusalem
+  - tel-aviv
   - berlin
   - land-of-israel
   - london
@@ -126,10 +127,11 @@ military:
   entities:
   - united-states
   - germany
+  - italy
   - france
   - lebanon
+  - benito-mussolini
   - berlin
-  - italy
   stories:
   - druze-revolt
   - fascist-italy
@@ -199,9 +201,9 @@ tel-aviv:
   stories: []
 education:
   entities:
+  - tel-aviv
   - united-states
   - jerusalem
-  - tel-aviv
   - land-of-israel
   - germany
   - budapest
