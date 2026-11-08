@@ -2,7 +2,7 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 57
+  count: 58
   page: true
 germany:
   name: גרמניה
@@ -14,20 +14,20 @@ jerusalem:
   type: place
   count: 37
   page: true
+land-of-israel:
+  name: ארץ ישראל
+  type: place
+  count: 34
+  page: true
 tel-aviv:
   name: תל אביב
   type: place
   count: 34
   page: true
-land-of-israel:
-  name: ארץ ישראל
-  type: place
-  count: 32
-  page: true
 france:
   name: צרפת
   type: place
-  count: 30
+  count: 31
   page: true
 london:
   name: לונדון
@@ -54,14 +54,14 @@ lebanon:
   type: place
   count: 13
   page: true
-adolf-hitler:
-  name: אדולף היטלר
-  type: person
-  count: 9
-  page: true
 haifa:
   name: חיפה
   type: place
+  count: 10
+  page: true
+adolf-hitler:
+  name: אדולף היטלר
+  type: person
   count: 9
   page: true
 budapest:
@@ -76,6 +76,11 @@ iraq:
   page: true
 lithuania:
   name: ליטא
+  type: place
+  count: 3
+  page: true
+none:
+  name: ספרד
   type: place
   count: 3
   page: true
@@ -107,11 +112,6 @@ yitzhak-ben-zvi:
 meir-berlin:
   name: מאיר ברלין
   type: person
-  count: 2
-  page: false
-none:
-  name: ספרד
-  type: place
   count: 2
   page: false
 faisal-i:

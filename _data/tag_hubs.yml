@@ -25,8 +25,8 @@ yishuv:
   - land-of-israel
   - jerusalem
   - tel-aviv
-  - london
   - haifa
+  - london
   - france
   - lebanon
   - united-states
@@ -45,10 +45,10 @@ crime-justice:
   - jerusalem
   - london
   - lebanon
+  - none
   - adolf-hitler
   - tel-aviv
   - italy
-  - berlin
   stories:
   - fascist-italy
 culture-arts:
@@ -89,6 +89,7 @@ religion:
   - united-states
   - london
   - lithuania
+  - none
   - adolf-hitler
   - haifa
   stories:
@@ -99,8 +100,8 @@ economy:
   - france
   - germany
   - tel-aviv
-  - london
   - land-of-israel
+  - london
   - jerusalem
   - lebanon
   - iraq
@@ -219,6 +220,7 @@ science-tech:
   - germany
   - london
   - berlin
+  - none
   - italy
   - lebanon
   - france
@@ -233,16 +235,17 @@ education:
   - tel-aviv
   - united-states
   - land-of-israel
+  - france
   - germany
   - jerusalem
   - italy
-  - france
   - budapest
   stories: []
 disasters:
   entities:
   - united-states
   - france
+  - haifa
   - tel-aviv
   - london
   - budapest
