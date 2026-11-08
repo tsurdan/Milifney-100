@@ -42,7 +42,7 @@ benito-mussolini:
 london:
   name: לונדון
   type: place
-  count: 37
+  count: 38
   page: true
 berlin:
   name: ברלין
@@ -57,7 +57,7 @@ haifa:
 vienna:
   name: וינה
   type: place
-  count: 20
+  count: 21
   page: true
 lebanon:
   name: לבנון
@@ -67,7 +67,7 @@ lebanon:
 adolf-hitler:
   name: אדולף היטלר
   type: person
-  count: 14
+  count: 15
   page: true
 iraq:
   name: עיראק

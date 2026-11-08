@@ -66,8 +66,8 @@ culture-arts:
   - london
   - italy
   - germany
+  - adolf-hitler
   - france
-  - david-ben-gurion
   stories:
   - fascist-italy
   - zionist-congress-14
@@ -123,8 +123,8 @@ economy:
 antisemitism:
   entities:
   - germany
-  - adolf-hitler
   - vienna
+  - adolf-hitler
   - berlin
   - united-states
   - budapest
@@ -141,8 +141,8 @@ british-mandate:
   entities:
   - jerusalem
   - land-of-israel
-  - tel-aviv
   - london
+  - tel-aviv
   - herbert-samuel
   - lebanon
   - iraq
