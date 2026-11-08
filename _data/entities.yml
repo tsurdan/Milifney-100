@@ -12,12 +12,12 @@ germany:
 jerusalem:
   name: ירושלים
   type: place
-  count: 29
+  count: 30
   page: true
 tel-aviv:
   name: תל אביב
   type: place
-  count: 25
+  count: 26
   page: true
 france:
   name: צרפת
