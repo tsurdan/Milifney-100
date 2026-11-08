@@ -562,21 +562,48 @@
       maybeAutoPrompt();
     })();
 
-    // Infinite scroll
+    // Load more (homepage "latest news" section) — reuses the existing search.json feed
     (function() {
-      var BATCH = 20;
-      var items = document.querySelectorAll('.post-item[data-idx]');
-      if (!items.length) return;
-      for (var i = BATCH; i < items.length; i++) items[i].style.display = 'none';
-      var shown = BATCH;
+      var btn = document.getElementById('load-more-btn');
+      var grid = document.getElementById('load-more-grid');
+      if (!btn || !grid) return;
+      var BATCH = 12;
+      var offset = parseInt(btn.dataset.offset, 10) || 0;
+      var allPosts = null;
 
-      window.addEventListener('scroll', function() {
-        if (shown >= items.length) return;
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800) {
-          var end = Math.min(shown + BATCH, items.length);
-          for (var i = shown; i < end; i++) items[i].style.display = '';
-          shown = end;
+      function renderBatch(posts) {
+        var slice = posts.slice(offset, offset + BATCH);
+        slice.forEach(function(post) {
+          var article = document.createElement('article');
+          article.className = 'card-sm';
+          article.innerHTML =
+            '<a href="' + post.url + '" class="card-link">' +
+              (post.image ? '<div class="card-sm-img"><img src="' + post.image + '" alt="" loading="lazy"></div>' : '') +
+              '<div class="card-sm-body">' +
+                '<time datetime="' + post.date_iso + '">' + post.date + '</time>' +
+                '<h3>' + post.title + '</h3>' +
+              '</div>' +
+            '</a>';
+          grid.appendChild(article);
+        });
+        offset += slice.length;
+        if (offset >= posts.length) btn.hidden = true;
+      }
+
+      btn.addEventListener('click', function() {
+        btn.disabled = true;
+        if (allPosts) {
+          renderBatch(allPosts);
+          btn.disabled = false;
+          return;
         }
+        fetch('{{ "/search.json" | relative_url }}')
+          .then(function(r) { return r.json(); })
+          .then(function(posts) {
+            allPosts = posts;
+            renderBatch(posts);
+            btn.disabled = false;
+          });
       });
     })();
   </script>

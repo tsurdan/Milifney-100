@@ -1,0 +1,49 @@
+{% comment %}
+  One "by genre" block for the homepage grid. Every block always keeps a
+  genuinely bigger, image-led top story — the variety between blocks comes
+  from that lead's orientation, not from shrinking or stripping it.
+  Params:
+    tag_slug - required, a slug from _data/tags.yml
+    posts    - required, posts already filtered to this tag (sliced to 3 here)
+    variant  - required int 0/1, picks the lead's orientation so adjacent
+               blocks in the grid don't look identical:
+                 0 = big lead image on top, full block width
+                 1 = big lead image on the side, text beside it
+               Both variants list the remaining 2 posts below the lead.
+{% endcomment %}
+{% assign tag_info = site.data.tags | where: "slug", include.tag_slug | first %}
+{% assign tag_posts = include.posts | slice: 0, 3 %}
+{% if tag_info and tag_posts.size > 0 %}
+{% assign tag_url = '/tags/' | append: include.tag_slug | append: '/' | relative_url %}
+{% assign lead = tag_posts[0] %}
+{% assign rest = tag_posts | slice: 1, 2 %}
+<div class="mini-section{% if include.variant == 1 %} mini-section--side{% endif %}">
+  <div class="mini-section-head">
+    <h3><a href="{{ tag_url }}">{{ tag_info.name }}</a></h3>
+    <a href="{{ tag_url }}" class="mini-section-arrow" aria-label="לכל הידיעות ב{{ tag_info.name }}">›</a>
+  </div>
+
+  <a href="{{ lead.url | relative_url }}" class="mini-lead">
+    {% if lead.image %}<div class="mini-lead-img"><img src="{{ lead.image | relative_url }}" alt="" loading="lazy"></div>{% endif %}
+    <div class="mini-lead-body">
+      <h4>{{ lead.title }}</h4>
+      <time datetime="{{ lead.date | date_to_xmlschema }}">{{ lead.date | date: "%d.%m.%Y" }}</time>
+    </div>
+  </a>
+  {% if rest.size > 0 %}
+  <ul class="mini-section-list">
+    {% for p in rest %}
+    <li>
+      <a href="{{ p.url | relative_url }}">
+        {% if p.image %}<img src="{{ p.image | relative_url }}" alt="" loading="lazy">{% endif %}
+        <div class="mini-section-text">
+          <h4>{{ p.title }}</h4>
+          <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endif %}
