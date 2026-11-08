@@ -3,15 +3,15 @@ world-politics:
   entities:
   - germany
   - united-states
-  - france
   - benito-mussolini
+  - france
   - italy
+  - lebanon
   - berlin
   - london
-  - lebanon
   - land-of-israel
-  - iraq
   - adolf-hitler
+  - iraq
   - none
   stories:
   - fascist-italy
@@ -27,11 +27,13 @@ yishuv:
   - tel-aviv
   - haifa
   - london
+  - israel-meir-hakohen
+  - david-ben-gurion
   - france
   - lebanon
+  - germany
   - united-states
   - lithuania
-  - benito-mussolini
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -39,29 +41,31 @@ crime-justice:
   entities:
   - united-states
   - jerusalem
+  - benito-mussolini
   - germany
   - france
-  - benito-mussolini
-  - land-of-israel
-  - london
   - tel-aviv
+  - land-of-israel
+  - italy
+  - london
   - berlin
   - none
   - lebanon
-  - adolf-hitler
   stories:
   - fascist-italy
 culture-arts:
   entities:
   - tel-aviv
-  - jerusalem
   - berlin
+  - jerusalem
   - benito-mussolini
-  - italy
   - london
+  - italy
   - land-of-israel
   - germany
   - united-states
+  - vienna
+  - france
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -69,17 +73,17 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - germany
   - united-states
+  - germany
   - land-of-israel
   - budapest
   - london
+  - vienna
   - lithuania
   - adolf-hitler
   - benito-mussolini
   - italy
   - none
-  - tel-aviv
   stories:
   - zionist-congress-14
 religion:
@@ -89,8 +93,9 @@ religion:
   - land-of-israel
   - berlin
   - united-states
-  - france
   - london
+  - france
+  - israel-meir-hakohen
   - haifa
   - lithuania
   - none
@@ -103,14 +108,14 @@ economy:
   - germany
   - france
   - tel-aviv
-  - land-of-israel
   - london
+  - land-of-israel
+  - jerusalem
   - iraq
   - haifa
   - italy
   - berlin
-  - jerusalem
-  - lebanon
+  - david-ben-gurion
   stories:
   - fascist-italy
 antisemitism:
@@ -119,19 +124,21 @@ antisemitism:
   - adolf-hitler
   - berlin
   - budapest
+  - vienna
+  - benito-mussolini
   - united-states
+  - italy
   - land-of-israel
   - jerusalem
   - london
   - france
-  - benito-mussolini
   stories:
   - zionist-congress-14
   - fascist-italy
 british-mandate:
   entities:
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - london
   - tel-aviv
   - lebanon
@@ -141,13 +148,13 @@ british-mandate:
   - germany
   - benito-mussolini
   stories:
-  - western-wall-1925
   - druze-revolt
+  - western-wall-1925
 military:
   entities:
   - united-states
-  - france
   - germany
+  - france
   - lebanon
   - italy
   - benito-mussolini
@@ -165,9 +172,11 @@ jewish-arab-relations:
   - jerusalem
   - land-of-israel
   - london
+  - tel-aviv
+  - david-ben-gurion
   - lebanon
   - iraq
-  - tel-aviv
+  - france
   stories:
   - western-wall-1925
   - druze-revolt
@@ -177,6 +186,7 @@ curiosities:
   - london
   - italy
   - germany
+  - adolf-hitler
   - tel-aviv
   - benito-mussolini
   stories: []
@@ -184,22 +194,23 @@ jerusalem:
   entities:
   - jerusalem
   - tel-aviv
-  - london
   - land-of-israel
+  - london
   - haifa
+  - david-ben-gurion
   - lebanon
   stories:
   - western-wall-1925
 transportation:
   entities:
-  - tel-aviv
   - haifa
+  - tel-aviv
   - jerusalem
   - united-states
   - land-of-israel
-  - france
   - london
   - lebanon
+  - france
   - berlin
   - iraq
   stories:
@@ -209,10 +220,10 @@ monarchy:
   - benito-mussolini
   - italy
   - london
-  - iraq
-  - germany
-  - berlin
   - france
+  - germany
+  - iraq
+  - berlin
   - lebanon
   - none
   - united-states
@@ -229,8 +240,9 @@ science-tech:
   - germany
   - france
   - london
-  - italy
   - berlin
+  - italy
+  - land-of-israel
   - tel-aviv
   - none
   - lebanon
@@ -245,10 +257,11 @@ education:
   entities:
   - tel-aviv
   - united-states
+  - jerusalem
   - land-of-israel
   - france
   - germany
-  - jerusalem
+  - david-ben-gurion
   - italy
   - budapest
   stories: []
@@ -256,20 +269,22 @@ disasters:
   entities:
   - united-states
   - france
+  - london
   - germany
+  - jerusalem
+  - haifa
   - tel-aviv
+  - lebanon
   - land-of-israel
   - berlin
   - italy
-  - haifa
-  - london
   - budapest
   stories: []
 revolts:
   entities:
+  - france
   - lebanon
   - land-of-israel
-  - france
   - haifa
   - united-states
   - adolf-hitler
@@ -280,11 +295,11 @@ health:
   entities:
   - tel-aviv
   - london
+  - jerusalem
   - land-of-israel
   - germany
   - berlin
   - italy
-  - jerusalem
   - united-states
   - haifa
   - benito-mussolini
@@ -295,10 +310,11 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - land-of-israel
+  - jerusalem
   - tel-aviv
   - london
   - haifa
-  - land-of-israel
   - none
   - united-states
   - budapest
@@ -322,9 +338,9 @@ haifa:
   entities:
   - haifa
   - tel-aviv
+  - jerusalem
   - land-of-israel
   - lebanon
-  - jerusalem
   stories:
   - druze-revolt
 sports:
