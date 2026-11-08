@@ -10,7 +10,7 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 51
+  count: 52
 - slug: jerusalem
   name: ירושלים
   type: place
@@ -38,7 +38,7 @@
 - slug: berlin
   name: ברלין
   type: place
-  count: 24
+  count: 25
 - slug: haifa
   name: חיפה
   type: place
