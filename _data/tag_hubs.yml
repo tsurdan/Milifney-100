@@ -83,9 +83,9 @@ jewish-diaspora:
   - lithuania
   - tel-aviv
   - london
+  - france
   - adolf-hitler
   - herbert-samuel
-  - benito-mussolini
   stories:
   - zionist-congress-14
 religion:
@@ -128,12 +128,12 @@ antisemitism:
   - berlin
   - united-states
   - budapest
+  - france
   - benito-mussolini
   - lithuania
   - italy
   - land-of-israel
   - jerusalem
-  - london
   stories:
   - zionist-congress-14
   - fascist-italy
@@ -278,6 +278,7 @@ education:
   - land-of-israel
   - france
   - germany
+  - haifa
   - israel-meir-hakohen
   - david-ben-gurion
   - italy

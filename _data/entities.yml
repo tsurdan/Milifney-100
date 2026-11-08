@@ -12,7 +12,7 @@ jerusalem:
 germany:
   name: גרמניה
   type: place
-  count: 72
+  count: 73
   page: true
 tel-aviv:
   name: תל אביב
@@ -27,12 +27,12 @@ land-of-israel:
 france:
   name: צרפת
   type: place
-  count: 50
+  count: 51
   page: true
 italy:
   name: איטליה
   type: place
-  count: 38
+  count: 39
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
@@ -52,7 +52,7 @@ berlin:
 haifa:
   name: חיפה
   type: place
-  count: 23
+  count: 24
   page: true
 vienna:
   name: וינה
