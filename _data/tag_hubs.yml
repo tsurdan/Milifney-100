@@ -6,13 +6,13 @@ world-politics:
   - benito-mussolini
   - france
   - italy
+  - london
   - berlin
   - lebanon
-  - london
-  - adolf-hitler
   - land-of-israel
-  - none
+  - adolf-hitler
   - iraq
+  - none
   stories:
   - fascist-italy
   - druze-revolt
@@ -44,8 +44,8 @@ crime-justice:
   - land-of-israel
   - france
   - london
-  - lebanon
   - none
+  - lebanon
   - adolf-hitler
   - tel-aviv
   - italy
@@ -55,11 +55,11 @@ culture-arts:
   entities:
   - berlin
   - jerusalem
-  - benito-mussolini
   - tel-aviv
+  - benito-mussolini
+  - italy
   - london
   - germany
-  - italy
   - land-of-israel
   - united-states
   stories:
@@ -76,6 +76,7 @@ jewish-diaspora:
   - london
   - lithuania
   - adolf-hitler
+  - none
   - tel-aviv
   stories:
   - zionist-congress-14
@@ -132,9 +133,9 @@ british-mandate:
   - london
   - tel-aviv
   - lebanon
+  - iraq
   - france
   - haifa
-  - iraq
   - germany
   - benito-mussolini
   stories:
@@ -149,8 +150,8 @@ military:
   - benito-mussolini
   - lebanon
   - land-of-israel
-  - berlin
   - london
+  - berlin
   - haifa
   - jerusalem
   stories:
@@ -282,6 +283,7 @@ press:
   - benito-mussolini
   - italy
   - london
+  - none
   - united-states
   - budapest
   - tel-aviv
