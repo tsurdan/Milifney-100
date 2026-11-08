@@ -22,8 +22,8 @@ world-politics:
   - zionist-congress-14
 yishuv:
   entities:
-  - jerusalem
   - land-of-israel
+  - jerusalem
   - tel-aviv
   - haifa
   - london
@@ -67,15 +67,15 @@ jewish-diaspora:
   - berlin
   - germany
   - united-states
+  - land-of-israel
   - budapest
   - london
   - lithuania
-  - land-of-israel
   stories: []
 religion:
   entities:
-  - jerusalem
   - tel-aviv
+  - jerusalem
   - berlin
   - land-of-israel
   - lithuania
@@ -139,6 +139,7 @@ jewish-arab-relations:
   - london
   - lebanon
   - iraq
+  - tel-aviv
   stories:
   - western-wall-1925
   - druze-revolt
@@ -240,6 +241,7 @@ women-society:
   entities:
   - london
   - lithuania
+  - haifa
   - united-states
   - benito-mussolini
   - berlin
