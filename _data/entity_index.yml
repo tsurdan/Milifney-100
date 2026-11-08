@@ -14,11 +14,11 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 59
+  count: 61
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 51
+  count: 53
 - slug: france
   name: צרפת
   type: place
@@ -59,14 +59,14 @@
   name: בודפשט
   type: place
   count: 6
+- slug: vienna
+  name: וינה
+  type: place
+  count: 6
 - slug: none
   name: ספרד
   type: place
   count: 6
-- slug: vienna
-  name: וינה
-  type: place
-  count: 5
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
   type: person

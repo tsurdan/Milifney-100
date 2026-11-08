@@ -33,7 +33,7 @@ yishuv:
   - france
   - lebanon
   - herbert-samuel
-  - germany
+  - vienna
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -59,10 +59,10 @@ culture-arts:
   - berlin
   - jerusalem
   - london
+  - land-of-israel
   - benito-mussolini
   - italy
   - united-states
-  - land-of-israel
   - germany
   - vienna
   - adolf-hitler
@@ -140,8 +140,8 @@ british-mandate:
   entities:
   - jerusalem
   - land-of-israel
-  - london
   - tel-aviv
+  - london
   - lebanon
   - herbert-samuel
   - iraq
@@ -320,9 +320,9 @@ press:
   entities:
   - benito-mussolini
   - italy
+  - tel-aviv
   - land-of-israel
   - jerusalem
-  - tel-aviv
   - london
   - haifa
   - none
