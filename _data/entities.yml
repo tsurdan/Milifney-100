@@ -4,15 +4,15 @@ united-states:
   type: place
   count: 79
   page: true
+jerusalem:
+  name: ירושלים
+  type: place
+  count: 71
+  page: true
 germany:
   name: גרמניה
   type: place
   count: 70
-  page: true
-jerusalem:
-  name: ירושלים
-  type: place
-  count: 69
   page: true
 tel-aviv:
   name: תל אביב
@@ -47,7 +47,7 @@ london:
 berlin:
   name: ברלין
   type: place
-  count: 30
+  count: 31
   page: true
 lebanon:
   name: לבנון

@@ -3,14 +3,14 @@
   name: ארצות הברית
   type: place
   count: 79
+- slug: jerusalem
+  name: ירושלים
+  type: place
+  count: 71
 - slug: germany
   name: גרמניה
   type: place
   count: 70
-- slug: jerusalem
-  name: ירושלים
-  type: place
-  count: 69
 - slug: tel-aviv
   name: תל אביב
   type: place
@@ -38,7 +38,7 @@
 - slug: berlin
   name: ברלין
   type: place
-  count: 30
+  count: 31
 - slug: lebanon
   name: לבנון
   type: place
