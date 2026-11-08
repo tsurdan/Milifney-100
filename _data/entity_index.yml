@@ -10,15 +10,15 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 67
+  count: 68
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 57
+  count: 58
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
-  count: 50
+  count: 51
 - slug: france
   name: צרפת
   type: place
@@ -34,11 +34,11 @@
 - slug: london
   name: לונדון
   type: place
-  count: 35
+  count: 36
 - slug: berlin
   name: ברלין
   type: place
-  count: 27
+  count: 28
 - slug: haifa
   name: חיפה
   type: place
@@ -50,7 +50,7 @@
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person
-  count: 11
+  count: 12
 - slug: iraq
   name: עיראק
   type: place
@@ -67,16 +67,16 @@
   name: וינה
   type: place
   count: 5
+- slug: israel-meir-hakohen
+  name: ישראל מאיר הכהן
+  type: person
+  count: 4
 - slug: david-ben-gurion
   name: דוד בן-גוריון
   type: person
   count: 3
 - slug: herbert-samuel
   name: הנציב העליון הרברט סמואל
-  type: person
-  count: 3
-- slug: israel-meir-hakohen
-  name: ישראל מאיר הכהן
   type: person
   count: 3
 - slug: lithuania

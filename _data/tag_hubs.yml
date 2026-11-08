@@ -7,10 +7,10 @@ world-politics:
   - france
   - italy
   - lebanon
-  - berlin
   - london
-  - land-of-israel
+  - berlin
   - adolf-hitler
+  - land-of-israel
   - iraq
   - none
   stories:
@@ -58,13 +58,14 @@ culture-arts:
   - tel-aviv
   - berlin
   - jerusalem
-  - benito-mussolini
   - london
+  - benito-mussolini
   - italy
   - land-of-israel
   - germany
   - united-states
   - vienna
+  - adolf-hitler
   - france
   stories:
   - fascist-italy
@@ -93,9 +94,9 @@ religion:
   - land-of-israel
   - berlin
   - united-states
+  - israel-meir-hakohen
   - london
   - france
-  - israel-meir-hakohen
   - haifa
   - lithuania
   - none
@@ -231,10 +232,10 @@ monarchy:
   - iraq
   - berlin
   - lebanon
+  - adolf-hitler
   - vienna
   - none
   - united-states
-  - haifa
   stories:
   - fascist-italy
   - ibn-saud-hejaz
@@ -256,6 +257,7 @@ science-tech:
 tel-aviv:
   entities:
   - tel-aviv
+  - berlin
   - land-of-israel
   - jerusalem
   stories: []
