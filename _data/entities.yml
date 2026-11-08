@@ -7,7 +7,7 @@ jerusalem:
 germany:
   name: גרמניה
   type: place
-  count: 15
+  count: 17
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -37,17 +37,17 @@ london:
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 9
+  count: 10
   page: true
 france:
   name: צרפת
   type: place
-  count: 9
+  count: 10
   page: true
 italy:
   name: איטליה
   type: place
-  count: 7
+  count: 8
   page: true
 lebanon:
   name: לבנון

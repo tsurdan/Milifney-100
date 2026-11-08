@@ -3,8 +3,8 @@ world-politics:
   entities:
   - germany
   - benito-mussolini
-  - united-states
   - france
+  - united-states
   - italy
   - lebanon
   - land-of-israel
@@ -32,6 +32,7 @@ yishuv:
   - zionist-congress-14
 crime-justice:
   entities:
+  - germany
   - lebanon
   - jerusalem
   - london
@@ -39,7 +40,6 @@ crime-justice:
   - france
   - united-states
   - berlin
-  - germany
   - land-of-israel
   stories:
   - fascist-italy
@@ -84,7 +84,10 @@ economy:
   - france
   - jerusalem
   - iraq
-  stories: []
+  - benito-mussolini
+  - italy
+  stories:
+  - fascist-italy
 antisemitism:
   entities:
   - germany

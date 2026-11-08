@@ -6,7 +6,7 @@
 - slug: germany
   name: גרמניה
   type: place
-  count: 15
+  count: 17
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -30,15 +30,15 @@
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 9
+  count: 10
 - slug: france
   name: צרפת
   type: place
-  count: 9
+  count: 10
 - slug: italy
   name: איטליה
   type: place
-  count: 7
+  count: 8
 - slug: lebanon
   name: לבנון
   type: place
