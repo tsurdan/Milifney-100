@@ -151,10 +151,11 @@ military:
   - lebanon
   - italy
   - benito-mussolini
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - london
   - berlin
+  - tel-aviv
   - haifa
   stories:
   - druze-revolt
@@ -208,10 +209,10 @@ monarchy:
   - benito-mussolini
   - london
   - italy
+  - iraq
   - germany
   - berlin
   - france
-  - iraq
   - lebanon
   - united-states
   - haifa
@@ -255,6 +256,7 @@ disasters:
   - united-states
   - france
   - germany
+  - land-of-israel
   - berlin
   - italy
   - haifa
@@ -265,9 +267,9 @@ disasters:
 revolts:
   entities:
   - lebanon
+  - land-of-israel
   - france
   - haifa
-  - land-of-israel
   - united-states
   - adolf-hitler
   - jerusalem
@@ -277,11 +279,12 @@ health:
   entities:
   - tel-aviv
   - london
+  - land-of-israel
   - germany
   - berlin
   - jerusalem
-  - land-of-israel
   - united-states
+  - italy
   - haifa
   - benito-mussolini
   - budapest
