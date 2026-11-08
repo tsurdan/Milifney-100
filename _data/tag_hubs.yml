@@ -1,14 +1,14 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - united-states
   - germany
-  - benito-mussolini
+  - united-states
   - france
+  - benito-mussolini
   - italy
   - lebanon
-  - london
   - berlin
+  - london
   - adolf-hitler
   - land-of-israel
   - iraq
@@ -25,8 +25,8 @@ yishuv:
   - land-of-israel
   - jerusalem
   - tel-aviv
-  - haifa
   - london
+  - haifa
   - france
   - lebanon
   - united-states
@@ -69,8 +69,8 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - germany
   - united-states
+  - germany
   - land-of-israel
   - london
   - budapest
@@ -86,9 +86,9 @@ religion:
   - land-of-israel
   - france
   - berlin
+  - united-states
   - london
   - lithuania
-  - united-states
   - adolf-hitler
   - haifa
   stories:
@@ -112,8 +112,8 @@ economy:
 antisemitism:
   entities:
   - germany
-  - adolf-hitler
   - berlin
+  - adolf-hitler
   - united-states
   - budapest
   - land-of-israel
@@ -142,10 +142,10 @@ military:
   entities:
   - united-states
   - germany
+  - france
   - italy
   - lebanon
   - benito-mussolini
-  - france
   - land-of-israel
   - berlin
   - london
@@ -157,8 +157,8 @@ military:
 jewish-arab-relations:
   entities:
   - jerusalem
-  - land-of-israel
   - london
+  - land-of-israel
   - lebanon
   - iraq
   - tel-aviv
@@ -178,8 +178,8 @@ jerusalem:
   entities:
   - jerusalem
   - tel-aviv
-  - land-of-israel
   - london
+  - land-of-israel
   - haifa
   - lebanon
   stories:
@@ -206,6 +206,7 @@ monarchy:
   - france
   - iraq
   - lebanon
+  - berlin
   - haifa
   - land-of-israel
   stories:
@@ -230,10 +231,11 @@ tel-aviv:
 education:
   entities:
   - tel-aviv
-  - land-of-israel
   - united-states
+  - land-of-israel
   - germany
   - jerusalem
+  - italy
   - france
   - budapest
   stories: []
