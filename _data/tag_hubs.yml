@@ -38,8 +38,8 @@ yishuv:
 crime-justice:
   entities:
   - united-states
-  - germany
   - jerusalem
+  - germany
   - benito-mussolini
   - land-of-israel
   - france
@@ -191,8 +191,8 @@ jerusalem:
   - western-wall-1925
 transportation:
   entities:
-  - tel-aviv
   - jerusalem
+  - tel-aviv
   - haifa
   - united-states
   - land-of-israel

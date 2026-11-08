@@ -6,15 +6,15 @@
 - slug: germany
   name: גרמניה
   type: place
-  count: 53
+  count: 54
+- slug: jerusalem
+  name: ירושלים
+  type: place
+  count: 45
 - slug: tel-aviv
   name: תל אביב
   type: place
   count: 44
-- slug: jerusalem
-  name: ירושלים
-  type: place
-  count: 42
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
