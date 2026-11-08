@@ -35,6 +35,7 @@ crime-justice:
   - lebanon
   - jerusalem
   - london
+  - italy
   - france
   - united-states
   - berlin
@@ -50,6 +51,7 @@ culture-arts:
   - london
   - germany
   - italy
+  - tel-aviv
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -65,9 +67,9 @@ jewish-diaspora:
 religion:
   entities:
   - jerusalem
+  - tel-aviv
   - berlin
   - land-of-israel
-  - tel-aviv
   - london
   - united-states
   stories:
