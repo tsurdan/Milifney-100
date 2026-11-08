@@ -6,8 +6,8 @@ world-politics:
   - benito-mussolini
   - france
   - italy
-  - lebanon
   - berlin
+  - lebanon
   - london
   - adolf-hitler
   - land-of-israel
@@ -40,9 +40,9 @@ crime-justice:
   - united-states
   - benito-mussolini
   - germany
+  - jerusalem
   - land-of-israel
   - france
-  - jerusalem
   - london
   - lebanon
   - none
@@ -204,10 +204,10 @@ monarchy:
   - benito-mussolini
   - london
   - italy
+  - berlin
   - france
   - iraq
   - lebanon
-  - berlin
   - haifa
   - land-of-israel
   stories:
@@ -263,8 +263,8 @@ revolts:
   - druze-revolt
 health:
   entities:
-  - tel-aviv
   - london
+  - tel-aviv
   - united-states
   - germany
   - berlin
