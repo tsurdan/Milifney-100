@@ -72,8 +72,8 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - germany
   - united-states
+  - germany
   - land-of-israel
   - budapest
   - london
@@ -91,8 +91,8 @@ religion:
   - jerusalem
   - land-of-israel
   - berlin
-  - london
   - united-states
+  - london
   - france
   - israel-meir-hakohen
   - haifa
@@ -135,8 +135,8 @@ antisemitism:
   - fascist-italy
 british-mandate:
   entities:
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - london
   - tel-aviv
   - lebanon
@@ -269,9 +269,9 @@ disasters:
   - france
   - london
   - germany
+  - jerusalem
   - haifa
   - tel-aviv
-  - jerusalem
   - lebanon
   - land-of-israel
   - berlin
@@ -293,11 +293,11 @@ health:
   entities:
   - tel-aviv
   - london
+  - jerusalem
   - land-of-israel
   - germany
   - berlin
   - italy
-  - jerusalem
   - united-states
   - haifa
   - benito-mussolini
