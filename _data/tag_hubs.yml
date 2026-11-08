@@ -8,10 +8,10 @@ world-politics:
   - italy
   - lebanon
   - land-of-israel
+  - berlin
   - iraq
   - jerusalem
   - london
-  - berlin
   stories:
   - fascist-italy
   - druze-revolt
@@ -67,8 +67,8 @@ jewish-diaspora:
 religion:
   entities:
   - jerusalem
-  - tel-aviv
   - berlin
+  - tel-aviv
   - land-of-israel
   - london
   - united-states
@@ -87,8 +87,8 @@ economy:
   stories: []
 antisemitism:
   entities:
-  - germany
   - berlin
+  - germany
   - united-states
   stories:
   - zionist-congress-14
