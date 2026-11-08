@@ -1,8 +1,8 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - germany
   - united-states
+  - germany
   - france
   - benito-mussolini
   - italy
@@ -125,8 +125,8 @@ british-mandate:
   entities:
   - land-of-israel
   - jerusalem
-  - london
   - tel-aviv
+  - london
   - lebanon
   - france
   - germany
@@ -184,10 +184,11 @@ transportation:
   - tel-aviv
   - haifa
   - land-of-israel
+  - london
   - lebanon
   - united-states
+  - berlin
   - iraq
-  - london
   - france
   stories:
   - druze-revolt
@@ -256,6 +257,7 @@ health:
   - united-states
   - germany
   - berlin
+  - land-of-israel
   - budapest
   - france
   - jerusalem
