@@ -32,8 +32,8 @@ yishuv:
   - meir-berlin
   - france
   - lebanon
+  - vienna
   - united-states
-  - herbert-samuel
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -70,8 +70,8 @@ culture-arts:
   - david-ben-gurion
   stories:
   - fascist-italy
-  - turkey-hat-law
   - zionist-congress-14
+  - turkey-hat-law
 jewish-diaspora:
   entities:
   - berlin
@@ -110,8 +110,8 @@ economy:
   - germany
   - tel-aviv
   - france
-  - land-of-israel
   - london
+  - land-of-israel
   - haifa
   - berlin
   - jerusalem
@@ -229,10 +229,10 @@ transportation:
 monarchy:
   entities:
   - benito-mussolini
+  - london
   - italy
   - germany
   - france
-  - london
   - iraq
   - none
   - vienna
@@ -326,10 +326,10 @@ health:
 press:
   entities:
   - italy
+  - jerusalem
   - benito-mussolini
   - tel-aviv
   - land-of-israel
-  - jerusalem
   - london
   - haifa
   - none
