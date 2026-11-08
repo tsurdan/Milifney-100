@@ -28,12 +28,12 @@ yishuv:
   - haifa
   - israel-meir-hakohen
   - london
-  - meir-berlin
   - david-ben-gurion
+  - meir-berlin
   - france
   - lebanon
+  - united-states
   - herbert-samuel
-  - vienna
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -60,14 +60,14 @@ culture-arts:
   - berlin
   - jerusalem
   - land-of-israel
+  - united-states
   - benito-mussolini
   - london
-  - united-states
+  - vienna
   - italy
   - germany
-  - vienna
-  - adolf-hitler
   - france
+  - david-ben-gurion
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -230,8 +230,8 @@ monarchy:
   entities:
   - benito-mussolini
   - italy
-  - france
   - germany
+  - france
   - london
   - iraq
   - none
