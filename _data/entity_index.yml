@@ -3,12 +3,12 @@
   name: ארצות הברית
   type: place
   count: 73
-- slug: germany
-  name: גרמניה
-  type: place
-  count: 66
 - slug: jerusalem
   name: ירושלים
+  type: place
+  count: 67
+- slug: germany
+  name: גרמניה
   type: place
   count: 66
 - slug: tel-aviv
@@ -30,7 +30,7 @@
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 35
+  count: 36
 - slug: london
   name: לונדון
   type: place

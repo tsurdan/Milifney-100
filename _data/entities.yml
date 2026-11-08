@@ -4,13 +4,13 @@ united-states:
   type: place
   count: 73
   page: true
-germany:
-  name: גרמניה
-  type: place
-  count: 66
-  page: true
 jerusalem:
   name: ירושלים
+  type: place
+  count: 67
+  page: true
+germany:
+  name: גרמניה
   type: place
   count: 66
   page: true
@@ -37,7 +37,7 @@ italy:
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 35
+  count: 36
   page: true
 london:
   name: לונדון
