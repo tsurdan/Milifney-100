@@ -8,8 +8,8 @@ world-politics:
   - italy
   - lebanon
   - london
-  - adolf-hitler
   - berlin
+  - adolf-hitler
   - land-of-israel
   - iraq
   - jerusalem
@@ -40,6 +40,7 @@ crime-justice:
   - germany
   - france
   - jerusalem
+  - land-of-israel
   - lebanon
   - london
   - adolf-hitler
@@ -47,7 +48,6 @@ crime-justice:
   - tel-aviv
   - italy
   - berlin
-  - land-of-israel
   stories:
   - fascist-italy
 culture-arts:
@@ -140,9 +140,9 @@ military:
   - germany
   - france
   - italy
+  - berlin
   - benito-mussolini
   - lebanon
-  - berlin
   stories:
   - druze-revolt
   - fascist-italy
@@ -205,6 +205,7 @@ science-tech:
   - germany
   - berlin
   - london
+  - italy
   - lebanon
   - france
   stories: []
@@ -241,10 +242,10 @@ revolts:
   - druze-revolt
 health:
   entities:
+  - tel-aviv
   - london
   - united-states
   - germany
-  - tel-aviv
   - berlin
   - budapest
   - france

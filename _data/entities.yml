@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 44
+  count: 45
   page: true
 germany:
   name: גרמניה
   type: place
-  count: 37
+  count: 38
   page: true
 jerusalem:
   name: ירושלים
@@ -17,7 +17,7 @@ jerusalem:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 28
+  count: 29
   page: true
 france:
   name: צרפת
@@ -27,7 +27,7 @@ france:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 22
+  count: 24
   page: true
 london:
   name: לונדון
@@ -42,12 +42,12 @@ benito-mussolini:
 berlin:
   name: ברלין
   type: place
-  count: 15
+  count: 16
   page: true
 italy:
   name: איטליה
   type: place
-  count: 11
+  count: 12
   page: true
 lebanon:
   name: לבנון
@@ -171,6 +171,11 @@ kishon-river:
   page: false
 san-francisco:
   name: סן פרנסיסקו
+  type: place
+  count: 1
+  page: false
+none:
+  name: ספרד
   type: place
   count: 1
   page: false
