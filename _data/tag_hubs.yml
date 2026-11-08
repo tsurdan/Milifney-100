@@ -6,13 +6,13 @@ world-politics:
   - france
   - benito-mussolini
   - italy
+  - adolf-hitler
   - london
   - lebanon
   - land-of-israel
   - berlin
   - iraq
   - jerusalem
-  - adolf-hitler
   stories:
   - fascist-italy
   - druze-revolt
@@ -38,8 +38,8 @@ crime-justice:
   entities:
   - united-states
   - germany
-  - jerusalem
   - france
+  - jerusalem
   - lebanon
   - london
   - tel-aviv
@@ -81,10 +81,11 @@ religion:
   - jerusalem
   - land-of-israel
   - berlin
+  - france
   - london
   - lithuania
+  - adolf-hitler
   - haifa
-  - france
   - united-states
   stories:
   - western-wall-1925
@@ -212,6 +213,7 @@ education:
   - united-states
   - jerusalem
   - land-of-israel
+  - france
   - germany
   - budapest
   stories: []
@@ -234,10 +236,10 @@ revolts:
 health:
   entities:
   - london
+  - united-states
   - germany
   - tel-aviv
   - berlin
-  - united-states
   - budapest
   - france
   - jerusalem
@@ -256,6 +258,7 @@ women-society:
   entities:
   - london
   - lithuania
+  - adolf-hitler
   - haifa
   - united-states
   - benito-mussolini
