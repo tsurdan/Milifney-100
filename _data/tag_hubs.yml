@@ -6,9 +6,9 @@ world-politics:
   - france
   - benito-mussolini
   - italy
+  - lebanon
   - adolf-hitler
   - london
-  - lebanon
   - land-of-israel
   - berlin
   - iraq
@@ -53,12 +53,12 @@ culture-arts:
   - berlin
   - jerusalem
   - benito-mussolini
+  - london
   - germany
   - tel-aviv
-  - london
   - italy
-  - land-of-israel
   - united-states
+  - land-of-israel
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -93,8 +93,8 @@ economy:
   entities:
   - united-states
   - germany
-  - tel-aviv
   - france
+  - tel-aviv
   - london
   - land-of-israel
   - jerusalem
@@ -111,6 +111,7 @@ antisemitism:
   - adolf-hitler
   - united-states
   - budapest
+  - london
   - france
   - benito-mussolini
   stories:
@@ -133,9 +134,9 @@ military:
   - united-states
   - germany
   - italy
+  - benito-mussolini
   - france
   - lebanon
-  - benito-mussolini
   - berlin
   stories:
   - druze-revolt
@@ -211,10 +212,10 @@ education:
   entities:
   - tel-aviv
   - united-states
+  - germany
   - jerusalem
   - land-of-israel
   - france
-  - germany
   - budapest
   stories: []
 disasters:
