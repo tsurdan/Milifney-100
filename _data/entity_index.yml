@@ -2,7 +2,7 @@
 - slug: united-states
   name: ארצות הברית
   type: place
-  count: 48
+  count: 50
 - slug: germany
   name: גרמניה
   type: place
@@ -15,22 +15,22 @@
   name: תל אביב
   type: place
   count: 31
+- slug: land-of-israel
+  name: ארץ ישראל
+  type: place
+  count: 29
 - slug: france
   name: צרפת
   type: place
   count: 28
-- slug: land-of-israel
-  name: ארץ ישראל
-  type: place
-  count: 27
 - slug: london
   name: לונדון
   type: place
-  count: 25
+  count: 26
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 22
+  count: 23
 - slug: berlin
   name: ברלין
   type: place
@@ -42,7 +42,7 @@
 - slug: lebanon
   name: לבנון
   type: place
-  count: 11
+  count: 12
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person

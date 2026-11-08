@@ -2,7 +2,7 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 48
+  count: 50
   page: true
 germany:
   name: גרמניה
@@ -19,25 +19,25 @@ tel-aviv:
   type: place
   count: 31
   page: true
+land-of-israel:
+  name: ארץ ישראל
+  type: place
+  count: 29
+  page: true
 france:
   name: צרפת
   type: place
   count: 28
   page: true
-land-of-israel:
-  name: ארץ ישראל
-  type: place
-  count: 27
-  page: true
 london:
   name: לונדון
   type: place
-  count: 25
+  count: 26
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 22
+  count: 23
   page: true
 berlin:
   name: ברלין
@@ -52,7 +52,7 @@ italy:
 lebanon:
   name: לבנון
   type: place
-  count: 11
+  count: 12
   page: true
 adolf-hitler:
   name: אדולף היטלר

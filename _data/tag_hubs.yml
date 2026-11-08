@@ -28,8 +28,9 @@ yishuv:
   - haifa
   - london
   - france
-  - lithuania
   - lebanon
+  - united-states
+  - lithuania
   - benito-mussolini
   stories:
   - zionist-congress-14
@@ -39,10 +40,10 @@ crime-justice:
   - united-states
   - benito-mussolini
   - germany
+  - land-of-israel
   - france
   - jerusalem
   - london
-  - land-of-israel
   - lebanon
   - adolf-hitler
   - tel-aviv
@@ -58,9 +59,9 @@ culture-arts:
   - london
   - germany
   - tel-aviv
+  - land-of-israel
   - italy
   - united-states
-  - land-of-israel
   stories:
   - fascist-italy
   - turkey-hat-law
@@ -68,10 +69,10 @@ culture-arts:
 jewish-diaspora:
   entities:
   - berlin
-  - germany
   - united-states
-  - london
+  - germany
   - land-of-israel
+  - london
   - budapest
   - lithuania
   - adolf-hitler
@@ -101,6 +102,7 @@ economy:
   - london
   - land-of-israel
   - jerusalem
+  - lebanon
   - iraq
   - haifa
   - benito-mussolini
