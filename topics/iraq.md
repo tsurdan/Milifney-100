@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "iraq"
 title: "עיראק"
 seo_title: "עיראק: כל הידיעות והעדכונים"
-description: "8 ידיעות על עיראק במקום אחד."
+description: "9 ידיעות על עיראק במקום אחד."
 permalink: "/topics/iraq/"
 in_sitemap: true
 ---

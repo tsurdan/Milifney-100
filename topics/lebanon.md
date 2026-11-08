@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "lebanon"
 title: "לבנון"
 seo_title: "לבנון: כל הידיעות והעדכונים"
-description: "18 ידיעות על לבנון במקום אחד."
+description: "19 ידיעות על לבנון במקום אחד."
 permalink: "/topics/lebanon/"
 in_sitemap: true
 ---
