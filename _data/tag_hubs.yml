@@ -2,15 +2,15 @@
 world-politics:
   entities:
   - united-states
-  - france
   - germany
+  - france
   - benito-mussolini
   - italy
   - lebanon
-  - london
   - adolf-hitler
-  - land-of-israel
+  - london
   - berlin
+  - land-of-israel
   - iraq
   - jerusalem
   stories:
@@ -42,6 +42,7 @@ crime-justice:
   - jerusalem
   - lebanon
   - london
+  - benito-mussolini
   - tel-aviv
   - italy
   - berlin
@@ -73,12 +74,13 @@ jewish-diaspora:
   - budapest
   - lithuania
   - adolf-hitler
+  - tel-aviv
   stories:
   - zionist-congress-14
 religion:
   entities:
-  - jerusalem
   - tel-aviv
+  - jerusalem
   - land-of-israel
   - berlin
   - france
@@ -212,10 +214,10 @@ tel-aviv:
 education:
   entities:
   - tel-aviv
+  - land-of-israel
   - united-states
   - germany
   - jerusalem
-  - land-of-israel
   - france
   - budapest
   stories: []
