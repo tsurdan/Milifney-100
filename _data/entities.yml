@@ -12,7 +12,7 @@ germany:
 jerusalem:
   name: ירושלים
   type: place
-  count: 32
+  count: 33
   page: true
 tel-aviv:
   name: תל אביב
@@ -32,12 +32,12 @@ land-of-israel:
 london:
   name: לונדון
   type: place
-  count: 22
+  count: 23
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 19
+  count: 20
   page: true
 berlin:
   name: ברלין

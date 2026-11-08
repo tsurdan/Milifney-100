@@ -10,7 +10,7 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 32
+  count: 33
 - slug: tel-aviv
   name: תל אביב
   type: place
@@ -26,11 +26,11 @@
 - slug: london
   name: לונדון
   type: place
-  count: 22
+  count: 23
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 19
+  count: 20
 - slug: berlin
   name: ברלין
   type: place

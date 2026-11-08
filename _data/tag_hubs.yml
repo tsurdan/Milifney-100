@@ -10,9 +10,9 @@ world-politics:
   - london
   - berlin
   - adolf-hitler
+  - jerusalem
   - land-of-israel
   - iraq
-  - jerusalem
   stories:
   - fascist-italy
   - druze-revolt
@@ -40,10 +40,10 @@ crime-justice:
   - germany
   - france
   - jerusalem
+  - london
   - benito-mussolini
   - land-of-israel
   - lebanon
-  - london
   - adolf-hitler
   - tel-aviv
   - italy
@@ -203,8 +203,8 @@ science-tech:
   entities:
   - united-states
   - germany
-  - berlin
   - london
+  - berlin
   - italy
   - lebanon
   - france
