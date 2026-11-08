@@ -78,21 +78,22 @@ religion:
   entities:
   - tel-aviv
   - jerusalem
-  - berlin
   - land-of-israel
+  - berlin
   - london
   - lithuania
   - haifa
+  - france
   - united-states
   stories:
   - western-wall-1925
 economy:
   entities:
   - united-states
-  - tel-aviv
-  - london
-  - france
   - germany
+  - tel-aviv
+  - france
+  - london
   - land-of-israel
   - jerusalem
   - iraq
@@ -153,6 +154,7 @@ curiosities:
   - london
   - benito-mussolini
   - italy
+  - germany
   stories: []
 jerusalem:
   entities:
@@ -166,11 +168,11 @@ transportation:
   entities:
   - jerusalem
   - tel-aviv
+  - united-states
   - haifa
   - land-of-israel
   - iraq
   - lebanon
-  - united-states
   - london
   - france
   stories: []
@@ -212,10 +214,10 @@ education:
   stories: []
 disasters:
   entities:
+  - united-states
   - france
   - london
   - budapest
-  - united-states
   stories: []
 revolts:
   entities:
