@@ -42,8 +42,8 @@ crime-justice:
   - united-states
   - jerusalem
   - benito-mussolini
-  - germany
   - france
+  - germany
   - tel-aviv
   - land-of-israel
   - italy
@@ -124,9 +124,9 @@ antisemitism:
   - adolf-hitler
   - berlin
   - budapest
+  - united-states
   - vienna
   - benito-mussolini
-  - united-states
   - italy
   - land-of-israel
   - jerusalem
@@ -141,6 +141,7 @@ british-mandate:
   - land-of-israel
   - london
   - tel-aviv
+  - herbert-samuel
   - lebanon
   - iraq
   - france
@@ -176,6 +177,7 @@ jewish-arab-relations:
   - david-ben-gurion
   - lebanon
   - iraq
+  - herbert-samuel
   - france
   stories:
   - western-wall-1925
@@ -186,6 +188,8 @@ curiosities:
   - london
   - italy
   - germany
+  - vienna
+  - france
   - adolf-hitler
   - tel-aviv
   - benito-mussolini
@@ -199,6 +203,7 @@ jerusalem:
   - haifa
   - david-ben-gurion
   - lebanon
+  - herbert-samuel
   stories:
   - western-wall-1925
 transportation:
@@ -211,6 +216,7 @@ transportation:
   - london
   - lebanon
   - france
+  - herbert-samuel
   - berlin
   - iraq
   stories:
@@ -219,16 +225,16 @@ monarchy:
   entities:
   - benito-mussolini
   - italy
-  - london
   - france
   - germany
+  - london
   - iraq
   - berlin
   - lebanon
+  - vienna
   - none
   - united-states
   - haifa
-  - land-of-israel
   stories:
   - fascist-italy
   - ibn-saud-hejaz
@@ -284,9 +290,9 @@ revolts:
   entities:
   - france
   - lebanon
+  - united-states
   - land-of-israel
   - haifa
-  - united-states
   - adolf-hitler
   - jerusalem
   stories:
