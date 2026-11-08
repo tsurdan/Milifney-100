@@ -12,12 +12,12 @@ germany:
 jerusalem:
   name: ירושלים
   type: place
-  count: 53
+  count: 55
   page: true
 tel-aviv:
   name: תל אביב
   type: place
-  count: 52
+  count: 53
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -52,12 +52,12 @@ berlin:
 haifa:
   name: חיפה
   type: place
-  count: 16
+  count: 17
   page: true
 lebanon:
   name: לבנון
   type: place
-  count: 15
+  count: 16
   page: true
 adolf-hitler:
   name: אדולף היטלר

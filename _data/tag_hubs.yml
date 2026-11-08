@@ -7,8 +7,8 @@ world-politics:
   - benito-mussolini
   - italy
   - berlin
-  - london
   - lebanon
+  - london
   - land-of-israel
   - iraq
   - adolf-hitler
@@ -143,8 +143,8 @@ british-mandate:
   - germany
   - benito-mussolini
   stories:
-  - western-wall-1925
   - druze-revolt
+  - western-wall-1925
 military:
   entities:
   - united-states
@@ -194,14 +194,14 @@ jerusalem:
   - western-wall-1925
 transportation:
   entities:
-  - tel-aviv
   - haifa
+  - tel-aviv
   - jerusalem
   - united-states
   - land-of-israel
+  - lebanon
   - france
   - london
-  - lebanon
   - berlin
   - iraq
   stories:
@@ -260,6 +260,7 @@ disasters:
   - france
   - germany
   - tel-aviv
+  - lebanon
   - land-of-israel
   - berlin
   - italy
@@ -324,9 +325,9 @@ haifa:
   entities:
   - haifa
   - tel-aviv
+  - jerusalem
   - land-of-israel
   - lebanon
-  - jerusalem
   stories:
   - druze-revolt
 sports:

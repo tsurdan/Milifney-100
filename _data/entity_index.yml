@@ -10,11 +10,11 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 53
+  count: 55
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 52
+  count: 53
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -42,11 +42,11 @@
 - slug: haifa
   name: חיפה
   type: place
-  count: 16
+  count: 17
 - slug: lebanon
   name: לבנון
   type: place
-  count: 15
+  count: 16
 - slug: adolf-hitler
   name: אדולף היטלר
   type: person
