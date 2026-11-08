@@ -6,9 +6,9 @@ world-politics:
   - france
   - benito-mussolini
   - italy
+  - berlin
   - lebanon
   - london
-  - berlin
   - land-of-israel
   - adolf-hitler
   - iraq
@@ -91,10 +91,10 @@ religion:
   - united-states
   - france
   - london
+  - haifa
   - lithuania
   - none
   - adolf-hitler
-  - haifa
   stories:
   - western-wall-1925
 economy:
@@ -105,8 +105,8 @@ economy:
   - tel-aviv
   - land-of-israel
   - london
-  - jerusalem
   - berlin
+  - jerusalem
   - lebanon
   - iraq
   - haifa
@@ -162,8 +162,8 @@ military:
 jewish-arab-relations:
   entities:
   - jerusalem
-  - london
   - land-of-israel
+  - london
   - lebanon
   - iraq
   - tel-aviv
@@ -255,6 +255,7 @@ disasters:
   - united-states
   - france
   - germany
+  - berlin
   - italy
   - haifa
   - tel-aviv
@@ -276,9 +277,9 @@ health:
   entities:
   - tel-aviv
   - london
-  - united-states
   - germany
   - berlin
+  - united-states
   - benito-mussolini
   - land-of-israel
   - budapest
@@ -290,6 +291,7 @@ press:
   - benito-mussolini
   - italy
   - london
+  - land-of-israel
   - none
   - united-states
   - budapest
@@ -300,9 +302,9 @@ press:
 women-society:
   entities:
   - london
+  - tel-aviv
   - united-states
   - lithuania
-  - tel-aviv
   - france
   - adolf-hitler
   - haifa
