@@ -3,8 +3,8 @@ world-politics:
   entities:
   - germany
   - united-states
-  - france
   - benito-mussolini
+  - france
   - italy
   - lebanon
   - berlin
@@ -151,8 +151,8 @@ british-mandate:
 military:
   entities:
   - united-states
-  - france
   - germany
+  - france
   - lebanon
   - italy
   - benito-mussolini
@@ -217,9 +217,9 @@ monarchy:
   - benito-mussolini
   - italy
   - london
+  - germany
   - france
   - iraq
-  - germany
   - berlin
   - lebanon
   - none
