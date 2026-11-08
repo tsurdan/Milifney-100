@@ -77,11 +77,11 @@ jewish-diaspora:
   - united-states
   - germany
   - land-of-israel
-  - budapest
   - vienna
+  - budapest
   - london
-  - tel-aviv
   - lithuania
+  - tel-aviv
   - adolf-hitler
   - herbert-samuel
   - benito-mussolini
@@ -128,11 +128,11 @@ antisemitism:
   - budapest
   - vienna
   - benito-mussolini
+  - lithuania
   - italy
   - land-of-israel
   - jerusalem
   - london
-  - france
   stories:
   - zionist-congress-14
   - fascist-italy
@@ -142,9 +142,9 @@ british-mandate:
   - land-of-israel
   - tel-aviv
   - london
+  - herbert-samuel
   - lebanon
   - iraq
-  - herbert-samuel
   - france
   - haifa
   - germany
@@ -152,6 +152,7 @@ british-mandate:
   stories:
   - druze-revolt
   - western-wall-1925
+  - zionist-congress-14
 military:
   entities:
   - united-states
@@ -210,8 +211,8 @@ jerusalem:
   - western-wall-1925
 transportation:
   entities:
-  - haifa
   - tel-aviv
+  - haifa
   - jerusalem
   - united-states
   - land-of-israel
@@ -250,6 +251,7 @@ science-tech:
   - london
   - berlin
   - italy
+  - vienna
   - land-of-israel
   - tel-aviv
   - none
@@ -258,6 +260,7 @@ science-tech:
 tel-aviv:
   entities:
   - tel-aviv
+  - herbert-samuel
   - vienna
   - berlin
   - land-of-israel

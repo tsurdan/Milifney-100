@@ -17,7 +17,7 @@ germany:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 63
+  count: 64
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -64,15 +64,15 @@ adolf-hitler:
   type: person
   count: 13
   page: true
+vienna:
+  name: וינה
+  type: place
+  count: 9
+  page: true
 iraq:
   name: עיראק
   type: place
   count: 9
-  page: true
-vienna:
-  name: וינה
-  type: place
-  count: 8
   page: true
 budapest:
   name: בודפשט
@@ -84,24 +84,24 @@ none:
   type: place
   count: 6
   page: true
+herbert-samuel:
+  name: הנציב העליון הרברט סמואל
+  type: person
+  count: 5
+  page: true
 israel-meir-hakohen:
   name: ישראל מאיר הכהן
   type: person
   count: 5
   page: true
-herbert-samuel:
-  name: הנציב העליון הרברט סמואל
-  type: person
+lithuania:
+  name: ליטא
+  type: place
   count: 4
   page: true
 david-ben-gurion:
   name: דוד בן-גוריון
   type: person
-  count: 3
-  page: true
-lithuania:
-  name: ליטא
-  type: place
   count: 3
   page: true
 meir-berlin:

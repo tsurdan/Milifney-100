@@ -14,7 +14,7 @@
 - slug: tel-aviv
   name: תל אביב
   type: place
-  count: 63
+  count: 64
 - slug: land-of-israel
   name: ארץ ישראל
   type: place
@@ -51,14 +51,14 @@
   name: אדולף היטלר
   type: person
   count: 13
+- slug: vienna
+  name: וינה
+  type: place
+  count: 9
 - slug: iraq
   name: עיראק
   type: place
   count: 9
-- slug: vienna
-  name: וינה
-  type: place
-  count: 8
 - slug: budapest
   name: בודפשט
   type: place
@@ -67,21 +67,21 @@
   name: ספרד
   type: place
   count: 6
+- slug: herbert-samuel
+  name: הנציב העליון הרברט סמואל
+  type: person
+  count: 5
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
   type: person
   count: 5
-- slug: herbert-samuel
-  name: הנציב העליון הרברט סמואל
-  type: person
+- slug: lithuania
+  name: ליטא
+  type: place
   count: 4
 - slug: david-ben-gurion
   name: דוד בן-גוריון
   type: person
-  count: 3
-- slug: lithuania
-  name: ליטא
-  type: place
   count: 3
 - slug: meir-berlin
   name: מאיר ברלין
