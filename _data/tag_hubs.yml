@@ -60,10 +60,10 @@ culture-arts:
   - berlin
   - jerusalem
   - land-of-israel
+  - vienna
   - united-states
   - benito-mussolini
   - london
-  - vienna
   - italy
   - germany
   - france
@@ -291,11 +291,11 @@ disasters:
   - germany
   - jerusalem
   - tel-aviv
+  - none
   - lithuania
   - lebanon
   - land-of-israel
   - berlin
-  - italy
   stories: []
 revolts:
   entities:
@@ -318,10 +318,10 @@ health:
   - berlin
   - italy
   - united-states
+  - none
   - haifa
   - benito-mussolini
   - budapest
-  - france
   stories: []
 press:
   entities:

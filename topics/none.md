@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "none"
 title: "ספרד"
 seo_title: "ספרד: כל הידיעות והעדכונים"
-description: "7 ידיעות על ספרד במקום אחד."
+description: "8 ידיעות על ספרד במקום אחד."
 permalink: "/topics/none/"
 in_sitemap: true
 ---
