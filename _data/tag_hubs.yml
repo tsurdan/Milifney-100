@@ -193,8 +193,8 @@ transportation:
   entities:
   - jerusalem
   - tel-aviv
-  - haifa
   - united-states
+  - haifa
   - land-of-israel
   - france
   - london
@@ -266,11 +266,11 @@ revolts:
   entities:
   - lebanon
   - france
+  - haifa
+  - land-of-israel
   - united-states
   - adolf-hitler
-  - haifa
   - jerusalem
-  - land-of-israel
   stories:
   - druze-revolt
 health:
@@ -279,12 +279,13 @@ health:
   - london
   - germany
   - berlin
-  - united-states
-  - benito-mussolini
+  - jerusalem
   - land-of-israel
+  - united-states
+  - haifa
+  - benito-mussolini
   - budapest
   - france
-  - jerusalem
   stories: []
 press:
   entities:
@@ -315,10 +316,10 @@ women-society:
 haifa:
   entities:
   - haifa
+  - land-of-israel
   - tel-aviv
   - lebanon
   - jerusalem
-  - land-of-israel
   stories:
   - druze-revolt
 sports:
