@@ -3,16 +3,16 @@ world-politics:
   entities:
   - germany
   - united-states
-  - benito-mussolini
   - france
+  - benito-mussolini
   - italy
   - berlin
   - lebanon
   - london
   - adolf-hitler
   - land-of-israel
+  - none
   - iraq
-  - jerusalem
   stories:
   - fascist-italy
   - druze-revolt
@@ -59,8 +59,8 @@ culture-arts:
   - tel-aviv
   - london
   - germany
-  - land-of-israel
   - italy
+  - land-of-israel
   - united-states
   stories:
   - fascist-italy
@@ -97,8 +97,8 @@ religion:
 economy:
   entities:
   - united-states
-  - france
   - germany
+  - france
   - tel-aviv
   - land-of-israel
   - london
@@ -192,11 +192,11 @@ transportation:
   - haifa
   - land-of-israel
   - united-states
+  - france
   - london
   - lebanon
   - berlin
   - iraq
-  - france
   stories:
   - druze-revolt
 monarchy:
@@ -221,11 +221,11 @@ science-tech:
   - united-states
   - germany
   - london
+  - france
   - berlin
   - none
   - italy
   - lebanon
-  - france
   stories: []
 tel-aviv:
   entities:
