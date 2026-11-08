@@ -7,7 +7,7 @@ united-states:
 germany:
   name: גרמניה
   type: place
-  count: 29
+  count: 31
   page: true
 jerusalem:
   name: ירושלים
@@ -17,7 +17,7 @@ jerusalem:
 tel-aviv:
   name: תל אביב
   type: place
-  count: 24
+  count: 25
   page: true
 land-of-israel:
   name: ארץ ישראל
@@ -57,12 +57,17 @@ haifa:
 lebanon:
   name: לבנון
   type: place
-  count: 5
+  count: 6
   page: true
 budapest:
   name: בודפשט
   type: place
   count: 4
+  page: true
+adolf-hitler:
+  name: אדולף היטלר
+  type: person
+  count: 3
   page: true
 lithuania:
   name: ליטא
@@ -74,11 +79,6 @@ iraq:
   type: place
   count: 3
   page: true
-adolf-hitler:
-  name: אדולף היטלר
-  type: person
-  count: 2
-  page: false
 david:
   name: דוד
   type: person

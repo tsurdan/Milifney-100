@@ -12,7 +12,7 @@ world-politics:
   - berlin
   - iraq
   - jerusalem
-  - budapest
+  - adolf-hitler
   stories:
   - fascist-italy
   - druze-revolt
@@ -72,6 +72,7 @@ jewish-diaspora:
   - land-of-israel
   - budapest
   - lithuania
+  - adolf-hitler
   stories:
   - zionist-congress-14
 religion:
@@ -106,6 +107,7 @@ antisemitism:
   entities:
   - germany
   - berlin
+  - adolf-hitler
   - united-states
   - budapest
   - france
@@ -196,6 +198,7 @@ science-tech:
   - germany
   - berlin
   - london
+  - lebanon
   - france
   stories: []
 tel-aviv:
@@ -216,6 +219,7 @@ disasters:
   entities:
   - united-states
   - france
+  - tel-aviv
   - london
   - budapest
   stories: []
@@ -223,6 +227,7 @@ revolts:
   entities:
   - united-states
   - lebanon
+  - adolf-hitler
   - france
   stories:
   - druze-revolt
