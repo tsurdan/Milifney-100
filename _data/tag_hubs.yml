@@ -64,6 +64,7 @@ culture-arts:
   - land-of-israel
   - germany
   - united-states
+  - vienna
   - france
   stories:
   - fascist-italy
@@ -77,12 +78,12 @@ jewish-diaspora:
   - land-of-israel
   - budapest
   - london
+  - vienna
   - lithuania
   - adolf-hitler
   - benito-mussolini
   - italy
   - none
-  - tel-aviv
   stories:
   - zionist-congress-14
 religion:
@@ -123,6 +124,7 @@ antisemitism:
   - adolf-hitler
   - berlin
   - budapest
+  - vienna
   - benito-mussolini
   - united-states
   - italy
