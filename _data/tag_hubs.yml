@@ -10,8 +10,8 @@ world-politics:
   - berlin
   - london
   - land-of-israel
-  - iraq
   - adolf-hitler
+  - iraq
   - none
   stories:
   - fascist-italy
@@ -56,13 +56,13 @@ crime-justice:
 culture-arts:
   entities:
   - tel-aviv
-  - jerusalem
   - berlin
+  - jerusalem
   - benito-mussolini
-  - italy
-  - germany
   - london
+  - italy
   - land-of-israel
+  - germany
   - united-states
   - france
   stories:
@@ -91,10 +91,10 @@ religion:
   - land-of-israel
   - jerusalem
   - berlin
+  - london
   - united-states
   - france
   - israel-meir-hakohen
-  - london
   - haifa
   - lithuania
   - none
@@ -184,6 +184,7 @@ curiosities:
   - london
   - italy
   - germany
+  - adolf-hitler
   - tel-aviv
   - benito-mussolini
   stories: []
@@ -217,8 +218,8 @@ monarchy:
   - benito-mussolini
   - italy
   - london
-  - germany
   - france
+  - germany
   - iraq
   - berlin
   - lebanon
@@ -237,8 +238,9 @@ science-tech:
   - germany
   - france
   - london
-  - italy
   - berlin
+  - italy
+  - land-of-israel
   - tel-aviv
   - none
   - lebanon
