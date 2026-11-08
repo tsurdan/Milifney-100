@@ -27,7 +27,7 @@ land-of-israel:
 france:
   name: צרפת
   type: place
-  count: 35
+  count: 36
   page: true
 london:
   name: לונדון
