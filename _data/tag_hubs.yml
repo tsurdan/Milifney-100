@@ -105,12 +105,12 @@ economy:
   - tel-aviv
   - land-of-israel
   - london
+  - haifa
   - italy
   - berlin
   - jerusalem
   - lebanon
   - iraq
-  - haifa
   stories:
   - fascist-italy
 antisemitism:
@@ -193,8 +193,8 @@ jerusalem:
 transportation:
   entities:
   - tel-aviv
-  - jerusalem
   - haifa
+  - jerusalem
   - united-states
   - land-of-israel
   - france
@@ -214,6 +214,7 @@ monarchy:
   - berlin
   - france
   - lebanon
+  - none
   - united-states
   - haifa
   - land-of-israel
@@ -255,8 +256,8 @@ disasters:
   entities:
   - united-states
   - france
-  - tel-aviv
   - germany
+  - tel-aviv
   - land-of-israel
   - berlin
   - italy
