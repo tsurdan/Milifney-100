@@ -44,18 +44,18 @@ crime-justice:
   - land-of-israel
   - france
   - london
+  - tel-aviv
   - berlin
   - none
   - lebanon
   - adolf-hitler
-  - tel-aviv
   stories:
   - fascist-italy
 culture-arts:
   entities:
   - tel-aviv
-  - jerusalem
   - berlin
+  - jerusalem
   - benito-mussolini
   - italy
   - london
@@ -87,9 +87,9 @@ religion:
   - tel-aviv
   - jerusalem
   - land-of-israel
+  - berlin
   - united-states
   - france
-  - berlin
   - london
   - lithuania
   - none
@@ -148,8 +148,8 @@ military:
   - united-states
   - france
   - germany
-  - italy
   - lebanon
+  - italy
   - benito-mussolini
   - land-of-israel
   - jerusalem
@@ -224,12 +224,12 @@ science-tech:
   entities:
   - united-states
   - germany
-  - london
   - france
+  - london
+  - italy
   - berlin
   - tel-aviv
   - none
-  - italy
   - lebanon
   stories: []
 tel-aviv:
@@ -240,8 +240,8 @@ tel-aviv:
   stories: []
 education:
   entities:
-  - tel-aviv
   - united-states
+  - tel-aviv
   - land-of-israel
   - france
   - germany
@@ -253,6 +253,8 @@ disasters:
   entities:
   - united-states
   - france
+  - germany
+  - italy
   - haifa
   - tel-aviv
   - london
@@ -260,8 +262,8 @@ disasters:
   stories: []
 revolts:
   entities:
-  - france
   - lebanon
+  - france
   - united-states
   - adolf-hitler
   - haifa
@@ -297,12 +299,12 @@ press:
 women-society:
   entities:
   - london
+  - united-states
   - lithuania
   - tel-aviv
   - france
   - adolf-hitler
   - haifa
-  - united-states
   - benito-mussolini
   - berlin
   - germany
