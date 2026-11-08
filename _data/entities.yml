@@ -2,37 +2,37 @@
 jerusalem:
   name: ירושלים
   type: place
-  count: 19
+  count: 20
+  page: true
+germany:
+  name: גרמניה
+  type: place
+  count: 15
+  page: true
+land-of-israel:
+  name: ארץ ישראל
+  type: place
+  count: 14
   page: true
 united-states:
   name: ארצות הברית
   type: place
   count: 14
   page: true
-germany:
-  name: גרמניה
+tel-aviv:
+  name: תל אביב
   type: place
-  count: 14
+  count: 12
   page: true
-land-of-israel:
-  name: ארץ ישראל
+berlin:
+  name: ברלין
   type: place
-  count: 13
+  count: 11
   page: true
 london:
   name: לונדון
   type: place
   count: 11
-  page: true
-berlin:
-  name: ברלין
-  type: place
-  count: 10
-  page: true
-tel-aviv:
-  name: תל אביב
-  type: place
-  count: 10
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
@@ -42,7 +42,7 @@ benito-mussolini:
 france:
   name: צרפת
   type: place
-  count: 8
+  count: 9
   page: true
 italy:
   name: איטליה
@@ -59,6 +59,11 @@ iraq:
   type: place
   count: 3
   page: true
+adolf-hitler:
+  name: אדולף היטלר
+  type: person
+  count: 2
+  page: false
 david-ben-gurion:
   name: דוד בן-גוריון
   type: person
@@ -93,11 +98,6 @@ faisal-i:
   name: פייסל הראשון
   type: person
   count: 2
-  page: false
-adolf-hitler:
-  name: אדולף היטלר
-  type: person
-  count: 1
   page: false
 budapest:
   name: בודפשט

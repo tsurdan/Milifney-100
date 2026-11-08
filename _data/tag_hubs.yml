@@ -1,8 +1,8 @@
 # Generated: top entities and stories per topic.
 world-politics:
   entities:
-  - benito-mussolini
   - germany
+  - benito-mussolini
   - united-states
   - france
   - italy
@@ -77,18 +77,18 @@ religion:
 economy:
   entities:
   - united-states
+  - tel-aviv
   - london
   - germany
-  - tel-aviv
   - land-of-israel
-  - jerusalem
   - france
+  - jerusalem
   - iraq
   stories: []
 antisemitism:
   entities:
-  - berlin
   - germany
+  - berlin
   - united-states
   stories:
   - zionist-congress-14
@@ -117,8 +117,8 @@ military:
 jewish-arab-relations:
   entities:
   - jerusalem
-  - london
   - land-of-israel
+  - london
   - lebanon
   - iraq
   stories:
@@ -141,8 +141,8 @@ jerusalem:
 transportation:
   entities:
   - jerusalem
-  - land-of-israel
   - tel-aviv
+  - land-of-israel
   - iraq
   - lebanon
   - london
@@ -174,9 +174,9 @@ tel-aviv:
 education:
   entities:
   - united-states
+  - tel-aviv
   - land-of-israel
   - jerusalem
-  - tel-aviv
   stories: []
 disasters:
   entities:
