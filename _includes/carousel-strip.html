@@ -1,0 +1,29 @@
+{% comment %}
+  One visible Instagram-card carousel strip. Multiple strips can appear on a
+  page (e.g. two different slices of the same set), all sharing the single
+  #carousel-modal full-screen gallery defined once elsewhere.
+  Params:
+    posts   - required, an array of posts (already filtered to those with a
+              generated card image), sliced to <= 12 by the caller
+    heading - required, the section's visible title
+{% endcomment %}
+{% if include.posts.size > 0 %}
+<section class="carousel-section">
+  <h2 class="section-title carousel-section-title">{{ include.heading }}</h2>
+  <section class="card-carousel">
+    <button type="button" class="carousel-arrow carousel-arrow-prev" aria-label="הקודם">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="carousel-scroll">
+      {% for p in include.posts %}
+      <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title | escape }}" data-tweet-id="{{ p.tweet_id }}">
+        <img src="{{ "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
+      </a>
+      {% endfor %}
+    </div>
+    <button type="button" class="carousel-arrow carousel-arrow-next" aria-label="הבא">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </section>
+</section>
+{% endif %}

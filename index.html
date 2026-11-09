@@ -81,13 +81,32 @@ layout: default
 {% endif %}
 </section>
 
-<!-- ============ BY GENRE — part 1 (first half), compact blocks side by side ============ -->
-{% assign flagship_tags = "world-politics,yishuv,culture-arts,jewish-diaspora,religion,antisemitism,british-mandate,jewish-arab-relations,curiosities,science-tech,women-society" | split: "," %}
-{% assign tags_part1 = flagship_tags | slice: 0, 6 %}
-{% assign tags_part2 = flagship_tags | slice: 6, 5 %}
+<!-- Collect Instagram-card-eligible posts once; two strips below show
+     different slices of this same list, and the single shared modal further
+     down shows the complete list regardless of which strip was clicked. -->
+{% assign candidate_posts = posts | where_exp: "item", "item.tweet_id" %}
+{% assign carousel_posts = "" | split: "" %}
+{% for p in candidate_posts %}
+  {% assign card_path = "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" %}
+  {% assign match = site.static_files | where: "path", card_path %}
+  {% if match.size > 0 %}
+    {% assign carousel_posts = carousel_posts | push: p %}
+  {% endif %}
+{% endfor %}
+{% assign carousel_a = carousel_posts | slice: 0, 12 %}
+{% assign carousel_b = carousel_posts | slice: 12, 12 %}
+
+<!-- ============ CARD CAROUSEL — first strip, right under Latest ============ -->
+{% include carousel-strip.html posts=carousel_a heading="מהרשתות החברתיות" %}
+
+<!-- ============ BY GENRE — part 1a (first third), compact blocks side by side ============ -->
+{% assign flagship_tags = "world-politics,yishuv,curiosities,science-tech,culture-arts,jewish-diaspora,religion,antisemitism,british-mandate,jewish-arab-relations" | split: "," %}
+{% assign tags_part1a = flagship_tags | slice: 0, 3 %}
+{% assign tags_part1b = flagship_tags | slice: 3, 3 %}
+{% assign tags_part2 = flagship_tags | slice: 6, 4 %}
 {% assign block_count = 0 %}
-{% assign part1_html = "" %}
-{% for tag_slug in tags_part1 %}
+{% assign part1a_html = "" %}
+{% for tag_slug in tags_part1a %}
   {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
   {% assign tag_picks = "" | split: "" %}
   {% for p in tag_candidates %}
@@ -102,58 +121,55 @@ layout: default
   {% if tag_picks.size > 0 %}
     {% assign variant = block_count | modulo: 2 %}
     {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
-    {% assign part1_html = part1_html | append: section_html %}
+    {% assign part1a_html = part1a_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}
   {% endif %}
 {% endfor %}
-{% if part1_html != "" %}
+{% if part1a_html != "" %}
 <section class="topics-grid-section">
-  {{ part1_html }}
+  {{ part1a_html }}
 </section>
 {% endif %}
 
-<!-- ============ CARD CAROUSEL — breaks up the genre grid, separate section, click to open full-screen viewer ============ -->
-{% assign candidate_posts = posts | where_exp: "item", "item.tweet_id" %}
-{% if candidate_posts.size > 0 %}
-<section class="carousel-section">
-  <h2 class="section-title carousel-section-title">מהרשתות החברתיות</h2>
-  <section class="card-carousel" id="card-carousel">
-    <button type="button" class="carousel-arrow carousel-arrow-prev" aria-label="הקודם">
-      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="carousel-scroll">
-      {% assign shown = 0 %}
-      {% for p in candidate_posts %}
-        {% if shown < 12 %}
-        {% assign card_path = "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" %}
-        {% assign match = site.static_files | where: "path", card_path %}
-        {% if match.size > 0 %}
-        {% assign shown = shown | plus: 1 %}
-        <a href="{{ p.url | relative_url }}" class="carousel-item" aria-label="{{ p.title | escape }}" data-tweet-id="{{ p.tweet_id }}">
-          <img src="{{ card_path | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
-        </a>
-        {% endif %}
-        {% endif %}
-      {% endfor %}
-    </div>
-    <button type="button" class="carousel-arrow carousel-arrow-next" aria-label="הבא">
-      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </section>
-</section>
+<!-- ============ CARD CAROUSEL — second strip, breaks up the genre grid ============ -->
+{% include carousel-strip.html posts=carousel_b heading="עוד מהרשתות החברתיות" %}
 
-<!-- Full-screen viewer: one card at a time, vertical scroll between them -->
+<!-- ============ BY GENRE — part 1b (second third) ============ -->
+{% assign part1b_html = "" %}
+{% for tag_slug in tags_part1b %}
+  {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
+  {% assign tag_picks = "" | split: "" %}
+  {% for p in tag_candidates %}
+    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% unless used_urls contains p.url %}
+      {% if p.image %}
+        {% assign tag_picks = tag_picks | push: p %}
+        {% assign used_urls = used_urls | push: p.url %}
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+  {% if tag_picks.size > 0 %}
+    {% assign variant = block_count | modulo: 2 %}
+    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
+    {% assign part1b_html = part1b_html | append: section_html %}
+    {% assign block_count = block_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+{% if part1b_html != "" %}
+<section class="topics-grid-section">
+  {{ part1b_html }}
+</section>
+{% endif %}
+
+<!-- Full-screen viewer shared by both strips above: one card at a time,
+     vertical scroll between them, covering the complete carousel_posts list -->
 <div class="carousel-modal" id="carousel-modal" hidden>
   <button type="button" class="carousel-modal-close" id="carousel-modal-close" aria-label="סגור">✕</button>
   <div class="carousel-modal-scroll">
-    {% for p in candidate_posts %}
-    {% assign card_path = "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" %}
-    {% assign match = site.static_files | where: "path", card_path %}
-    {% if match.size > 0 %}
+    {% for p in carousel_posts %}
     <a href="{{ p.url | relative_url }}" class="carousel-modal-slide" aria-label="{{ p.title | escape }}" data-tweet-id="{{ p.tweet_id }}">
-      <img src="{{ card_path | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
+      <img src="{{ "/assets/images/instagram-cards/" | append: p.tweet_id | append: ".jpg" | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
     </a>
-    {% endif %}
     {% endfor %}
   </div>
   <div class="carousel-modal-hint">
@@ -161,7 +177,6 @@ layout: default
     <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
 </div>
-{% endif %}
 
 <!-- ============ "היום לפני X שנים" — standalone, lower on the page, not up top ============ -->
 {% assign latest_date = posts[0].date %}
@@ -228,7 +243,7 @@ layout: default
 <section class="split-section">
   {% if headline_picks.size > 0 %}
   <div class="headlines-col">
-    <h2 class="section-title">כותרות בקצרה</h2>
+    <h2 class="section-title">ידיעות קצרות</h2>
     <ul class="headline-rail">
       {% for p in headline_picks %}
       <li>
@@ -245,8 +260,8 @@ layout: default
   {% if popular_picks.size > 0 %}
   <div class="most-read-col">
     <div class="section-head">
-      <h2 class="section-title">הנקראים ביותר</h2>
-      <a href="{{ '/popular/' | relative_url }}" class="section-more">לכל הנקראים ←</a>
+      <h2 class="section-title">פופולרי</h2>
+      <a href="{{ '/popular/' | relative_url }}" class="section-more">לרשימה המלאה ←</a>
     </div>
     <div class="popular-list">
       {% for item in popular_picks %}
@@ -266,12 +281,33 @@ layout: default
   {% endif %}
 </section>
 {% endif %}
-<!-- ============ LOAD MORE — bottom of the page. Excludes every post already
-     shown anywhere above (used_urls) and only loads posts that have an image.
-     The grid comes before the button so newly loaded cards appear above it,
-     keeping the button the true last element after every click. -->
+<!-- ============ LOAD MORE — bottom of the page. One batch is already
+     rendered server-side so the section isn't empty before any click;
+     "טען עוד" continues from there (used_urls already covers these). -->
+{% assign extra_picks = "" | split: "" %}
+{% for p in posts %}
+  {% if extra_picks.size >= 12 %}{% break %}{% endif %}
+  {% unless used_urls contains p.url %}
+    {% if p.image %}
+      {% assign extra_picks = extra_picks | push: p %}
+      {% assign used_urls = used_urls | push: p.url %}
+    {% endif %}
+  {% endunless %}
+{% endfor %}
 <div class="load-more-wrap">
-  <div id="load-more-grid" class="row-3col load-more-grid"></div>
+  <div id="load-more-grid" class="row-3col load-more-grid">
+    {% for p in extra_picks %}
+    <article class="card-sm">
+      <a href="{{ p.url | relative_url }}" class="card-link">
+        <div class="card-sm-img"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy"></div>
+        <div class="card-sm-body">
+          <time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%d.%m.%Y" }}</time>
+          <h3>{{ p.title }}</h3>
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
   <button type="button" id="load-more-btn" class="load-more-btn">טען עוד</button>
   <script type="application/json" id="used-posts-data">{{ used_urls | jsonify }}</script>
 </div>
