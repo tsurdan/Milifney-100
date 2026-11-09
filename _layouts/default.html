@@ -562,14 +562,21 @@
       maybeAutoPrompt();
     })();
 
-    // Load more (homepage "latest news" section) — reuses the existing search.json feed
+    // Load more (bottom of homepage) — pulls from the existing search.json
+    // feed, excluding every post already shown anywhere on the page and
+    // only ever loading posts that have an image.
     (function() {
       var btn = document.getElementById('load-more-btn');
       var grid = document.getElementById('load-more-grid');
       if (!btn || !grid) return;
       var BATCH = 12;
-      var offset = parseInt(btn.dataset.offset, 10) || 0;
-      var allPosts = null;
+      var offset = 0;
+      var usedData = document.getElementById('used-posts-data');
+      var usedUrls = {};
+      try {
+        JSON.parse(usedData.textContent).forEach(function(u) { usedUrls[u] = true; });
+      } catch (err) {}
+      var filteredPosts = null;
 
       function renderBatch(posts) {
         var slice = posts.slice(offset, offset + BATCH);
@@ -578,7 +585,7 @@
           article.className = 'card-sm';
           article.innerHTML =
             '<a href="' + post.url + '" class="card-link">' +
-              (post.image ? '<div class="card-sm-img"><img src="' + post.image + '" alt="" loading="lazy"></div>' : '') +
+              '<div class="card-sm-img"><img src="' + post.image + '" alt="" loading="lazy"></div>' +
               '<div class="card-sm-body">' +
                 '<time datetime="' + post.date_iso + '">' + post.date + '</time>' +
                 '<h3>' + post.title + '</h3>' +
@@ -592,16 +599,16 @@
 
       btn.addEventListener('click', function() {
         btn.disabled = true;
-        if (allPosts) {
-          renderBatch(allPosts);
+        if (filteredPosts) {
+          renderBatch(filteredPosts);
           btn.disabled = false;
           return;
         }
         fetch('{{ "/search.json" | relative_url }}')
           .then(function(r) { return r.json(); })
           .then(function(posts) {
-            allPosts = posts;
-            renderBatch(posts);
+            filteredPosts = posts.filter(function(p) { return p.image && !usedUrls[p.url]; });
+            renderBatch(filteredPosts);
             btn.disabled = false;
           });
       });

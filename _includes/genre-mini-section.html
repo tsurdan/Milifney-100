@@ -19,7 +19,7 @@
 {% assign rest = tag_posts | slice: 1, 2 %}
 <div class="mini-section{% if include.variant == 1 %} mini-section--side{% endif %}">
   <div class="mini-section-head">
-    <h3><a href="{{ tag_url }}">{{ tag_info.name }}</a></h3>
+    <h3><a href="{{ tag_url }}" class="label">{{ tag_info.name }}</a></h3>
     <a href="{{ tag_url }}" class="mini-section-arrow" aria-label="לכל הידיעות ב{{ tag_info.name }}">›</a>
   </div>
 

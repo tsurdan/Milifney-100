@@ -1220,7 +1220,7 @@ time {
 .load-more-btn:hover { opacity: 0.9; }
 .load-more-btn[hidden] { display: none; }
 .load-more-grid:empty { display: none; margin: 0; }
-.load-more-grid { margin-top: 1.5rem; text-align: start; }
+.load-more-grid { margin-bottom: 1.5rem; text-align: start; }
 
 /* ---- "היום לפני X שנים": a standalone horizontal shelf further down the
    page (not the narrow sticky sidebar used on individual post pages) ---- */
@@ -1235,11 +1235,10 @@ time {
 }
 .mini-section-head {
   display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border); padding-bottom: 0.6rem; margin-bottom: 1rem;
 }
-.mini-section-head h3 { font-size: 1.05rem; font-weight: 800; }
-.mini-section-head h3 a { color: inherit; text-decoration: none; }
-.mini-section-head h3 a:hover { color: var(--accent); }
+.mini-section-head .label { margin-bottom: 0; }
+.mini-section-head .label:hover { text-decoration: underline; }
 .mini-section-arrow {
   color: var(--accent); font-size: 1.3rem; font-weight: 700; line-height: 1;
   text-decoration: none; flex-shrink: 0;

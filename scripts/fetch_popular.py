@@ -8,6 +8,9 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from post_io import POSTS_DIR, read_post  # noqa: E402
+
 GOATCOUNTER_URL = "https://milifney100.goatcounter.com"
 TOKEN = os.environ.get("GOATCOUNTER_TOKEN", "")
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -76,38 +79,29 @@ def main():
     posts.sort(key=lambda p: p["count"], reverse=True)
     top = posts[:TOP_N]
 
-    # Try to enrich with post metadata from _posts
-    posts_dir = REPO_ROOT / "_posts"
-    if posts_dir.exists():
+    # Try to enrich with post metadata from _posts — parsed via the shared
+    # YAML-based post_io reader, not naive string slicing (which used to
+    # leave escaped quotes like \" in titles taken from quoted YAML scalars).
+    if POSTS_DIR.exists():
         for item in top:
             # Extract post ID from path: /Milifney-100/YYYY/MM/DD/ID/
             parts = item["path"].rstrip("/").split("/")
             if len(parts) >= 5:
                 post_id = parts[-1]
                 # Find matching post file
-                matches = list(posts_dir.glob(f"*-{post_id}.md"))
+                matches = list(POSTS_DIR.glob(f"*-{post_id}.md"))
                 if matches:
-                    content = matches[0].read_text(encoding="utf-8")
-                    # Parse front matter
-                    if content.startswith("---"):
-                        fm_end = content.index("---", 3)
-                        fm = content[3:fm_end]
-                        for line in fm.split("\n"):
-                            if line.startswith("title:"):
-                                title = line[6:].strip().strip('"').strip("'")
-                                if title:
-                                    item["title"] = title
-                            elif line.startswith("image:"):
-                                img = line[6:].strip().strip('"').strip("'")
-                                if img:
-                                    item["image"] = img
-                            elif line.startswith("date:"):
-                                date_str = line[5:].strip().strip('"').strip("'")
-                                item["date"] = date_str[:10]
-                                # Fix path to use correct date from front matter
-                                d = date_str[:10].split("-")
-                                if len(d) == 3:
-                                    item["path"] = f"/{d[0]}/{d[1]}/{d[2]}/{post_id}/"
+                    post = read_post(matches[0])
+                    if post:
+                        if post.title:
+                            item["title"] = post.title
+                        image = post.meta.get("image")
+                        if image:
+                            item["image"] = image
+                        if post.date_str:
+                            item["date"] = post.date_str
+                            y, m, d = post.date_str.split("-")
+                            item["path"] = f"/{y}/{m}/{d}/{post_id}/"
 
     DATA_DIR.mkdir(exist_ok=True)
     OUTPUT.write_text(json.dumps(top, ensure_ascii=False, indent=2), encoding="utf-8")

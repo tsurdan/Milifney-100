@@ -4,12 +4,28 @@ layout: default
 <h1 class="visually-hidden">חדשות מלפני מאה: ידיעות אמיתיות מהעיתונות העברית של לפני מאה שנה, כאילו קרו היום</h1>
 {% assign posts = site.posts | sort: "date" | reverse %}
 {% assign total = posts.size %}
-{% assign idx = 0 %}
+{% comment %}
+  used_urls tracks every post shown anywhere on the page so nothing is
+  repeated across Latest / genre blocks / headlines / most read / load more.
+{% endcomment %}
+{% assign used_urls = "" | split: "" %}
 
 {% if total > 0 %}
 
+<!-- Pick the first 4 image-having posts for Hero + Latest (text-only posts
+     are reserved for the dedicated headlines strip further down). -->
+{% assign latest_picks = "" | split: "" %}
+{% for p in posts %}
+  {% if latest_picks.size >= 4 %}{% break %}{% endif %}
+  {% if p.image %}
+    {% assign latest_picks = latest_picks | push: p %}
+    {% assign used_urls = used_urls | push: p.url %}
+  {% endif %}
+{% endfor %}
+
 <!-- ============ HERO — full width, big image ============ -->
-{% assign p = posts[0] %}
+{% assign p = latest_picks[0] %}
+{% if p %}
 <section class="hero">
   <a href="{{ p.url | relative_url }}" class="hero-link">
     {% if p.image %}<div class="hero-image"><img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}"{% if p.image_w %} width="{{ p.image_w }}" height="{{ p.image_h }}"{% endif %} fetchpriority="high" decoding="async"></div>{% endif %}
@@ -22,13 +38,13 @@ layout: default
     </div>
   </a>
 </section>
-{% assign idx = 1 %}
+{% endif %}
 
 <section class="latest-section">
 <h2 class="section-title">חדשות אחרונות</h2>
 
 <!-- ============ 2-COL row ============ -->
-{% assign slice2 = posts | slice: idx, 2 %}
+{% assign slice2 = latest_picks | slice: 1, 2 %}
 {% if slice2.size > 0 %}
 <section class="row-2col">
   {% for p in slice2 %}
@@ -45,12 +61,11 @@ layout: default
   </article>
   {% endfor %}
 </section>
-{% assign idx = 3 %}
 {% endif %}
 
 <!-- ============ DARK BANNER — full-bleed dark section ============ -->
-{% if total > idx %}
-{% assign p = posts[idx] %}
+{% assign p = latest_picks[3] %}
+{% if p %}
 <section class="banner-dark">
   <a href="{{ p.url | relative_url }}" class="banner-dark-link">
     {% if p.image %}<img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" class="banner-dark-bg" loading="lazy">{% endif %}
@@ -63,7 +78,6 @@ layout: default
     </div>
   </a>
 </section>
-{% assign idx = idx | plus: 1 %}
 {% endif %}
 </section>
 
@@ -74,10 +88,20 @@ layout: default
 {% assign block_count = 0 %}
 {% assign part1_html = "" %}
 {% for tag_slug in tags_part1 %}
-  {% assign tag_posts = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
-  {% if tag_posts.size > 0 %}
+  {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
+  {% assign tag_picks = "" | split: "" %}
+  {% for p in tag_candidates %}
+    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% unless used_urls contains p.url %}
+      {% if p.image %}
+        {% assign tag_picks = tag_picks | push: p %}
+        {% assign used_urls = used_urls | push: p.url %}
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+  {% if tag_picks.size > 0 %}
     {% assign variant = block_count | modulo: 2 %}
-    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_posts variant=variant %}{% endcapture %}
+    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
     {% assign part1_html = part1_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}
   {% endif %}
@@ -152,10 +176,20 @@ layout: default
 <!-- ============ BY GENRE — part 2 (second half) ============ -->
 {% assign part2_html = "" %}
 {% for tag_slug in tags_part2 %}
-  {% assign tag_posts = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
-  {% if tag_posts.size > 0 %}
+  {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
+  {% assign tag_picks = "" | split: "" %}
+  {% for p in tag_candidates %}
+    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% unless used_urls contains p.url %}
+      {% if p.image %}
+        {% assign tag_picks = tag_picks | push: p %}
+        {% assign used_urls = used_urls | push: p.url %}
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+  {% if tag_picks.size > 0 %}
     {% assign variant = block_count | modulo: 2 %}
-    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_posts variant=variant %}{% endcapture %}
+    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
     {% assign part2_html = part2_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}
   {% endif %}
@@ -167,14 +201,36 @@ layout: default
 {% endif %}
 
 <!-- ============ HEADLINES + MOST READ — paired side by side ============ -->
-{% assign headline_posts = posts | slice: idx, 8 %}
-{% if headline_posts.size > 0 or site.data.popular.size > 0 %}
+<!-- Headlines is the one place for text-only posts (no image); everything
+     else on this page is image-led, and nothing here repeats a post already
+     shown above. -->
+{% assign headline_picks = "" | split: "" %}
+{% for p in posts %}
+  {% if headline_picks.size >= 4 %}{% break %}{% endif %}
+  {% unless used_urls contains p.url %}
+    {% unless p.image %}
+      {% assign headline_picks = headline_picks | push: p %}
+      {% assign used_urls = used_urls | push: p.url %}
+    {% endunless %}
+  {% endunless %}
+{% endfor %}
+
+{% assign popular_picks = "" | split: "" %}
+{% for item in site.data.popular %}
+  {% if popular_picks.size >= 4 %}{% break %}{% endif %}
+  {% unless used_urls contains item.path %}
+    {% assign popular_picks = popular_picks | push: item %}
+    {% assign used_urls = used_urls | push: item.path %}
+  {% endunless %}
+{% endfor %}
+
+{% if headline_picks.size > 0 or popular_picks.size > 0 %}
 <section class="split-section">
-  {% if headline_posts.size > 0 %}
+  {% if headline_picks.size > 0 %}
   <div class="headlines-col">
     <h2 class="section-title">כותרות בקצרה</h2>
     <ul class="headline-rail">
-      {% for p in headline_posts %}
+      {% for p in headline_picks %}
       <li>
         <a href="{{ p.url | relative_url }}">
           <h3>{{ p.title }}</h3>
@@ -186,14 +242,14 @@ layout: default
   </div>
   {% endif %}
 
-  {% if site.data.popular.size > 0 %}
+  {% if popular_picks.size > 0 %}
   <div class="most-read-col">
     <div class="section-head">
       <h2 class="section-title">הנקראים ביותר</h2>
       <a href="{{ '/popular/' | relative_url }}" class="section-more">לכל הנקראים ←</a>
     </div>
     <div class="popular-list">
-      {% for item in site.data.popular limit: 4 %}
+      {% for item in popular_picks %}
       <article class="popular-item">
         <span class="popular-rank">{{ forloop.index }}</span>
         <a href="{{ item.path }}" class="popular-link">
@@ -210,11 +266,14 @@ layout: default
   {% endif %}
 </section>
 {% endif %}
-
-<!-- ============ LOAD MORE — bottom of the page ============ -->
+<!-- ============ LOAD MORE — bottom of the page. Excludes every post already
+     shown anywhere above (used_urls) and only loads posts that have an image.
+     The grid comes before the button so newly loaded cards appear above it,
+     keeping the button the true last element after every click. -->
 <div class="load-more-wrap">
-  <button type="button" id="load-more-btn" class="load-more-btn" data-offset="{{ idx }}">טענו עוד חדשות</button>
   <div id="load-more-grid" class="row-3col load-more-grid"></div>
+  <button type="button" id="load-more-btn" class="load-more-btn">טען עוד</button>
+  <script type="application/json" id="used-posts-data">{{ used_urls | jsonify }}</script>
 </div>
 
 {% else %}
