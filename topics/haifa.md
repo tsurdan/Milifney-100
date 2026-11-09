@@ -5,7 +5,7 @@ hub_kind: "entity"
 hub_slug: "haifa"
 title: "חיפה"
 seo_title: "חיפה: כל הידיעות והעדכונים"
-description: "20 ידיעות על חיפה במקום אחד."
+description: "24 ידיעות על חיפה במקום אחד."
 permalink: "/topics/haifa/"
 in_sitemap: true
 ---

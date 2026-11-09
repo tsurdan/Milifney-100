@@ -8,11 +8,11 @@ world-politics:
   - italy
   - berlin
   - lebanon
-  - london
   - adolf-hitler
+  - london
   - land-of-israel
   - iraq
-  - jerusalem
+  - none
   stories:
   - fascist-italy
   - druze-revolt
@@ -26,14 +26,14 @@ yishuv:
   - jerusalem
   - tel-aviv
   - haifa
-  - london
   - israel-meir-hakohen
-  - meir-berlin
+  - london
   - david-ben-gurion
+  - meir-berlin
   - france
   - lebanon
-  - herbert-samuel
   - vienna
+  - united-states
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -46,45 +46,46 @@ crime-justice:
   - germany
   - berlin
   - tel-aviv
-  - land-of-israel
-  - haifa
-  - italy
-  - london
   - none
+  - italy
+  - land-of-israel
+  - vienna
+  - haifa
   stories:
   - fascist-italy
+  - zionist-congress-14
 culture-arts:
   entities:
   - tel-aviv
   - berlin
   - jerusalem
+  - vienna
+  - united-states
   - land-of-israel
   - benito-mussolini
   - london
   - italy
-  - united-states
   - germany
-  - vienna
   - adolf-hitler
   - france
   stories:
   - fascist-italy
-  - turkey-hat-law
   - zionist-congress-14
+  - turkey-hat-law
 jewish-diaspora:
   entities:
   - berlin
   - united-states
   - germany
-  - land-of-israel
   - vienna
+  - land-of-israel
   - budapest
   - lithuania
   - tel-aviv
   - london
+  - france
   - adolf-hitler
   - herbert-samuel
-  - benito-mussolini
   stories:
   - zionist-congress-14
 religion:
@@ -107,14 +108,14 @@ economy:
   entities:
   - united-states
   - germany
-  - france
   - tel-aviv
-  - land-of-israel
+  - france
   - london
+  - land-of-israel
+  - haifa
   - berlin
   - jerusalem
   - iraq
-  - haifa
   - italy
   - meir-berlin
   stories:
@@ -122,17 +123,17 @@ economy:
 antisemitism:
   entities:
   - germany
+  - vienna
   - adolf-hitler
   - berlin
   - united-states
   - budapest
-  - vienna
+  - france
   - benito-mussolini
   - lithuania
   - italy
   - land-of-israel
   - jerusalem
-  - london
   stories:
   - zionist-congress-14
   - fascist-italy
@@ -140,13 +141,13 @@ british-mandate:
   entities:
   - jerusalem
   - land-of-israel
-  - tel-aviv
   - london
+  - tel-aviv
   - herbert-samuel
   - lebanon
   - iraq
-  - france
   - haifa
+  - france
   - germany
   - benito-mussolini
   stories:
@@ -156,12 +157,12 @@ british-mandate:
 military:
   entities:
   - united-states
-  - germany
   - france
+  - germany
   - lebanon
   - italy
-  - benito-mussolini
   - jerusalem
+  - benito-mussolini
   - land-of-israel
   - london
   - berlin
@@ -175,10 +176,11 @@ jewish-arab-relations:
   - jerusalem
   - land-of-israel
   - london
-  - lebanon
   - france
+  - lebanon
   - tel-aviv
   - david-ben-gurion
+  - haifa
   - iraq
   - herbert-samuel
   stories:
@@ -227,16 +229,16 @@ transportation:
 monarchy:
   entities:
   - benito-mussolini
-  - italy
-  - france
-  - germany
   - london
+  - italy
+  - germany
+  - france
   - iraq
+  - none
   - vienna
   - berlin
   - lebanon
   - adolf-hitler
-  - none
   - united-states
   stories:
   - fascist-italy
@@ -251,6 +253,7 @@ science-tech:
   - london
   - berlin
   - italy
+  - herbert-samuel
   - vienna
   - land-of-israel
   - tel-aviv
@@ -260,6 +263,7 @@ science-tech:
 tel-aviv:
   entities:
   - tel-aviv
+  - haifa
   - herbert-samuel
   - vienna
   - berlin
@@ -268,12 +272,13 @@ tel-aviv:
   stories: []
 education:
   entities:
-  - tel-aviv
   - united-states
+  - tel-aviv
   - jerusalem
   - land-of-israel
   - france
   - germany
+  - haifa
   - israel-meir-hakohen
   - david-ben-gurion
   - italy
@@ -288,11 +293,11 @@ disasters:
   - germany
   - jerusalem
   - tel-aviv
+  - none
   - lithuania
   - lebanon
   - land-of-israel
   - berlin
-  - italy
   stories: []
 revolts:
   entities:
@@ -315,18 +320,18 @@ health:
   - berlin
   - italy
   - united-states
+  - none
   - haifa
   - benito-mussolini
   - budapest
-  - france
   stories: []
 press:
   entities:
-  - benito-mussolini
   - italy
+  - jerusalem
+  - benito-mussolini
   - tel-aviv
   - land-of-israel
-  - jerusalem
   - london
   - haifa
   - none
@@ -341,6 +346,7 @@ women-society:
   - tel-aviv
   - united-states
   - lithuania
+  - land-of-israel
   - france
   - adolf-hitler
   - haifa
