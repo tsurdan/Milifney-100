@@ -81,9 +81,8 @@ layout: default
 {% endif %}
 </section>
 
-<!-- Collect Instagram-card-eligible posts once; two strips below show
-     different slices of this same list, and the single shared modal further
-     down shows the complete list regardless of which strip was clicked. -->
+<!-- Collect Instagram-card-eligible posts once for the single carousel strip
+     below, and for the shared full-screen gallery modal. -->
 {% assign candidate_posts = posts | where_exp: "item", "item.tweet_id" %}
 {% assign carousel_posts = "" | split: "" %}
 {% for p in candidate_posts %}
@@ -93,20 +92,16 @@ layout: default
     {% assign carousel_posts = carousel_posts | push: p %}
   {% endif %}
 {% endfor %}
-{% assign carousel_a = carousel_posts | slice: 0, 12 %}
-{% assign carousel_b = carousel_posts | slice: 12, 12 %}
+{% assign carousel_strip_posts = carousel_posts | slice: 0, 12 %}
 
-<!-- ============ CARD CAROUSEL — first strip, right under Latest ============ -->
-{% include carousel-strip.html posts=carousel_a heading="מהרשתות החברתיות" %}
-
-<!-- ============ BY GENRE — part 1a (first third), compact blocks side by side ============ -->
+<!-- ============ BY GENRE — top pair (world-politics, yishuv) ============ -->
 {% assign flagship_tags = "world-politics,yishuv,curiosities,science-tech,culture-arts,jewish-diaspora,religion,antisemitism,british-mandate,jewish-arab-relations" | split: "," %}
-{% assign tags_part1a = flagship_tags | slice: 0, 3 %}
-{% assign tags_part1b = flagship_tags | slice: 3, 3 %}
-{% assign tags_part2 = flagship_tags | slice: 6, 4 %}
+{% assign tags_top = flagship_tags | slice: 0, 2 %}
+{% assign tags_mid = flagship_tags | slice: 2, 4 %}
+{% assign tags_end = flagship_tags | slice: 6, 4 %}
 {% assign block_count = 0 %}
-{% assign part1a_html = "" %}
-{% for tag_slug in tags_part1a %}
+{% assign top_html = "" %}
+{% for tag_slug in tags_top %}
   {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
   {% assign tag_picks = "" | split: "" %}
   {% for p in tag_candidates %}
@@ -121,48 +116,21 @@ layout: default
   {% if tag_picks.size > 0 %}
     {% assign variant = block_count | modulo: 2 %}
     {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
-    {% assign part1a_html = part1a_html | append: section_html %}
+    {% assign top_html = top_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}
   {% endif %}
 {% endfor %}
-{% if part1a_html != "" %}
+{% if top_html != "" %}
 <section class="topics-grid-section">
-  {{ part1a_html }}
+  {{ top_html }}
 </section>
 {% endif %}
 
-<!-- ============ CARD CAROUSEL — second strip, breaks up the genre grid ============ -->
-{% include carousel-strip.html posts=carousel_b heading="עוד מהרשתות החברתיות" %}
+<!-- ============ CARD CAROUSEL — right under the first two topics ============ -->
+{% include carousel-strip.html posts=carousel_strip_posts heading="מהרשתות החברתיות" %}
 
-<!-- ============ BY GENRE — part 1b (second third) ============ -->
-{% assign part1b_html = "" %}
-{% for tag_slug in tags_part1b %}
-  {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
-  {% assign tag_picks = "" | split: "" %}
-  {% for p in tag_candidates %}
-    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
-    {% unless used_urls contains p.url %}
-      {% if p.image %}
-        {% assign tag_picks = tag_picks | push: p %}
-        {% assign used_urls = used_urls | push: p.url %}
-      {% endif %}
-    {% endunless %}
-  {% endfor %}
-  {% if tag_picks.size > 0 %}
-    {% assign variant = block_count | modulo: 2 %}
-    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
-    {% assign part1b_html = part1b_html | append: section_html %}
-    {% assign block_count = block_count | plus: 1 %}
-  {% endif %}
-{% endfor %}
-{% if part1b_html != "" %}
-<section class="topics-grid-section">
-  {{ part1b_html }}
-</section>
-{% endif %}
-
-<!-- Full-screen viewer shared by both strips above: one card at a time,
-     vertical scroll between them, covering the complete carousel_posts list -->
+<!-- Full-screen viewer for the strip above: one card at a time, vertical
+     scroll between them, covering the complete carousel_posts list -->
 <div class="carousel-modal" id="carousel-modal" hidden>
   <button type="button" class="carousel-modal-close" id="carousel-modal-close" aria-label="סגור">✕</button>
   <div class="carousel-modal-scroll">
@@ -178,6 +146,33 @@ layout: default
   </div>
 </div>
 
+<!-- ============ BY GENRE — next four topics ============ -->
+{% assign mid_html = "" %}
+{% for tag_slug in tags_mid %}
+  {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
+  {% assign tag_picks = "" | split: "" %}
+  {% for p in tag_candidates %}
+    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% unless used_urls contains p.url %}
+      {% if p.image %}
+        {% assign tag_picks = tag_picks | push: p %}
+        {% assign used_urls = used_urls | push: p.url %}
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+  {% if tag_picks.size > 0 %}
+    {% assign variant = block_count | modulo: 2 %}
+    {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
+    {% assign mid_html = mid_html | append: section_html %}
+    {% assign block_count = block_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+{% if mid_html != "" %}
+<section class="topics-grid-section">
+  {{ mid_html }}
+</section>
+{% endif %}
+
 <!-- ============ "היום לפני X שנים" — standalone, lower on the page, not up top ============ -->
 {% assign latest_date = posts[0].date %}
 {% capture history_widget %}{% include same-day-widget.html ref_date=latest_date real_date=site.time %}{% endcapture %}
@@ -188,9 +183,9 @@ layout: default
 </section>
 {% endif %}
 
-<!-- ============ BY GENRE — part 2 (second half) ============ -->
+<!-- ============ BY GENRE — last four topics ============ -->
 {% assign part2_html = "" %}
-{% for tag_slug in tags_part2 %}
+{% for tag_slug in tags_end %}
   {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
   {% assign tag_picks = "" | split: "" %}
   {% for p in tag_candidates %}
