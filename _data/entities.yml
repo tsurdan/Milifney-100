@@ -7,7 +7,7 @@ united-states:
 jerusalem:
   name: ירושלים
   type: place
-  count: 78
+  count: 79
   page: true
 germany:
   name: גרמניה
@@ -192,6 +192,11 @@ donoghue:
 dan:
   name: דן
   type: person
+  count: 1
+  page: false
+western-wall-1925:
+  name: הכותל המערבי
+  type: event
   count: 1
   page: false
 chaim-arlororoff:
