@@ -1265,7 +1265,7 @@ time {
 
 /* "side" variant: lead image sits beside its text (genuinely large, not a
    thumbnail) instead of stacked on top */
-.mini-section--side .mini-lead { display: flex; gap: 1.1rem; align-items: center; }
+.mini-section--side .mini-lead { display: flex; gap: 1.1rem; align-items: flex-start; }
 .mini-section--side .mini-lead-img { width: 45%; flex-shrink: 0; aspect-ratio: 4 / 3; margin-bottom: 0; }
 .mini-section--side .mini-lead-body { flex: 1; min-width: 0; }
 
