@@ -102,10 +102,13 @@ layout: default
 {% assign block_count = 0 %}
 {% assign top_html = "" %}
 {% for tag_slug in tags_top %}
+  {% assign variant = block_count | modulo: 2 %}
+  {% assign pick_cap = 3 %}
+  {% if variant == 1 %}{% assign pick_cap = 4 %}{% endif %}
   {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
   {% assign tag_picks = "" | split: "" %}
   {% for p in tag_candidates %}
-    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% if tag_picks.size >= pick_cap %}{% break %}{% endif %}
     {% unless used_urls contains p.url %}
       {% if p.image %}
         {% assign tag_picks = tag_picks | push: p %}
@@ -114,7 +117,6 @@ layout: default
     {% endunless %}
   {% endfor %}
   {% if tag_picks.size > 0 %}
-    {% assign variant = block_count | modulo: 2 %}
     {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
     {% assign top_html = top_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}
@@ -149,10 +151,13 @@ layout: default
 <!-- ============ BY GENRE — next four topics ============ -->
 {% assign mid_html = "" %}
 {% for tag_slug in tags_mid %}
+  {% assign variant = block_count | modulo: 2 %}
+  {% assign pick_cap = 3 %}
+  {% if variant == 1 %}{% assign pick_cap = 4 %}{% endif %}
   {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
   {% assign tag_picks = "" | split: "" %}
   {% for p in tag_candidates %}
-    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% if tag_picks.size >= pick_cap %}{% break %}{% endif %}
     {% unless used_urls contains p.url %}
       {% if p.image %}
         {% assign tag_picks = tag_picks | push: p %}
@@ -161,7 +166,6 @@ layout: default
     {% endunless %}
   {% endfor %}
   {% if tag_picks.size > 0 %}
-    {% assign variant = block_count | modulo: 2 %}
     {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
     {% assign mid_html = mid_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}
@@ -186,10 +190,13 @@ layout: default
 <!-- ============ BY GENRE — last four topics ============ -->
 {% assign part2_html = "" %}
 {% for tag_slug in tags_end %}
+  {% assign variant = block_count | modulo: 2 %}
+  {% assign pick_cap = 3 %}
+  {% if variant == 1 %}{% assign pick_cap = 4 %}{% endif %}
   {% assign tag_candidates = posts | where_exp: "tp", "tp.tags contains tag_slug" %}
   {% assign tag_picks = "" | split: "" %}
   {% for p in tag_candidates %}
-    {% if tag_picks.size >= 3 %}{% break %}{% endif %}
+    {% if tag_picks.size >= pick_cap %}{% break %}{% endif %}
     {% unless used_urls contains p.url %}
       {% if p.image %}
         {% assign tag_picks = tag_picks | push: p %}
@@ -198,7 +205,6 @@ layout: default
     {% endunless %}
   {% endfor %}
   {% if tag_picks.size > 0 %}
-    {% assign variant = block_count | modulo: 2 %}
     {% capture section_html %}{% include genre-mini-section.html tag_slug=tag_slug posts=tag_picks variant=variant %}{% endcapture %}
     {% assign part2_html = part2_html | append: section_html %}
     {% assign block_count = block_count | plus: 1 %}

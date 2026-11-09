@@ -4,19 +4,22 @@
   from that lead's orientation, not from shrinking or stripping it.
   Params:
     tag_slug - required, a slug from _data/tags.yml
-    posts    - required, posts already filtered to this tag (sliced to 3 here)
+    posts    - required, posts already filtered to this tag. The caller
+               decides how many to pass (the "side" variant gets one extra,
+               since its smaller lead image would otherwise leave it visibly
+               shorter than a "top" variant block next to it in the grid).
     variant  - required int 0/1, picks the lead's orientation so adjacent
                blocks in the grid don't look identical:
                  0 = big lead image on top, full block width
                  1 = big lead image on the side, text beside it
-               Both variants list the remaining 2 posts below the lead.
+               Both variants list every post after the lead below it.
 {% endcomment %}
 {% assign tag_info = site.data.tags | where: "slug", include.tag_slug | first %}
-{% assign tag_posts = include.posts | slice: 0, 3 %}
+{% assign tag_posts = include.posts %}
 {% if tag_info and tag_posts.size > 0 %}
 {% assign tag_url = '/tags/' | append: include.tag_slug | append: '/' | relative_url %}
 {% assign lead = tag_posts[0] %}
-{% assign rest = tag_posts | slice: 1, 2 %}
+{% assign rest = tag_posts | slice: 1, 1000 %}
 <div class="mini-section{% if include.variant == 1 %} mini-section--side{% endif %}">
   <div class="mini-section-head">
     <h3><a href="{{ tag_url }}" class="label">{{ tag_info.name }}</a></h3>
