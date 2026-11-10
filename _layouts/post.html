@@ -121,13 +121,11 @@ layout: default
     </header>
 
     {% if page.image %}
-    {% comment %}The newspaper credit is shown in "מקור הידיעה"; the caption keeps only the photo credit, from "בתמונה" on.{% endcomment %}
+    {% comment %}With a photo credit, the caption keeps only that part (from "בתמונה"); the newspaper credit is in "מקור הידיעה". Clipping-only captions stay as they are.{% endcomment %}
     {% assign cap = page.image_alt | remove: ';;' | remove: '::' | strip %}
     {% if cap contains "בתמונה" %}
       {% assign cap_head = cap | split: "בתמונה" | first %}
       {% assign cap = cap | remove_first: cap_head | strip %}
-    {% elsif cap contains "ארכיון העיתונות" %}
-      {% assign cap = "" %}
     {% endif %}
     <figure class="post-image{% if body_text == "" %} post-image-full{% endif %}">
       <img src="{{ page.image | relative_url }}" alt="{% if cap != "" %}{{ cap | escape }}{% else %}{{ page.title | escape }}{% endif %}"{% if page.image_w %} width="{{ page.image_w }}" height="{{ page.image_h }}"{% endif %} fetchpriority="high" decoding="async">
