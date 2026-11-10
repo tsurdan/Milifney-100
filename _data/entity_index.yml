@@ -26,11 +26,11 @@
 - slug: italy
   name: איטליה
   type: place
-  count: 39
+  count: 40
 - slug: benito-mussolini
   name: בניטו מוסוליני
   type: person
-  count: 38
+  count: 39
 - slug: london
   name: לונדון
   type: place
