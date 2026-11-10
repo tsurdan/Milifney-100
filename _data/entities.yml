@@ -79,14 +79,14 @@ none:
   type: place
   count: 8
   page: true
-budapest:
-  name: בודפשט
-  type: place
-  count: 6
-  page: true
 herbert-samuel:
   name: הנציב העליון הרברט סמואל
   type: person
+  count: 7
+  page: true
+budapest:
+  name: בודפשט
+  type: place
   count: 6
   page: true
 israel-meir-hakohen:

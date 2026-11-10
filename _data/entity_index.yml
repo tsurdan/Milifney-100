@@ -63,13 +63,13 @@
   name: ספרד
   type: place
   count: 8
-- slug: budapest
-  name: בודפשט
-  type: place
-  count: 6
 - slug: herbert-samuel
   name: הנציב העליון הרברט סמואל
   type: person
+  count: 7
+- slug: budapest
+  name: בודפשט
+  type: place
   count: 6
 - slug: israel-meir-hakohen
   name: ישראל מאיר הכהן
