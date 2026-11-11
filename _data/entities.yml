@@ -7,7 +7,7 @@ united-states:
 jerusalem:
   name: ירושלים
   type: place
-  count: 79
+  count: 80
   page: true
 germany:
   name: גרמניה
@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 62
+  count: 63
   page: true
 france:
   name: צרפת
@@ -202,6 +202,11 @@ dan:
 western-wall-1925:
   name: הכותל המערבי
   type: event
+  count: 1
+  page: false
+zeev-jabotinsky:
+  name: זאב ז'בוטינסקי
+  type: person
   count: 1
   page: false
 chaim-arlororoff:
