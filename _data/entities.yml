@@ -32,7 +32,7 @@ france:
 italy:
   name: איטליה
   type: place
-  count: 40
+  count: 41
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
