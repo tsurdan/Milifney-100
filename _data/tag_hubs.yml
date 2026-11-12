@@ -4,8 +4,8 @@ world-politics:
   - germany
   - united-states
   - benito-mussolini
-  - france
   - italy
+  - france
   - berlin
   - lebanon
   - adolf-hitler
@@ -44,10 +44,10 @@ crime-justice:
   - france
   - benito-mussolini
   - germany
+  - italy
   - berlin
   - tel-aviv
   - none
-  - italy
   - land-of-israel
   - vienna
   - haifa
@@ -201,8 +201,8 @@ curiosities:
 jerusalem:
   entities:
   - jerusalem
-  - tel-aviv
   - land-of-israel
+  - tel-aviv
   - london
   - meir-berlin
   - haifa

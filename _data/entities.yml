@@ -2,12 +2,12 @@
 united-states:
   name: ארצות הברית
   type: place
-  count: 88
+  count: 89
   page: true
 jerusalem:
   name: ירושלים
   type: place
-  count: 79
+  count: 80
   page: true
 germany:
   name: גרמניה
@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 62
+  count: 63
   page: true
 france:
   name: צרפת
@@ -32,12 +32,12 @@ france:
 italy:
   name: איטליה
   type: place
-  count: 40
+  count: 42
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
   type: person
-  count: 39
+  count: 40
   page: true
 london:
   name: לונדון
@@ -202,6 +202,11 @@ dan:
 western-wall-1925:
   name: הכותל המערבי
   type: event
+  count: 1
+  page: false
+zeev-jabotinsky:
+  name: זאב ז'בוטינסקי
+  type: person
   count: 1
   page: false
 chaim-arlororoff:
