@@ -5,6 +5,10 @@ compatibility_date = "2024-01-01"
 [triggers]
 crons = ["*/10 * * * *"]
 
+[[kv_namespaces]]
+binding = "DOCTORATE_KV"
+id = "36044a7d53de4fb6977a44f7a9612c4a"
+
 [vars]
 CORS_ORIGIN = "https://milifney100.com"
 BREVO_LIST_ID = "3"
@@ -12,4 +16,5 @@ BREVO_LIST_ID = "3"
 # Secrets (set via `wrangler secret put`):
 # BREVO_API_KEY
 # ADMIN_PASSWORD
+# TELEGRAM_BOT_TOKEN, DOCTORATE_CHAT_ID - for the standalone "דוקטורט:" tweets -> Telegram job
 # GITHUB_PAT - fine-grained PAT, scoped to this repo only, "Actions: Read and write" permission

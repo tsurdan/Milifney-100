@@ -13,6 +13,8 @@
  * free-tier/public repos, so this replaces it as the actual clock.
  */
 
+import { runDoctorateJob } from './doctorate.js';
+
 const GITHUB_REPO = 'tsurdan/Milifney-100';
 const GITHUB_WORKFLOW = 'fetch-tweets.yml';
 
@@ -62,6 +64,7 @@ export default {
 
   async scheduled(event, env, ctx) {
     ctx.waitUntil(triggerGithubWorkflow(env));
+    ctx.waitUntil(runDoctorateJob(env).catch(err => console.error('Doctorate job failed:', err)));
   }
 };
 
