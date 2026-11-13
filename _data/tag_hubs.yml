@@ -62,8 +62,8 @@ culture-arts:
   - vienna
   - united-states
   - land-of-israel
-  - benito-mussolini
   - london
+  - benito-mussolini
   - italy
   - germany
   - adolf-hitler
@@ -249,8 +249,8 @@ science-tech:
   entities:
   - united-states
   - germany
-  - france
   - london
+  - france
   - berlin
   - italy
   - herbert-samuel

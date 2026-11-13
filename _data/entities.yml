@@ -42,7 +42,7 @@ benito-mussolini:
 london:
   name: לונדון
   type: place
-  count: 38
+  count: 39
   page: true
 berlin:
   name: ברלין
