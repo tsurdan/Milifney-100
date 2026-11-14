@@ -47,8 +47,8 @@ crime-justice:
   - italy
   - berlin
   - tel-aviv
-  - none
   - land-of-israel
+  - none
   - vienna
   - haifa
   stories:
@@ -139,8 +139,8 @@ antisemitism:
   - fascist-italy
 british-mandate:
   entities:
-  - jerusalem
   - land-of-israel
+  - jerusalem
   - london
   - tel-aviv
   - herbert-samuel

@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 63
+  count: 64
   page: true
 france:
   name: צרפת
