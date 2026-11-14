@@ -252,6 +252,7 @@ def build_related(posts, entities):
 
     weights = {"e": 3.0, "s": 6.0, "t": 0.6}
     ordinals = [date.fromisoformat(p.date_str).toordinal() for p in posts]
+    by_tweet_id = {p.tweet_id: i for i, p in enumerate(posts)}
     related = {}
     for i, post in enumerate(posts):
         scores = defaultdict(float)
@@ -260,9 +261,11 @@ def build_related(posts, entities):
             for j in index[feat]:
                 if j != i:
                     scores[j] += weight
-        if not scores:
+        if not scores and not post.get_list("related_ids"):
             continue
         ranked = sorted(scores, key=lambda j: (-round(scores[j], 3), abs(ordinals[j] - ordinals[i]), -ordinals[j]))
+        pinned = [by_tweet_id[t] for t in post.get_list("related_ids") if t in by_tweet_id and by_tweet_id[t] != i]
+        ranked = pinned + [j for j in ranked if j not in pinned]
         items = []
         for j in ranked[:RELATED_COUNT]:
             other = posts[j]
