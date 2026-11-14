@@ -57,7 +57,7 @@ haifa:
 vienna:
   name: וינה
   type: place
-  count: 21
+  count: 22
   page: true
 lebanon:
   name: לבנון
