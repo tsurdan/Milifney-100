@@ -546,16 +546,23 @@
 
       function maybeAutoPrompt() {
         if (!toast) return;
+        var isNewVisitor;
         try {
           if (localStorage.getItem('nl_subscribed')) return;
           var last = parseInt(localStorage.getItem('nl_prompt_last') || '0', 10);
           var cooldownMs = PROMPT_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
           if (last && (Date.now() - last) < cooldownMs) return;
+          isNewVisitor = !last;
         } catch (err) { return; }
-        markPrompted();
-        if (Math.random() >= PROMPT_CHANCE) return;
+        // Every new visitor gets the invite; returning ones only get it occasionally.
+        if (!isNewVisitor) {
+          markPrompted();
+          if (Math.random() >= PROMPT_CHANCE) return;
+        }
         setTimeout(function() {
-          if (modal.hidden) toast.hidden = false;
+          if (!modal.hidden) return;
+          toast.hidden = false;
+          if (isNewVisitor) markPrompted();
         }, PROMPT_DELAY_MS);
       }
 

@@ -884,6 +884,26 @@ time {
 .nl-toast-submit:hover { opacity: 0.9; }
 .nl-toast #nl-toast-msg { margin-top: 0.5rem; }
 
+@media (max-width: 600px) {
+  .nl-toast {
+    left: 0; right: 0; bottom: 0; max-width: none;
+    border-width: 1px 0 0; border-radius: 14px 14px 0 0;
+    padding: 1.1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.18);
+    animation-name: nl-toast-in-mobile;
+  }
+  .nl-toast-text { font-size: 0.95rem; margin: 0 0 0.8rem; padding-left: 1.6rem; }
+  .nl-toast-close { top: 0.6rem; left: 0.8rem; font-size: 1.2rem; padding: 0.3rem; }
+  .nl-toast-form input[type="email"],
+  .nl-modal-form input[type="email"] { font-size: 16px; padding: 0.7rem 0.8rem; }
+  .nl-toast-submit { font-size: 0.95rem; padding: 0.7rem 1.1rem; }
+  .nl-modal { padding: 1.6rem 1.2rem; }
+}
+@keyframes nl-toast-in-mobile {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ============ TAGS ============ */
 
 .post-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-top: 0.75rem; }
