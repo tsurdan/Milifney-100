@@ -27,7 +27,7 @@ land-of-israel:
 france:
   name: צרפת
   type: place
-  count: 51
+  count: 52
   page: true
 italy:
   name: איטליה
