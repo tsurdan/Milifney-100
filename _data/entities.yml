@@ -164,6 +164,11 @@ arkus:
   type: person
   count: 1
   page: false
+athens:
+  name: אתונה
+  type: place
+  count: 1
+  page: false
 beit-hakerem:
   name: בית הכרם
   type: place
