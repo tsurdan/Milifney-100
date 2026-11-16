@@ -12,7 +12,7 @@ jerusalem:
 germany:
   name: גרמניה
   type: place
-  count: 73
+  count: 74
   page: true
 tel-aviv:
   name: תל אביב
@@ -32,7 +32,7 @@ france:
 italy:
   name: איטליה
   type: place
-  count: 42
+  count: 43
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
@@ -109,6 +109,11 @@ meir-berlin:
   type: person
   count: 3
   page: true
+rome:
+  name: רומא
+  type: place
+  count: 3
+  page: true
 james-rothschild:
   name: ג'יימס רוטשילד
   type: person
@@ -151,11 +156,6 @@ kaunas:
   page: false
 radin:
   name: ראדין
-  type: place
-  count: 2
-  page: false
-rome:
-  name: רומא
   type: place
   count: 2
   page: false

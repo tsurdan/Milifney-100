@@ -4,8 +4,8 @@ world-politics:
   - germany
   - united-states
   - benito-mussolini
-  - france
   - italy
+  - france
   - berlin
   - lebanon
   - adolf-hitler
@@ -114,9 +114,9 @@ economy:
   - land-of-israel
   - haifa
   - berlin
+  - italy
   - jerusalem
   - iraq
-  - italy
   - meir-berlin
   stories:
   - fascist-italy
@@ -224,6 +224,7 @@ transportation:
   - herbert-samuel
   - berlin
   - iraq
+  - germany
   stories:
   - druze-revolt
 monarchy:
