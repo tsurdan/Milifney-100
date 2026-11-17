@@ -231,8 +231,8 @@ monarchy:
   entities:
   - benito-mussolini
   - italy
-  - london
   - germany
+  - london
   - france
   - iraq
   - none
@@ -338,6 +338,7 @@ press:
   - none
   - united-states
   - budapest
+  - germany
   stories:
   - fascist-italy
   - zionist-congress-14
