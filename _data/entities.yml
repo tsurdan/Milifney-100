@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 64
+  count: 65
   page: true
 france:
   name: צרפת
@@ -49,15 +49,15 @@ berlin:
   type: place
   count: 33
   page: true
+vienna:
+  name: וינה
+  type: place
+  count: 24
+  page: true
 haifa:
   name: חיפה
   type: place
   count: 24
-  page: true
-vienna:
-  name: וינה
-  type: place
-  count: 23
   page: true
 lebanon:
   name: לבנון
