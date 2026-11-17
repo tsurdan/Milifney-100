@@ -7,7 +7,7 @@ united-states:
 jerusalem:
   name: ירושלים
   type: place
-  count: 80
+  count: 81
   page: true
 germany:
   name: גרמניה
