@@ -52,7 +52,7 @@ berlin:
 vienna:
   name: וינה
   type: place
-  count: 24
+  count: 25
   page: true
 haifa:
   name: חיפה
