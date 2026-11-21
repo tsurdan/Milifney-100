@@ -124,6 +124,11 @@ david:
   type: person
   count: 2
   page: false
+western-wall-1925:
+  name: הכותל המערבי
+  type: event
+  count: 2
+  page: false
 samaria:
   name: השומרון
   type: place
@@ -202,11 +207,6 @@ donoghue:
 dan:
   name: דן
   type: person
-  count: 1
-  page: false
-western-wall-1925:
-  name: הכותל המערבי
-  type: event
   count: 1
   page: false
 zeev-jabotinsky:
