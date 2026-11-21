@@ -12,9 +12,12 @@ id = "36044a7d53de4fb6977a44f7a9612c4a"
 [vars]
 CORS_ORIGIN = "https://milifney100.com"
 BREVO_LIST_ID = "3"
+# OAuth "Web application" client ID from Google Cloud Console (public value, not a secret).
+GOOGLE_CLIENT_ID = "886632844292-6948r1v5c0r0s5oggu2sr2engbr0375i.apps.googleusercontent.com"
 
 # Secrets (set via `wrangler secret put`):
 # BREVO_API_KEY
-# ADMIN_PASSWORD
+# ADMIN_EMAILS - comma-separated Google accounts allowed into /admin/ (the three admins)
 # TELEGRAM_BOT_TOKEN, DOCTORATE_CHAT_ID - for the standalone "דוקטורט:" tweets -> Telegram job
-# GITHUB_PAT - fine-grained PAT, scoped to this repo only, "Actions: Read and write" permission
+# GITHUB_PAT - fine-grained PAT, scoped to this repo only, with "Actions: Read and write"
+#              (cron + admin workflow) and "Contents: Read and write" (admin panel commits)

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fetch tweets from @Milifney100 via FxTwitter API (free, no key required)."""
 
+import json
 import os
 import re
 import time
@@ -24,6 +25,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 POSTS_DIR = REPO_ROOT / "_posts"
 IMAGES_DIR = REPO_ROOT / "assets" / "images" / "tweets"
 STATE_FILE = REPO_ROOT / "scripts" / ".last_fetch_timestamp"
+# Tweet IDs of posts hard-deleted from the admin panel, so a later fetch doesn't recreate them.
+DELETED_IDS_FILE = REPO_ROOT / "scripts" / ".deleted_tweet_ids"
 
 # Pagination settings — be polite to FxTwitter
 PAGE_DELAY = 4       # seconds between API requests
@@ -308,10 +311,33 @@ def merge_threads(tweets):
     return merged
 
 
-def create_post(item):
-    """Create a Jekyll markdown post from a merged tweet. Returns True if new."""
+def load_deleted_ids():
+    if not DELETED_IDS_FILE.exists():
+        return set()
+    return {line.strip() for line in DELETED_IDS_FILE.read_text(encoding="utf-8").splitlines() if line.strip()}
+
+
+def split_title_body(text):
+    """First line = title, rest = body (the same convention as the tweets)."""
+    lines = text.split("\n", 1)
+    title = lines[0].strip()
+    body = lines[1].strip() if len(lines) > 1 else ""
+    # Lines made only of '>' are thread-continuation markers typed in the tweets
+    body = re.sub(r"^>+[ \t]*$", "", body, flags=re.MULTILINE)
+    body = re.sub(r"\n{3,}", "\n\n", body).strip()
+    return title, body
+
+
+def create_post(item, manual=False):
+    """Create a Jekyll markdown post from a merged tweet. Returns True if new.
+
+    `manual=True` is used for posts written in the admin panel: they go through
+    exactly the same steps, but are flagged so they are never sent to social channels.
+    """
     text = item["merged_text"]
     if not text:
+        return False
+    if item["tweet_id"] in load_deleted_ids():
         return False
 
     created_ts = item["created_timestamp"]
@@ -320,13 +346,7 @@ def create_post(item):
     # The account posts news from exactly 100 years ago
     historical_date = created.replace(year=created.year - 100)
 
-    # First line = title, rest = body
-    lines = text.split("\n", 1)
-    title = lines[0].strip()
-    body = lines[1].strip() if len(lines) > 1 else ""
-    # Lines made only of '>' are thread-continuation markers typed in the tweets
-    body = re.sub(r"^>+[ \t]*$", "", body, flags=re.MULTILINE)
-    body = re.sub(r"\n{3,}", "\n\n", body).strip()
+    title, body = split_title_body(text)
 
     # Avoid duplicate posts
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -348,7 +368,7 @@ def create_post(item):
     # Build front matter
     source_fields = source_updates(image_alt, historical_date.date().isoformat())
     image_alt = source_fields.pop("image_alt", image_alt)  # '#N' article refs are removed from the caption
-    safe_title = title.replace('"', '\\"')
+    safe_title = json.dumps(title, ensure_ascii=False)[1:-1]  # JSON escaping is valid inside a YAML double-quoted string
     safe_alt = image_alt.replace('"', '\\"')
     fm = [
         "---",
@@ -365,6 +385,8 @@ def create_post(item):
             fm.append(f"{key}: {value}")
     for key, value in source_fields.items():
         fm.append(f"{key}: {format_value(value)}")
+    if manual:
+        fm.append("manual: true")
     fm.append("---")
     fm.append("")
 

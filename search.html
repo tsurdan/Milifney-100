@@ -44,7 +44,7 @@ robots: "noindex, follow"
 
   // Secret admin access
   if (query.toLowerCase() === 'admin') {
-    window.location.href = '{{ "/newsletter-admin/" | relative_url }}';
+    window.location.href = '{{ "/admin/" | relative_url }}';
     return;
   }
 

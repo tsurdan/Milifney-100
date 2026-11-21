@@ -1,11 +1,14 @@
 /**
- * Milifney-100 Newsletter Worker
- * Cloudflare Worker that proxies requests to Brevo (Sendinblue) API.
+ * Milifney-100 Worker
+ * Cloudflare Worker: newsletter (Brevo), the admin panel API, and the cron that drives the site.
  * 
- * Endpoints:
+ * Public endpoints:
  *   POST /subscribe       - Add email to newsletter list
  *   POST /unsubscribe     - Remove email from list
- *   POST /send-newsletter - Admin: send newsletter to all subscribers
+ *
+ * Admin endpoints (require a Google ID token of an allowlisted admin, see auth.js):
+ *   POST /send-newsletter - send newsletter to all subscribers
+ *   POST /admin/...       - post create / edit / delete (see admin.js)
  *
  * Also runs a Cron Trigger (see wrangler.toml [triggers]) that reliably
  * dispatches the fetch-tweets.yml GitHub Actions workflow — GitHub's own
@@ -13,6 +16,8 @@
  * free-tier/public repos, so this replaces it as the actual clock.
  */
 
+import { adminRoute } from './admin.js';
+import { requireAdmin } from './auth.js';
 import { runDoctorateJob } from './doctorate.js';
 
 const GITHUB_REPO = 'tsurdan/Milifney-100';
@@ -27,7 +32,7 @@ export default {
     const corsHeaders = {
       'Access-Control-Allow-Origin': corsOrigin,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     };
 
     // Handle CORS preflight
@@ -39,14 +44,23 @@ export default {
       return jsonResponse({ error: 'Method not allowed' }, 405, corsHeaders);
     }
 
-    let body;
     try {
-      body = await request.json();
-    } catch {
-      return jsonResponse({ error: 'Invalid JSON' }, 400, corsHeaders);
-    }
+      // Authenticate before reading the body, so anonymous callers can't make us parse large payloads.
+      const isAdminPath = url.pathname === '/send-newsletter' || url.pathname.startsWith('/admin/');
+      const admin = isAdminPath ? await requireAdmin(request, env) : null;
 
-    try {
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return jsonResponse({ error: 'Invalid JSON' }, 400, corsHeaders);
+      }
+
+      const adminHandler = adminRoute(url.pathname);
+      if (adminHandler) {
+        return jsonResponse(await adminHandler(body, env, admin), 200, corsHeaders);
+      }
+
       switch (url.pathname) {
         case '/subscribe':
           return await handleSubscribe(body, env, corsHeaders);
@@ -58,6 +72,10 @@ export default {
           return jsonResponse({ error: 'Not found' }, 404, corsHeaders);
       }
     } catch (err) {
+      if (err && err.status) {
+        return jsonResponse({ error: err.message }, err.status, corsHeaders);
+      }
+      console.error('Unhandled error:', err);
       return jsonResponse({ error: 'Internal error' }, 500, corsHeaders);
     }
   },
@@ -131,15 +149,10 @@ async function handleUnsubscribe(body, env, corsHeaders) {
   return jsonResponse({ success: true, message: 'הוסרת מרשימת התפוצה' }, 200, corsHeaders);
 }
 
-// ─── Send Newsletter (Admin) ───────────────────────────────────────────────────
+// ─── Send Newsletter (Admin — already authenticated in fetch()) ────────────────
 
 async function handleSendNewsletter(body, env, corsHeaders) {
-  const { password, subject, intro, articles } = body;
-
-  // Validate admin password
-  if (!password || password !== env.ADMIN_PASSWORD) {
-    return jsonResponse({ error: 'סיסמה שגויה' }, 401, corsHeaders);
-  }
+  const { subject, intro, articles } = body;
 
   if (!subject || !intro || !articles || !Array.isArray(articles) || articles.length === 0) {
     return jsonResponse({ error: 'חסרים שדות: subject, intro, articles' }, 400, corsHeaders);

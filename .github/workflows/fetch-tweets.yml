@@ -10,6 +10,11 @@ on:
 permissions:
   contents: write
 
+# Shared with admin-post.yml so the two never push at the same time.
+concurrency:
+  group: site-update
+  cancel-in-progress: false
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -29,6 +34,11 @@ jobs:
 
       - name: Install Hebrew font
         run: sudo apt-get update -y && sudo apt-get install -y fonts-noto-core
+
+      # A queued admin-post run can be replaced by this one, so apply its requests here too.
+      - name: Apply pending admin requests
+        continue-on-error: true
+        run: python scripts/admin_apply.py
 
       - name: Fetch new tweets
         env:
@@ -53,7 +63,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --staged --quiet || git commit -m "Add new posts from Twitter"
-          git push
+          git push || (git pull --rebase && git push)
 
       - name: Post new articles to Telegram
         env:
@@ -62,7 +72,7 @@ jobs:
         run: |
           python scripts/post_telegram.py
           git add scripts/.last_telegram_post
-          git diff --staged --quiet || git commit -m "Update Telegram state" && git push
+          git diff --staged --quiet || git commit -m "Update Telegram state" && (git push || (git pull --rebase && git push))
 
       - name: Generate Instagram card images
         env:
@@ -73,7 +83,7 @@ jobs:
         run: |
           git add assets/images/instagram-cards
           git add scripts/.instagram_card_titles.json 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "Add Instagram card(s)" && git push
+          git diff --staged --quiet || git commit -m "Add Instagram card(s)" && (git push || (git pull --rebase && git push))
 
       - name: Post new articles to Facebook + Instagram (via Make.com)
         env:
@@ -82,4 +92,4 @@ jobs:
         run: |
           python scripts/post_via_make.py
           git add scripts/.last_make_post
-          git diff --staged --quiet || git commit -m "Update Make.com posting state" && git push
+          git diff --staged --quiet || git commit -m "Update Make.com posting state" && (git push || (git pull --rebase && git push))

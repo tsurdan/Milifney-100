@@ -66,6 +66,8 @@ def parse_post(filepath):
         "image_alt": meta.get("image_alt", "") or "",
         "tweet_id": str(meta.get("tweet_id", "")),
         "body": body_text,
+        # Written in the admin panel (website only) or hidden: never sent to social channels.
+        "skip_social": bool(meta.get("manual")) or meta.get("published", True) is False,
     }
 
 
@@ -143,6 +145,11 @@ def main():
 
         if IGNORE_MARKER in post_data.get("image_alt", ""):
             print(f"  [SKIP] Ignored post (marked with '**'): {post_data['title']}")
+            save_last_posted_timestamp(filepath.name)
+            continue
+
+        if post_data["skip_social"]:
+            print(f"  [SKIP] Website-only or hidden post: {post_data['title']}")
             save_last_posted_timestamp(filepath.name)
             continue
 

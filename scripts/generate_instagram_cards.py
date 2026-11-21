@@ -43,7 +43,7 @@ def main():
 
     posts = [parse_post(filepath) for filepath in pending]
     card_titles = generate_card_titles(
-        [{"tweet_id": p["tweet_id"], "title": p["title"], "body": p["body"]} for p in posts if p["tweet_id"]],
+        [{"tweet_id": p["tweet_id"], "title": p["title"], "body": p["body"]} for p in posts if p["tweet_id"] and not p["skip_social"]],
         os.environ.get("GEMINI_API_KEY", ""),
     )
 
@@ -54,6 +54,9 @@ def main():
             continue
 
         if IGNORE_MARKER in post.get("image_alt", ""):
+            continue
+
+        if post["skip_social"]:
             continue
 
         card_path = CARDS_DIR / f"{post['tweet_id']}.jpg"

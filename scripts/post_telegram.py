@@ -157,6 +157,11 @@ def main():
             save_last_posted_timestamp(filepath.name)
             continue
 
+        if post_data["skip_social"]:
+            print(f"  [SKIP] Website-only or hidden post: {post_data['title']}")
+            save_last_posted_timestamp(filepath.name)
+            continue
+
         url = build_post_url(filepath)
 
         print(f"  Sending: {post_data['title']}")

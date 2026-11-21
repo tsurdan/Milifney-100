@@ -1,0 +1,701 @@
+---
+layout: default
+title: ניהול האתר
+permalink: /admin/
+noindex: true
+---
+<style>
+  .adm { max-width: 760px; margin: 2rem auto; padding: 1.5rem; }
+  .adm h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .adm h2 { font-size: 1.15rem; margin: 0 0 0.8rem; }
+  .adm [hidden] { display: none !important; }
+  .adm-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .adm-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: var(--meta); }
+  .adm-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; }
+  .adm-menu button { padding: 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); font: inherit; font-weight: 600; cursor: pointer; color: inherit; }
+  .adm-menu button:hover, .adm-menu button.active { border-color: var(--accent); color: var(--accent); }
+  .adm-field { margin-bottom: 1rem; }
+  .adm-field label { display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem; }
+  .adm-field input[type="text"], .adm-field input[type="search"], .adm-field textarea { width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.95rem; font-family: inherit; direction: rtl; box-sizing: border-box; }
+  .adm-field textarea { min-height: 220px; resize: vertical; line-height: 1.6; }
+  .adm-hint { font-size: 0.8rem; color: var(--meta); margin: 0.3rem 0 0; }
+  .adm-btn { background: var(--accent); color: #fff; border: none; padding: 0.6rem 1.4rem; border-radius: 4px; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .adm-btn:hover { opacity: 0.9; }
+  .adm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .adm-btn.secondary { background: var(--meta); }
+  .adm-btn.danger { background: #a11; }
+  .adm-btn.small { padding: 0.3rem 0.8rem; font-size: 0.8rem; }
+  .adm-msg { padding: 0.6rem 1rem; border-radius: 4px; margin-top: 0.8rem; font-size: 0.9rem; }
+  .adm-msg.success { background: #d4edda; color: #155724; }
+  .adm-msg.error { background: #f8d7da; color: #721c24; }
+  .adm-msg.info { background: #e7eef7; color: #1d3557; }
+  .adm-msg a { color: inherit; font-weight: 600; }
+  .adm-images { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; }
+  .adm-thumb { position: relative; width: 110px; height: 80px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; background: var(--bg); }
+  .adm-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .adm-thumb button { position: absolute; top: 2px; left: 2px; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; background: rgba(0,0,0,0.65); color: #fff; line-height: 1; }
+  .adm-thumb span { position: absolute; bottom: 0; right: 0; left: 0; background: rgba(0,0,0,0.6); color: #fff; font-size: 0.7rem; text-align: center; }
+  .adm-results { margin-top: 0.6rem; max-height: 340px; overflow-y: auto; }
+  .adm-result { display: block; width: 100%; text-align: right; padding: 0.6rem 0.8rem; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 0.4rem; background: var(--bg); cursor: pointer; font: inherit; color: inherit; }
+  .adm-result:hover { border-color: var(--accent); }
+  .adm-result small { display: block; color: var(--meta); font-size: 0.75rem; }
+  .adm-row { display: flex; justify-content: space-between; align-items: center; gap: 0.8rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+  .adm-check { display: flex; align-items: center; gap: 0.5rem; margin: 0.8rem 0; font-size: 0.9rem; }
+  .adm-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem; }
+  .adm-article-item { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.8rem; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 0.6rem; background: var(--bg); cursor: pointer; }
+  .adm-article-item.selected { border-color: var(--accent); background: rgba(139,26,26,0.05); }
+  .adm-article-item h4 { margin: 0 0 0.2rem; font-size: 0.95rem; }
+  .adm-article-item p, .adm-article-item time { margin: 0; font-size: 0.8rem; color: var(--meta); }
+  .adm-preview { border: 2px solid var(--border); border-radius: 8px; padding: 1rem; background: #fff; margin-top: 1rem; }
+</style>
+
+<div class="adm">
+  <h1>ניהול האתר</h1>
+
+  <!-- Sign-in gate -->
+  <div class="adm-card" id="adm-gate">
+    <p>הכניסה למנהלים בלבד. התחברו עם חשבון Google המורשה.</p>
+    <div id="adm-google-btn"></div>
+    <div id="adm-gate-msg"></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="adm-app" hidden>
+    <div class="adm-top">
+      <span>מחובר/ת: <strong id="adm-user"></strong></span>
+      <button class="adm-btn secondary small" id="adm-signout">התנתקות</button>
+    </div>
+
+    <nav class="adm-menu">
+      <button data-view="new">1. פרסום ידיעה חדשה</button>
+      <button data-view="edit">2. עריכת ידיעה</button>
+      <button data-view="delete">3. מחיקת ידיעה</button>
+      <button data-view="newsletter">4. שליחת ניוזלטר</button>
+    </nav>
+
+    <div id="adm-status"></div>
+
+    <!-- 1. New article -->
+    <section class="adm-card" id="view-new" hidden>
+      <h2>פרסום ידיעה חדשה</h2>
+      <p class="adm-hint" style="margin-bottom:1rem;">כמו בציוץ: כותבים את הטקסט ומעלים תמונה. הכותרת, התגיות, כותרת ה-SEO, הכתובת והקישורים נוצרים אוטומטית. התאריך הוא היום לפני 100 שנה. הידיעה מתפרסמת באתר בלבד.</p>
+      <div class="adm-field">
+        <label for="new-text">הטקסט</label>
+        <textarea id="new-text" placeholder="השורה הראשונה היא הכותרת&#10;&#10;כאן גוף הידיעה..."></textarea>
+        <p class="adm-hint">שורה ראשונה = כותרת, השאר = גוף. שורה שמכילה רק &gt; היא מפריד, בדיוק כמו בציוצים.</p>
+      </div>
+      <div class="adm-field">
+        <label for="new-caption">כיתוב התמונה (שם העיתון)</label>
+        <input type="text" id="new-caption" placeholder="הארץ, ארכיון העיתונות">
+        <p class="adm-hint">משמש גם ליצירת הקישור למקור, כמו בציוצים.</p>
+      </div>
+      <div class="adm-field">
+        <label for="new-images">תמונות</label>
+        <input type="file" id="new-images" accept="image/*" multiple>
+        <p class="adm-hint">התמונה הראשונה היא הראשית; האחרות מתווספות לגוף הידיעה.</p>
+        <div class="adm-images" id="new-thumbs"></div>
+      </div>
+      <button class="adm-btn" id="new-submit">פרסום</button>
+      <div id="new-msg"></div>
+    </section>
+
+    <!-- 2. Edit -->
+    <section class="adm-card" id="view-edit" hidden>
+      <h2>עריכת ידיעה</h2>
+      <div id="edit-picker"></div>
+      <div id="edit-form" hidden>
+        <hr style="margin:1rem 0;">
+        <div class="adm-field">
+          <label for="edit-text">הטקסט (שורה ראשונה = כותרת)</label>
+          <textarea id="edit-text"></textarea>
+          <p class="adm-hint">אם הטקסט ישתנה, התגיות, התקציר וכותרת ה-SEO ייווצרו מחדש אוטומטית. כתובת הידיעה לא משתנה.</p>
+        </div>
+        <div class="adm-field">
+          <label for="edit-caption">כיתוב התמונה (שם העיתון)</label>
+          <input type="text" id="edit-caption">
+        </div>
+        <div class="adm-field">
+          <label for="edit-image">החלפת התמונה הראשית (אופציונלי)</label>
+          <input type="file" id="edit-image" accept="image/*">
+          <div class="adm-images" id="edit-thumbs"></div>
+        </div>
+        <div class="adm-actions">
+          <button class="adm-btn" id="edit-submit">שמירת שינויים</button>
+          <button class="adm-btn secondary" id="edit-cancel">ביטול</button>
+        </div>
+      </div>
+      <div id="edit-msg"></div>
+    </section>
+
+    <!-- 3. Delete -->
+    <section class="adm-card" id="view-delete" hidden>
+      <h2>מחיקת ידיעה</h2>
+      <div id="delete-picker"></div>
+      <div id="delete-form" hidden>
+        <hr style="margin:1rem 0;">
+        <p>נבחרה: <strong id="delete-title"></strong></p>
+        <label class="adm-check"><input type="checkbox" id="delete-hard"> מחיקה לצמיתות (לא ניתנת לשחזור). אחרת הידיעה רק מוסתרת מהאתר וניתן לשחזר אותה.</label>
+        <p class="adm-hint">ידיעות שכבר נשלחו לטלגרם, לפייסבוק או לאינסטגרם לא יימחקו משם.</p>
+        <div class="adm-actions">
+          <button class="adm-btn danger" id="delete-submit">מחיקה</button>
+          <button class="adm-btn secondary" id="delete-cancel">ביטול</button>
+        </div>
+      </div>
+      <div id="delete-msg"></div>
+      <h2 style="margin-top:1.5rem;">הוסתרו לאחרונה</h2>
+      <div id="delete-hidden"></div>
+    </section>
+
+    <!-- 4. Newsletter -->
+    <section id="view-newsletter" hidden>
+      <div class="adm-card">
+        <h2>בחירת כתבות</h2>
+        <p class="adm-hint">בחרו עד 3 כתבות מהשבוע האחרון:</p>
+        <div id="nl-articles-list"></div>
+        <p class="adm-hint">נבחרו: <span id="nl-selected-count">0</span>/3</p>
+      </div>
+      <div class="adm-card">
+        <h2>נוסח הפתיחה</h2>
+        <div class="adm-field">
+          <label for="nl-subject">נושא המייל (Subject)</label>
+          <input type="text" id="nl-subject" placeholder="סיכום שבועי — חדשות מלפני מאה">
+        </div>
+        <div class="adm-field">
+          <label for="nl-intro">טקסט פתיחה</label>
+          <textarea id="nl-intro" style="min-height:100px;" placeholder="שלום לכולם, הנה הסיכום השבועי שלנו..."></textarea>
+        </div>
+      </div>
+      <div class="adm-card">
+        <h2>תצוגה מקדימה ושליחה</h2>
+        <div class="adm-actions">
+          <button class="adm-btn secondary" id="nl-preview-btn">תצוגה מקדימה</button>
+          <button class="adm-btn" id="nl-send-btn" disabled>שליחה לכל המנויים</button>
+        </div>
+        <div id="nl-preview-area"></div>
+        <div id="nl-send-msg"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+(function() {
+  // ── Config ──
+  var WORKER_URL = 'https://milifney100-newsletter.tzurda3.workers.dev';
+  var GOOGLE_CLIENT_ID = {{ site.admin_google_client_id | jsonify }};
+  var SEARCH_URL = '{{ "/search.json" | relative_url }}';
+  var SITE_URL = '{{ site.url }}';
+  var TOKEN_KEY = 'adm_token';
+  var MAX_IMAGE_WIDTH = 1280;
+
+  // ── Helpers ──
+  function $(id) { return document.getElementById(id); }
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+  function showMsg(el, text, type, linkUrl, linkText) {
+    el.innerHTML = '';
+    var box = document.createElement('div');
+    box.className = 'adm-msg ' + type;
+    box.textContent = text;
+    if (linkUrl) {
+      box.appendChild(document.createTextNode(' '));
+      var a = document.createElement('a');
+      a.href = linkUrl;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = linkText || linkUrl;
+      box.appendChild(a);
+    }
+    el.appendChild(box);
+  }
+  function slugOf(url) {
+    var parts = String(url).split('/').filter(Boolean);
+    return parts[parts.length - 1];
+  }
+
+  // ── Session ──
+  function getToken() {
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    if (!token) return '';
+    try {
+      var payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+      if (payload.exp * 1000 < Date.now() + 30000) return '';
+    } catch (e) { return ''; }
+    return token;
+  }
+
+  function signOut(message, type) {
+    sessionStorage.removeItem(TOKEN_KEY);
+    if (window.google && google.accounts) google.accounts.id.disableAutoSelect();
+    $('adm-app').hidden = true;
+    $('adm-gate').hidden = false;
+    showMsg($('adm-gate-msg'), message || '', type || 'info');
+    if (!message) $('adm-gate-msg').innerHTML = '';
+  }
+
+  async function api(path, body) {
+    var token = getToken();
+    if (!token) {
+      signOut('פג תוקף ההתחברות. התחברו שוב.', 'info');
+      throw new Error('פג תוקף ההתחברות');
+    }
+    var resp = await fetch(WORKER_URL + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body || {})
+    });
+    var data = await resp.json().catch(function() { return {}; });
+    if (resp.status === 401) {
+      signOut('ההתחברות נכשלה או פגה. התחברו שוב.', 'error');
+    } else if (resp.status === 403) {
+      signOut('חשבון ה-Google הזה אינו מורשה לניהול האתר.', 'error');
+    }
+    if (!resp.ok) throw new Error(data.error || 'שגיאה (' + resp.status + ')');
+    return data;
+  }
+
+  async function enterApp() {
+    var who = await api('/admin/whoami');
+    $('adm-user').textContent = who.name + ' (' + who.email + ')';
+    $('adm-gate').hidden = true;
+    $('adm-app').hidden = false;
+    if (!currentView) showView('new');
+  }
+
+  function onCredential(response) {
+    sessionStorage.setItem(TOKEN_KEY, response.credential);
+    enterApp().catch(function(err) {
+      if (!$('adm-gate').hidden) showMsg($('adm-gate-msg'), err.message, 'error');
+    });
+  }
+
+  function initGoogle() {
+    if (!window.google || !google.accounts) { setTimeout(initGoogle, 200); return; }
+    google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: onCredential });
+    google.accounts.id.renderButton($('adm-google-btn'), { theme: 'outline', size: 'large', text: 'signin_with', locale: 'he' });
+    if (getToken()) {
+      enterApp().catch(function() {});
+    }
+  }
+
+  $('adm-signout').addEventListener('click', function() { signOut('', ''); });
+
+  // ── Views ──
+  var currentView = '';
+  function showView(name) {
+    currentView = name;
+    ['new', 'edit', 'delete', 'newsletter'].forEach(function(v) { $('view-' + v).hidden = v !== name; });
+    document.querySelectorAll('.adm-menu button').forEach(function(b) { b.classList.toggle('active', b.dataset.view === name); });
+    if (name === 'edit') pickers.edit.focus();
+    if (name === 'delete') { pickers.del.focus(); loadHidden(); }
+    if (name === 'newsletter') renderArticles();
+  }
+  document.querySelectorAll('.adm-menu button').forEach(function(b) {
+    b.addEventListener('click', function() { showView(b.dataset.view); });
+  });
+
+  // ── Publish tracking (the admin-post workflow takes a few minutes) ──
+  var trackTimer = null;
+  function trackPublish(submittedAt, linkUrl) {
+    var box = $('adm-status');
+    clearTimeout(trackTimer);
+    var deadline = Date.now() + 20 * 60 * 1000;
+    showMsg(box, 'נשלח. ממתין לתחילת הפרסום…', 'info');
+    (async function poll() {
+      try {
+        var data = await api('/admin/status');
+        var run = data.runs.filter(function(r) { return new Date(r.created_at).getTime() >= submittedAt - 15000; }).pop();
+        if (run && run.status === 'completed') {
+          if (run.conclusion === 'success') {
+            showMsg(box, '✓ הפרסום הושלם. השינוי יופיע באתר תוך דקה-שתיים (בניית האתר).', 'success', linkUrl, linkUrl ? 'לצפייה' : '');
+          } else {
+            showMsg(box, 'הפרסום נכשל. פרטים ביומן:', 'error', run.url, 'GitHub Actions');
+          }
+          return;
+        }
+        if (run) showMsg(box, 'הידיעה בתהליך עיבוד ופרסום (תיוג, תקציר, בניית עמודים)…', 'info');
+      } catch (e) { /* keep polling; sign-out is handled in api() */ }
+      if (Date.now() < deadline && !$('adm-app').hidden) trackTimer = setTimeout(poll, 10000);
+    })();
+  }
+
+  // ── Images ──
+  function readAsDataUrl(blob) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function() { resolve(reader.result); };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  // Resizes/compresses like the tweet pipeline does (max 1280px wide, JPEG) before upload.
+  async function prepareImage(file) {
+    if (file.type === 'image/gif') {
+      if (file.size > 3.5 * 1024 * 1024) throw new Error('קובץ GIF גדול מדי');
+      var gifUrl = await readAsDataUrl(file);
+      return { data: gifUrl.split(',')[1], preview: gifUrl };
+    }
+    var bitmap = await createImageBitmap(file);
+    var scale = Math.min(1, MAX_IMAGE_WIDTH / bitmap.width);
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    var url = canvas.toDataURL('image/jpeg', 0.82);
+    return { data: url.split(',')[1], preview: url };
+  }
+
+  function renderThumbs(container, images, onRemove) {
+    container.innerHTML = '';
+    images.forEach(function(img, i) {
+      var box = document.createElement('div');
+      box.className = 'adm-thumb';
+      var el = document.createElement('img');
+      el.src = img.preview;
+      el.alt = '';
+      box.appendChild(el);
+      if (onRemove) {
+        var rm = document.createElement('button');
+        rm.type = 'button';
+        rm.textContent = '×';
+        rm.addEventListener('click', function() { onRemove(i); });
+        box.appendChild(rm);
+      }
+      if (i === 0 && images.length > 1) {
+        var tag = document.createElement('span');
+        tag.textContent = 'ראשית';
+        box.appendChild(tag);
+      }
+      container.appendChild(box);
+    });
+  }
+
+  // ── Post picker (search over search.json) ──
+  var searchIndex = null;
+  async function loadIndex() {
+    if (!searchIndex) {
+      var resp = await fetch(SEARCH_URL);
+      searchIndex = await resp.json();
+    }
+    return searchIndex;
+  }
+
+  function createPicker(container, onSelect) {
+    container.innerHTML =
+      '<div class="adm-field"><label>חיפוש ידיעה (כותרת, תוכן או תאריך)</label>' +
+      '<input type="search" placeholder="הקלידו לחיפוש…"></div><div class="adm-results"></div>';
+    var input = container.querySelector('input');
+    var results = container.querySelector('.adm-results');
+
+    async function render() {
+      var index = await loadIndex();
+      var terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      var matches = index.filter(function(p) {
+        var hay = (p.title + ' ' + p.content + ' ' + p.date + ' ' + p.date_iso).toLowerCase();
+        return terms.every(function(t) { return hay.indexOf(t) !== -1; });
+      }).slice(0, 20);
+      results.innerHTML = '';
+      matches.forEach(function(p) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'adm-result';
+        btn.textContent = p.title;
+        var small = document.createElement('small');
+        small.textContent = p.date;
+        btn.appendChild(small);
+        btn.addEventListener('click', function() { onSelect(p); });
+        results.appendChild(btn);
+      });
+      if (!matches.length) results.textContent = 'לא נמצאו ידיעות.';
+    }
+    input.addEventListener('input', render);
+    return {
+      focus: function() { render(); input.focus(); },
+      reset: function() { input.value = ''; results.innerHTML = ''; }
+    };
+  }
+
+  var pickers = {};
+
+  // ── 1. New article ──
+  var newImages = [];
+  function drawNewThumbs() {
+    renderThumbs($('new-thumbs'), newImages, function(i) { newImages.splice(i, 1); drawNewThumbs(); });
+  }
+  $('new-images').addEventListener('change', async function() {
+    var files = Array.prototype.slice.call(this.files);
+    this.value = '';
+    for (var i = 0; i < files.length; i++) {
+      if (newImages.length >= 6) break;
+      try { newImages.push(await prepareImage(files[i])); }
+      catch (e) { showMsg($('new-msg'), 'לא ניתן לקרוא את התמונה: ' + files[i].name, 'error'); }
+    }
+    drawNewThumbs();
+  });
+
+  $('new-submit').addEventListener('click', async function() {
+    var text = $('new-text').value.trim();
+    if (!text) { showMsg($('new-msg'), 'כתבו את הטקסט — השורה הראשונה היא הכותרת.', 'error'); return; }
+    if (!confirm('לפרסם את הידיעה באתר?')) return;
+    var btn = this;
+    btn.disabled = true;
+    $('new-msg').innerHTML = '';
+    var submittedAt = Date.now();
+    try {
+      var data = await api('/admin/post/create', {
+        text: text,
+        caption: $('new-caption').value.trim(),
+        images: newImages.map(function(img) { return { data: img.data }; })
+      });
+      $('new-text').value = '';
+      $('new-caption').value = '';
+      newImages = [];
+      drawNewThumbs();
+      trackPublish(submittedAt, SITE_URL + data.url);
+    } catch (err) {
+      showMsg($('new-msg'), err.message, 'error');
+    }
+    btn.disabled = false;
+  });
+
+  // ── 2. Edit ──
+  var editSlug = '';
+  var editImage = null;
+  pickers.edit = createPicker($('edit-picker'), async function(p) {
+    $('edit-msg').innerHTML = '';
+    try {
+      var post = await api('/admin/post/get', { slug: slugOf(p.url) });
+      editSlug = post.slug;
+      editImage = null;
+      $('edit-text').value = post.text;
+      $('edit-caption').value = post.caption;
+      renderThumbs($('edit-thumbs'), post.image ? [{ preview: post.image }] : []);
+      $('edit-form').hidden = false;
+      $('edit-picker').hidden = true;
+    } catch (err) {
+      showMsg($('edit-msg'), err.message, 'error');
+    }
+  });
+
+  function closeEdit() {
+    $('edit-form').hidden = true;
+    $('edit-picker').hidden = false;
+    editSlug = '';
+    editImage = null;
+    pickers.edit.focus();
+  }
+  $('edit-cancel').addEventListener('click', closeEdit);
+
+  $('edit-image').addEventListener('change', async function() {
+    var file = this.files[0];
+    this.value = '';
+    if (!file) return;
+    try {
+      editImage = await prepareImage(file);
+      renderThumbs($('edit-thumbs'), [editImage]);
+    } catch (e) {
+      showMsg($('edit-msg'), 'לא ניתן לקרוא את התמונה', 'error');
+    }
+  });
+
+  $('edit-submit').addEventListener('click', async function() {
+    var text = $('edit-text').value.trim();
+    if (!text) { showMsg($('edit-msg'), 'הטקסט לא יכול להיות ריק.', 'error'); return; }
+    var btn = this;
+    btn.disabled = true;
+    var submittedAt = Date.now();
+    try {
+      var body = { slug: editSlug, text: text, caption: $('edit-caption').value.trim() };
+      if (editImage) body.image = { data: editImage.data };
+      await api('/admin/post/edit', body);
+      $('edit-msg').innerHTML = '';
+      closeEdit();
+      trackPublish(submittedAt);
+    } catch (err) {
+      showMsg($('edit-msg'), err.message, 'error');
+    }
+    btn.disabled = false;
+  });
+
+  // ── 3. Delete / restore ──
+  var deletePost = null;
+  pickers.del = createPicker($('delete-picker'), function(p) {
+    deletePost = p;
+    $('delete-title').textContent = p.title;
+    $('delete-hard').checked = false;
+    $('delete-form').hidden = false;
+    $('delete-picker').hidden = true;
+    $('delete-msg').innerHTML = '';
+  });
+
+  function closeDelete() {
+    $('delete-form').hidden = true;
+    $('delete-picker').hidden = false;
+    deletePost = null;
+  }
+  $('delete-cancel').addEventListener('click', closeDelete);
+
+  $('delete-submit').addEventListener('click', async function() {
+    var hard = $('delete-hard').checked;
+    if (!confirm(hard ? 'למחוק את הידיעה לצמיתות? אי אפשר לשחזר.' : 'להסתיר את הידיעה מהאתר?')) return;
+    var btn = this;
+    btn.disabled = true;
+    var submittedAt = Date.now();
+    try {
+      await api('/admin/post/delete', {
+        slug: slugOf(deletePost.url), hard: hard, title: deletePost.title, date: deletePost.date
+      });
+      closeDelete();
+      loadHidden();
+      trackPublish(submittedAt);
+    } catch (err) {
+      showMsg($('delete-msg'), err.message, 'error');
+    }
+    btn.disabled = false;
+  });
+
+  async function loadHidden() {
+    var box = $('delete-hidden');
+    try {
+      var data = await api('/admin/post/deleted');
+      box.innerHTML = '';
+      if (!data.posts.length) { box.textContent = 'אין ידיעות מוסתרות.'; return; }
+      data.posts.forEach(function(p) {
+        var row = document.createElement('div');
+        row.className = 'adm-row';
+        var label = document.createElement('span');
+        label.textContent = (p.title || p.slug) + (p.date ? ' (' + p.date + ')' : '');
+        var btn = document.createElement('button');
+        btn.className = 'adm-btn small secondary';
+        btn.textContent = 'שחזור';
+        btn.addEventListener('click', async function() {
+          btn.disabled = true;
+          var submittedAt = Date.now();
+          try {
+            await api('/admin/post/restore', { slug: p.slug });
+            loadHidden();
+            trackPublish(submittedAt);
+          } catch (err) {
+            showMsg($('delete-msg'), err.message, 'error');
+            btn.disabled = false;
+          }
+        });
+        row.appendChild(label);
+        row.appendChild(btn);
+        box.appendChild(row);
+      });
+    } catch (e) { /* api() already handled auth errors */ }
+  }
+
+  // ── 4. Newsletter ──
+  var selectedArticles = [];
+  var allArticles = [
+    {% assign recent = site.posts | slice: 0, 30 %}
+    {% for p in recent %}
+    {
+      title: {{ p.title | jsonify }},
+      date: "{{ p.date | date: '%d.%m.%Y' }}",
+      url: "{{ p.url | absolute_url }}",
+      image: "{{ p.image | absolute_url }}",
+      excerpt: {{ p.content | strip_html | strip_newlines | truncate: 150 | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  var subjectInput = $('nl-subject');
+  var sendBtn = $('nl-send-btn');
+  var articlesRendered = false;
+
+  function renderArticles() {
+    if (articlesRendered) return;
+    articlesRendered = true;
+    var list = $('nl-articles-list');
+    // Articles from the last 7 days (by month/day, ignoring year)
+    var now = new Date();
+    var filtered = allArticles.filter(function(a) {
+      var parts = a.date.split('.');
+      if (parts.length < 3) return false;
+      var articleDate = new Date(now.getFullYear(), parseInt(parts[1]) - 1, parseInt(parts[0]));
+      var diffDays = (now - articleDate) / (1000 * 60 * 60 * 24);
+      return diffDays >= 0 && diffDays <= 7;
+    });
+    if (!filtered.length) {
+      list.innerHTML = '<p class="adm-hint">לא נמצאו כתבות מ-7 הימים האחרונים</p>';
+      return;
+    }
+    var html = '';
+    filtered.forEach(function(a) {
+      var i = allArticles.indexOf(a);
+      html += '<label class="adm-article-item"><input type="checkbox" data-idx="' + i + '">' +
+        '<div><h4>' + escapeHtml(a.title) + '</h4><time>' + a.date + '</time>' +
+        '<p>' + escapeHtml(a.excerpt.substring(0, 80)) + '...</p></div></label>';
+    });
+    list.innerHTML = html;
+    list.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+      cb.addEventListener('change', function() {
+        var article = allArticles[parseInt(this.dataset.idx)];
+        var item = this.closest('.adm-article-item');
+        if (this.checked) {
+          if (selectedArticles.length >= 3) { this.checked = false; return; }
+          selectedArticles.push(article);
+          item.classList.add('selected');
+        } else {
+          selectedArticles = selectedArticles.filter(function(a) { return a !== article; });
+          item.classList.remove('selected');
+        }
+        $('nl-selected-count').textContent = selectedArticles.length;
+        updateSendState();
+      });
+    });
+  }
+
+  function updateSendState() {
+    sendBtn.disabled = selectedArticles.length === 0 || !subjectInput.value.trim();
+  }
+  subjectInput.addEventListener('input', updateSendState);
+
+  $('nl-preview-btn').addEventListener('click', function() {
+    var area = $('nl-preview-area');
+    if (!selectedArticles.length) { showMsg(area, 'בחרו לפחות כתבה אחת', 'error'); return; }
+    var html = '<div class="adm-preview"><h3>' + escapeHtml(subjectInput.value || 'ללא נושא') + '</h3>';
+    html += '<p style="white-space:pre-line;">' + escapeHtml($('nl-intro').value || '') + '</p><hr style="margin:1rem 0;">';
+    selectedArticles.forEach(function(a) {
+      html += '<div style="margin-bottom:1rem;padding:0.8rem;border:1px solid var(--border);border-radius:6px;">' +
+        '<strong>' + escapeHtml(a.title) + '</strong><br><small>' + a.date + '</small>' +
+        '<p style="font-size:0.85rem;">' + escapeHtml(a.excerpt.substring(0, 120)) + '...</p></div>';
+    });
+    area.innerHTML = html + '</div>';
+  });
+
+  sendBtn.addEventListener('click', async function() {
+    if (!confirm('לשלוח את הניוזלטר לכל המנויים?')) return;
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'שולח...';
+    $('nl-send-msg').innerHTML = '';
+    try {
+      var data = await api('/send-newsletter', {
+        subject: subjectInput.value.trim(),
+        intro: $('nl-intro').value.trim(),
+        articles: selectedArticles.map(function(a) {
+          return { title: a.title, date: a.date, url: a.url, image: a.image, excerpt: a.excerpt };
+        })
+      });
+      showMsg($('nl-send-msg'), '✓ ' + data.message, 'success');
+    } catch (err) {
+      showMsg($('nl-send-msg'), err.message, 'error');
+    }
+    sendBtn.textContent = 'שליחה לכל המנויים';
+    updateSendState();
+  });
+
+  initGoogle();
+})();
+</script>

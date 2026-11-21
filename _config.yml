@@ -7,6 +7,10 @@ lang: he
 direction: rtl
 timezone: Asia/Jerusalem
 
+# OAuth "Web application" client ID used by the Google Sign-In on /admin/ (public value).
+# Must match GOOGLE_CLIENT_ID in newsletter-worker/wrangler.toml.
+admin_google_client_id: "886632844292-6948r1v5c0r0s5oggu2sr2engbr0375i.apps.googleusercontent.com"
+
 permalink: /:year/:month/:day/:title/
 
 collections:
