@@ -139,8 +139,8 @@ antisemitism:
   - fascist-italy
 british-mandate:
   entities:
-  - land-of-israel
   - jerusalem
+  - land-of-israel
   - tel-aviv
   - london
   - herbert-samuel
@@ -204,8 +204,8 @@ jerusalem:
   - land-of-israel
   - tel-aviv
   - london
-  - meir-berlin
   - haifa
+  - meir-berlin
   - david-ben-gurion
   - lebanon
   - herbert-samuel

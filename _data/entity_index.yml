@@ -6,7 +6,7 @@
 - slug: jerusalem
   name: ירושלים
   type: place
-  count: 81
+  count: 82
 - slug: germany
   name: גרמניה
   type: place
@@ -46,7 +46,7 @@
 - slug: haifa
   name: חיפה
   type: place
-  count: 24
+  count: 25
 - slug: lebanon
   name: לבנון
   type: place

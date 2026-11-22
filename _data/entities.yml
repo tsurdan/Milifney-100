@@ -7,7 +7,7 @@ united-states:
 jerusalem:
   name: ירושלים
   type: place
-  count: 81
+  count: 82
   page: true
 germany:
   name: גרמניה
@@ -57,7 +57,7 @@ vienna:
 haifa:
   name: חיפה
   type: place
-  count: 24
+  count: 25
   page: true
 lebanon:
   name: לבנון
