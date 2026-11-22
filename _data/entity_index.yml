@@ -10,7 +10,7 @@
 - slug: germany
   name: גרמניה
   type: place
-  count: 76
+  count: 77
 - slug: tel-aviv
   name: תל אביב
   type: place
@@ -38,7 +38,7 @@
 - slug: berlin
   name: ברלין
   type: place
-  count: 33
+  count: 34
 - slug: vienna
   name: וינה
   type: place

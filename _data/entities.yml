@@ -12,7 +12,7 @@ jerusalem:
 germany:
   name: גרמניה
   type: place
-  count: 76
+  count: 77
   page: true
 tel-aviv:
   name: תל אביב
@@ -47,7 +47,7 @@ london:
 berlin:
   name: ברלין
   type: place
-  count: 33
+  count: 34
   page: true
 vienna:
   name: וינה
