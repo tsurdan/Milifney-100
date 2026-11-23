@@ -7,7 +7,7 @@ united-states:
 jerusalem:
   name: ירושלים
   type: place
-  count: 82
+  count: 83
   page: true
 germany:
   name: גרמניה
@@ -214,6 +214,11 @@ zeev-jabotinsky:
   type: person
   count: 1
   page: false
+hebron:
+  name: חברון
+  type: place
+  count: 1
+  page: false
 chaim-arlororoff:
   name: חיים ארלוזורוב
   type: person
@@ -232,6 +237,11 @@ tumar:
 kishon-river:
   name: נחל קישון
   type: place
+  count: 1
+  page: false
+nathan-tzvi-finkel:
+  name: נתן צבי פינקל
+  type: person
   count: 1
   page: false
 ein-karem:
