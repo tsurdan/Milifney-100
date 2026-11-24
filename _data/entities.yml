@@ -49,13 +49,13 @@ berlin:
   type: place
   count: 34
   page: true
-vienna:
-  name: וינה
-  type: place
-  count: 25
-  page: true
 haifa:
   name: חיפה
+  type: place
+  count: 26
+  page: true
+vienna:
+  name: וינה
   type: place
   count: 25
   page: true

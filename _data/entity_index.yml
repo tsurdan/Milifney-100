@@ -39,12 +39,12 @@
   name: ברלין
   type: place
   count: 34
-- slug: vienna
-  name: וינה
-  type: place
-  count: 25
 - slug: haifa
   name: חיפה
+  type: place
+  count: 26
+- slug: vienna
+  name: וינה
   type: place
   count: 25
 - slug: lebanon
