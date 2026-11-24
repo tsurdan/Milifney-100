@@ -31,9 +31,9 @@ yishuv:
   - david-ben-gurion
   - vienna
   - meir-berlin
+  - united-states
   - france
   - lebanon
-  - united-states
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -57,8 +57,8 @@ crime-justice:
 culture-arts:
   entities:
   - tel-aviv
-  - berlin
   - jerusalem
+  - berlin
   - vienna
   - united-states
   - land-of-israel
@@ -209,6 +209,7 @@ jerusalem:
   - david-ben-gurion
   - lebanon
   - herbert-samuel
+  - united-states
   stories:
   - western-wall-1925
 transportation:
