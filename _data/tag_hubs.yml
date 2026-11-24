@@ -12,7 +12,7 @@ world-politics:
   - london
   - land-of-israel
   - iraq
-  - vienna
+  - jerusalem
   stories:
   - fascist-italy
   - druze-revolt
@@ -31,9 +31,9 @@ yishuv:
   - david-ben-gurion
   - vienna
   - meir-berlin
-  - united-states
   - france
   - lebanon
+  - united-states
   stories:
   - zionist-congress-14
   - western-wall-1925
@@ -57,8 +57,8 @@ crime-justice:
 culture-arts:
   entities:
   - tel-aviv
-  - jerusalem
   - berlin
+  - jerusalem
   - vienna
   - united-states
   - land-of-israel
@@ -209,7 +209,6 @@ jerusalem:
   - david-ben-gurion
   - lebanon
   - herbert-samuel
-  - united-states
   stories:
   - western-wall-1925
 transportation:
