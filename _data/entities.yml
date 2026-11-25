@@ -22,7 +22,7 @@ tel-aviv:
 land-of-israel:
   name: ארץ ישראל
   type: place
-  count: 68
+  count: 69
   page: true
 france:
   name: צרפת
@@ -32,7 +32,7 @@ france:
 italy:
   name: איטליה
   type: place
-  count: 43
+  count: 44
   page: true
 benito-mussolini:
   name: בניטו מוסוליני
@@ -72,7 +72,7 @@ adolf-hitler:
 iraq:
   name: עיראק
   type: place
-  count: 9
+  count: 10
   page: true
 none:
   name: ספרד

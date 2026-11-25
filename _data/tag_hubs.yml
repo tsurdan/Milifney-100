@@ -9,8 +9,8 @@ world-politics:
   - berlin
   - lebanon
   - adolf-hitler
-  - london
   - land-of-israel
+  - london
   - iraq
   - jerusalem
   stories:
@@ -144,12 +144,13 @@ british-mandate:
   - tel-aviv
   - london
   - herbert-samuel
-  - lebanon
   - iraq
+  - lebanon
   - haifa
   - france
   - germany
   - benito-mussolini
+  - italy
   stories:
   - druze-revolt
   - western-wall-1925
