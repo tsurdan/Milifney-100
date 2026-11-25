@@ -47,14 +47,34 @@ noindex: true
   .adm-article-item h4 { margin: 0 0 0.2rem; font-size: 0.95rem; }
   .adm-article-item p, .adm-article-item time { margin: 0; font-size: 0.8rem; color: var(--meta); }
   .adm-preview { border: 2px solid var(--border); border-radius: 8px; padding: 1rem; background: #fff; margin-top: 1rem; }
+
+  /* Rich-text editor (Quill) */
+  .adm-editor { background: #fff; color: #1a1a1a; border-radius: 4px; }
+  .adm-editor .ql-toolbar.ql-snow { border: 1px solid var(--border); border-radius: 4px 4px 0 0; direction: rtl; text-align: right; }
+  .adm-editor .ql-container.ql-snow { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 4px 4px; font-family: inherit; font-size: 1rem; }
+  .adm-editor .ql-editor { min-height: 240px; direction: rtl; text-align: right; line-height: 1.7; }
+  .adm-editor .ql-editor.ql-blank::before { right: 15px; left: auto; font-style: normal; }
+  .adm-editor .ql-editor blockquote { border-right: 4px solid #ccc; border-left: 0; margin: 0.5rem 0; padding-right: 1rem; padding-left: 0; }
+  .adm-editor .ql-editor ol, .adm-editor .ql-editor ul { padding-right: 1.5rem; padding-left: 0; }
+  .adm-editor .ql-snow .ql-tooltip { direction: rtl; text-align: right; left: auto; right: 0; }
+  .adm-editor .ql-snow .ql-tooltip[data-mode=link]::before { content: "קישור:"; }
+  .adm-editor .ql-snow .ql-tooltip.ql-editing a.ql-action::after { content: "שמירה"; }
+  .adm-editor .ql-snow .ql-tooltip a.ql-action::after { content: "עריכה"; }
+  .adm-editor .ql-snow .ql-tooltip a.ql-remove::before { content: "הסרה"; }
+  .adm-editor .ql-snow .ql-tooltip::before { content: "קישור:"; }
+  .adm-editor .ql-snow .ql-tooltip input[type=text] { direction: ltr; }
+  .adm-field input.adm-title { font-size: 1.15rem; font-weight: 700; }
 </style>
 
 <div class="adm">
   <h1>ניהול האתר</h1>
 
+  <!-- Shown while a saved session is being checked, so the sign-in button doesn't flash -->
+  <div class="adm-card" id="adm-loading"><p>טוען…</p></div>
+
   <!-- Sign-in gate -->
-  <div class="adm-card" id="adm-gate">
-    <p>הכניסה למנהלים בלבד. התחברו עם חשבון Google המורשה.</p>
+  <div class="adm-card" id="adm-gate" hidden>
+    <p>הכניסה למנהלים בלבד. התחברו עם חשבון Google המורשה. ההתחברות נשמרת בדפדפן הזה.</p>
     <div id="adm-google-btn"></div>
     <div id="adm-gate-msg"></div>
   </div>
@@ -78,11 +98,14 @@ noindex: true
     <!-- 1. New article -->
     <section class="adm-card" id="view-new" hidden>
       <h2>פרסום ידיעה חדשה</h2>
-      <p class="adm-hint" style="margin-bottom:1rem;">כמו בציוץ: כותבים את הטקסט ומעלים תמונה. הכותרת, התגיות, כותרת ה-SEO, הכתובת והקישורים נוצרים אוטומטית. התאריך הוא היום לפני 100 שנה. הידיעה מתפרסמת באתר בלבד.</p>
+      <p class="adm-hint" style="margin-bottom:1rem;">כמו בציוץ: כותבים כותרת וטקסט ומעלים תמונה. התגיות, כותרת ה-SEO, הכתובת והקישורים נוצרים אוטומטית. התאריך הוא היום לפני 100 שנה. הידיעה מתפרסמת באתר בלבד.</p>
       <div class="adm-field">
-        <label for="new-text">הטקסט</label>
-        <textarea id="new-text" placeholder="השורה הראשונה היא הכותרת&#10;&#10;כאן גוף הידיעה..."></textarea>
-        <p class="adm-hint">שורה ראשונה = כותרת, השאר = גוף. שורה שמכילה רק &gt; היא מפריד, בדיוק כמו בציוצים.</p>
+        <label for="new-title">כותרת</label>
+        <input type="text" id="new-title" class="adm-title" placeholder="כותרת הידיעה" autocomplete="off">
+      </div>
+      <div class="adm-field">
+        <label>הטקסט</label>
+        <div class="adm-editor"><div id="new-editor"></div></div>
       </div>
       <div class="adm-field">
         <label for="new-caption">כיתוב התמונה (שם העיתון)</label>
@@ -106,9 +129,13 @@ noindex: true
       <div id="edit-form" hidden>
         <hr style="margin:1rem 0;">
         <div class="adm-field">
-          <label for="edit-text">הטקסט (שורה ראשונה = כותרת)</label>
-          <textarea id="edit-text"></textarea>
-          <p class="adm-hint">אם הטקסט ישתנה, התגיות, התקציר וכותרת ה-SEO ייווצרו מחדש אוטומטית. כתובת הידיעה לא משתנה.</p>
+          <label for="edit-title">כותרת</label>
+          <input type="text" id="edit-title" class="adm-title" autocomplete="off">
+        </div>
+        <div class="adm-field">
+          <label>הטקסט</label>
+          <div class="adm-editor"><div id="edit-editor"></div></div>
+          <p class="adm-hint">אם הכותרת או הטקסט ישתנו, התגיות, התקציר וכותרת ה-SEO ייווצרו מחדש אוטומטית. כתובת הידיעה לא משתנה.</p>
         </div>
         <div class="adm-field">
           <label for="edit-caption">כיתוב התמונה (שם העיתון)</label>
@@ -178,7 +205,11 @@ noindex: true
   </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" integrity="sha384-ecIckRi4QlKYya/FQUbBUjS4qp65jF/J87Guw5uzTbO1C1Jfa/6kYmd6dXUF6D7i" crossorigin="anonymous">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js" integrity="sha384-utBUCeG4SYaCm4m7GQZYr8Hy8Fpy3V4KGjBZaf4WTKOcwhCYpt/0PfeEe3HNlwx8" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/turndown@7.2.0/dist/turndown.js" integrity="sha384-OGauEFaI5hnS8jXK4qdSGShAUAObMBKoLXgcL1ORhRh7ulx5jPZH35qVpacIEA4Z" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" integrity="sha384-/TQbtLCAerC3jgaim+N78RZSDYV7ryeoBCVqTuzRrFec2akfBkHS7ACQ3PQhvMVi" crossorigin="anonymous"></script>
 <script>
 (function() {
   // ── Config ──
@@ -186,7 +217,7 @@ noindex: true
   var GOOGLE_CLIENT_ID = {{ site.admin_google_client_id | jsonify }};
   var SEARCH_URL = '{{ "/search.json" | relative_url }}';
   var SITE_URL = '{{ site.url }}';
-  var TOKEN_KEY = 'adm_token';
+  var SESSION_KEY = 'adm_session';
   var MAX_IMAGE_WIDTH = 1280;
 
   // ── Helpers ──
@@ -218,30 +249,42 @@ noindex: true
   }
 
   // ── Session ──
-  function getToken() {
-    var token = sessionStorage.getItem(TOKEN_KEY);
+  // After one Google sign-in the Worker issues its own long-lived session token (kept in
+  // localStorage, renewed on every page load), so the admin isn't asked to sign in again.
+  function getSession() {
+    var token = localStorage.getItem(SESSION_KEY);
     if (!token) return '';
     try {
       var payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-      if (payload.exp * 1000 < Date.now() + 30000) return '';
-    } catch (e) { return ''; }
+      if (payload.exp * 1000 < Date.now() + 30000) { localStorage.removeItem(SESSION_KEY); return ''; }
+    } catch (e) { localStorage.removeItem(SESSION_KEY); return ''; }
     return token;
   }
 
-  function signOut(message, type) {
-    sessionStorage.removeItem(TOKEN_KEY);
-    if (window.google && google.accounts) google.accounts.id.disableAutoSelect();
+  var googleReady = false;
+  function showGate(message, type) {
+    $('adm-loading').hidden = true;
     $('adm-app').hidden = true;
     $('adm-gate').hidden = false;
-    showMsg($('adm-gate-msg'), message || '', type || 'info');
-    if (!message) $('adm-gate-msg').innerHTML = '';
+    if (message) showMsg($('adm-gate-msg'), message, type || 'info'); else $('adm-gate-msg').innerHTML = '';
+    initGoogle();
+  }
+
+  function signOut(message, type) {
+    localStorage.removeItem(SESSION_KEY);
+    if (window.google && google.accounts) google.accounts.id.disableAutoSelect();
+    showGate(message, type);
+  }
+
+  function authMessage(status) {
+    return status === 403 ? 'חשבון ה-Google הזה אינו מורשה לניהול האתר.' : 'ההתחברות פגה. התחברו שוב.';
   }
 
   async function api(path, body) {
-    var token = getToken();
+    var token = getSession();
     if (!token) {
-      signOut('פג תוקף ההתחברות. התחברו שוב.', 'info');
-      throw new Error('פג תוקף ההתחברות');
+      signOut('ההתחברות פגה. התחברו שוב.', 'info');
+      throw new Error('ההתחברות פגה');
     }
     var resp = await fetch(WORKER_URL + path, {
       method: 'POST',
@@ -249,37 +292,56 @@ noindex: true
       body: JSON.stringify(body || {})
     });
     var data = await resp.json().catch(function() { return {}; });
-    if (resp.status === 401) {
-      signOut('ההתחברות נכשלה או פגה. התחברו שוב.', 'error');
-    } else if (resp.status === 403) {
-      signOut('חשבון ה-Google הזה אינו מורשה לניהול האתר.', 'error');
+    if (resp.status === 401 || resp.status === 403) {
+      signOut(authMessage(resp.status), 'error');
     }
     if (!resp.ok) throw new Error(data.error || 'שגיאה (' + resp.status + ')');
     return data;
   }
 
-  async function enterApp() {
-    var who = await api('/admin/whoami');
+  // `token` is a fresh Google ID token (first sign-in) or the saved session (which this renews).
+  async function enterApp(token) {
+    var resp = await fetch(WORKER_URL + '/admin/whoami', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: '{}'
+    });
+    var who = await resp.json().catch(function() { return {}; });
+    if (!resp.ok) {
+      var err = new Error(resp.status === 401 || resp.status === 403 ? authMessage(resp.status) : (who.error || 'שגיאה (' + resp.status + ')'));
+      err.status = resp.status;
+      throw err;
+    }
+    localStorage.setItem(SESSION_KEY, who.session);
     $('adm-user').textContent = who.name + ' (' + who.email + ')';
+    $('adm-loading').hidden = true;
     $('adm-gate').hidden = true;
     $('adm-app').hidden = false;
     if (!currentView) showView('new');
   }
 
   function onCredential(response) {
-    sessionStorage.setItem(TOKEN_KEY, response.credential);
-    enterApp().catch(function(err) {
-      if (!$('adm-gate').hidden) showMsg($('adm-gate-msg'), err.message, 'error');
-    });
+    enterApp(response.credential).catch(function(err) { showMsg($('adm-gate-msg'), err.message, 'error'); });
   }
 
   function initGoogle() {
+    if (googleReady) return;
     if (!window.google || !google.accounts) { setTimeout(initGoogle, 200); return; }
+    googleReady = true;
     google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: onCredential });
     google.accounts.id.renderButton($('adm-google-btn'), { theme: 'outline', size: 'large', text: 'signin_with', locale: 'he' });
-    if (getToken()) {
-      enterApp().catch(function() {});
-    }
+  }
+
+  function start() {
+    sessionStorage.removeItem('adm_token'); // from the old per-tab login
+    var saved = getSession();
+    if (!saved) { showGate(); return; }
+    enterApp(saved).catch(function(err) {
+      if (err.status === 401 || err.status === 403) { signOut(err.message, 'info'); return; }
+      // Network/server trouble: keep the session and let the admin retry.
+      $('adm-loading').innerHTML = '';
+      showMsg($('adm-loading'), 'לא ניתן להתחבר לשרת: ' + err.message + '. רעננו את הדף כדי לנסות שוב.', 'error');
+    });
   }
 
   $('adm-signout').addEventListener('click', function() { signOut('', ''); });
@@ -425,6 +487,51 @@ noindex: true
 
   var pickers = {};
 
+  // ── Rich-text editor (Quill) ──
+  // Quill edits formatted text; Turndown converts it to the markdown the posts are stored in, and
+  // marked loads an existing post's markdown into it. The admin never sees markdown characters.
+  var turndown = new TurndownService({
+    headingStyle: 'atx', bulletListMarker: '-', emDelimiter: '*', strongDelimiter: '**'
+  });
+
+  function createEditor(selector) {
+    var quill = new Quill(selector, {
+      theme: 'snow',
+      placeholder: 'כתבו את הידיעה כאן…',
+      formats: ['bold', 'italic', 'link', 'list', 'blockquote'],
+      modules: { toolbar: [['bold', 'italic'], ['link'], [{ list: 'ordered' }, { list: 'bullet' }], ['blockquote'], ['clean']] }
+    });
+    quill.root.setAttribute('dir', 'rtl');
+    var initial = quill.getSemanticHTML();
+
+    function cleanHtml() {
+      var box = document.createElement('div');
+      box.innerHTML = quill.getSemanticHTML();
+      box.querySelectorAll('a[href]').forEach(function(a) {
+        var href = a.getAttribute('href').trim();
+        // "example.com" typed without a scheme would become a relative link
+        if (!/^(https?:|mailto:|tel:)/i.test(href)) a.setAttribute('href', 'https://' + href.replace(/^\/+/, ''));
+      });
+      box.querySelectorAll('p').forEach(function(p) { if (!p.textContent.trim()) p.remove(); });
+      return box.innerHTML;
+    }
+
+    return {
+      getMarkdown: function() {
+        return turndown.turndown(cleanHtml()).replace(/\u00a0/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+      },
+      setMarkdown: function(markdown) {
+        var html = marked.parse(markdown || '', { gfm: true, breaks: false });
+        quill.setContents(quill.clipboard.convert({ html: html }), 'silent');
+        initial = quill.getSemanticHTML();
+      },
+      isDirty: function() { return quill.getSemanticHTML() !== initial; }
+    };
+  }
+
+  var newEditor = createEditor('#new-editor');
+  var editEditor = createEditor('#edit-editor');
+
   // ── 1. New article ──
   var newImages = [];
   function drawNewThumbs() {
@@ -442,8 +549,8 @@ noindex: true
   });
 
   $('new-submit').addEventListener('click', async function() {
-    var text = $('new-text').value.trim();
-    if (!text) { showMsg($('new-msg'), 'כתבו את הטקסט — השורה הראשונה היא הכותרת.', 'error'); return; }
+    var title = $('new-title').value.trim();
+    if (!title) { showMsg($('new-msg'), 'כתבו כותרת לידיעה.', 'error'); return; }
     if (!confirm('לפרסם את הידיעה באתר?')) return;
     var btn = this;
     btn.disabled = true;
@@ -451,11 +558,13 @@ noindex: true
     var submittedAt = Date.now();
     try {
       var data = await api('/admin/post/create', {
-        text: text,
+        title: title,
+        body: newEditor.getMarkdown(),
         caption: $('new-caption').value.trim(),
         images: newImages.map(function(img) { return { data: img.data }; })
       });
-      $('new-text').value = '';
+      $('new-title').value = '';
+      newEditor.setMarkdown('');
       $('new-caption').value = '';
       newImages = [];
       drawNewThumbs();
@@ -475,7 +584,8 @@ noindex: true
       var post = await api('/admin/post/get', { slug: slugOf(p.url) });
       editSlug = post.slug;
       editImage = null;
-      $('edit-text').value = post.text;
+      $('edit-title').value = post.title;
+      editEditor.setMarkdown(post.body);
       $('edit-caption').value = post.caption;
       renderThumbs($('edit-thumbs'), post.image ? [{ preview: post.image }] : []);
       $('edit-form').hidden = false;
@@ -507,13 +617,15 @@ noindex: true
   });
 
   $('edit-submit').addEventListener('click', async function() {
-    var text = $('edit-text').value.trim();
-    if (!text) { showMsg($('edit-msg'), 'הטקסט לא יכול להיות ריק.', 'error'); return; }
+    var title = $('edit-title').value.trim();
+    if (!title) { showMsg($('edit-msg'), 'הכותרת לא יכולה להיות ריקה.', 'error'); return; }
     var btn = this;
     btn.disabled = true;
     var submittedAt = Date.now();
     try {
-      var body = { slug: editSlug, text: text, caption: $('edit-caption').value.trim() };
+      var body = { slug: editSlug, title: title, caption: $('edit-caption').value.trim() };
+      // Only send the body if it was touched, so untouched text is never rewritten by a round trip.
+      if (editEditor.isDirty()) body.body = editEditor.getMarkdown();
       if (editImage) body.image = { data: editImage.data };
       await api('/admin/post/edit', body);
       $('edit-msg').innerHTML = '';
@@ -696,6 +808,6 @@ noindex: true
     updateSendState();
   });
 
-  initGoogle();
+  start();
 })();
 </script>

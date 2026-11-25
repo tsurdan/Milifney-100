@@ -1,9 +1,9 @@
 /**
  * Admin panel endpoints (all POST, all behind requireAdmin — see index.js):
- *   /admin/whoami        who is signed in
+ *   /admin/whoami        sign in (Google token -> session token) and renew the session
  *   /admin/post/get      load a post for editing
- *   /admin/post/create   new post (text + images + caption) — exactly like a tweet
- *   /admin/post/edit     change text / image / caption
+ *   /admin/post/create   new post (title + markdown body + images + caption) — exactly like a tweet
+ *   /admin/post/edit     change title / body / image / caption
  *   /admin/post/delete   hide a post, or delete it permanently ({ hard: true })
  *   /admin/post/restore  un-hide a hidden post
  *   /admin/post/deleted  list hidden posts that can be restored
@@ -15,10 +15,12 @@
  */
 
 import { load as loadYaml } from 'js-yaml';
+import { createSession } from './auth.js';
 import { HttpError } from './errors.js';
 import { commitFiles, dispatchAdminWorkflow, findPostFile, latestAdminRuns, readPostFile } from './github.js';
 
 const MAX_TEXT = 20000;
+const MAX_TITLE = 300;
 const MAX_CAPTION = 300;
 const MAX_IMAGES = 6;
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
@@ -57,10 +59,9 @@ export function parsePostFile(raw) {
   return { meta, body: match[2] };
 }
 
-/** The editable text of a post: title, blank line, body (extra-image lines are kept out of it). */
-export function editableText(meta, body) {
-  const text = body.split('\n').filter((line) => !MD_IMAGE_LINE_RE.test(line)).join('\n').trim();
-  return text ? `${meta.title}\n\n${text}` : String(meta.title || '');
+/** The editable body of a post: markdown without the extra-image lines (those are managed separately). */
+export function editableBody(body) {
+  return body.split('\n').filter((line) => !MD_IMAGE_LINE_RE.test(line)).join('\n').trim();
 }
 
 function requireSlug(value) {
@@ -69,11 +70,18 @@ function requireSlug(value) {
   return slug;
 }
 
-function requireText(value) {
-  const text = String(value || '').replace(/\r\n?/g, '\n').trim();
-  if (!text || !text.split('\n')[0].trim()) throw new HttpError(400, 'חסר טקסט — השורה הראשונה היא הכותרת');
-  if (text.length > MAX_TEXT) throw new HttpError(400, 'הטקסט ארוך מדי');
-  return text;
+function requireTitle(value) {
+  const title = String(value || '').replace(/\s+/g, ' ').trim();
+  if (!title) throw new HttpError(400, 'חסרה כותרת');
+  if (title.length > MAX_TITLE) throw new HttpError(400, 'הכותרת ארוכה מדי');
+  return title;
+}
+
+function optionalBody(value) {
+  if (value === undefined || value === null) return undefined;
+  const body = String(value).replace(/\r\n?/g, '\n').trim();
+  if (body.length > MAX_TEXT) throw new HttpError(400, 'הטקסט ארוך מדי');
+  return body;
 }
 
 function optionalCaption(value) {
@@ -119,8 +127,9 @@ async function requireExistingPost(env, slug) {
 
 // ─── handlers ──────────────────────────────────────────────────────────────────
 
-async function whoami(_body, _env, admin) {
-  return { success: true, email: admin.email, name: admin.name };
+// Also the sign-in endpoint: called with a Google token it starts a session, with a session it renews it.
+async function whoami(_body, env, admin) {
+  return { success: true, email: admin.email, name: admin.name, session: await createSession(admin, env) };
 }
 
 async function getPost(body, env) {
@@ -130,7 +139,8 @@ async function getPost(body, env) {
   return {
     success: true,
     slug,
-    text: editableText(meta, postBody),
+    title: String(meta.title || ''),
+    body: editableBody(postBody),
     caption: String(meta.image_alt || ''),
     image: meta.image || '',
     published: meta.published !== false,
@@ -139,7 +149,8 @@ async function getPost(body, env) {
 }
 
 async function createPost(body, env) {
-  const text = requireText(body.text);
+  const title = requireTitle(body.title);
+  const text = optionalBody(body.body) || '';
   const caption = optionalCaption(body.caption) || '';
   const inputs = Array.isArray(body.images) ? body.images : [];
   if (inputs.length > MAX_IMAGES) throw new HttpError(400, 'יותר מדי תמונות');
@@ -151,7 +162,7 @@ async function createPost(body, env) {
     path: `assets/images/tweets/${index === 0 ? id : `${id}_${index}`}.${image.ext}`,
     base64: image.base64,
   }));
-  files.push(inboxFile('create', id, { id, text, caption, images: files.map((f) => f.path) }, now));
+  files.push(inboxFile('create', id, { id, title, body: text, caption, images: files.map((f) => f.path) }, now));
 
   await submit(env, files, `Admin: new post ${id}`);
 
@@ -163,13 +174,15 @@ async function createPost(body, env) {
 
 async function editPost(body, env) {
   const slug = requireSlug(body.slug);
-  const text = requireText(body.text);
+  const title = requireTitle(body.title);
+  const text = optionalBody(body.body); // undefined = body untouched
   const caption = optionalCaption(body.caption);
   await requireExistingPost(env, slug);
 
   const now = Date.now();
   const files = [];
-  const request = { slug, text };
+  const request = { slug, title };
+  if (text !== undefined) request.body = text;
   if (caption !== undefined) request.caption = caption;
   if (body.image) {
     const image = decodeImage(body.image);

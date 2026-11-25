@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { beforeEach, describe, it } from 'node:test';
 
-import { adminEmails, requireAdmin, resetCertsCache, verifyGoogleIdToken } from '../src/auth.js';
+import { adminEmails, createSession, requireAdmin, resetCertsCache, SESSION_TTL_SECONDS, verifyGoogleIdToken } from '../src/auth.js';
 
 const CLIENT_ID = 'client-123.apps.googleusercontent.com';
 const ENV = { GOOGLE_CLIENT_ID: CLIENT_ID, ADMIN_EMAILS: 'Admin1@gmail.com, admin2@gmail.com;admin3@gmail.com' };
@@ -77,6 +77,46 @@ describe('verifyGoogleIdToken', () => {
     const none = `${b64url(JSON.stringify({ alg: 'none', kid: 'key-1' }))}.${b64url('{}')}.`;
     await assert.rejects(verifyGoogleIdToken(none, ENV, { now: NOW, fetchFn }), { status: 401 });
     await assert.rejects(verifyGoogleIdToken('not-a-jwt', ENV, { now: NOW, fetchFn }), { status: 401 });
+  });
+});
+
+describe('admin sessions', () => {
+  beforeEach(resetCertsCache);
+  const SESSION_ENV = { ...ENV, SESSION_SECRET: 'secret-one' };
+  const admin = { email: 'admin1@gmail.com', name: 'Admin One' };
+  const bearer = (token) => new Request('https://worker.test/admin/post/get', { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+
+  it('a session works without a Google token, long after the Google token would have expired', async () => {
+    const session = await createSession(admin, SESSION_ENV, NOW);
+    const later = NOW + 20 * 24 * 60 * 60 * 1000;
+    const result = await requireAdmin(bearer(session), SESSION_ENV, { now: later, fetchFn: () => { throw new Error('no network expected'); } });
+    assert.equal(result.email, 'admin1@gmail.com');
+  });
+
+  it('a session expires after 30 days', async () => {
+    const session = await createSession(admin, SESSION_ENV, NOW);
+    await assert.rejects(
+      requireAdmin(bearer(session), SESSION_ENV, { now: NOW + (SESSION_TTL_SECONDS + 60) * 1000 }), { status: 401 });
+  });
+
+  it('rejects a tampered or foreign-secret session', async () => {
+    const session = await createSession(admin, SESSION_ENV, NOW);
+    const [prefix, , signature] = session.split('.');
+    const forged = Buffer.from(JSON.stringify({ email: 'evil@gmail.com', exp: 9e9 })).toString('base64url');
+    await assert.rejects(requireAdmin(bearer(`${prefix}.${forged}.${signature}`), SESSION_ENV, { now: NOW }), { status: 401 });
+    await assert.rejects(requireAdmin(bearer(session), { ...SESSION_ENV, SESSION_SECRET: 'other' }, { now: NOW }), { status: 401 });
+  });
+
+  it('removing an admin from the allowlist ends their session', async () => {
+    const session = await createSession(admin, SESSION_ENV, NOW);
+    await assert.rejects(
+      requireAdmin(bearer(session), { ...SESSION_ENV, ADMIN_EMAILS: 'admin2@gmail.com' }, { now: NOW }), { status: 403 });
+  });
+
+  it('falls back to GITHUB_PAT as the signing secret', async () => {
+    const env = { ...ENV, GITHUB_PAT: 'pat' };
+    const session = await createSession(admin, env, NOW);
+    assert.equal((await requireAdmin(bearer(session), env, { now: NOW })).email, 'admin1@gmail.com');
   });
 });
 

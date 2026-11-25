@@ -6,11 +6,11 @@ plus any uploaded images, and dispatches the admin-post workflow. This script tu
 requests into post changes using the same code that builds posts from tweets, so a post
 written in the admin panel is indistinguishable from one fetched from Twitter:
 
-  create   text (first line = title) + image(s) + caption -> a new post dated now minus 100
+  create   title + body (markdown) + image(s) + caption -> a new post dated now minus 100
            years; tags / standfirst / SEO title / entities / stories / sources are derived
            by the usual pipeline. The post is flagged `manual: true` (website only).
-  edit     new text and/or image and/or caption for an existing post; its derived fields
-           are cleared so they are regenerated for the new text.
+  edit     new title and/or body (omitted = unchanged) and/or image and/or caption for an
+           existing post; its derived fields are cleared so they are regenerated.
   delete   hides the post (`published: false`), or with `hard` removes it for good.
   restore  un-hides a post.
 
@@ -35,7 +35,6 @@ from fetch_tweets import (  # noqa: E402
     create_post,
     load_deleted_ids,
     optimize_image,
-    split_title_body,
 )
 from gemini_tagging import tag_pending_posts  # noqa: E402
 from image_meta import size_updates  # noqa: E402
@@ -65,8 +64,13 @@ def require(condition, message):
         raise RequestError(message)
 
 
-def clean_text(value):
-    text = str(value or "").replace("\r\n", "\n").replace("\r", "\n").strip()
+def clean_title(value):
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def clean_body(value):
+    text = str(value or "").replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"\n{3,}", "\n\n", text).strip()
     require(len(text) <= MAX_TEXT_CHARS, "text is too long")
     return text
 
@@ -125,8 +129,9 @@ def build_body(body, image_lines):
 
 def do_create(req):
     tweet_id = check_id(req.get("id"))
-    text = clean_text(req.get("text"))
-    require(text and split_title_body(text)[0], "text is empty")
+    title = clean_title(req.get("title"))
+    body = clean_body(req.get("body"))
+    require(title, "title is empty")
     created_ms = int(req.get("created_ms") or 0)
     require(created_ms > 0, "missing created_ms")
 
@@ -144,7 +149,9 @@ def do_create(req):
         "id": tweet_id,
         "tweet_id": tweet_id,
         "created_timestamp": created_ms // 1000,
-        "merged_text": text,
+        "merged_text": f"{title}\n\n{body}".strip(),
+        "title": title,
+        "body": body,
         "images": images,
     }
     require(create_post(item, manual=True), "post already exists, was deleted, or has no text")
@@ -158,16 +165,18 @@ def do_edit(req):
     require(post is not None, f"cannot read {path.name}")
 
     changed = False
-    title, body = split_title_body(clean_text(req.get("text")))
-    require(title, "text is empty")
+    title = clean_title(req.get("title"))
+    require(title, "title is empty")
+    body = clean_body(req["body"]) if req.get("body") is not None else None  # None = keep the current body
     old_lines = post.body.split("\n")
     image_lines = [line for line in old_lines if MD_IMAGE_LINE_RE.match(line)]
     old_body = "\n".join(line for line in old_lines if not MD_IMAGE_LINE_RE.match(line)).strip()
 
-    text_changed = title != post.title or body != old_body
+    text_changed = title != post.title or (body is not None and body != old_body)
     if text_changed:
         update_front_matter(path, {"title": title}, remove=DERIVED_FIELDS)
-        update_body(path, lambda _old: build_body(body, image_lines))
+        if body is not None and body != old_body:
+            update_body(path, lambda _old: build_body(body, image_lines))
         changed = True
 
     if req.get("image"):

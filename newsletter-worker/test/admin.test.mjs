@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 
-import { adminRoute, editableText, makeSnowflake, parsePostFile, sniffImage } from '../src/admin.js';
+import { adminRoute, editableBody, makeSnowflake, parsePostFile, sniffImage } from '../src/admin.js';
 
 const ADMIN = { email: 'a@gmail.com', name: 'Admin One' };
 const JPEG_BASE64 = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 0, 0, 0]).toString('base64');
@@ -20,11 +20,11 @@ describe('helpers', () => {
     assert.equal(sniffImage(Uint8Array.from([0x3c, 0x73, 0x76, 0x67])), null); // "<svg"
   });
 
-  it('splits a post file and builds the editable text without extra-image lines', () => {
+  it('splits a post file and builds the editable body without extra-image lines', () => {
     const raw = '---\nlayout: post\ntitle: "כותרת \\"בדיקה\\""\nimage_alt: "הארץ"\nmanual: true\n---\nגוף\n\n![](/assets/images/tweets/1_1.jpg)\n';
     const { meta, body } = parsePostFile(raw);
     assert.equal(meta.title, 'כותרת "בדיקה"');
-    assert.equal(editableText(meta, body), 'כותרת "בדיקה"\n\nגוף');
+    assert.equal(editableBody(body), 'גוף');
   });
 });
 
@@ -55,7 +55,7 @@ describe('admin handlers (GitHub mocked)', () => {
   it('queues a new post: images + request file in one commit, then dispatches the workflow', async () => {
     const calls = mockGithub();
     const result = await adminRoute('/admin/post/create')(
-      { text: 'כותרת\n\nגוף', caption: 'הארץ, ארכיון העיתונות', images: [{ data: JPEG_BASE64 }] }, {}, ADMIN);
+      { title: 'כותרת', body: 'גוף **מודגש**', caption: 'הארץ, ארכיון העיתונות', images: [{ data: JPEG_BASE64 }] }, {}, ADMIN);
 
     assert.equal(result.success, true);
     const paths = calls.trees[0].tree.map((entry) => entry.path);
@@ -64,27 +64,35 @@ describe('admin handlers (GitHub mocked)', () => {
     assert.match(paths[1], new RegExp(`^_admin_inbox/\\d+-create-${result.id}\\.json$`));
     const request = JSON.parse(calls.blobs[1].content);
     assert.deepEqual(
-      { action: request.action, id: request.id, text: request.text, caption: request.caption },
-      { action: 'create', id: result.id, text: 'כותרת\n\nגוף', caption: 'הארץ, ארכיון העיתונות' });
+      { action: request.action, id: request.id, title: request.title, body: request.body, caption: request.caption },
+      { action: 'create', id: result.id, title: 'כותרת', body: 'גוף **מודגש**', caption: 'הארץ, ארכיון העיתונות' });
     assert.equal('admin' in request, false);
     assert.doesNotMatch(calls.commits[0].message, /Admin One|a@gmail/);
     assert.equal(calls.dispatches, 1);
     assert.match(result.url, new RegExp(`^/\\d{4}/\\d{2}/\\d{2}/${result.id}/$`));
   });
 
-  it('rejects empty text, non-image uploads and bad ids without touching GitHub', async () => {
+  it('rejects an empty title, non-image uploads and bad ids without touching GitHub', async () => {
     const calls = mockGithub();
-    await assert.rejects(adminRoute('/admin/post/create')({ text: '   ' }, {}, ADMIN), { status: 400 });
+    await assert.rejects(adminRoute('/admin/post/create')({ title: '   ', body: 'x' }, {}, ADMIN), { status: 400 });
     await assert.rejects(adminRoute('/admin/post/create')(
-      { text: 'x', images: [{ data: Buffer.from('<svg/>').toString('base64') }] }, {}, ADMIN), { status: 400 });
+      { title: 'x', images: [{ data: Buffer.from('<svg/>').toString('base64') }] }, {}, ADMIN), { status: 400 });
     await assert.rejects(adminRoute('/admin/post/delete')({ slug: '../../etc' }, {}, ADMIN), { status: 400 });
     assert.equal(calls.blobs.length, 0);
     assert.equal(calls.dispatches, 0);
   });
 
+  it('edit leaves the body out of the request when it was not sent', async () => {
+    const calls = mockGithub();
+    await adminRoute('/admin/post/edit')({ slug: '1234567890123456', title: 'כותרת חדשה' }, {}, ADMIN);
+    const request = JSON.parse(calls.blobs[0].content);
+    assert.equal(request.title, 'כותרת חדשה');
+    assert.equal('body' in request, false);
+  });
+
   it('returns 404 when editing or deleting a post that does not exist', async () => {
     mockGithub();
-    await assert.rejects(adminRoute('/admin/post/edit')({ slug: '9999999999999999', text: 'x' }, {}, ADMIN), { status: 404 });
+    await assert.rejects(adminRoute('/admin/post/edit')({ slug: '9999999999999999', title: 'x' }, {}, ADMIN), { status: 404 });
     await assert.rejects(adminRoute('/admin/post/delete')({ slug: '9999999999999999' }, {}, ADMIN), { status: 404 });
   });
 

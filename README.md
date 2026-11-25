@@ -47,7 +47,9 @@ Without this secret, `fetch_tweets.py` still runs normally — it just skips tag
 
 Type `admin` in the site search to open `/admin/`. Three hardcoded Google accounts can sign in and then: **1.** post a new article, **2.** edit an article, **3.** delete (hide, or permanently delete) an article, **4.** send the newsletter.
 
-Writing an article works like tweeting: you give the text (first line = title), an image and its caption. The date is now minus 100 years, and the tags, standfirst, SEO title, entities, stories, sources and URL are produced by the same pipeline as for tweets. Admin-written posts are flagged `manual: true` and are **website only** (never sent to Telegram, Facebook or Instagram).
+Writing an article works like tweeting, with a proper editor: a separate title field, a rich-text box (bold, italic, links, lists, quotes; no markdown characters to type), an image and its caption. The date is now minus 100 years, and the tags, standfirst, SEO title, entities, stories, sources and URL are produced by the same pipeline as for tweets. Admin-written posts are flagged `manual: true` and are **website only** (never sent to Telegram, Facebook or Instagram). The editor is [Quill](https://quilljs.com/), with [Turndown](https://github.com/mixmark-io/turndown) converting its output to the markdown posts are stored in (and [marked](https://marked.js.org/) loading existing posts), all loaded from pinned, integrity-checked CDN URLs on `/admin/` only.
+
+Sign-in: after one Google sign-in the Worker issues its own 30-day session token (kept in the browser's localStorage and renewed each time the panel is opened), so admins aren't asked to sign in again. It is signed with the `SESSION_SECRET` secret, falling back to `GITHUB_PAT`; removing an email from `ADMIN_EMAILS` ends that admin's session immediately.
 
 How it works:
 

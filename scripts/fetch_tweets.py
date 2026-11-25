@@ -346,7 +346,10 @@ def create_post(item, manual=False):
     # The account posts news from exactly 100 years ago
     historical_date = created.replace(year=created.year - 100)
 
-    title, body = split_title_body(text)
+    if "title" in item:  # admin panel: the title and body arrive separately, the body is already markdown
+        title, body = item["title"], item["body"]
+    else:
+        title, body = split_title_body(text)
 
     # Avoid duplicate posts
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
