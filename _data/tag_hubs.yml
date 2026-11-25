@@ -17,9 +17,9 @@ world-politics:
   - fascist-italy
   - druze-revolt
   - turkey-hat-law
+  - rif-war
   - locarno
   - ibn-saud-hejaz
-  - zionist-congress-14
 yishuv:
   entities:
   - land-of-israel
@@ -171,6 +171,7 @@ military:
   - haifa
   stories:
   - druze-revolt
+  - rif-war
   - fascist-italy
 jewish-arab-relations:
   entities:
@@ -312,6 +313,7 @@ revolts:
   - jerusalem
   stories:
   - druze-revolt
+  - rif-war
 health:
   entities:
   - tel-aviv

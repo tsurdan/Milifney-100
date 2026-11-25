@@ -93,3 +93,11 @@ jobs:
           python scripts/post_via_make.py
           git add scripts/.last_make_post
           git diff --staged --quiet || git commit -m "Update Make.com posting state" && (git push || (git pull --rebase && git push))
+
+      # Notifies Bing and other IndexNow engines; pages that are not deployed yet wait for the next run.
+      - name: Ping IndexNow
+        continue-on-error: true
+        run: |
+          python scripts/ping_indexnow.py
+          git add scripts/.last_indexnow_post 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Update IndexNow state" && (git push || (git pull --rebase && git push))

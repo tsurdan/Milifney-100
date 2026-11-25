@@ -48,9 +48,10 @@ layout: default
     {% if hub_first %}<p class="archive-summary">{{ hub_posts.size }} ידיעות</p>{% endif %}
   </header>
 
-  {% if hub.intro %}
+  {% assign hub_intro = site.data.topic_intros[page.hub_slug] | default: hub.intro %}
+  {% if hub_intro %}
   <section class="hub-intro">
-    {{ hub.intro | markdownify }}
+    {{ hub_intro | markdownify }}
   </section>
   {% elsif hub.description %}
   <section class="hub-intro"><p>{{ hub.description | escape }}</p></section>

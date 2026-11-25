@@ -114,6 +114,7 @@
       "@type": "WebSite",
       "@id": "{{ site.url }}{{ site.baseurl }}/#website",
       "name": {{ site.title | jsonify }},
+      "alternateName": {{ site.alternate_names | jsonify }},
       "description": {{ site.description | jsonify }},
       "url": "{{ site.url }}{{ site.baseurl }}/",
       "inLanguage": "he",
@@ -124,6 +125,7 @@
       "@type": "NewsMediaOrganization",
       "@id": "{{ site.url }}{{ site.baseurl }}/#organization",
       "name": {{ site.title | jsonify }},
+      "alternateName": {{ site.alternate_names | jsonify }},
       "url": "{{ site.url }}{{ site.baseurl }}/",
       "logo": {
         "@type": "ImageObject",

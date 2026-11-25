@@ -1,0 +1,11 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% for post in site.posts %}{% assign post_text = post.content | strip_html | strip_newlines | strip %}{% assign post_robots = post.robots | default: "" %}{% if post_text != "" or post.standfirst %}{% unless post.noindex or post_robots contains "noindex" %}{% assign real_date_str = post.path | split: "/" | last | truncate: 10, "" %}<url>
+    <loc>{{ post.url | absolute_url }}</loc>
+    <lastmod>{{ real_date_str }}T12:00:00+03:00</lastmod>
+  </url>
+  {% endunless %}{% endif %}{% endfor %}
+</urlset>

@@ -63,6 +63,14 @@ One-time setup:
 
 Hard-deleted tweet IDs are listed in `scripts/.deleted_tweet_ids` so `fetch_tweets.py` never recreates them.
 
+### 5. Topic intros, stories and search indexing
+
+Topic pages (`/topics/<entity>/`) can have a hand-written intro in `_data/topic_intros.yml`, and story pages take theirs from `_data/stories.yml`. Write intros in the site's voice: present tense, as of the time of the news, never in hindsight. The first sentence also becomes the page's meta description.
+
+Indexing rules: day pages (`/1926/09/06/`) are always `noindex, follow`. To hide a single post from search (for example an announcement about the project's channels), add `robots: "noindex, follow"` to its front matter. `sitemap.xml` is a sitemap index that points to one sitemap per page type (`sitemap-pages`, `-hubs`, `-archive`, `-posts`), and pages marked `noindex` are left out of it.
+
+Each fetch run also notifies Bing and other IndexNow search engines (`scripts/ping_indexnow.py`). The public key file is `/cfcfbc2649b10760072d46c39a562bb7.txt`, and `scripts/.last_indexnow_post` records the last post sent. Its first run sends every indexable URL once; after that it sends only new posts, and only once they are live.
+
 ## Project Structure
 
 ```

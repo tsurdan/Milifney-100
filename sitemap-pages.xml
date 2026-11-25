@@ -1,0 +1,26 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% assign latest_post = site.posts | first %}
+  {% assign latest_date = latest_post.path | split: "/" | last | truncate: 10, "" %}
+  <url>
+    <loc>{{ '/' | absolute_url }}</loc>
+    <lastmod>{{ latest_date }}T12:00:00+03:00</lastmod>
+  </url>
+  <url>
+    <loc>{{ '/about/' | absolute_url }}</loc>
+  </url>
+  <url>
+    <loc>{{ '/popular/' | absolute_url }}</loc>
+  </url>
+  {% if site.articles.size > 0 %}<url>
+    <loc>{{ '/articles/' | absolute_url }}</loc>
+  </url>
+  {% for article in site.articles %}<url>
+    <loc>{{ article.url | absolute_url }}</loc>
+    <lastmod>{{ article.last_modified_at | default: article.date | date_to_xmlschema }}</lastmod>
+  </url>
+  {% endfor %}{% endif %}
+</urlset>

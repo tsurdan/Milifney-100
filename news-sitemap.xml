@@ -8,7 +8,8 @@ layout: null
   {% for post in site.posts limit:50 %}
   {% assign filename_date = post.path | split: "/" | last | truncate: 10, "" %}
   {% assign post_ts = filename_date | date: "%s" | plus: 0 %}
-  {% if post_ts >= cutoff_ts %}
+  {% assign post_robots = post.robots | default: "" %}
+  {% if post_ts >= cutoff_ts %}{% unless post.noindex or post_robots contains "noindex" %}
   <url>
     <loc>{{ post.url | absolute_url }}</loc>
     <news:news>
@@ -20,6 +21,6 @@ layout: null
       <news:title>{{ post.title | xml_escape }}</news:title>
     </news:news>
   </url>
-  {% endif %}
+  {% endunless %}{% endif %}
   {% endfor %}
 </urlset>

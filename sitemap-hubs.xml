@@ -1,0 +1,18 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{ '/tags/' | absolute_url }}</loc>
+  </url>
+  {% for tag in site.data.tags %}<url>
+    <loc>{{ '/tags/' | append: tag.slug | append: '/' | absolute_url }}</loc>
+  </url>
+  {% endfor %}
+  {% assign hub_pages = site.pages | where: "in_sitemap", true %}
+  {% for hub_page in hub_pages %}{% unless hub_page.layout == "archive" %}<url>
+    <loc>{{ hub_page.url | absolute_url }}</loc>
+  </url>
+  {% endunless %}{% endfor %}
+</urlset>

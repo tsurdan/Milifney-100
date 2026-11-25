@@ -1,6 +1,8 @@
 title: חדשות מלפני מאה
 tagline: "ההיסטוריה חוזרת ∞"
 description: ידיעות אמיתיות מהעיתונות העברית של לפני מאה שנה, מתפרסמות כאילו קרו היום.
+# Other names people use for the site; sent to Google as schema.org alternateName on the home page.
+alternate_names: ["מלפני מאה", "חדשות מלפני 100", "Milifney100", "milifney100.com", "חדשות היסטוריות"]
 url: "https://milifney100.com"
 baseurl: ""
 lang: he

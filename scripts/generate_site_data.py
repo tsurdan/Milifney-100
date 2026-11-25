@@ -30,7 +30,6 @@ from source_links import source_updates  # noqa: E402
 
 MIN_ENTITY_POSTS = 3
 MIN_STORY_POSTS = 3
-MIN_INDEXABLE_DAY_POSTS = 3
 RELATED_COUNT = 6
 
 HE_MONTHS = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"]
@@ -67,6 +66,7 @@ def truncate(text, limit):
 
 
 def strip_markdown(text):
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
     text = re.sub(r"[*_`>#]", "", text)
     return re.sub(r"\s+", " ", text).strip()
 
@@ -329,6 +329,8 @@ def generate_date_pages(posts, tag_names):
             "summary": summary,
             "post_count": len(group),
             "permalink": f"/{y}/{m}/{d}/",
+            # Day pages only repeat the headlines of their posts; keep them for navigation, not for search.
+            "robots": "noindex, follow",
         }
         if idx > 0:
             prev_key = days[idx - 1]
@@ -338,10 +340,6 @@ def generate_date_pages(posts, tag_names):
             next_key = days[idx + 1]
             front["next_url"] = "/" + next_key.replace("-", "/") + "/"
             front["next_label"] = day_label(next_key)
-        if len(group) >= MIN_INDEXABLE_DAY_POSTS:
-            front["in_sitemap"] = True
-        else:
-            front["robots"] = "noindex, follow"
         name = f"{key}.md"
         keep.add(name)
         written += write_if_changed(DATE_PAGES_DIR / name, render_page(front))
@@ -410,7 +408,7 @@ def generate_date_pages(posts, tag_names):
     return archive_months, written, removed
 
 
-def generate_entity_pages(posts, entities, first_last):
+def generate_entity_pages(posts, entities, first_last, intros):
     keep = set()
     written = 0
     for slug, info in entities.items():
@@ -418,6 +416,9 @@ def generate_entity_pages(posts, entities, first_last):
             continue
         first, last = first_last[slug]
         description = f"{info['count']} ידיעות על {info['name']} במקום אחד."
+        intro = strip_markdown(intros.get(slug) or "")
+        if intro:
+            description = re.split(r"(?<=[.!?])\s", intro, maxsplit=1)[0]
         front = {
             "layout": "hub",
             "generated": True,
@@ -544,6 +545,7 @@ def main():
     tags = load_yaml(DATA_DIR / "tags.yml", [])
     tag_names = {t["slug"]: t["name"] for t in tags}
     registry = load_yaml(DATA_DIR / "entities.yml", {})
+    topic_intros = load_yaml(DATA_DIR / "topic_intros.yml", {}) or {}
 
     fields = ensure_post_fields(posts)
     story_changes = apply_story_rules(posts, stories)
@@ -573,7 +575,7 @@ def main():
     archive_months, date_written, date_removed = generate_date_pages(posts, tag_names)
     dump_yaml(DATA_DIR / "archive_months.yml", archive_months, header="# Generated: one entry per month that has posts.\n")
 
-    ent_written, ent_removed = generate_entity_pages(posts, entities, first_last)
+    ent_written, ent_removed = generate_entity_pages(posts, entities, first_last, topic_intros)
     dump_yaml(DATA_DIR / "tag_hubs.yml", build_tag_hubs(posts, tags, entities, story_pages),
               header="# Generated: top entities and stories per topic.\n")
 
