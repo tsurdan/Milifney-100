@@ -12,7 +12,7 @@ jerusalem:
 germany:
   name: גרמניה
   type: place
-  count: 77
+  count: 78
   page: true
 tel-aviv:
   name: תל אביב
