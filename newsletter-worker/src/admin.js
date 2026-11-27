@@ -46,13 +46,30 @@ export function sniffImage(bytes) {
   return null;
 }
 
+// js-yaml rejects double-quoted scalars whose continuation lines start at column 0 (Ruby's
+// YAML parser is lenient; js-yaml is not). Indent any such line by one space so js-yaml
+// accepts it while preserving the parsed value (YAML folds the whitespace anyway).
+function indentBareQuoteContinuations(yaml) {
+  const lines = yaml.split('\n');
+  const out = [];
+  let inQuote = false;
+  for (const line of lines) {
+    out.push(inQuote && line.length > 0 && line[0] !== ' ' && line[0] !== '\t' ? ' ' + line : line);
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] === '\\') i++;
+      else if (line[i] === '"') inQuote = !inQuote;
+    }
+  }
+  return out.join('\n');
+}
+
 /** Splits a post file into its parsed front matter and body. */
 export function parsePostFile(raw) {
   const match = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(raw.replace(/\r\n/g, '\n'));
   if (!match) throw new HttpError(422, 'Unreadable post file');
   let meta;
   try {
-    meta = loadYaml(match[1]) || {};
+    meta = loadYaml(indentBareQuoteContinuations(match[1])) || {};
   } catch {
     throw new HttpError(422, 'Unreadable post front matter');
   }
